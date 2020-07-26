@@ -2,7 +2,8 @@
 
 export(join_lists)
 export(load_files)
+export(load_functions)
+export(load_scripts)
 export(setup_project)
-export(source_functions)
 export(update_spata)
 export(wrap_strings)

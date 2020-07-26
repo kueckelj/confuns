@@ -6,7 +6,8 @@
 \usage{
 load_files(
   folder,
-  file.types = c(".csv", ".xls", ".rds", ".xlsx", ".RData"),
+  file.type.subset = character(),
+  file.type.ignore = character(),
   file.subset = character(),
   file.ignore = character(),
   read.funs = list(),
@@ -15,27 +16,23 @@ load_files(
 )
 }
 \arguments{
-\item{folder}{The absolute or relative to the folder of interest.}
+\item{folder}{The absolute or relative directory to the folder of interest.}
 
-\item{file.types}{The file types you want to load in specified as a character
-vector. Elements must start with '.' ('.csv', NOT 'csv')!}
+\item{file.type.subset}{The file types you want to load in specified as a character
+vector. Elements must start with '.' ('.csv', NOT: 'csv')!}
 
-\item{file.subset}{A regular expression that match the files you want to load
+\item{file.type.ignore}{The file types you don't want to load in specified as a
+character vector. Elements must start with '.' ('.csv', NOT: 'csv')!}
+
+\item{file.subset}{A regular expression that match the file names you want to load
 in specified as a character vector.}
 
-\item{file.ignore}{A regular expression that match the files you want to be
+\item{file.ignore}{A regular expression that match the file names you want to be
 ignored specified as a character vector.}
 
 \item{read.funs}{A named list providing the functions that are supposed to be
 used to load the respective file type. Names need to match the respective elements
-of argument \code{file.types} exactly.}
-
-\item{recursive}{Logical. If set to TRUE the listing recurs into subsequent
-folders.}
-
-\item{verbose}{Logical. If set to TRUE informative messages will be printed.
-
-(Warnings will always be printed.)}
+of argument \code{file.type.subset} exactly.}
 }
 \value{
 Loaded files  in the global environment as a side effect and returns
@@ -44,4 +41,33 @@ an invisible logical value: TRUE.
 \description{
 Loads or reads in all files of the respective folder according to the
 parameters input.
+}
+\details{
+This function accesses the folder to which the directory leads. Via \code{base::list.files()} it extracts
+the directories to all files this folder contains and - if \code{recursive} is set to TRUE - as well to all files all subsequent
+folders contain.
+
+The resulting vector of file directories will be processed according to the \code{.subset} and/or the \code{.ignore} arguments.
+
+\code{.subset}: Only the file directories that match one or more of the provided regular expressions will be read in.
+
+\code{.ignore}: All file directories that match one or more of the provided regular expressions will be discarded and not read in.
+
+After the filtering step every remaining file directory will be given to a specific function in order to be read in. These functions
+have to be provided in a named list as input of the \code{read.funs}-argument. Default functions are:
+
+\itemize{
+ \item utils::read.csv for files of type \emph{.csv}
+ \item readxl::read.xls for files of type \emph{.xls}
+ \item readxl::read.xls for files of type \emph{.xlsx}
+ \item base::readRDS for files of type \emph{.rds}
+ \item base::load for files of type \emph{.RData} - can not be overwritten
+ }
+
+Remaining file directories ending with abbreviations that are not specified within the default functions or within \code{read.funs}
+will be discarded and not read in. In order to add new functions for new file types or overwrite default functions specify those in
+a named list in \code{read.funs} (e.g. list(".tif" = magick::image_read)).
+
+Via \code{base::assign()} every read in object will be stored in the global environment whereby it's object name is the file name without
+the file type specifiying abbreviation.
 }

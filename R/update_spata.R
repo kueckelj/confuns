@@ -5,9 +5,13 @@
 
 update_spata <- function(){
 
-  library(SPATA)
+  if("SPATA" %in% as.data.frame(utils::installed.packages())$Package){
 
-  base::detach("package:SPATA", unload = TRUE)
+    library(SPATA)
+    base::detach("package:SPATA", unload = TRUE)
+
+  }
+
   utils::remove.packages("SPATA")
   devtools::install_github("kueckelj/SPATA")
 
