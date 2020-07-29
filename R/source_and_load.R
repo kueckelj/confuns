@@ -62,6 +62,9 @@ load_files <- function(folder,
                        recursive = FALSE,
                        verbose = TRUE){
 
+  stopifnot(base::is.character(folder) | base::length(folder) == 1)
+  folder <- stringr::str_replace_all(string = folder, pattern = "\\\\", replacement = "/")
+
   # check file.type.
   if(base::any(!stringr::str_detect(file.type.subset, pattern = "^\\."))){
 
@@ -133,7 +136,6 @@ load_files <- function(folder,
     base::stop(stringr::str_c("Could not find any files under directory '/", folder, "'."))
 
   }
-
   # first adjustment of file.type.subset
   # if length zero consider all file types in files
   if(base::length(file.type.subset) == 0){
