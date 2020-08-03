@@ -45,7 +45,7 @@ variable_classes <- function(data){
 #'
 #' @export
 #'
-#' @examples variable_classes(data = mtcars)
+#' @examples variable_classes2(data = mtcars)
 #'
 
 variable_classes2 <- function(data){

@@ -21,6 +21,6 @@ Get information about the inputs
 variable names and classes.
 }
 \examples{
-variable_classes(data = mtcars)
+variable_classes2(data = mtcars)
 
 }
