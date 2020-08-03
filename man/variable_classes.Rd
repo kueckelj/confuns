@@ -11,12 +11,14 @@ variable_classes(data)
 }
 \value{
 A named character vector.
+\itemize{
+ \item{ \strong{Vector-elements:} The name of every variable of \code{data}}.
+ \item{ \strong{Vector-names:} The class of every variable of \code{data}}.
+ }
 }
 \description{
-Takes either a list or a data.frame and returns
-a named vector whereby the elements of the vector are the names
-of the \code{data}-variables and the names of the vectors elements
-are the class of that particular variable.
+Get information about the inputs
+variable names and classes.
 }
 \examples{
 variable_classes(data = mtcars)
