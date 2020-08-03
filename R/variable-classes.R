@@ -24,6 +24,6 @@ variable_classes <- function(data){
 
   base::names(dnames) <- base::sapply(data, base::class)
 
-  base::return(cnames)
+  base::return(dnames)
 
 }
