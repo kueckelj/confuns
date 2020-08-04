@@ -12,7 +12,6 @@
 #'
 #' @return An arranged data.frame.
 #' @export
-#'
 
 arrange_rows <- function(df, across, verbose){
 
