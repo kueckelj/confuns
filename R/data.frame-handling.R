@@ -1,10 +1,12 @@
 #' @title Arrange rows
 #'
 #' @description Arranges the rows of a data.frame according to
-#' the positions of their variable-maximum or -minimum.
+#' the positions of their maximaor or minima. The earlier
+#' a rows maximum/minimum appears the higher the row will appear in the
+#' returned data.frame.
 #'
 #' @param df A data.frame with numeric variables that.
-#' @param across Character. Either \emph{'max} or \emph{'min'}.
+#' @param across Character. Either \emph{'maxima} or \emph{'minima'}.
 #'
 #' @inherit verbose params
 #'
@@ -16,7 +18,7 @@ arrange_rows <- function(df, across, verbose){
 
   base::stopifnot(base::is.data.frame(df))
   base::stopifnot(base::any(sapply(df, base::is.numeric)))
-  base::stopifnot(base::all(across == "max") | base::all(across == "min"))
+  base::stopifnot(base::all(across == "maxima") | base::all(across == "minima"))
 
   if(verbose){
     base::message(glue::glue("Arranging rows according to their {across}."))

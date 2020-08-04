@@ -9,7 +9,7 @@ arrange_rows(df, across, verbose)
 \arguments{
 \item{df}{A data.frame with numeric variables that.}
 
-\item{across}{Character. Either \emph{'max} or \emph{'min'}.}
+\item{across}{Character. Either \emph{'maxima} or \emph{'minima'}.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
@@ -21,5 +21,7 @@ An arranged data.frame.
 }
 \description{
 Arranges the rows of a data.frame according to
-the positions of their variable-maximum or -minimum.
+the positions of their maximaor or minima. The earlier
+a rows maximum/minimum appears the higher the row will appear in the
+returned data.frame.
 }
