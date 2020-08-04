@@ -22,6 +22,6 @@ An arranged data.frame.
 \description{
 Arranges the rows of a data.frame according to
 the positions of their maxima or or minima. The earlier
-a rows maximum/minimum appears the higher the row will appear in the
+a rows maximum/minimum appears the earlier the row will appear in the
 returned data.frame.
 }
