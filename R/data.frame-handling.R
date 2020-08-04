@@ -23,12 +23,12 @@ arrange_rows <- function(df, across, verbose){
     base::message(glue::glue("Arranging rows according to their {across}."))
   }
 
-  if(across == "max"){
+  if(across == "maxima"){
 
     df$order <- sapply(1:nrow(df), function(i){base::which.max(df[i, sapply(df, base::is.numeric)])})
     df <- dplyr::arrange(df, order) %>% dplyr::select(-order) %>% as.data.frame()
 
-  } else if(across == "min") {
+  } else if(across == "minima") {
 
     df$order <- sapply(1:nrow(df), function(i){base::which.max(df[i, sapply(df, base::is.numeric)])})
     df <- dplyr::arrange(df, desc(order)) %>% dplyr::select(-order) %>% as.data.frame()
