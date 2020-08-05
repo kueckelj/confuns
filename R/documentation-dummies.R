@@ -8,3 +8,11 @@
 verbose <- function(verbose){
 
 }
+
+
+#' @title ggplot2_dummy
+#'
+#' @return Returns a ggplot-object that can be additionally customized according
+#' to the rules of the ggplot2-framework.
+
+ggplot2_dummy <- function(){}
