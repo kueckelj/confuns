@@ -22,7 +22,7 @@ normalize <- function(x){
 
 
 
-#' @title Trigonometric & mathematic curve
+#' @title Curve fitting
 #'
 #' @description Fits a curve to the input vector.
 #'
