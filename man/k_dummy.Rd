@@ -4,10 +4,10 @@
 \alias{k_dummy}
 \title{k_dummy}
 \usage{
-k_dummy()
+k_dummy(k)
 }
 \arguments{
-\item{k}{Numeric value. Positive integer specifiying the number of clusters.
+\item{k}{Numeric value. Positive integer specifying the number of clusters.
 Must be lower than the number of observations in the supplied data.frame.}
 }
 \description{

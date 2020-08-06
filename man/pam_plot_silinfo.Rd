@@ -2,20 +2,34 @@
 % Please edit documentation in R/pam-clustering.R
 \name{pam_plot_silinfo}
 \alias{pam_plot_silinfo}
+\alias{pam_plot_silinfo2}
 \title{PAM - Silhouette Width Info}
 \usage{
 pam_plot_silinfo(pam.obj)
+
+pam_plot_silinfo2(df, n = 10, ...)
 }
 \arguments{
 \item{pam.obj}{A valid pam-object.}
 
-\item{legend.position}{Character. Given to \code{ggplot2::theme()}.}
+\item{df}{A data.frame.}
+
+\item{n}{The max value for \code{k} of \code{cluster::pam()}. The function
+computes the silhouette widhts for all pam-results from 2 up to \code{n}.}
 }
 \value{
 Returns a ggplot-object that can be additionally customized according
 to the rules of the ggplot2-framework.
 }
 \description{
-Plots the silhouette information of
-the provided pam-object.
+Plots the silhouette width-information with a bar-plot.
+}
+\details{
+\itemize{
+ \item{ \code{pam_plot_silinfo()}: takes a pam-object.}
+ \item{ \code{pam_plot_silinfo2()}: takes a data.frame, generates the pam-objects
+ for k = 2-\code{n} and plots all bar-plots via \code{ggplot2::facet_wrap()}
+ }
+
+}
 }

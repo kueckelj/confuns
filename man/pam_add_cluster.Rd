@@ -17,7 +17,7 @@ pam_add_cluster(
 \arguments{
 \item{df}{A data.frame.}
 
-\item{k}{Numeric value. Positive integer specifiying the number of clusters.
+\item{k}{Numeric value. Positive integer specifying the number of clusters.
 Must be lower than the number of observations in the supplied data.frame.}
 
 \item{var.name}{Character value. Specifying the string of the variable
@@ -26,10 +26,12 @@ containing the clusters.}
 \item{var.type}{Characte value. Specifying the class of the variable
 containing the clusters. Must be one of \emph{'numeric', 'factor', 'character'}.}
 
+\item{assign}{Logical.}
+
 \item{...}{Additional arguments given to \code{clusters::pam()}.}
 }
 \value{
-The input data.frame supplied with \code{df} with an additional
+The input data.frame specified in \code{df} with an additional
 variable containing the clusters information.
 }
 \description{

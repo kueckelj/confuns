@@ -19,6 +19,6 @@ Returns a ggplot-object that can be additionally customized according
 to the rules of the ggplot2-framework.
 }
 \description{
-Takes a data.frame and plots the pam-silhouette-widhts
+Takes a data.frame and plots the pam-silhouette-widths
 for several k-values.
 }
