@@ -39,8 +39,8 @@ normalize <- function(x){
 
 fit_model <- function(input, fn, rev = FALSE, normalize = TRUE){
 
-  base::stopifnot(base::length(math.model) == 1 ||
-                    math.model %in% c("one_peak", "two_peaks", "gradient", "log"))
+  base::stopifnot(base::length(f) == 1 ||
+                    f %in% c("one_peak", "two_peaks", "gradient", "log"))
 
   fn <- stringr::str_c("confuns::", fn, sep = "")
 
