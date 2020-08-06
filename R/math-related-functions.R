@@ -85,7 +85,8 @@ one_peak <- function(input){
 linear <- function(input){
 
   base::stopifnot(base::is.numeric(input))
-  1:10
+
+  base::seq(0, 1, length.out = base::length(input))
 
 }
 

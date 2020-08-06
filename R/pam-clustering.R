@@ -20,7 +20,6 @@ k_dummy <- function(){}
 #'
 #' @inherit ggplot2_dummy return
 #' @export
-#'
 
 pam_plot_elbow <- function(df, n = 10, ...){
 
@@ -124,7 +123,7 @@ pam_plot_silinfo <- function(pam.obj){
 #' @inherit assign_dummy params
 #' @inherit k_dummy params
 #'
-#' @return The input data.frame supplied with \code{df} with an additional
+#' @return The input data.frame specified in \code{df} with an additional
 #' variable containing the clusters information.
 #'
 #' @details Performs clustering by including all numeric variables.
