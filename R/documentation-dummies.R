@@ -1,5 +1,5 @@
 
-#' @title Verbose
+#' @title verbose
 #' @param verbose Logical. If set to TRUE informative messages regarding
 #' the computational progress will be printed.
 #'
@@ -8,6 +8,12 @@
 verbose <- function(verbose){
 
 }
+
+#' @title normalize_dummy
+#' @param normalize Logical. If set to TRUE numeric values will be scaled down to
+#' values between one and zero.
+
+normalize_dummy <- function()
 
 
 #' @title ggplot2_dummy

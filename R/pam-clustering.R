@@ -19,7 +19,6 @@ plot_pam_silinfo <- function(pam.obj){
     base::as.data.frame() %>%
     dplyr::mutate(numeration = dplyr::row_number())
 
-
   ggplot2::ggplot(data = sil_data, mapping = ggplot2::aes(x = numeration, y = sil_width)) +
     ggplot2::geom_bar(stat = "identity", mapping = ggplot2::aes(fill = as.factor(cluster))) +
     ggplot2::geom_hline(mapping = ggplot2::aes(yintercept = 0)) +
