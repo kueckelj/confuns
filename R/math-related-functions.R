@@ -28,7 +28,7 @@ normalize <- function(x){
 #'
 #' @param input Numeric vector.
 #' @param fn Character value. The \code{confuns::function()} to call.
-#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'log'.}
+#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'log_'.}
 #' @param rev Logical. If set to TRUE the fitted curve is returned upside-down.
 #' @inherit normalize_dummy params
 #'
@@ -40,9 +40,7 @@ normalize <- function(x){
 fit_model <- function(input, fn, rev = FALSE, normalize = TRUE){
 
   base::stopifnot(base::length(fn) == 1 ||
-                    fn %in% c("one_peak", "two_peaks", "gradient", "log"))
-
-  fn <- stringr::str_c("confuns::", fn, sep = "")
+                    fn %in% c("one_peak", "two_peaks", "gradient", "log_"))
 
   out <-
     base::call(name = fn, input = input) %>%
@@ -103,7 +101,7 @@ gradient <- function(input){
 }
 
 #' @rdname one_peak
-log <- function(input){
+log_ <- function(input){
 
   base::stopifnot(base::is.numeric(input))
 
