@@ -82,6 +82,14 @@ one_peak <- function(input){
 }
 
 #' @rdname one_peak
+linear <- function(input){
+
+  base::stopifnot(base::is.numeric(input))
+  1:10
+
+}
+
+#' @rdname one_peak
 two_peaks <- function(input){
 
   base::stopifnot(base::is.numeric(input))

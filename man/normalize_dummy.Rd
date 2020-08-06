@@ -10,12 +10,6 @@ normalize_dummy()
 \item{normalize}{Logical. If set to TRUE numeric values will be scaled down to
 values between one and zero.}
 }
-\value{
-Returns a ggplot-object that can be additionally customized according
-to the rules of the ggplot2-framework.
-}
 \description{
 normalize_dummy
-
-ggplot2_dummy
 }

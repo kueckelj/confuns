@@ -2,18 +2,21 @@
 % Please edit documentation in R/math-related-functions.R
 \name{one_peak}
 \alias{one_peak}
+\alias{linear}
 \alias{two_peaks}
 \alias{gradient}
-\alias{log}
+\alias{log_}
 \title{Fit a curve}
 \usage{
 one_peak(input)
+
+linear(input)
 
 two_peaks(input)
 
 gradient(input)
 
-log(input)
+log_(input)
 }
 \arguments{
 \item{input}{Numeric vector}

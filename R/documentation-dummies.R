@@ -13,7 +13,9 @@ verbose <- function(verbose){
 #' @param normalize Logical. If set to TRUE numeric values will be scaled down to
 #' values between one and zero.
 
-normalize_dummy <- function()
+normalize_dummy <- function(){
+
+}
 
 
 #' @title ggplot2_dummy
@@ -21,4 +23,6 @@ normalize_dummy <- function()
 #' @return Returns a ggplot-object that can be additionally customized according
 #' to the rules of the ggplot2-framework.
 
-ggplot2_dummy <- function(){}
+ggplot2_dummy <- function(){
+
+}
