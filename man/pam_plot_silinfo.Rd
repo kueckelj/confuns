@@ -16,6 +16,8 @@ pam_plot_silinfo2(df, n = 10, ...)
 
 \item{n}{The max value for \code{k} of \code{cluster::pam()}. The function
 computes the silhouette widhts for all pam-results from 2 up to \code{n}.}
+
+\item{...}{Additional arguments given to \code{cluster::pam()}.}
 }
 \value{
 Returns a ggplot-object that can be additionally customized according
