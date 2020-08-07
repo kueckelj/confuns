@@ -124,6 +124,7 @@ pam_plot_silinfo <- function(pam.obj){
 }
 
 #' @rdname pam_plot_silinfo
+#' @export
 pam_plot_silinfo2 <- function(df, n = 10, ...){
 
   base::stopifnot(base::is.data.frame(df))

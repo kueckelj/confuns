@@ -91,6 +91,16 @@ linear <- function(input){
 }
 
 #' @rdname one_peak
+sin_curve <- function(input){
+
+  base::stopifnot(base::is.numeric(input))
+
+  base::seq(0, 2 * pi, length.out = base::length(input)) %>%
+  base::sin()
+
+}
+
+#' @rdname one_peak
 two_peaks <- function(input){
 
   base::stopifnot(base::is.numeric(input))
