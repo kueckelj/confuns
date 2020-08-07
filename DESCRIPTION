@@ -1,11 +1,11 @@
 Package: confuns
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Convenience-Functions
 Version: 0.1.0
 Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: This package is composed of a variety of convenient functions and 
+wrapper funtions addressing miscellaneous topics.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
