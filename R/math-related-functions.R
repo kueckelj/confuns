@@ -28,7 +28,7 @@ normalize <- function(x){
 #'
 #' @param input Numeric vector.
 #' @param fn Character value. The \code{confuns::function()} to call.
-#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'log_'.}
+#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sin_curve', 'log_'}.
 #' @param rev Logical. If set to TRUE the fitted curve is returned upside-down.
 #' @inherit normalize_dummy params
 #'
