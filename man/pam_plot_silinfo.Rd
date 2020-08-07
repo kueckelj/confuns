@@ -26,9 +26,10 @@ Plots the silhouette width-information with a bar-plot.
 }
 \details{
 \itemize{
- \item{ \code{pam_plot_silinfo()}: takes a pam-object.}
+ \item{ \code{pam_plot_silinfo()}: takes a pam-object and returns the silhouete-width information
+ with one bar-plot.}
  \item{ \code{pam_plot_silinfo2()}: takes a data.frame, generates the pam-objects
- for k = 2-\code{n} and plots all bar-plots via \code{ggplot2::facet_wrap()}
+ for k = 2-\code{n} and returns all bar-plots in one via \code{ggplot2::facet_wrap()}
  }
 
 }

@@ -3,6 +3,7 @@
 \name{one_peak}
 \alias{one_peak}
 \alias{linear}
+\alias{sin_curve}
 \alias{two_peaks}
 \alias{gradient}
 \alias{log_}
@@ -11,6 +12,8 @@
 one_peak(input)
 
 linear(input)
+
+sin_curve(input)
 
 two_peaks(input)
 

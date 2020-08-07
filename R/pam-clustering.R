@@ -71,6 +71,7 @@ pam_plot_elbow <- function(df, n = 10, ...){
 #'
 #' @param pam.obj A valid pam-object.
 #' @param df A data.frame.
+#' @... Additional arguments given to \code{cluster::pam()}.
 #' @inherit n_dummy params
 #'
 #' @inherit ggplot2_dummy return

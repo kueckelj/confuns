@@ -1,11 +1,10 @@
 Package: confuns
 Type: Package
-Title: Convenience-Functions
+Title: Convenience Functions
 Version: 0.1.0
 Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: This package is composed of a variety of convenient functions and 
-wrapper funtions addressing miscellaneous topics.
+Description: A collection of wrapper- and convenience functions for data science.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
