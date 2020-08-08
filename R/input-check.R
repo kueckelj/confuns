@@ -120,7 +120,7 @@ check_assign <- function(assign = FALSE,
 #' @title Check data.frame validity
 #'
 #' @description Checks whether the input data.frame contains variables
-#' ofcertain classes and names.
+#' of certain classes and names.
 #'
 #' @param df A data.frame.
 #' @param var.class A named list. The names have to match the

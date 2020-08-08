@@ -21,7 +21,7 @@ An informative error message or an invisible TRUE.
 }
 \description{
 Checks whether the input data.frame contains variables
-ofcertain classes and names.
+of certain classes and names.
 }
 \examples{
  # make sure that the input data.frame has
