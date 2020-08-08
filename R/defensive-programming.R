@@ -26,7 +26,7 @@ check_data_frame <- function(df, var.class = list()){
   base::stopifnot(base::is.list(var.class))
 
   missing_vars <- base::vector(mode = "list")
-  wrong_classes <- base::vector(mode = "list", length = ncol(df))
+  wrong_classes <- base::vector(mode = "list")
 
   for(name in base::names(var.class)){
 
