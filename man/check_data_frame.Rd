@@ -2,7 +2,7 @@
 % Please edit documentation in R/defensive-programming.R
 \name{check_data_frame}
 \alias{check_data_frame}
-\title{@title Check data.frame validity}
+\title{Check data.frame validity}
 \usage{
 check_data_frame(df, var.class = list())
 }
@@ -18,7 +18,8 @@ as character strings.}
 An informative error message or an invisible TRUE.
 }
 \description{
-@title Check data.frame validity
+Checks whether the input data.frame contains variables
+ofcertain classes and names.
 }
 \examples{
  # make sure that the input data.frame has
