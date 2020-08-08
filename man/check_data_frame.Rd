@@ -13,6 +13,8 @@ check_data_frame(df, var.class = list(), ref = "df")
 variable names of the data.frame that are to be validated. The respective
 elements specify the class the data.frame variable must have specified
 as character strings.}
+
+\item{ref}{Character value. Input reference for the error message.}
 }
 \value{
 An informative error message or an invisible TRUE.
