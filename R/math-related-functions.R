@@ -24,23 +24,43 @@ normalize <- function(x){
 
 #' @title Curve fitting
 #'
-#' @description Fits a curve to the input vector.
+#' @description Fits a curve to a numeric vector.
 #'
 #' @param input Numeric vector.
-#' @param fn Character value. The \code{confuns::function()} to call.
-#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sin_curve', 'log_'}.
+#' @param fn Character value. The function to call specified as a string.
+#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sinus', 'log'}.
 #' @param rev Logical. If set to TRUE the fitted curve is returned upside-down.
 #' @inherit normalize_dummy params
 #'
-#' @return A numeric vector of equal length to the input containing the
-#' numeric values of the 'fitted model'.
+#' @return Numeric vector.
+#'
+#' @details This function takes a numeric vector of length x and returns
+#' a numeric vector of the same length. The values of the returned vector correspond to
+#' the values needed to display or work with the pattern specified in \code{fn}.
+#'
+#' @examples
+#'library(tidyverse)
+#'library(confuns)
+#'
+#'
+#'data.frame(variable = normalize(base::log(1:100))) %>%
+#'  dplyr::mutate(
+#'    curve = fit_curve(input = variable, fn = "sinus", normalize = TRUE),
+#'    residuals = (variable - curve) %>% normalize() ,
+#'    seq = row_number()) %>%
+#'  tidyr::pivot_longer(
+#'    cols = dplyr::all_of(x = c("curve", "residuals", "variable")),
+#'    names_to = "pattern",
+#'    values_to = "values") %>%
+#'  ggplot(mapping = aes(x = seq, y = values)) +
+#'  geom_line(mapping = aes(color = pattern))
 #'
 #' @export
 
-fit_model <- function(input, fn, rev = FALSE, normalize = TRUE){
+fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
-  base::stopifnot(base::length(fn) == 1 ||
-                    fn %in% c("one_peak", "two_peaks", "gradient", "log_"))
+  is_value(x = fn, mode = "character", ref = "fn")
+  base::stopifnot(fn %in% c("one_peak", "two_peaks", "gradient", "log", "sinus"))
 
   out <-
     base::call(name = fn, input = input) %>%
@@ -67,64 +87,73 @@ fit_model <- function(input, fn, rev = FALSE, normalize = TRUE){
 #' @title Fit a curve
 #'
 #' @description Functions that return the numeric values of the respective
-#' mathematic function they are constructed of.
+#' mathematic function they are constructed of. Length and range of the
+#' return vector is equal to those of the input vector.
 #'
-#' @param input Numeric vector
+#' @param input Numeric vector.
 #'
+#' @export
 
 one_peak <- function(input){
 
   base::stopifnot(base::is.numeric(input))
 
   base::seq(1.5 * pi , 3.5 * pi, length.out = base::length(input)) %>%
-    base::sin()
+    base::sin() %>% scales::rescale(to = c(min(input), max(input)))
 
 }
 
 #' @rdname one_peak
-linear <- function(input){
-
-  base::stopifnot(base::is.numeric(input))
-
-  base::seq(0, 1, length.out = base::length(input))
-
-}
-
-#' @rdname one_peak
-sin_curve <- function(input){
-
-  base::stopifnot(base::is.numeric(input))
-
-  base::seq(0, 2 * pi, length.out = base::length(input)) %>%
-  base::sin()
-
-}
-
-#' @rdname one_peak
+#' @export
 two_peaks <- function(input){
 
   base::stopifnot(base::is.numeric(input))
 
   base::seq(1.5 * pi, 5.5 * pi, length.out = base::length(input)) %>%
-    base::sin()
+    base::sin() %>% scales::rescale(to = c(min(input), max(input)))
 
 }
 
 #' @rdname one_peak
+#' @export
+linear <- function(input){
+
+  base::stopifnot(base::is.numeric(input))
+
+  base::seq(0, 1, length.out = base::length(input)) %>%
+    scales::rescale(to = c(min(input), max(input)))
+
+}
+
+#' @rdname one_peak
+#' @export
+sinus <- function(input){
+
+  base::stopifnot(base::is.numeric(input))
+
+  base::seq(0, 2 * pi, length.out = base::length(input)) %>%
+  base::sin()  %>% scales::rescale(to = c(min(input), max(input)))
+
+}
+
+#' @rdname one_peak
+#' @export
 gradient <- function(input){
 
   base::stopifnot(base::is.numeric(input))
 
   base::seq(0, 1 * pi, length.out = base::length(input)) %>%
-    base::cos()
+    base::cos()  %>% scales::rescale(to = c(min(input), max(input)))
 }
 
 #' @rdname one_peak
-log_ <- function(input){
+#' @export
+log <- function(input){
 
   base::stopifnot(base::is.numeric(input))
 
-  base::log(x = seq_along(input))
+  base::log(x = seq_along(input)) %>%
+    scales::rescale(to = c(min(input), max(input)))
 
 }
 

@@ -10,7 +10,7 @@ verbose <- function(verbose){
 }
 
 #' @title normalize_dummy
-#' @param normalize Logical. If set to TRUE numeric values will be scaled down to
+#' @param normalize Logical. If set to TRUE numeric values will be rescaled to
 #' values between one and zero.
 
 normalize_dummy <- function(){

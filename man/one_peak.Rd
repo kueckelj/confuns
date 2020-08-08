@@ -2,29 +2,30 @@
 % Please edit documentation in R/math-related-functions.R
 \name{one_peak}
 \alias{one_peak}
-\alias{linear}
-\alias{sin_curve}
 \alias{two_peaks}
+\alias{linear}
+\alias{sinus}
 \alias{gradient}
-\alias{log_}
+\alias{log}
 \title{Fit a curve}
 \usage{
 one_peak(input)
 
+two_peaks(input)
+
 linear(input)
 
-sin_curve(input)
-
-two_peaks(input)
+sinus(input)
 
 gradient(input)
 
-log_(input)
+log(input)
 }
 \arguments{
-\item{input}{Numeric vector}
+\item{input}{Numeric vector.}
 }
 \description{
 Functions that return the numeric values of the respective
-mathematic function they are constructed of.
+mathematic function they are constructed of. Length and range of the
+return vector is equal to those of the input vector.
 }

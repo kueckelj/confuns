@@ -7,7 +7,7 @@
 normalize_dummy()
 }
 \arguments{
-\item{normalize}{Logical. If set to TRUE numeric values will be scaled down to
+\item{normalize}{Logical. If set to TRUE numeric values will be rescaled to
 values between one and zero.}
 }
 \description{
