@@ -161,7 +161,7 @@ check_data_frame <- function(df, var.class = list(), ref = "df"){
 
   }
 
-  if(base::any(c(base::length(missing_vars), base::length(wrong_class)) > 0)){
+  if(base::any(c(base::length(missing_vars), base::length(wrong_classes)) > 0)){
 
     base::message(glue::glue("Invalid or incomplete '{ref}'-input: "))
 
