@@ -127,6 +127,7 @@ check_assign <- function(assign = FALSE,
 #' variable names of the data.frame that are to be validated. The respective
 #' elements specify the class the data.frame variable must have specified
 #' as character strings.
+#' @param ref Character value. Input reference for the error message.
 #'
 #' @return An informative error message or an invisible TRUE.
 #' @export
