@@ -60,7 +60,7 @@ normalize <- function(x){
 fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
   is_value(x = fn, mode = "character", ref = "fn")
-  base::stopifnot(fn %in% c("one_peak", "two_peaks", "gradient", "log", "sinus"))
+  base::stopifnot(fn %in% c("one_peak", "two_peaks", "gradient", "log", "sinus", "linear"))
 
   out <-
     base::call(name = fn, input = input) %>%
@@ -88,7 +88,7 @@ fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 #'
 #' @description Functions that return the numeric values of the respective
 #' mathematic function they are constructed of. Length and range of the
-#' return vector is equal to those of the input vector.
+#' return vector are equal to those of the input vector.
 #'
 #' @param input Numeric vector.
 #'
