@@ -10,7 +10,7 @@ fit_model(input, fn, rev = FALSE, normalize = TRUE)
 \item{input}{Numeric vector.}
 
 \item{fn}{Character value. The \code{confuns::function()} to call.
-Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'log_'.}}
+Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sin_curve', 'log_'}.}
 
 \item{rev}{Logical. If set to TRUE the fitted curve is returned upside-down.}
 

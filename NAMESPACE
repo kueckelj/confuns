@@ -2,6 +2,7 @@
 
 export(arrange_rows)
 export(check_assign)
+export(check_data_frame)
 export(fit_model)
 export(is_value)
 export(is_vec)

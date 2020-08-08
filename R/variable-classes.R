@@ -36,6 +36,8 @@ variable_classes <- function(data){
 #' variable names and classes.
 #'
 #' @param data A data.frame or a list.
+#' @param simplify Logical. If set to TRUE the return value is turned into
+#' a character vector.
 #'
 #' @return  A named character vector.
 #' \itemize{
@@ -48,14 +50,22 @@ variable_classes <- function(data){
 #' @examples variable_classes2(data = mtcars)
 #'
 
-variable_classes2 <- function(data){
+variable_classes2 <- function(data, simplify = TRUE){
 
   stopifnot(base::is.list(data) | base::is.data.frame(data))
 
-  dclasses <- base::sapply(data, base::class)
+  d_classes <- base::sapply(data, base::class)
 
-  base::names(dclasses) <- base::names(data)
+  base::names(d_classes) <- base::names(data)
 
-  base::return(dclasses)
+  if(base::is.list(d_classes) & base::isTRUE(simplify)){
+
+    d_classes <- base::sapply(X = d_classes,
+                              FUN = stringr::str_c,
+                              collapse = "/")
+
+  }
+
+  base::return(d_classes)
 
 }

@@ -4,10 +4,13 @@
 \alias{variable_classes2}
 \title{Classes with names}
 \usage{
-variable_classes2(data)
+variable_classes2(data, simplify = TRUE)
 }
 \arguments{
 \item{data}{A data.frame or a list.}
+
+\item{simplify}{Logical. If set to TRUE the return value is turned into
+a character vector.}
 }
 \value{
 A named character vector.
