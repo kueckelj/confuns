@@ -26,14 +26,14 @@ umap_add_layout <- function(df, scale = FALSE){
   # scale
   if(base::isTRUE(scale)){
 
-    num_df <-
+    num_mtr <-
       base::as.matrix(x = num_df) %>%
       base::scale()
 
   }
 
   # umap
-  umap_obj <- umap::umap(d = num_df)
+  umap_obj <- umap::umap(d = num_mtr)
 
   # return
   dplyr::mutate(.data = df,

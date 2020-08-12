@@ -140,7 +140,7 @@ check_assign <- function(assign = FALSE,
 #'                   var.class = list(mpg = "numeric",
 #'                                    cyl = "numeric"))
 
-check_data_frame <- function(df, var.class = list(), ref = "df"){
+check_data_frame <- function(df, var.class = list(), var.options = list(), ref = "df"){
 
   base::stopifnot(base::is.data.frame(df))
   base::stopifnot(base::is.list(var.class))
@@ -192,6 +192,56 @@ check_data_frame <- function(df, var.class = list(), ref = "df"){
     base::return(base::invisible(TRUE))
 
   }
+
+}
+
+
+
+
+#' @title Compare input to control input
+#'
+#' @param input A vector of any kind.
+#' @param control A vector of the same kind as \code{input}.
+#' @inherit verbose params
+#' @param ref.input The reference character value for input.
+#' @param ref.control The reference character value for control.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+check_vector <- function(input,
+                          control,
+                          verbose = TRUE,
+                          ref.input = "input vector",
+                          ref.control = "control vector"){
+
+  base::stopifnot(is.vector(input) & is.vector(control))
+  base::stopifnot(class(input) == class(control))
+  is_value(ref.input, "character", "input")
+  is_value(ref.control, "character", "control")
+
+  found <- input[input %in% control]
+  missing <- control[!control %in% input]
+
+  if(base::isTRUE(verbose)){
+
+    missing <- stringr::str_c(missing, collapse = "', '")
+
+    base::message(glue::glue("Of '{ref.input}' did not find '{missing}' in '{ref.control}'."))
+
+  }
+
+  if(base::length(found) == 0){
+
+    base::stop(glue::glue("Did not find any element of '{ref.input}' in '{ref.control}'."))
+
+  } else {
+
+    return(found)
+
+  }
+
 
 }
 
