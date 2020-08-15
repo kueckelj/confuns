@@ -4,10 +4,13 @@
 \alias{check_directories}
 \title{Check directory input}
 \usage{
-check_directories(directories, ref)
+check_directories(directories, ref = "directories", type = "folders")
 }
 \arguments{
 \item{directories}{Character vector. Directories to check.}
+
+\item{type}{Character value. One of "folders" or "files". Checks
+whether the given directories lead to the specified type.}
 }
 \value{
 An informative error message or an invisible TRUE.

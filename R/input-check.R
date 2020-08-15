@@ -249,20 +249,29 @@ check_vector <- function(input,
 #' @title Check directory input
 #'
 #' @param directories Character vector. Directories to check.
+#' @param type Character value. One of "folders" or "files". Checks
+#' whether the given directories lead to the specified type.
 #'
 #' @return An informative error message or an invisible TRUE.
 #' @export
 
-check_directories <- function(directories, ref){
+check_directories <- function(directories, ref = "directories", type = "folders"){
 
   is_vec(directories, mode = "character", "directories")
   is_value(ref, mode = "character", "ref")
+  is_value(type, mode = "character", "type")
+
+  base::stopifnot(type %in% c("files", "folders"))
+  type2 <- c("files", "folders")[!c("files", "folders") %in% type]
 
   not_found <-
     base::lapply(X = directories,
                  FUN = function(dir){
 
-                     if(!base::dir.exists(dir)){
+                    check_fun <-
+                      base::ifelse(type == "files", base::file.exists, base::dir.exists)
+
+                     if(!check_fun(dir)){
 
                      base::return(dir)
 
@@ -274,11 +283,12 @@ check_directories <- function(directories, ref){
     purrr::discard(.p = base::is.null) %>%
     base::unlist(use.names = FALSE)
 
+
   if(!base::is.null(not_found) && base::is.character(not_found)){
 
-    not_found <- stringr::str_c(not_found, collapse = "', '")
+    not_found <- stringr::str_c("'\n- '", not_found, collapse = "")
 
-    base::stop(glue::glue("Directories '{not_found}' given as input of argument '{ref}' do not exist."))
+    base::stop(glue::glue("The following directories given as input for argument '{ref}' do not exist or lead to {type2} instead of {type}: { not_found}'"))
 
   } else {
 
