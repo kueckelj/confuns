@@ -252,7 +252,6 @@ check_vector <- function(input,
 #'
 #' @return An informative error message or an invisible TRUE.
 #' @export
-#'
 
 check_directories <- function(directories, ref){
 

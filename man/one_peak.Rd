@@ -27,5 +27,5 @@ log(input)
 \description{
 Functions that return the numeric values of the respective
 mathematic function they are constructed of. Length and range of the
-return vector is equal to those of the input vector.
+return vector are equal to those of the input vector.
 }
