@@ -18,3 +18,33 @@ assign_obj <- function(assign, object, name){
   }
 
 }
+
+
+#' @title Return function
+#'
+#' @param fun Character value. One of \emph{'message', 'warning', 'stop'}.
+#'
+#' @return The respective function
+#' @export
+#'
+
+error_handler <- function(fun){
+
+  is_value(x = fun, mode = "character", ref = "fun")
+  base::stopifnot(fun %in% c("message", "warning", "stop"))
+
+  if(fun == "messsage"){
+
+    base::message
+
+  } else if(fun == "warning"){
+
+    base::warning
+
+  } else if(fun == "stop"){
+
+    base::stop
+
+  }
+
+}

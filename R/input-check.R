@@ -206,10 +206,10 @@ check_data_frame <- function(df, var.class = list(), var.options = list(), ref =
 #' @param ref.input The reference character value for input.
 #' @param ref.control The reference character value for control.
 #'
-#' @return
+#' @return An informative error message or an invisible TRUE.
 #' @export
 #'
-#' @examples
+
 check_vector <- function(input,
                           control,
                           verbose = TRUE,
@@ -246,6 +246,48 @@ check_vector <- function(input,
 }
 
 
+#' @title Check directory input
+#'
+#' @param directories Character vector. Directories to check.
+#'
+#' @return An informative error message or an invisible TRUE.
+#' @export
+#'
+
+check_directories <- function(directories, ref){
+
+  is_vec(directories, mode = "character", "directories")
+  is_value(ref, mode = "character", "ref")
+
+  not_found <-
+    base::lapply(X = directories,
+                 FUN = function(dir){
+
+                     if(!base::dir.exists(dir)){
+
+                     base::return(dir)
+
+                     } else {
+
+                     base::return(NULL)
+
+                    }}) %>%
+    purrr::discard(.p = base::is.null) %>%
+    base::unlist(use.names = FALSE)
+
+  if(!base::is.null(not_found) && base::is.character(not_found)){
+
+    not_found <- stringr::str_c(not_found, collapse = "', '")
+
+    base::stop(glue::glue("Directories '{not_found}' given as input of argument '{ref}' do not exist."))
+
+  } else {
+
+    base::return(base::invisible(TRUE))
+
+  }
+
+}
 
 
 # -----
