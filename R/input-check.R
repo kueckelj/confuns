@@ -295,7 +295,7 @@ check_vector <- function(input,
 
   if(base::length(found) == 0){
 
-    base::stop(glue::glue("Did not find any element of '{ref.input}' in '{ref.against}'."))
+    base::stop(glue::glue("Did not find any element of {ref.input} in {ref.against}."))
 
   } else {
 
