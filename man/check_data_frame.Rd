@@ -4,7 +4,7 @@
 \alias{check_data_frame}
 \title{Check data.frame validity}
 \usage{
-check_data_frame(df, var.class = list(), var.options = list(), ref = "df")
+check_data_frame(df, var.class = list(), ref = "df")
 }
 \arguments{
 \item{df}{A data.frame.}

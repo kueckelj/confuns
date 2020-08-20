@@ -6,16 +6,16 @@
 \usage{
 check_vector(
   input,
-  control,
+  against,
   verbose = TRUE,
   ref.input = "input vector",
-  ref.control = "control vector"
+  ref.against = "against vector"
 )
 }
 \arguments{
 \item{input}{A vector of any kind.}
 
-\item{control}{A vector of the same kind as \code{input}.}
+\item{against}{A vector of the same kind as \code{input}.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
@@ -24,11 +24,12 @@ the computational progress will be printed.
 
 \item{ref.input}{The reference character value for input.}
 
-\item{ref.control}{The reference character value for control.}
+\item{ref.against}{The reference character value for against.}
 }
 \value{
-An informative error message or an invisible TRUE.
+An informative error message about which elements of \code{input} were found in \code{against} or an invisible TRUE.
 }
 \description{
-Compare input to control input
+Compares the values of an input-vector against a control-vector containing
+valid values and returns the values of input that were found among the valid ones.
 }

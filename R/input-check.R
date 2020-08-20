@@ -140,11 +140,13 @@ check_assign <- function(assign = FALSE,
 #'                   var.class = list(mpg = "numeric",
 #'                                    cyl = "numeric"))
 
-check_data_frame <- function(df, var.class = list(), var.options = list(), ref = "df"){
+check_data_frame <- function(df, var.class = list(), ref = "df"){
 
   base::stopifnot(base::is.data.frame(df))
   base::stopifnot(base::is.list(var.class))
 
+
+  # check variables
   missing_vars <- base::vector(mode = "list")
   wrong_classes <- base::vector(mode = "list")
 
@@ -161,6 +163,7 @@ check_data_frame <- function(df, var.class = list(), var.options = list(), ref =
     }
 
   }
+
 
   if(base::any(c(base::length(missing_vars), base::length(wrong_classes)) > 0)){
 
@@ -195,55 +198,6 @@ check_data_frame <- function(df, var.class = list(), var.options = list(), ref =
 
 }
 
-
-
-
-#' @title Compare input to control input
-#'
-#' @param input A vector of any kind.
-#' @param control A vector of the same kind as \code{input}.
-#' @inherit verbose params
-#' @param ref.input The reference character value for input.
-#' @param ref.control The reference character value for control.
-#'
-#' @return An informative error message or an invisible TRUE.
-#' @export
-#'
-
-check_vector <- function(input,
-                          control,
-                          verbose = TRUE,
-                          ref.input = "input vector",
-                          ref.control = "control vector"){
-
-  base::stopifnot(is.vector(input) & is.vector(control))
-  base::stopifnot(class(input) == class(control))
-  is_value(ref.input, "character", "input")
-  is_value(ref.control, "character", "control")
-
-  found <- input[input %in% control]
-  missing <- control[!control %in% input]
-
-  if(base::isTRUE(verbose)){
-
-    missing <- stringr::str_c(missing, collapse = "', '")
-
-    base::message(glue::glue("Of '{ref.input}' did not find '{missing}' in '{ref.control}'."))
-
-  }
-
-  if(base::length(found) == 0){
-
-    base::stop(glue::glue("Did not find any element of '{ref.input}' in '{ref.control}'."))
-
-  } else {
-
-    return(found)
-
-  }
-
-
-}
 
 
 #' @title Check directory input
@@ -300,5 +254,61 @@ check_directories <- function(directories, ref = "directories", type = "folders"
 
 
 # -----
+
+
+# adjusting check ---------------------------------------------------------
+
+#' @title Compare input to control input
+#'
+#' @description Compares the values of an input-vector against a control-vector containing
+#' valid values and returns the values of input that were found among the valid ones.
+#'
+#' @param input A vector of any kind.
+#' @param against A vector of the same kind as \code{input}.
+#' @inherit verbose params
+#' @param ref.input The reference character value for input.
+#' @param ref.against The reference character value for against.
+#'
+#' @return An informative error message about which elements of \code{input} were found in \code{against} or an invisible TRUE.
+#' @export
+#'
+
+check_vector <- function(input,
+                         against,
+                         verbose = TRUE,
+                         ref.input = "input vector",
+                         ref.against = "against vector"){
+
+  base::stopifnot(is.vector(input) & is.vector(against))
+  base::stopifnot(class(input) == class(against))
+  is_value(ref.input, "character", "input")
+  is_value(ref.against, "character", "against")
+
+  found <- against[against %in% input]
+  missing <- input[!input %in% against]
+
+  if(base::isTRUE(verbose)){
+
+    missing <- stringr::str_c(missing, collapse = "', '")
+
+  }
+
+  if(base::length(found) == 0){
+
+    base::stop(glue::glue("Did not find any element of '{ref.input}' in '{ref.against}'."))
+
+  } else {
+
+    if(base::isTRUE(verbose) && base::length(missing) != 0){
+
+      base::message(glue::glue("Of {ref.input} did not find '{missing}' in {ref.against}."))
+
+    }
+
+    return(found)
+
+  }
+
+}
 
 
