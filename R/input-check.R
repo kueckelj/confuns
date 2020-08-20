@@ -287,7 +287,7 @@ check_vector <- function(input,
   found <- against[against %in% input]
   missing <- input[!input %in% against]
 
-  if(base::isTRUE(verbose)){
+  if(base::isTRUE(verbose) && base::length(missing) != 0){
 
     missing <- stringr::str_c(missing, collapse = "', '")
 
