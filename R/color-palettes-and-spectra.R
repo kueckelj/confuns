@@ -84,3 +84,19 @@ clrp_jama <- c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", 
 #' @export
 clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF")
 
+
+all_colorpanels <- function(){
+
+  colorpanels
+
+}
+
+all_colorspectra <- function(){
+
+  list(
+    "Diverging" = diverging,
+    "Sequential single hue" = sequential_single_hue,
+    "Sequential multi hue" = c(sequential_multi_hue, "inferno", "cividis", "viridis", "magma", "plasma")
+  ) %>% purrr::map(.f = function(i){base::sort(i)})
+
+}
