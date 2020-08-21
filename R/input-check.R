@@ -145,7 +145,6 @@ check_data_frame <- function(df, var.class = list(), ref = "df"){
   base::stopifnot(base::is.data.frame(df))
   base::stopifnot(base::is.list(var.class))
 
-
   # check variables
   missing_vars <- base::vector(mode = "list")
   wrong_classes <- base::vector(mode = "list")
@@ -154,7 +153,7 @@ check_data_frame <- function(df, var.class = list(), ref = "df"){
 
     if(!name %in% base::colnames(df)){
 
-      missing_vars[[name]] <- var.class[[name]] %>% stringr::str_c(collapse = ",")
+      missing_vars[[name]] <- var.class[[name]] #%>% stringr::str_c(collapse = "|")
 
     } else if(!base::any(var.class[[name]] %in% base::class(df[[name]]))){
 
@@ -171,6 +170,8 @@ check_data_frame <- function(df, var.class = list(), ref = "df"){
 
     if(base::length(missing_vars) != 0){
 
+      missing_vars <- purrr::map(missing_vars, stringr::str_c, collapse = "|")
+
       base::message("\n1.) Missing variables: ")
 
       print(base::unlist(missing_vars))
@@ -178,6 +179,8 @@ check_data_frame <- function(df, var.class = list(), ref = "df"){
     }
 
     if(base::length(wrong_classes) != 0){
+
+      var.class <- purrr::map(var.class, stringr::str_c, collapse = "|")
 
       base::message("\n2.) Wrong variable classes. Should be:")
       print(base::unlist(var.class[names(var.class) %in% names(wrong_classes)]))
@@ -197,7 +200,6 @@ check_data_frame <- function(df, var.class = list(), ref = "df"){
   }
 
 }
-
 
 
 #' @title Check directory input
