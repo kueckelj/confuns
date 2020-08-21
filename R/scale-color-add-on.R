@@ -59,7 +59,7 @@ scale_color_add_on <- function(aes = "color",
   base::stopifnot(aes %in% c("fill", "color"))
 
   if(!base::is.null(clrp)){confuns::is_value(clrp, "character", "clrp")}
-  if(!base::is.null(clrp)){confuns::is_value(clrsp, "character", "clrsp")}
+  if(!base::is.null(clrsp)){confuns::is_value(clrsp, "character", "clrsp")}
 
   # ----- numeric variable
   if(base::is.numeric(variable) | base::all(variable == "numeric")){
@@ -136,7 +136,6 @@ scale_color_add_on <- function(aes = "color",
 
     }
 
-
     # 2. check whether fill or color as aesthetic
     if(aes == "fill"){
 
@@ -165,6 +164,11 @@ scale_color_add_on <- function(aes = "color",
       }
 
     }
+
+  } else {
+
+    base::message("Invalid input for argument 'variable' returning NULL.")
+    add_on <- NULL
 
   }
 
