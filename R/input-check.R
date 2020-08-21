@@ -154,7 +154,7 @@ check_data_frame <- function(df, var.class = list(), ref = "df"){
 
     if(!name %in% base::colnames(df)){
 
-      missing_vars[[name]] <- var.class[[name]]
+      missing_vars[[name]] <- base::names(var.class[[name]])
 
     } else if(!base::any(var.class[[name]] %in% base::class(df[[name]]))){
 
