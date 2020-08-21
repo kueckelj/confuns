@@ -113,7 +113,7 @@ scale_color_add_on <- function(aes = "color",
     }
 
   # ----- discrete variable
-  } else if(base::is.numeric(variable) |
+  } else if(!base::is.numeric(variable) |
             base::all(variable == "discrete")){
 
     n <- base::unique(variable) %>% base::length()
