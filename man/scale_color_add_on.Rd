@@ -5,8 +5,8 @@
 \title{ggplot2 - color add on}
 \usage{
 scale_color_add_on(
-  aes = c("color", "fill"),
-  variable,
+  aes = "color",
+  variable = "numeric",
   clrsp = NULL,
   clrp = NULL,
   ...
@@ -16,7 +16,8 @@ scale_color_add_on(
 \item{aes}{Character value. Either \emph{'color'} or \emph{'fill'}. Denotes the
 used aesthetic.}
 
-\item{variable}{Vector. The variable that is mapped onto the denoted aesthetic.}
+\item{variable}{The variable that is mapped onto the denoted aesthetic or a character
+value - one of \emph{'numeric', 'discrete'}.}
 
 \item{clrsp}{Character value. The color spectrum of choice if \code{variable} is
 numeric. Run \code{confuns::all_colorspectra()}

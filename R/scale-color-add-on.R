@@ -5,7 +5,8 @@
 #'
 #' @param aes Character value. Either \emph{'color'} or \emph{'fill'}. Denotes the
 #' used aesthetic.
-#' @param variable Vector. The variable that is mapped onto the denoted aesthetic.
+#' @param variable The variable that is mapped onto the denoted aesthetic or a character
+#' value - one of \emph{'numeric', 'discrete'}.
 #' @param clrsp Character value. The color spectrum of choice if \code{variable} is
 #' numeric. Run \code{confuns::all_colorspectra()}
 #' to see all valid input choices.
@@ -48,8 +49,8 @@
 #' scale_color_add_on(aes = "color", variable = mtcars$mpg, clrsp = "Reds 3")
 #'
 
-scale_color_add_on <- function(aes = c("color", "fill"),
-                               variable,
+scale_color_add_on <- function(aes = "color",
+                               variable = "numeric",
                                clrsp = NULL,
                                clrp = NULL,
                                ...){
@@ -61,7 +62,7 @@ scale_color_add_on <- function(aes = c("color", "fill"),
   if(!base::is.null(clrp)){confuns::is_value(clrsp, "character", "clrsp")}
 
   # ----- numeric variable
-  if(base::is.numeric(variable)){
+  if(base::is.numeric(variable) | base::all(variable == "numeric")){
 
     if(clrsp %in% confuns::sequential_multi_hue |
        clrsp %in% confuns::sequential_single_hue){
@@ -111,8 +112,9 @@ scale_color_add_on <- function(aes = c("color", "fill"),
 
     }
 
-  # ----- categorical variable
-  } else {
+  # ----- discrete variable
+  } else if(base::is.numeric(variable) |
+            base::all(variable == "discrete")){
 
     n <- base::unique(variable) %>% base::length()
 
