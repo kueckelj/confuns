@@ -80,13 +80,13 @@ scale_color_add_on <- function(aes = "color",
         }
 
       } else {
-
+print(clrsp)
         if(clrsp %in% c("inferno", "cividis", "viridis", "magma", "plasma")){
 
           add_on <- ggplot2::scale_color_viridis_c(option = clrsp, ...)
 
         } else {
-
+print("winning")
           add_on <- colorspace::scale_color_continuous_sequential(clrsp, ...)
 
         }
