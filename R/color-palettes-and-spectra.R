@@ -90,7 +90,6 @@ clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#
 #' @description Returns all currently valid color panels or -spectra.
 #' @return A named list.
 #' @export
-#'
 
 all_colorpanels <- function(){
 
@@ -98,8 +97,8 @@ all_colorpanels <- function(){
 
 }
 
-#'  @rdname all_colorpanels
-#'  @export
+#' @rdname all_colorpanels
+#' @export
 all_colorspectra <- function(){
 
   list(
