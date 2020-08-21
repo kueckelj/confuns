@@ -19,7 +19,8 @@ sequential_multi_hue <-
   "Inferno", "Dark Mint", "Mint", "BluGrn", "Teal", "TealGrn", "Emrld", "BluYl", "ag_GrnYl", "Peach",
   "PinkYl", "Burg", "BurgYl", "RedOr", "OrYel", "Purp", "PurpOr", "Sunset", "Magenta", "SunsetDark",
   "ag_Sunset", "BrwnYl", "YlOrRd", "YlOrBr", "OrRd", "Oranges", "YlGn", "YlGnBu", "Reds", "RdPu", "PuRd",
-  "Purples", "PuBuGn", "PuBu", "Greens", "BuGn", "GnBu", "BuPu", "Blues", "Lajolla", "Turku")
+  "Purples", "PuBuGn", "PuBu", "Greens", "BuGn", "GnBu", "BuPu", "Blues", "Lajolla", "Turku", "inferno",
+  "cividis", "viridis", "magma", "plasma")
 
 #' @rdname sequential_single_hue
 #' @export
@@ -85,12 +86,20 @@ clrp_jama <- c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", 
 clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF")
 
 
+#' @title Color palette names
+#' @description Returns all currently valid color panels or -spectra.
+#' @return A named list.
+#' @export
+#'
+
 all_colorpanels <- function(){
 
-  colorpanels
+  list("science" = colorpanels)
 
 }
 
+#'  @rdname all_colorpanels
+#'  @export
 all_colorspectra <- function(){
 
   list(
