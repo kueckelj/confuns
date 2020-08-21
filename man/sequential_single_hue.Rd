@@ -5,13 +5,13 @@
 \alias{sequential_single_hue}
 \alias{sequential_multi_hue}
 \alias{diverging}
-\title{Color palette names}
+\title{Color spectra names}
 \format{
-An object of class \code{character} of length 10.
+An object of class \code{character} of length 11.
 
-An object of class \code{character} of length 50.
+An object of class \code{character} of length 55.
 
-An object of class \code{character} of length 16.
+An object of class \code{character} of length 18.
 }
 \usage{
 sequential_single_hue
@@ -21,6 +21,6 @@ sequential_multi_hue
 diverging
 }
 \description{
-Color palette names
+Collection of color-spectra names.
 }
 \keyword{datasets}
