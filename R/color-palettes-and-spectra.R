@@ -104,7 +104,7 @@ all_colorspectra <- function(){
   list(
     "Diverging" = diverging,
     "Sequential single hue" = sequential_single_hue,
-    "Sequential multi hue" = sequential_multi_hue,
+    "Sequential multi hue" = sequential_multi_hue
   ) %>% purrr::map(.f = function(i){base::sort(i)})
 
 }
