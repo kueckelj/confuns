@@ -145,7 +145,7 @@ scale_color_add_on <- function(aes = "color",
 
       } else {
 
-        base::message(glue::glue("Colorclrp '{clrp_name}' contains only {l} values. Need {n}. Using default color clrp."))
+        base::message(glue::glue("Color panel '{clrp_name}' contains only {l} values. Need {n}. Using default color clrp."))
         add_on <- NULL
 
       }
