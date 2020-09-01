@@ -11,9 +11,9 @@
 #' numeric. Run \code{confuns::all_colorspectra()}
 #' to see all valid input choices.
 #'
-#' (Ignored if \code{variable} is categorical.)
+#' (Ignored if \code{variable} is discrete)
 #'
-#' @param clrp Character value. The color panel of choice if \code{variable} is categorical.
+#' @param clrp Character value. The color panel of choice if \code{variable} is discrete
 #' Run \code{confuns::all_colorpanels()} to see all valid input choices.
 #'
 #' (Ignored if \code{variable} is numeric)

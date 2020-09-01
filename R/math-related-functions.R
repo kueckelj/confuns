@@ -28,7 +28,7 @@ normalize <- function(x){
 #'
 #' @param input Numeric vector.
 #' @param fn Character value. The function to call specified as a string.
-#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sinus', 'log'}.
+#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sinus', 'log', 'early_peak', 'late_peak'}.
 #' @param rev Logical. If set to TRUE the fitted curve is returned upside-down.
 #' @inherit normalize_dummy params
 #'
@@ -60,7 +60,7 @@ normalize <- function(x){
 fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
   is_value(x = fn, mode = "character", ref = "fn")
-  base::stopifnot(fn %in% c("one_peak", "two_peaks", "gradient", "log", "sinus", "linear"))
+  base::stopifnot(fn %in% c("one_peak", "two_peaks", "gradient", "log", "sinus", "linear", "early_peak", "late_peak"))
 
   out <-
     base::call(name = fn, input = input) %>%
@@ -154,6 +154,38 @@ log <- function(input){
 
   base::log(x = seq_along(input)) %>%
     scales::rescale(to = c(min(input), max(input)))
+
+}
+
+#' @rdname one_peak
+#' @export
+early_peak <- function(input){
+
+  half_length <- (base::length(input)/2)
+
+  prel_res <-
+    base::seq(1.5 * pi , 3.5 * pi, length.out = half_length) %>%
+    base::sin() %>% scales::rescale(to = c(min(input), max(input)))
+
+  res <- c(prel_res, base::rep(base::min(prel_res), half_length))
+
+  base::return(res)
+
+}
+
+#' @rdname one_peak
+#' @export
+late_peak <- function(input){
+
+  half_length <- (base::length(input)/2)
+
+  prel_res <-
+    base::seq(1.5 * pi , 3.5 * pi, length.out = half_length) %>%
+    base::sin() %>% scales::rescale(to = c(min(input), max(input)))
+
+  res <- c(base::rep(base::min(prel_res), half_length), prel_res)
+
+  base::return(res)
 
 }
 
