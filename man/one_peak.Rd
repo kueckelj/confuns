@@ -7,6 +7,8 @@
 \alias{sinus}
 \alias{gradient}
 \alias{log}
+\alias{early_peak}
+\alias{late_peak}
 \title{Fit a curve}
 \usage{
 one_peak(input)
@@ -20,6 +22,10 @@ sinus(input)
 gradient(input)
 
 log(input)
+
+early_peak(input)
+
+late_peak(input)
 }
 \arguments{
 \item{input}{Numeric vector.}

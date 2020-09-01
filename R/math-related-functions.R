@@ -41,6 +41,7 @@ normalize <- function(x){
 #' @examples
 #'library(tidyverse)
 #'library(confuns)
+#'library(magrittr)
 #'
 #'
 #'data.frame(variable = normalize(base::log(1:100))) %>%

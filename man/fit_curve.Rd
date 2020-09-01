@@ -10,7 +10,7 @@ fit_curve(input, fn, rev = FALSE, normalize = TRUE)
 \item{input}{Numeric vector.}
 
 \item{fn}{Character value. The function to call specified as a string.
-Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sinus', 'log'}.}
+Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sinus', 'log', 'early_peak', 'late_peak'}.}
 
 \item{rev}{Logical. If set to TRUE the fitted curve is returned upside-down.}
 
@@ -31,6 +31,7 @@ the values needed to display or work with the pattern specified in \code{fn}.
 \examples{
 library(tidyverse)
 library(confuns)
+library(magrittr)
 
 
 data.frame(variable = normalize(base::log(1:100))) \%>\%
