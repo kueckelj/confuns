@@ -48,3 +48,29 @@ error_handler <- function(fun){
   }
 
 }
+
+
+#' @title Wrapper around unfactor()
+#'
+#' @description If input is a factor it will be returned as
+#' a character vector.
+#'
+#' @param input A vector.
+#' @param ... Additional arguments given to s4vctrs::unfactor().
+#'
+#' @return
+#' @export
+#'
+
+unfactor <- function(input, ...){
+
+  if(base::is.factor(input)){
+
+    input <- S4Vectors::unfactor(input, ...) %>%
+      base::as.character()
+
+  }
+
+  base::return(input)
+
+}
