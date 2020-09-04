@@ -283,8 +283,8 @@ check_vector <- function(input,
 
   base::stopifnot(is.vector(input) & is.vector(against))
   base::stopifnot(class(input) == class(against))
-  is_value(ref.input, "character", "input")
-  is_value(ref.against, "character", "against")
+  is_value(ref.input, "character", "ref.input")
+  is_value(ref.against, "character", "ref.against")
 
   found <- against[against %in% input]
   missing <- input[!input %in% against]
