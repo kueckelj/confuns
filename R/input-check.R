@@ -254,7 +254,69 @@ check_directories <- function(directories, ref = "directories", type = "folders"
 
 }
 
+#' Check valid values
+#'
+#' @param input An input vector to be checked.
+#' @param against A vector of valid inputs.
+#' @param ref.input The reference input
+#'
+#' @return An error message or an invisible TRUE if all values of input are valid.
+#'
+#' @details Error message is build via \code{glue::glue()} building the following
+#' string:
+#'
+#' "Value/Values '{invalid_ref}' of {ref.input} is/are invalid. Valid input options are: '{against_ref}'."
+#'
+#' @export
+#'
 
+
+
+check_one_of <- function(input, against, ref.input = "input"){
+
+  base::is.vector(input)
+  base::is.vector(against)
+
+  is_value(ref.input, "character", "ref.input")
+
+  if(base::any(!input %in% against)){
+
+    invalid <- input[!input %in% against]
+
+    n_invalid <- base::length(invalid)
+
+    if(n_invalid > 1){
+
+      invalid_ref <-
+        stringr::str_c(invalid[1:(n_invalid-1)], collapse = "', '") %>%
+        stringr::str_c(., "' and '", invalid[n_invalid])
+
+      ref1 <- "Values"
+      ref2 <- "are"
+
+    } else {
+
+      invalid_ref <- invalid
+
+      ref1 <- "Value"
+      ref2 <- "is"
+    }
+
+    n_against <- base::length(against)
+
+    against_ref <-
+      stringr::str_c(against[1:(n_against-1)], collapse = "', '") %>%
+      stringr::str_c(., "' or '", against[n_against])
+
+
+    base::stop(glue::glue("{ref1} '{invalid_ref}' of {ref.input} {ref2} invalid. Valid input-options are: '{against_ref}'."))
+
+  } else {
+
+    base::return(base::invisible(TRUE))
+  }
+
+}
 # -----
 
 
