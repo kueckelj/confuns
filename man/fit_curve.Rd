@@ -14,7 +14,7 @@ Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sinus', 'log', 'ea
 
 \item{rev}{Logical. If set to TRUE the fitted curve is returned upside-down.}
 
-\item{normalize}{Logical. If set to TRUE numeric values will be rescaled to
+\item{normalize}{Logical. If set to TRUE numeric values will be scaled to
 values between one and zero.}
 }
 \value{

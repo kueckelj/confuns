@@ -2,7 +2,7 @@
 % Please edit documentation in R/variable-classes.R
 \name{variable_classes2}
 \alias{variable_classes2}
-\title{Classes with names}
+\title{Obtain classes with names}
 \usage{
 variable_classes2(data, simplify = TRUE)
 }

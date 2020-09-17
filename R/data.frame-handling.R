@@ -10,7 +10,7 @@
 #'
 #' @inherit verbose params
 #'
-#' @return An arranged data.frame.
+#' @return The arranged data.frame.
 #' @export
 
 arrange_rows <- function(df, across, verbose){

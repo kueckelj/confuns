@@ -11,7 +11,7 @@ An object of class \code{character} of length 8.
 colorpanels
 }
 \description{
-Available color panels.
+Available discrete color panels.
 }
 \details{
 \itemize{

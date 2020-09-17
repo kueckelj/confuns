@@ -7,7 +7,7 @@
 wrap_strings(input, wrap.in = character())
 }
 \arguments{
-\item{input}{A R-object that contains character strings.}
+\item{input}{An object that contains character strings.}
 
 \item{wrap.in}{A character vector of length one or two.
 

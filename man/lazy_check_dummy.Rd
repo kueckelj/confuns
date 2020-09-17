@@ -2,7 +2,7 @@
 % Please edit documentation in R/input-check.R
 \name{lazy_check_dummy}
 \alias{lazy_check_dummy}
-\title{This is a text dummy}
+\title{This is a text dummy.}
 \usage{
 lazy_check_dummy()
 }

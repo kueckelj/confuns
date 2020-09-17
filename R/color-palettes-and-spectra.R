@@ -33,7 +33,7 @@ diverging <-
 
 #' @title Color panels
 #'
-#' @description Available color panels.
+#' @description Available discrete color panels.
 #'
 #' @details
 #'

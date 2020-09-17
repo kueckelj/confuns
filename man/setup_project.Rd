@@ -7,7 +7,7 @@
 setup_project(project.name)
 }
 \arguments{
-\item{project.name}{The projects name as a character string used to validate
+\item{project.name}{The projects name as a character string to validate
 the current working directory.}
 }
 \description{

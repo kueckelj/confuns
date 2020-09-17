@@ -1,4 +1,4 @@
-#' @title Names with classes
+#' @title Obtain names with classes
 #'
 #' @description Get information about the inputs
 #' variable names and classes.
@@ -30,7 +30,7 @@ variable_classes <- function(data){
 
 
 
-#' @title Classes with names
+#' @title Obtain classes with names
 #'
 #' @description Get information about the inputs
 #' variable names and classes.

@@ -1,4 +1,4 @@
-#' Assign objects into the global environment
+#' @title Assign objects into the global environment
 #'
 #' @param assign Logical.
 #' @param object The object to be assigned.

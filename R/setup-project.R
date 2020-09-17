@@ -3,7 +3,7 @@
 #' @description Creates input-, meta-, output- and graphics directories relative
 #' to the working directory.
 #'
-#' @param project.name The projects name as a character string used to validate
+#' @param project.name The projects name as a character string to validate
 #' the current working directory.
 #'
 #' @export

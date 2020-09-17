@@ -1,5 +1,5 @@
 
-#' @title This is a text dummy
+#' @title This is a text dummy.
 #'
 #' @description A member of the \code{lazy-check_*()}-family.
 #'

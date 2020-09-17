@@ -17,7 +17,7 @@ the computational progress will be printed.
 (Warning messages will always be printed.)}
 }
 \value{
-An arranged data.frame.
+The arranged data.frame.
 }
 \description{
 Arranges the rows of a data.frame according to

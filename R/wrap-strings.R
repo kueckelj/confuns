@@ -1,6 +1,6 @@
 #' @title Wrap all elements of a character vector
 #'
-#' @param input A R-object that contains character strings.
+#' @param input An object that contains character strings.
 #' @param wrap.in A character vector of length one or two.
 #'
 #' If of length one: Pre- and Suffix of the results will be the same.
