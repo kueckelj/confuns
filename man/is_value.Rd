@@ -3,6 +3,8 @@
 \name{is_value}
 \alias{is_value}
 \alias{is_vec}
+\alias{are_values}
+\alias{are_vectors}
 \title{One dimensional input check}
 \usage{
 is_value(x, mode, ref = NULL, fdb.fn = "stop")
@@ -15,6 +17,17 @@ is_vec(
   min.length = NULL,
   max.length = NULL,
   fdb.fn = "stop"
+)
+
+are_values(..., mode, fdb.fn = "stop")
+
+are_vectors(
+  ...,
+  mode,
+  fdb.fn = "stop",
+  of.length = NULL,
+  min.length = NULL,
+  max.length = NULL
 )
 }
 \arguments{
@@ -34,6 +47,8 @@ two are ignored.}
 
 \item{min.length, max.length}{Numeric value. Denotes that the vector has to be
 of certain mininmal and/or maximal length.}
+
+\item{...}{Character vector denoting the objects to be checked.}
 }
 \value{
 An invisible TRUE or an informative error message.
@@ -41,4 +56,17 @@ An invisible TRUE or an informative error message.
 \description{
 Checks if input fits the requirements and gives feedback
 via \code{give_feedback()}.
+}
+\examples{
+# Not run:
+
+ vec1 <- c(1,2),
+ vec2 <- c(1,2,3,4,5)
+
+ is_vec(x = vec1, mode = "numeric", of.length = 2)
+
+ are_vectors(c("vec1", "vec2"), mode = "numeric", min.length = 2)
+
+
+
 }

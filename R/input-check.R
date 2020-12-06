@@ -58,6 +58,7 @@ give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL){
 #' via \code{give_feedback()}.
 #'
 #' @param x Input vector.
+#' @param ... Character vector denoting the objects to be checked.
 #' @param mode Character value. The type of which the input must be.
 #' @param ref Character value. Input reference for the error message.
 #' If set to NULL the value of \code{x} is evaluated via non standard evalulation.
@@ -70,6 +71,17 @@ give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL){
 #'
 #' @return An invisible TRUE or an informative error message.
 #' @export
+#'
+#' @examples # Not run:
+#'
+#'  vec1 <- c(1,2),
+#'  vec2 <- c(1,2,3,4,5)
+#'
+#'  is_vec(x = vec1, mode = "numeric", of.length = 2)
+#'
+#'  are_vectors(c("vec1", "vec2"), mode = "numeric", min.length = 2)
+#'
+#'
 #'
 
 is_value <- function(x, mode, ref = NULL, fdb.fn = "stop"){
@@ -179,6 +191,44 @@ is_vec <- function(x,
     base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
 
   base::invisible(return_value)
+
+}
+
+#' @rdname is_value
+#' @export
+are_values <- function(..., mode, fdb.fn = "stop"){
+
+  input <- c(...)
+
+  base::stopifnot(base::is.character(input))
+
+  purrr::map(.x = input, .f = ~ base::parse(text = .x) %>% base::eval()) %>%
+    purrr::set_names(nm = input) %>%
+    purrr::imap(.f = confuns::is_value, mode = mode, fdb.fn = fdb.fn)
+
+}
+
+#' @rdname is_value
+#' @export
+are_vectors <- function(...,
+                        mode,
+                        fdb.fn = "stop",
+                        of.length = NULL,
+                        min.length = NULL,
+                        max.length = NULL){
+
+  input <- c(...)
+
+  base::stopifnot(base::is.character(input))
+
+  purrr::map(.x = input, .f = ~ base::parse(text = .x) %>% base::eval()) %>%
+    purrr::set_names(nm = input) %>%
+    purrr::imap(.f = confuns::is_vec,
+                mode = mode,
+                fdb.fn = fdb.fn,
+                of.length = of.length,
+                min.length = min.length,
+                max.length = max.length)
 
 }
 
