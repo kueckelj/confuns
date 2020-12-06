@@ -19,7 +19,7 @@ is_vec(
   fdb.fn = "stop"
 )
 
-are_values(..., mode, fdb.fn = "stop")
+are_values(..., mode, fdb.fn = "stop", return = "boolean")
 
 are_vectors(
   ...,
@@ -27,7 +27,8 @@ are_vectors(
   fdb.fn = "stop",
   of.length = NULL,
   min.length = NULL,
-  max.length = NULL
+  max.length = NULL,
+  return = "boolean"
 )
 }
 \arguments{
@@ -49,6 +50,10 @@ two are ignored.}
 of certain mininmal and/or maximal length.}
 
 \item{...}{Character vector denoting the objects to be checked.}
+
+\item{return}{Character value. Either \emph{'boolean'} which returns an
+invisible TRUE or FALSE depending on if all tests evaluated to TRUE or not.
+Or \emph{'results'} which returns a named vector of all results.}
 }
 \value{
 An invisible TRUE or an informative error message.
