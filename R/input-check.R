@@ -59,6 +59,9 @@ give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL){
 #'
 #' @param x Input vector.
 #' @param ... Character vector denoting the objects to be checked.
+#' @param return Character value. Either \emph{'boolean'} which returns an
+#' invisible TRUE or FALSE depending on if all tests evaluated to TRUE or not.
+#' Or \emph{'results'} which returns a named vector of all results.
 #' @param mode Character value. The type of which the input must be.
 #' @param ref Character value. Input reference for the error message.
 #' If set to NULL the value of \code{x} is evaluated via non standard evalulation.
@@ -158,6 +161,9 @@ is_vec <- function(x,
 
     }
 
+  } else {
+
+    ref_length <- ""
 
   }
 
@@ -196,15 +202,41 @@ is_vec <- function(x,
 
 #' @rdname is_value
 #' @export
-are_values <- function(..., mode, fdb.fn = "stop"){
+are_values <- function(..., mode, fdb.fn = "stop", return = "boolean"){
 
   input <- c(...)
 
   base::stopifnot(base::is.character(input))
 
-  purrr::map(.x = input, .f = ~ base::parse(text = .x) %>% base::eval()) %>%
+  ce <- rlang::caller_env()
+
+  results <-
+    purrr::map(.x = input, .f = ~ rlang::parse_expr(.x) %>% base::eval(envir = ce)) %>%
     purrr::set_names(nm = input) %>%
-    purrr::imap(.f = confuns::is_value, mode = mode, fdb.fn = fdb.fn)
+    purrr::imap(.f = confuns::is_value, mode = mode, fdb.fn = fdb.fn) %>%
+    purrr::flatten_lgl() %>%
+    purrr::set_names(nm = input)
+
+
+  if(base::all(results == TRUE)){
+
+    boolean <- base::invisible(TRUE)
+
+  } else {
+
+    boolean <- base::invisible(FALSE)
+
+  }
+
+  if(return == "boolean"){
+
+    base::return(boolean)
+
+  } else if(return == "results"){
+
+    base::return(results)
+
+  }
 
 }
 
@@ -215,20 +247,46 @@ are_vectors <- function(...,
                         fdb.fn = "stop",
                         of.length = NULL,
                         min.length = NULL,
-                        max.length = NULL){
+                        max.length = NULL,
+                        return = "boolean"){
 
   input <- c(...)
 
   base::stopifnot(base::is.character(input))
 
-  purrr::map(.x = input, .f = ~ base::parse(text = .x) %>% base::eval()) %>%
+  ce <- rlang::caller_env()
+
+  results <-
+    purrr::map(.x = input, .f = ~ base::parse(text = .x) %>% base::eval(envir = ce)) %>%
     purrr::set_names(nm = input) %>%
     purrr::imap(.f = confuns::is_vec,
                 mode = mode,
                 fdb.fn = fdb.fn,
                 of.length = of.length,
                 min.length = min.length,
-                max.length = max.length)
+                max.length = max.length) %>%
+    purrr::flatten_lgl() %>%
+    purrr::set_names(nm = input)
+
+  if(base::all(results == TRUE)){
+
+    boolean <- base::invisible(TRUE)
+
+  } else {
+
+    boolean <- base::invisible(FALSE)
+
+  }
+
+  if(return == "boolean"){
+
+    base::return(boolean)
+
+  } else if(return == "results"){
+
+    base::return(results)
+
+  }
 
 }
 
