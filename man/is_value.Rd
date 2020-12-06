@@ -5,21 +5,40 @@
 \alias{is_vec}
 \title{One dimensional input check}
 \usage{
-is_value(x, mode, ref = "x")
+is_value(x, mode, ref = NULL, fdb.fn = "stop")
 
-is_vec(x, mode, ref = "x")
+is_vec(
+  x,
+  mode,
+  ref = NULL,
+  of.length = NULL,
+  min.length = NULL,
+  max.length = NULL,
+  fdb.fn = "stop"
+)
 }
 \arguments{
 \item{x}{Input vector.}
 
 \item{mode}{Character value. The type of which the input must be.}
 
-\item{ref}{Character value. Input reference for the error message.}
+\item{ref}{Character value. Input reference for the error message.
+If set to NULL the value of \code{x} is evaluated via non standard evalulation.}
+
+\item{fdb.fn}{Character value. Determines the function to call if a feedback
+message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
+
+\item{of.length}{Numeric value. Denotes that the vector has to be of a certain length.
+Holds priority over \code{min.length} and \code{max.length} - if not set to NULL the letter
+two are ignored.}
+
+\item{min.length, max.length}{Numeric value. Denotes that the vector has to be
+of certain mininmal and/or maximal length.}
 }
 \value{
 An invisible TRUE or an informative error message.
 }
 \description{
-Checks if input fits the requirements and stops the
-function if not.
+Checks if input fits the requirements and gives feedback
+via \code{give_feedback()}.
 }

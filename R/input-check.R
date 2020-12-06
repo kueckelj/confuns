@@ -11,50 +11,174 @@
 #' invalid being found.
 #'
 #' @return A logical value TRUE if nothing invalid has been detected or an informative
-#' error message.
+#' feedback message.
 
 lazy_check_dummy <- function(){}
 
+
+#' @title Print feedback in console
+#'
+#' @description Helper that gives feedback with a function of choice.
+#'
+#' @param fdb.fn Character value. Determines the function to call if a feedback
+#' message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.
+#' @param msg Character value or glue. The message to be printed in the console.
+#'
+#' @return
+#' @export
+#'
+
+give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL){
+
+  if(!base::is.null(msg)){
+
+    if(fdb.fn == "stop"){
+
+      base::stop(msg)
+
+    } else if(fdb.fn == "warning"){
+
+      base::warning(msg)
+
+    } else if(fdb.fn == "message"){
+
+      base::message(msg)
+
+    }
+
+  }
+
+}
 
 # is - functions ----------------------------------------------------------
 
 #' @title One dimensional input check
 #'
-#' @description Checks if input fits the requirements and stops the
-#' function if not.
+#' @description Checks if input fits the requirements and gives feedback
+#' via \code{give_feedback()}.
 #'
 #' @param x Input vector.
 #' @param mode Character value. The type of which the input must be.
 #' @param ref Character value. Input reference for the error message.
+#' If set to NULL the value of \code{x} is evaluated via non standard evalulation.
+#' @param of.length Numeric value. Denotes that the vector has to be of a certain length.
+#' Holds priority over \code{min.length} and \code{max.length} - if not set to NULL the letter
+#' two are ignored.
+#' @param min.length,max.length Numeric value. Denotes that the vector has to be
+#' of certain mininmal and/or maximal length.
+#' @inherit give_feedback params
 #'
 #' @return An invisible TRUE or an informative error message.
 #' @export
 #'
 
-is_value <- function(x, mode, ref = "x"){
+is_value <- function(x, mode, ref = NULL, fdb.fn = "stop"){
+
+  if(base::is.null(ref)){ ref <- base::substitute(x)}
+
+  msg <- NULL
 
   if(!base::length(x) == 1 ||
      !base::is.vector(x, mode = mode)){
 
-    base::stop(glue::glue("Input '{ref}' must be a {mode} value."))
+    msg <- glue::glue("Input '{ref}' must be a {mode} value.")
 
   }
 
-  base::invisible(TRUE)
+  give_feedback(fdb.fn = fdb.fn, msg = msg)
+
+  return_value <-
+    base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
+
+  base::invisible(return_value)
 
 }
 
 #' @rdname is_value
 #' @export
-is_vec <- function(x, mode, ref = "x"){
+is_vec <- function(x,
+                   mode,
+                   ref = NULL,
+                   of.length = NULL,
+                   min.length = NULL,
+                   max.length = NULL,
+                   fdb.fn = "stop"){
 
-  if(!base::is.vector(x, mode = mode)){
+  # refer to input in feedback
+  if(base::is.null(ref)){ ref <- base::substitute(x) }
 
-    base::stop(glue::glue("Input '{ref}' must be a {mode} vector."))
+  # default if all requirements are satisfied
+  msg <- NULL
+
+  # logical value indicating if the length is to be checked
+  length_requirements_given <-
+    base::any(c(!base::is.null(min.length), !base::is.null(max.length), !base::is.null(of.length)))
+
+  # check requirements and prepare feedback
+  if(base::isTRUE(length_requirements_given)){
+
+    if(!base::is.null(of.length)){
+
+      ref_length <- stringr::str_c(" of length ", of.length, sep = "")
+
+    } else {
+
+      ref_min_length <-
+        base::ifelse(test = base::is.null(min.length),
+                     yes = "",
+                     no = stringr::str_c(" of min. length ", min.length, sep = "")
+        )
+
+      ref_max_length <-
+        base::ifelse(test = base::is.null(max.length),
+                     yes = "",
+                     no = stringr::str_c(" of max. length ", max.length, sep = "")
+        )
+
+      # connect with 'and' if both requirements are given
+      ref_connect <-
+        base::ifelse(test = base::sum(c(!base::is.null(min.length), !base::is.null(max.length))) != 2,
+                     yes = "",
+                     no = " and ")
+
+      ref_length <-
+        glue::glue("{ref_min_length}{ref_connect}{ref_max_length}")
+
+    }
+
 
   }
 
-  base::invisible(TRUE)
+
+  # check input vector and assemble feedback
+  if(!base::is.vector(x, mode = mode)){
+
+    msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+
+  } else if(base::isTRUE(length_requirements_given)){
+
+    if(!base::is.null(min.length) && !base::length(x) >= min.length){
+
+      msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+
+    } else if(!base::is.null(max.length) && !base::length(x) <= max.length){
+
+      msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+
+    } else if(!base::is.null(of.length) && !base::length(x) == of.length){
+
+      msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+
+    }
+
+  }
+
+  give_feedback(fdb.fn = fdb.fn, msg = msg)
+
+  return_value <-
+    base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
+
+  base::invisible(return_value)
 
 }
 
@@ -269,7 +393,6 @@ check_directories <- function(directories, ref = "directories", type = "folders"
 #'
 #' @export
 #'
-
 
 
 check_one_of <- function(input, against, ref.input = "input"){

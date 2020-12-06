@@ -8,7 +8,7 @@ lazy_check_dummy()
 }
 \value{
 A logical value TRUE if nothing invalid has been detected or an informative
-error message.
+feedback message.
 }
 \description{
 A member of the \code{lazy-check_*()}-family.
