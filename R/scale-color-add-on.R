@@ -130,6 +130,10 @@ scale_color_add_on <- function(aes = "color",
 
       l <- base::length(clrp)
 
+    } else if(clrp == "default"){
+
+      # no panel needed
+
     } else {
 
       base::stop("Invalid input for argument 'clrp'.")
@@ -139,27 +143,35 @@ scale_color_add_on <- function(aes = "color",
     # 2. check whether fill or color as aesthetic
     if(aes == "fill"){
 
-      if(l > n){
+      if(clrp == "default"){
+
+        add_on <- ggplot2::scale_fill_discrete(...)
+
+      } else if(l > n){
 
         add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
 
       } else {
 
         base::message(glue::glue("Color panel '{clrp_name}' contains only {l} values. Need {n}. Using default color clrp."))
-        add_on <- NULL
+        add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
 
       }
 
     } else {
 
-      if(l > n){
+      if(clrp == "default"){
+
+        add_on <- ggplot2::scale_color_discrete(...)
+
+      } else if(l > n){
 
         add_on <- ggplot2::scale_color_manual(values = clrp, ...)
 
       } else {
 
-        base::message(glue::glue("Colorclrp '{clrp_name}' contains only {l} values. Need {n}. Using default color panel."))
-        add_on <- NULL
+        base::message(glue::glue("Color panel '{clrp_name}' contains only {l} values. Need {n}. Using default color panel."))
+        add_on <- ggplot2::scale_color_discrete(...)
 
       }
 

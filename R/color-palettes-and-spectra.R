@@ -86,6 +86,31 @@ clrp_jama <- c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", 
 clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF")
 
 
+#' @title Get vector of colors
+#'
+#' @description Returns a vector of colorcodes of the respective panel
+#'
+#' @param clrp Character value. Denotes the colorpanels of interest. Run \code{all_colorpanels()} to
+#' obtain valid inputs.
+#'
+#' @return Character vector.
+#'
+#' @export
+#'
+
+color_vector <- function(clrp){
+
+  is_value(x = clrp, mode = "character")
+
+  check_one_of(input = clrp, against = colorpanels, ref.input = "clrp")
+
+  stringr::str_c("clrp", clrp, sep = "_") %>%
+  base::parse(text = .) %>%
+    base::eval()
+
+}
+
+
 #' @title Color palette names
 #' @description Returns all currently valid color panels or -spectra.
 #' @return A named list.
@@ -93,7 +118,7 @@ clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#
 
 all_colorpanels <- function(){
 
-  list("science" = colorpanels)
+  list("ggplot2" = "default", "science" = colorpanels)
 
 }
 
