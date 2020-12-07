@@ -503,7 +503,7 @@ check_directories <- function(directories, ref = "directories", type = "folders"
 #'
 
 
-check_one_of <- function(input, against, ref.input = "input"){
+check_one_of <- function(input, against, ref.input = NULL){
 
   base::is.vector(input)
   base::is.vector(against)
