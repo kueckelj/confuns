@@ -490,7 +490,7 @@ check_directories <- function(directories, ref = "directories", type = "folders"
 #'
 #' @param input An input vector to be checked.
 #' @param against A vector of valid inputs.
-#' @param ref.input The reference input
+#' @param ref.input Character value or NULL. The reference for argument \code{input} input.#'
 #'
 #' @return An error message or an invisible TRUE if all values of input are valid.
 #'
@@ -508,7 +508,15 @@ check_one_of <- function(input, against, ref.input = "input"){
   base::is.vector(input)
   base::is.vector(against)
 
-  is_value(ref.input, "character", "ref.input")
+  if(base::is.null(ref.input)){
+
+    ref.input <- base::substitute(input)
+
+  } else {
+
+    is_value(ref.input, "character", "ref.input")
+
+  }
 
   if(base::any(!input %in% against)){
 
