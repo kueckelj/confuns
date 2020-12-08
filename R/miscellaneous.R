@@ -25,7 +25,6 @@ assign_obj <- function(assign, object, name){
 #' @param fun Character value. One of \emph{'message', 'warning', 'stop'}.
 #'
 #' @return The respective function
-#' @export
 #'
 
 error_handler <- function(fun){
@@ -44,6 +43,44 @@ error_handler <- function(fun){
   } else if(fun == "stop"){
 
     base::stop
+
+  }
+
+}
+
+
+#' @title Adapt glue reference
+#'
+#' @description Switch between plural or singular reference.
+#'
+#' @param input Vector to be checked.
+#' @param sg Character value to return if length of \code{input} is 1.
+#' @param pl Character value to return if length of \code{input} is > 1.
+#' If set to NULL an \emph{'s'} is attached to in put of \code{sg}.
+#' @param zero Character value to treturn if lengt of \code{input} is 0.
+#'
+#' @return Either sg or pl.
+#'
+
+adapt_reference <- function(input, sg, pl = NULL, zero = ""){
+
+  if(base::length(input) == 1){
+
+    base::return(sg)
+
+  } else if(base::length(input) >= 1){
+
+    if(base::is.null(pl)){
+
+      pl <- stringr::str_c(sg, "s", sep = "")
+
+    }
+
+    base::return(pl)
+
+  } else {
+
+    base::return(zero)
 
   }
 

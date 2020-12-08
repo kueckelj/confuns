@@ -4,14 +4,14 @@
 \alias{check_one_of}
 \title{Check valid values}
 \usage{
-check_one_of(input, against, ref.input = "input")
+check_one_of(input, against, ref.input = NULL)
 }
 \arguments{
 \item{input}{An input vector to be checked.}
 
 \item{against}{A vector of valid inputs.}
 
-\item{ref.input}{The reference input}
+\item{ref.input}{Character value or NULL. The reference for argument \code{input} input.#'}
 }
 \value{
 An error message or an invisible TRUE if all values of input are valid.

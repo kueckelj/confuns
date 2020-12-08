@@ -143,7 +143,7 @@ scale_color_add_on <- function(aes = "color",
     # 2. check whether fill or color as aesthetic
     if(aes == "fill"){
 
-      if(clrp == "default"){
+      if(base::all(clrp == "default")){
 
         add_on <- ggplot2::scale_fill_discrete(...)
 
@@ -160,7 +160,7 @@ scale_color_add_on <- function(aes = "color",
 
     } else {
 
-      if(clrp == "default"){
+      if(base::all(clrp == "default")){
 
         add_on <- ggplot2::scale_color_discrete(...)
 

@@ -52,6 +52,26 @@ give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL){
 
 # is - functions ----------------------------------------------------------
 
+
+
+
+
+#' @title List input check
+#'
+#' @param input Object to be checked.
+#'
+#' @return Boolean
+#' @export
+#'
+
+is_list <- function(input){
+
+  base::all(base::is.list(input) && !base::is.data.frame(input))
+
+}
+
+
+
 #' @title One dimensional input check
 #'
 #' @description Checks if input fits the requirements and gives feedback
@@ -548,7 +568,7 @@ check_one_of <- function(input, against, ref.input = NULL){
       stringr::str_c(., "' or '", against[n_against])
 
 
-    base::stop(glue::glue("{ref1} '{invalid_ref}' of {ref.input} {ref2} invalid. Valid input-options are: '{against_ref}'."))
+    base::stop(glue::glue("{ref1} '{invalid_ref}' of input '{ref.input}' {ref2} invalid. Valid input-options are: '{against_ref}'."))
 
   } else {
 
