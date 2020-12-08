@@ -6,7 +6,7 @@
 #'
 #' @param fn.name Character value. Denotes the function to be called.
 #' @param fn.namespace Character value. Denotes the namespace/package from which to call \emph{fn.name}.
-#' @param default_list A named list of arguments that can not be specified by the user.
+#' @param default.list A named list of arguments that can not be specified by the user.
 #' @inherit verbose params
 #' @param value.fail The return value in case the function call results in an error.
 #' @param value.skip The return value in case of \code{fn.name} is specified as FALSE by the user..
@@ -58,7 +58,7 @@
 
 call_flexibly <- function(fn.name,
                           fn.namespace,
-                          default_list = list(),
+                          default.list = list(),
                           verbose = TRUE,
                           value.fail = NULL,
                           value.skip = NULL){
@@ -85,7 +85,7 @@ call_flexibly <- function(fn.name,
     base::eval()
 
   # list of not changeable arguments
-  default_args <- keep_named(input = default_list)
+  default_args <- keep_named(input = default.list)
 
 
   # the specified input that determines how to proceed
@@ -102,7 +102,7 @@ call_flexibly <- function(fn.name,
 
     # vector of argument names in the customizable list
     customized_args <- keep_named(input)
-    names_customized_args <- base::names(input)
+    names_customized_args <- base::names(customized_args)
 
     # vector of argument names in the default list
     names_default_args <- base::names(default_args)
