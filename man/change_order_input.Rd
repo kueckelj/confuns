@@ -2,16 +2,10 @@
 % Please edit documentation in R/pkg-wrapper-shinyjqui.R
 \name{change_order_input}
 \alias{change_order_input}
-\title{Title}
+\title{Change order input}
 \usage{
 change_order_input(ns, id = "change_order", items, item_class = "default", ...)
 }
-\arguments{
-\item{...}{}
-}
-\value{
-
-}
 \description{
-Title
+Change order input
 }

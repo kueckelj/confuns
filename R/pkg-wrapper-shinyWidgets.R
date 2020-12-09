@@ -2,16 +2,6 @@
 
 #' @title Picker inputs
 #'
-#' @param ns
-#' @param id
-#' @param choices
-#' @param selected
-#' @param ...
-#'
-#' @return
-#'
-#' @examples
-#'
 across_picker_input <- function(ns,
                                 id = "across",
                                 choices,

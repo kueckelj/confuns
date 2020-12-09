@@ -3,7 +3,7 @@
 \name{slider_input_alpha}
 \alias{slider_input_alpha}
 \alias{slider_input_size}
-\title{Title}
+\title{Slider inputs}
 \usage{
 slider_input_alpha(ns, id = "pt.alpha")
 
@@ -16,12 +16,6 @@ slider_input_size(
   value = 1.2
 )
 }
-\arguments{
-\item{id}{}
-}
-\value{
-
-}
 \description{
-Title
+Slider inputs
 }

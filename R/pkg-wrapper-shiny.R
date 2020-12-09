@@ -19,13 +19,8 @@ shiny_fdb <- function(in.shiny, ui, type = "message", ...){
 
 
 
-#' Title
-#'
-#' @param ns
-#'
-#' @return
-#'
-#' @examples
+#' @title Plot saving wrapper
+
 plot_and_save <- function(ns){
 
   shiny::tagList(
@@ -49,13 +44,7 @@ hs <- function(width = 3, ..., offset = 0){
 }
 
 
-#' Title
-#'
-#' @param ns
-#' @param id
-#'
-#' @return
-#'
+#' @title Slider inputs
 
 slider_input_alpha <- function(ns, id = "pt.alpha"){
 

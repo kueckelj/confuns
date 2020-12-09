@@ -2,16 +2,10 @@
 % Please edit documentation in R/pkg-wrapper-shiny.R
 \name{plot_and_save}
 \alias{plot_and_save}
-\title{Title}
+\title{Plot saving wrapper}
 \usage{
 plot_and_save(ns)
 }
-\arguments{
-\item{ns}{}
-}
-\value{
-
-}
 \description{
-Title
+Plot saving wrapper
 }

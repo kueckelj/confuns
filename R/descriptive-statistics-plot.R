@@ -4,10 +4,8 @@
 #' @description This function allows for a variety of different plots concerning
 #' descriptive statistics.
 #'
-#' @inherit check_object params
 #' @param variables Character vector. The names of the numeric variables of interest.
 #' @inherit check_across_subset params
-#' @inherit phase_single params
 #' @param plot.type Character value. One of \emph{'histogram', 'ridgeplot', 'boxplot',
 #' 'violinplot'} or \emph{'density'} to visualize the value distribution of those
 #' variables specified via the \code{variables} argument.
@@ -18,8 +16,7 @@
 #' @param binwidth Numeric value. Only relevant if \code{plot_type} is set to \emph{'histogram'}.
 #' @param display.points Logical. If set to TRUE the value distribution of \code{n.cells} is additionally
 #' displayed by points.
-#' @inherit pt.args params
-#' @inherit n.cells params
+#' @param n.obs Numeric value.
 #' @param shape.to Character value. Denotes the discrete variable to which the shape of the
 #' points are mapped. (Ignored if \code{display.points} is set to FALSE.)
 #' @param test.pairwise Character value. One of \emph{'none', 't.test', 'wilcox.test'}.

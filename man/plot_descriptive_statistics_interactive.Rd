@@ -2,16 +2,10 @@
 % Please edit documentation in R/shiny-module-descriptive-statistics.R
 \name{plot_descriptive_statistics_interactive}
 \alias{plot_descriptive_statistics_interactive}
-\title{Title}
+\title{Opens interactive application}
 \usage{
 plot_descriptive_statistics_interactive(df, n.across.subset = 10)
 }
-\arguments{
-\item{n.across.subset}{}
-}
-\value{
-
-}
 \description{
-Title
+Opens interactive application
 }

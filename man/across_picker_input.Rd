@@ -22,15 +22,6 @@ colorpanel_picker_input(ns, id = "pt_clrp")
 
 color_picker_input(ns, id = "pt_color")
 }
-\arguments{
-\item{...}{}
-}
-\value{
-
-}
 \description{
 Picker inputs
-}
-\examples{
-
 }

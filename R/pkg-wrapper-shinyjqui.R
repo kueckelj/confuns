@@ -1,17 +1,7 @@
 
 
-#' Title
-#'
-#' @param ns
-#' @param id
-#' @param items
-#' @param item_class
-#' @param ...
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#' @title Change order input
+
 change_order_input <- function(ns,
                                id = "change_order",
                                items,

@@ -34,6 +34,9 @@ plot_descriptive_statistics(
 across which the variables of interest are to be analyzed or displayed. Valid input
 options can be obtained via \code{getAcrossOptions()}.}
 
+\item{across.subset}{Character vector. The groups of interest that the \code{across}-
+variable contains..}
+
 \item{plot.type}{Character value. One of \emph{'histogram', 'ridgeplot', 'boxplot',
 'violinplot'} or \emph{'density'} to visualize the value distribution of those
 variables specified via the \code{variables} argument.
@@ -49,6 +52,8 @@ specified statistical test can be performed.}
 
 \item{display.points}{Logical. If set to TRUE the value distribution of \code{n.cells} is additionally
 displayed by points.}
+
+\item{n.obs}{Numeric value.}
 
 \item{shape.to}{Character value. Denotes the discrete variable to which the shape of the
 points are mapped. (Ignored if \code{display.points} is set to FALSE.)}

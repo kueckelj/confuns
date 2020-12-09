@@ -8,7 +8,7 @@
 #' across which the variables of interest are to be analyzed or displayed. Valid input
 #' options can be obtained via \code{getAcrossOptions()}.
 #' @param across.subset Character vector. The groups of interest that the \code{across}-
-#' variable contains. }.
+#' variable contains..
 #'
 #' @return A filtered data.frame, informative messages or an error.
 #' @export

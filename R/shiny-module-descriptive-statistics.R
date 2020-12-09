@@ -1,13 +1,8 @@
 
-#' Title
+#' @title Opens interactive application
 #'
-#' @param df
-#' @param n.across.subset
-#'
-#' @return
 #' @export
-#'
-#' @examples
+
 plot_descriptive_statistics_interactive <- function(df, n.across.subset = 10){
 
   shiny::runApp(
@@ -65,9 +60,6 @@ plot_descriptive_statistics_interactive <- function(df, n.across.subset = 10){
 }
 
 
-
-
-
 moduleDescrStatPlotUI <- function(id, module_width = 6, module_headline = "Descriptive Statistics"){
 
   ns <- shiny::NS(id)
@@ -104,6 +96,7 @@ moduleDescrStatPlotUI <- function(id, module_width = 6, module_headline = "Descr
   )
 
 }
+
 
 moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
 

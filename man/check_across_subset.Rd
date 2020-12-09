@@ -12,6 +12,9 @@ check_across_subset(df, across, across.subset)
 \item{across}{Character value. Denotes the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed. Valid input
 options can be obtained via \code{getAcrossOptions()}.}
+
+\item{across.subset}{Character vector. The groups of interest that the \code{across}-
+variable contains..}
 }
 \value{
 A filtered data.frame, informative messages or an error.
