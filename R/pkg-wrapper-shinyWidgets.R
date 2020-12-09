@@ -1,6 +1,6 @@
 
 
-#' @title
+#' @title Picker inputs
 #'
 #' @param ns
 #' @param id
@@ -9,7 +9,6 @@
 #' @param ...
 #'
 #' @return
-#' @export
 #'
 #' @examples
 #'
@@ -28,7 +27,6 @@ across_picker_input <- function(ns,
 }
 
 #' @rdname across_picker_input
-#' @export
 across_subset_picker_input <- function(ns,
                                        id = "across_subset",
                                        choices,
@@ -48,7 +46,6 @@ across_subset_picker_input <- function(ns,
 
 
 #' @rdname across_picker_input
-#' @export
 colorpanel_picker_input <- function(ns, id = "pt_clrp"){
 
   shinyWidgets::pickerInput(inputId = ns(id),
@@ -61,7 +58,6 @@ colorpanel_picker_input <- function(ns, id = "pt_clrp"){
 
 
 #' @rdname across_picker_input
-#' @export
 color_picker_input <- function(ns, id = "pt_color"){
 
   shinyWidgets::pickerInput(

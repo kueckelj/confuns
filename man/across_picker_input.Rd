@@ -5,7 +5,7 @@
 \alias{across_subset_picker_input}
 \alias{colorpanel_picker_input}
 \alias{color_picker_input}
-\title{}
+\title{Picker inputs}
 \usage{
 across_picker_input(ns, id = "across", choices, selected = "condition", ...)
 
@@ -29,7 +29,7 @@ color_picker_input(ns, id = "pt_color")
 
 }
 \description{
-
+Picker inputs
 }
 \examples{
 

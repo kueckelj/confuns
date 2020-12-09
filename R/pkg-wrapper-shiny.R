@@ -24,7 +24,6 @@ shiny_fdb <- function(in.shiny, ui, type = "message", ...){
 #' @param ns
 #'
 #' @return
-#' @export
 #'
 #' @examples
 plot_and_save <- function(ns){
@@ -56,9 +55,7 @@ hs <- function(width = 3, ..., offset = 0){
 #' @param id
 #'
 #' @return
-#' @export
 #'
-#' @examples
 
 slider_input_alpha <- function(ns, id = "pt.alpha"){
 
@@ -75,7 +72,6 @@ slider_input_alpha <- function(ns, id = "pt.alpha"){
 }
 
 #' @rdname slider_input_alpha
-#' @export
 slider_input_size <- function(ns,
                               id = "pt.size",
                               min = 0.1,
