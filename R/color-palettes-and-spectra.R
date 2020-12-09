@@ -118,7 +118,7 @@ color_vector <- function(clrp){
 
 all_colorpanels <- function(){
 
-  list("ggplot2" = "default", "science" = colorpanels)
+  pretty_colorpanels_list
 
 }
 

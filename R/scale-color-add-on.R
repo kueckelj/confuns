@@ -130,7 +130,7 @@ scale_color_add_on <- function(aes = "color",
 
       l <- base::length(clrp)
 
-    } else if(clrp == "default"){
+    } else if(clrp %in% c("default", "greyscale")){
 
       # no panel needed
 
@@ -147,6 +147,10 @@ scale_color_add_on <- function(aes = "color",
 
         add_on <- ggplot2::scale_fill_discrete(...)
 
+      } else if(base::all(clrp == "greyscale")){
+
+        add_on <- ggplot2::scale_fill_grey()
+
       } else if(l > n){
 
         add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
@@ -158,11 +162,15 @@ scale_color_add_on <- function(aes = "color",
 
       }
 
-    } else {
+    } else if(aes == "color"){
 
       if(base::all(clrp == "default")){
 
         add_on <- ggplot2::scale_color_discrete(...)
+
+      } else if(base::all(clrp == "greyscale")){
+
+        add_on <- ggplot2::scale_color_grey()
 
       } else if(l > n){
 

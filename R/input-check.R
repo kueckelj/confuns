@@ -23,14 +23,26 @@ lazy_check_dummy <- function(){}
 #' @param fdb.fn Character value. Determines the function to call if a feedback
 #' message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.
 #' @param msg Character value or glue. The message to be printed in the console.
+#' @param in.shiny Allows to use the function to stop a function without crashing
+#' a shiny session.
 #'
 #' @return
 #' @export
 #'
 
-give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL){
+give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL, in.shiny = FALSE, ...){
 
-  if(!base::is.null(msg)){
+  if(base::isTRUE(in.shiny)){
+
+    shiny_fdb(in.shiny = TRUE, ui = msg)
+
+    if(type == "error"){
+
+      shiny::req(FALSE)
+
+    }
+
+  } else if(!base::is.null(msg)){
 
     if(fdb.fn == "stop"){
 

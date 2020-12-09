@@ -182,7 +182,7 @@ call_flexibly <- function(fn,
 
         error = function(error){
 
-          base::message(glue::glue("Attempting to call function '{fn_with_namespace()}' failed with the following error message: {error} "))
+          base::message(glue::glue("Attempting to call function '{fn_with_namespace}()' failed with the following error message: {error} "))
 
           base::return(v.fail)
 
