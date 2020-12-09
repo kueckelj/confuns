@@ -1,4 +1,13 @@
 
+#' Title
+#'
+#' @param df
+#' @param n.across.subset
+#'
+#' @return
+#' @export
+#'
+#' @examples
 plot_descriptive_statistics_interactive <- function(df, n.across.subset = 10){
 
   shiny::runApp(

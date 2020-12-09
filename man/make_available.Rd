@@ -32,8 +32,8 @@ function in order that all flexible calls find their argument lists.
       make_available(...)
 
       ggplot(data = mtcars, mapping = aes(x = wt, y = hp)) +
-       call_flexibly(fn.name = "geom_point", fn.namespace = "ggplot2") +
-       call_flexibly(fn.name = "theme", fn.namespace = "ggplot2")
+       call_flexibly(fn = "geom_point", fn.ns = "ggplot2") +
+       call_flexibly(fn = "theme", fn.ns = "ggplot2")
 
   }
 

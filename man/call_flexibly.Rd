@@ -5,32 +5,32 @@
 \title{Construct a flexible function call}
 \usage{
 call_flexibly(
-  fn.name,
-  fn.namespace,
-  default_list = list(),
+  fn,
+  fn.ns,
+  default = list(),
   verbose = TRUE,
-  value.fail = NULL,
-  value.skip = NULL
+  v.fail = NULL,
+  v.skip = NULL
 )
 }
 \arguments{
-\item{fn.name}{Character value. Denotes the function to be called.}
+\item{fn}{Character value. Denotes the function to be called.}
 
-\item{fn.namespace}{Character value. Denotes the namespace/package from which to call \emph{fn.name}.}
+\item{fn.ns}{Character value. Denotes the namespace/package from which to call \emph{fn}.}
 
-\item{default_list}{A named list of arguments that can not be specified by the user.}
+\item{default}{A named list of arguments that can not be specified by the user.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 
 (Warning messages will always be printed.)}
 
-\item{value.fail}{The return value in case the function call results in an error.}
+\item{v.fail}{The return value in case the function call results in an error.}
 
-\item{value.skip}{The return value in case of \code{fn.name} is specified as FALSE by the user..}
+\item{v.skip}{The return value in case of \code{fn} is specified as FALSE by the user..}
 }
 \value{
-The return value of \emph{fn.name}.
+The return value of \emph{fn}.
 }
 \description{
 Programming aid: See details for more information on how to use it.
@@ -38,17 +38,17 @@ Programming aid: See details for more information on how to use it.
 \details{
 This function takes two strings as input denoting
 the function to be called and the namespace from which it is to be called. It expects
-an object of the same name as \emph{fn.name} to be in it's calling environment specified with an identically named
+an object of the same name as \emph{fn} to be in it's calling environment specified with an identically named
 argument from the user of the function from which \code{call_flexibly()} is called.
 
 If that object is a list all named elements of that list are considered to be arguments with
-which function \emph{fn.name} is to be called (= specified list). The names of that list are compared to the names
+which function \emph{fn} is to be called (= specified list). The names of that list are compared to the names
 of \code{default_list}. Arguments specified in the default list can not be altered and are discarded from
 the specified list with an informative warning. Subsequently the names of all remaining arguments are compared
 to the valid arguments of the function to be called and discarded if unused arguments appear in order to
 prevent the function call from failing. (This does not happen if the function to be called uses the dot-product '...').
 
-If that object is a single TRUE the \code{fn.name} is called with \code{default_list} as input.
+If that object is a single TRUE the \code{fn} is called with \code{default_list} as input.
 
 If that object is anything else the function call is skipped.
 }
@@ -57,18 +57,18 @@ If that object is anything else the function call is skipped.
 
  example_fun <- function(plot, runif){
 
-   call_flexibly(fn.name = "plot",
-                 fn.namespace = "base",
+   call_flexibly(fn = "plot",
+                 fn.ns = "base",
                  default_list = list(x = 1:10),
-                 value.fail = "This failed.",
-                 value.skip = "Okey, I skip that."
+                 v.fail = "This failed.",
+                 v.skip = "Okey, I skip that."
                  )
 
-   call_flexibly(fn.name = "runif",
-                 fn.namespace = "stats",
+   call_flexibly(fn = "runif",
+                 fn.ns = "stats",
                  default_list = list(n = 100),
-                 value.fail = "This failed.",
-                 value.skip = 1:100)
+                 v.fail = "This failed.",
+                 v.skip = 1:100)
 
  }
 

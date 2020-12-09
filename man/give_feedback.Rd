@@ -4,13 +4,21 @@
 \alias{give_feedback}
 \title{Print feedback in console}
 \usage{
-give_feedback(fdb.fn = c("stop", "warning", "message"), msg = NULL)
+give_feedback(
+  fdb.fn = c("stop", "warning", "message"),
+  msg = NULL,
+  in.shiny = FALSE,
+  ...
+)
 }
 \arguments{
 \item{fdb.fn}{Character value. Determines the function to call if a feedback
 message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
 
 \item{msg}{Character value or glue. The message to be printed in the console.}
+
+\item{in.shiny}{Allows to use the function to stop a function without crashing
+a shiny session.}
 }
 \value{
 
