@@ -307,8 +307,6 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
 
       module_plot <- shiny::eventReactive(input$update_plot, {
 
-        print(input$shape.to)
-
         plot_descriptive_statistics(
           df = input_df(),
           variables = input$variables,
