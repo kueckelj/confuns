@@ -130,8 +130,8 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
 
         shinyWidgets::pickerInput(inputId = ns("variables"),
                                   label = "Include Variables:",
-                                  choices = variables,
-                                  selected = variables,
+                                  choices = num_variables,
+                                  selected = num_variables,
                                   options = list(`actions-box`= TRUE),
                                   multiple = TRUE)
 
