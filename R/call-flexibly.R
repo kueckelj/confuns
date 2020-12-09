@@ -4,28 +4,28 @@
 #'
 #' @description Programming aid: See details for more information on how to use it.
 #'
-#' @param fn.name Character value. Denotes the function to be called.
-#' @param fn.namespace Character value. Denotes the namespace/package from which to call \emph{fn.name}.
-#' @param default.list A named list of arguments that can not be specified by the user.
+#' @param fn Character value. Denotes the function to be called.
+#' @param fn.ns Character value. Denotes the namespace/package from which to call \emph{fn}.
+#' @param default A named list of arguments that can not be specified by the user.
 #' @inherit verbose params
-#' @param value.fail The return value in case the function call results in an error.
-#' @param value.skip The return value in case of \code{fn.name} is specified as FALSE by the user..
+#' @param v.fail The return value in case the function call results in an error.
+#' @param v.skip The return value in case of \code{fn} is specified as FALSE by the user..
 #'
-#' @return The return value of \emph{fn.name}.
+#' @return The return value of \emph{fn}.
 #'
 #' @details This function takes two strings as input denoting
 #' the function to be called and the namespace from which it is to be called. It expects
-#' an object of the same name as \emph{fn.name} to be in it's calling environment specified with an identically named
+#' an object of the same name as \emph{fn} to be in it's calling environment specified with an identically named
 #' argument from the user of the function from which \code{call_flexibly()} is called.
 #'
 #' If that object is a list all named elements of that list are considered to be arguments with
-#' which function \emph{fn.name} is to be called (= specified list). The names of that list are compared to the names
+#' which function \emph{fn} is to be called (= specified list). The names of that list are compared to the names
 #' of \code{default_list}. Arguments specified in the default list can not be altered and are discarded from
 #' the specified list with an informative warning. Subsequently the names of all remaining arguments are compared
 #' to the valid arguments of the function to be called and discarded if unused arguments appear in order to
 #' prevent the function call from failing. (This does not happen if the function to be called uses the dot-product '...').
 #'
-#' If that object is a single TRUE the \code{fn.name} is called with \code{default_list} as input.
+#' If that object is a single TRUE the \code{fn} is called with \code{default_list} as input.
 #'
 #' If that object is anything else the function call is skipped.
 #'
@@ -35,18 +35,18 @@
 #'
 #'  example_fun <- function(plot, runif){
 #'
-#'    call_flexibly(fn.name = "plot",
-#'                  fn.namespace = "base",
+#'    call_flexibly(fn = "plot",
+#'                  fn.ns = "base",
 #'                  default_list = list(x = 1:10),
-#'                  value.fail = "This failed.",
-#'                  value.skip = "Okey, I skip that."
+#'                  v.fail = "This failed.",
+#'                  v.skip = "Okey, I skip that."
 #'                  )
 #'
-#'    call_flexibly(fn.name = "runif",
-#'                  fn.namespace = "stats",
+#'    call_flexibly(fn = "runif",
+#'                  fn.ns = "stats",
 #'                  default_list = list(n = 100),
-#'                  value.fail = "This failed.",
-#'                  value.skip = 1:100)
+#'                  v.fail = "This failed.",
+#'                  v.skip = 1:100)
 #'
 #'  }
 #'
@@ -56,25 +56,25 @@
 #'  example_fun(plot = list(y = 1:10, cex = 5, col = "red"), runif = list(max = 100, min = 1))
 #'
 
-call_flexibly <- function(fn.name,
-                          fn.namespace,
-                          default.list = list(),
+call_flexibly <- function(fn,
+                          fn.ns,
+                          default = list(),
                           verbose = TRUE,
-                          value.fail = NULL,
-                          value.skip = NULL){
+                          v.fail = NULL,
+                          v.skip = NULL){
 
   # check input
-  are_values("fn.name", "fn.namespace", mode = "character")
+  are_values("fn", "fn.ns", mode = "character")
 
   # check if namespace was specified
-  if(fn.namespace != ""){
+  if(fn.ns != ""){
 
     fn_with_namespace <-
-      stringr::str_c( fn.namespace, fn.name, sep = "::")
+      stringr::str_c( fn.ns, fn, sep = "::")
 
   } else {
 
-    fn_with_namespace <- fn.name
+    fn_with_namespace <- fn
 
   }
 
@@ -85,15 +85,17 @@ call_flexibly <- function(fn.name,
     base::eval()
 
   # list of not changeable arguments
-  default_args <- keep_named(input = default.list)
+  default_args <- keep_named(input = default)
+
+
+  # the environment from which call_flexibly is called
+  caller_environment <- rlang::caller_env()
 
 
   # the specified input that determines how to proceed
-  ce <- rlang::caller_env()
-
   input <-
-    base::parse(text = fn.name) %>%
-    base::eval(envir = ce)
+    base::parse(text = fn) %>%
+    base::eval(envir = caller_environment)
 
 
   # ----- Option 1: if a list was specified with arguments
@@ -163,7 +165,7 @@ call_flexibly <- function(fn.name,
 
         base::message(glue::glue("Attempting to call function '{fn_with_namespace}()' with specified parameters failed with the following error message: {error} "))
 
-        base::return(value.fail)
+        base::return(v.fail)
 
       }
 
@@ -182,7 +184,7 @@ call_flexibly <- function(fn.name,
 
           base::message(glue::glue("Attempting to call function '{fn_with_namespace()}' failed with the following error message: {error} "))
 
-          base::return(value.fail)
+          base::return(v.fail)
 
         }
 
@@ -193,7 +195,7 @@ call_flexibly <- function(fn.name,
 
     if(base::isTRUE(verbose)){ base::message(glue::glue("Skipping function '{fn_with_namespace}()'."))}
 
-    result <- value.skip
+    result <- v.skip
 
   }
 
@@ -224,8 +226,8 @@ call_flexibly <- function(fn.name,
 #'       make_available(...)
 #'
 #'       ggplot(data = mtcars, mapping = aes(x = wt, y = hp)) +
-#'        call_flexibly(fn.name = "geom_point", fn.namespace = "ggplot2") +
-#'        call_flexibly(fn.name = "theme", fn.namespace = "ggplot2")
+#'        call_flexibly(fn = "geom_point", fn.ns = "ggplot2") +
+#'        call_flexibly(fn = "theme", fn.ns = "ggplot2")
 #'
 #'   }
 #'
@@ -243,13 +245,13 @@ make_available <- function(..., verbose = TRUE){
     purrr::keep(.p = is_list) %>%
     purrr::keep(.p = is_named)
 
-  ce <- rlang::caller_env()
+  caller_environment <- rlang::caller_env()
 
   purrr::imap(.x = named_list,
-              caller_environment = ce,
-              .f = function(fn.list, fn.name, caller_environment){
+              caller_environment = caller_environment,
+              .f = function(fn.list, fn, caller_environment){
 
-                base::assign(x = fn.name,
+                base::assign(x = fn,
                              value = fn.list,
                              envir = caller_environment)
 
