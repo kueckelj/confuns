@@ -367,3 +367,113 @@ plot_descriptive_statistics <- function(df,
     jitter_add_on
 
 }
+
+
+
+#' Title
+#'
+#' @param df
+#' @param variables
+#' @param across
+#' @param clrp
+#' @param position
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+#' @examples
+plot_categorical_statistics <- function(df,
+                                        variables,
+                                        across,
+                                        across.subset = NULL,
+                                        clrp = "milo",
+                                        position = "fill",
+                                        ...){
+
+
+  # 1. Control --------------------------------------------------------------
+
+
+  # ----
+
+
+  # 2. Additional checks and data extraction -----------------------------------
+
+  plot_df <-
+    tidyr::pivot_longer(data = df,
+                        cols = dplyr::all_of(variables),
+                        names_to = "variables",
+                        values_to = "values")
+
+  plot_df <-
+    check_across_subset(df = plot_df, across = across, across.subset = across.subset)
+
+  if(base::is.character(across)){
+
+    all_variables <- c(variables, across)
+
+    facet_add_on <-
+      ggplot2::facet_wrap(facets = . ~ variables, scales = "free_x", ...)
+
+    fill <- across
+
+    theme_add_on <- list()
+
+  } else {
+
+    all_variables <- variables
+
+    facet_add_on <-
+      ggplot2::facet_wrap(facets = . ~ variables, scales = "free_x", ...)
+
+    if(base::length(all_variables) > 1){
+
+      fill = "variables"
+
+    } else {
+
+      fill = "values"
+
+    }
+
+    theme_add_on <- list(ggplot2::theme(legend.position = "none"))
+
+    if(position == "fill" & base::length(all_variables) > 1){
+
+      position <- "stack"
+
+      base::warning("Argument 'across' is NULL. Using 'stack' for argument 'position'.")
+
+    }
+
+  }
+
+  if(position == "fill"){
+
+    scale_y_add_on <-
+      list(
+        ggplot2::scale_y_continuous(labels = c(25, 50, 75, 100), breaks = c(0.25, 0.5, 0.75, 1)),
+        ggplot2::labs(y = "Percentage")
+        )
+
+  } else {
+
+    scale_y_add_on <- ggplot2::labs(y = "Count")
+
+  }
+
+  # ----
+
+  ggplot2::ggplot(data = plot_df) +
+    ggplot2::geom_bar(position = position, color = "black",
+                      mapping = ggplot2::aes(x = values, fill = .data[[fill]])) +
+    facet_add_on +
+    confuns::scale_color_add_on(aes = "fill", variable = "discrete", clrp = clrp) +
+    ggplot2::theme_classic() +
+    theme_add_on +
+    ggplot2::theme(strip.background = ggplot2::element_blank()) +
+    ggplot2::labs(x = "Groups / Clusters") +
+    scale_y_add_on
+
+}

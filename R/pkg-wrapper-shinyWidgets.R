@@ -33,8 +33,6 @@ across_subset_picker_input <- function(ns,
 }
 
 
-
-
 #' @rdname across_picker_input
 colorpanel_picker_input <- function(ns, id = "pt_clrp"){
 
@@ -56,6 +54,31 @@ color_picker_input <- function(ns, id = "pt_color"){
     choices = grDevices::colors(),
     selected = "black"
   )
+
+}
+
+#' @rdname across_picker_input
+bar_position_picker_input <- function(ns, id = "bar_position", selected = "fill", ...){
+
+  shinyWidgets::pickerInput(inputId = ns(id),
+                            label = "Bar Position:",
+                            choices = pretty_bar_positions,
+                            selected = selected,
+                            ...)
+
+}
+
+
+#' @rdname across_picker_input
+
+include_variables_picker_input <- function(ns, id = "variables", choices, selected, options = list()){
+
+  shinyWidgets::pickerInput(inputId = ns(id),
+                            label = "Include Variables:",
+                            choices = choices,
+                            selected = selected,
+                            options = base::append(list(`actions-box`= TRUE), values = options),
+                            multiple = TRUE)
 
 }
 

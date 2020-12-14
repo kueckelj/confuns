@@ -1,66 +1,4 @@
-
-#' @title Opens interactive application
-#'
-#' @export
-
-plot_descriptive_statistics_interactive <- function(df, n.across.subset = 10){
-
-  shiny::runApp(
-    shiny::shinyApp(
-      ui = function(){
-        shinydashboard::dashboardPage(
-
-          header = shinydashboard::dashboardHeader(title = "Descriptive Statistics"),
-
-          sidebar = shinydashboard::dashboardSidebar(
-            collapsed = TRUE,
-            shinydashboard::sidebarMenu(
-              shinydashboard::menuItem(
-                text = "Descriptive Statistisc",
-                tabName = "descr_statistics",
-                selected = TRUE
-              )
-            )
-          ),
-
-          body = shinydashboard::dashboardBody(
-
-            shinybusy::add_busy_spinner(spin = "cube-grid", margins = c(0, 10), color = "red"),
-
-            shinydashboard::tabItems(
-
-              shinydashboard::tabItem(tabName = "descr_statistics",
-
-                                      moduleDescrStatPlotUI(id = "ds")
-
-                                      )
-
-            )
-
-          )
-
-        )
-
-      },
-      server = function(input, output, session){
-
-        # shiny helper
-        shinyhelper::observe_helpers()
-
-        moduleDescrStatPlotServer(id = "ds",
-                                  df = df,
-                                  n.across.subset = n.across.subset)
-
-      }
-
-    )
-  )
-
-
-}
-
-
-moduleDescrStatPlotUI <- function(id, module_width = 6, module_headline = "Descriptive Statistics"){
+moduleDescriptiveStatisticsPlotUI <- function(id, module_width = 6, module_headline = "Descriptive Statistics"){
 
   ns <- shiny::NS(id)
 
@@ -71,16 +9,16 @@ moduleDescrStatPlotUI <- function(id, module_width = 6, module_headline = "Descr
                       shiny::column(width = 12,
                                     shiny::h4(shiny::strong(module_headline)),
                                     shiny::plotOutput(outputId = ns("module_plot")),
-                                    shiny::HTML("<br>"),
+                                    html_breaks(1),
                                     plot_and_save(ns = ns),
-                                    shiny::HTML("<br>"),
+                                    html_breaks(1),
                                     shiny::fluidRow(
                                       hs(4,shiny::uiOutput(outputId = ns("change_order")))
                                     ),
-                                    shiny::HTML("<br><br>"),
+                                    html_breaks(2),
                                     shiny::fluidRow(
                                       hs(4,shiny::uiOutput(outputId = ns("across"))),
-                                      hs(4,shiny::uiOutput(outputId = ns("across_subset"))),
+                                      hs(4,shiny::uiOutput(outputId = ns("across.subset"))),
                                       hs(4,shiny::uiOutput(outputId = ns("variables"))),
                                     ),
                                     shiny::fluidRow(
@@ -98,12 +36,11 @@ moduleDescrStatPlotUI <- function(id, module_width = 6, module_headline = "Descr
 }
 
 
-moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
+moduleDescriptiveStatisticsPlotServer <- function(id, df, n.across.subset = 10){
 
   shiny::moduleServer(
     id = id,
     module = function(input, output, session){
-
 
       # Reactive values ---------------------------------------------------------
 
@@ -121,12 +58,10 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
           dplyr::select_if(input_df(), .predicate = base::is.numeric) %>%
           base::colnames()
 
-        shinyWidgets::pickerInput(inputId = ns("variables"),
-                                  label = "Include Variables:",
-                                  choices = num_variables,
-                                  selected = num_variables,
-                                  options = list(`actions-box`= TRUE),
-                                  multiple = TRUE)
+        include_variables_picker_input(ns = ns,
+                                       id = "variables",
+                                       choices = num_variables,
+                                       selected = num_variables)
 
       })
 
@@ -143,7 +78,7 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
 
       })
 
-      output$across_subset <- shiny::renderUI({
+      output$across.subset <- shiny::renderUI({
 
         ns <- session$ns
 
@@ -153,6 +88,7 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
           across_subset_options(df = input_df(), across = input$across)
 
         across_subset_picker_input(ns = ns,
+                                   id = "across.subset",
                                    choices = across_subset_options,
                                    selected = across_subset_options)
 
@@ -171,9 +107,9 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
 
         ns <- session$ns
 
-        shiny::req(input$across_subset)
+        shiny::req(input$across.subset)
 
-        change_order_input(ns = ns, items = input$across_subset)
+        change_order_input(ns = ns, items = input$across.subset)
 
       })
 
@@ -205,19 +141,19 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
 
             hs(2,
                shinyWidgets::radioGroupButtons(
-                                          inputId = ns("display.points"),
-                                          label = "Display Points:",
-                                          choices = c("Yes" = "yes", "No" = "no"),
-                                          selected = "no"
-                                          )
-              ),
+                 inputId = ns("display.points"),
+                 label = "Display Points:",
+                 choices = c("Yes" = "yes", "No" = "no"),
+                 selected = "no"
+               )
+            ),
             hs(2,
                shinyWidgets::pickerInput(
                  inputId = ns("shape.to"),
                  label = "Shape to:",
                  choices = c("None" = "none", across_groups),
                  selected = "none")
-               ),
+            ),
             hs(2, color_picker_input(ns = ns, id = "pt.color")),
             hs(3, slider_input_alpha(ns = ns, id = "pt.alpha")),
             hs(3, slider_input_size(ns = ns, id = "pt.size")),
@@ -244,7 +180,7 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
 
         shiny::validate(
           shiny::need(
-            expr = base::length(input$across_subset) > 1,
+            expr = base::length(input$across.subset) > 1,
             message = "At least two groups are needed to perform statistical tests."
           )
         )
@@ -270,7 +206,7 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
                shinyWidgets::pickerInput(
                  inputId = ns("ref.group"),
                  label = "Reference Group:",
-                 choices = input$across_subset,
+                 choices = input$across.subset,
                  multiple = FALSE)
             )
           ),
@@ -317,7 +253,7 @@ moduleDescrStatPlotServer <- function(id, df, n.across.subset = 10){
           clrp = input$clrp,
           display.points = base::ifelse(input$display.points == "yes", TRUE, FALSE),
           pt.size = input$pt.size,
-          pt.alpha = input$pt.alpha,
+          pt.alpha = (1 - input$pt.alpha),
           pt.color = input$pt.color,
           shape.to = input$shape.to,
           n.obs = 100,

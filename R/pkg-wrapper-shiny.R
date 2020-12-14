@@ -50,11 +50,11 @@ slider_input_alpha <- function(ns, id = "pt.alpha"){
 
   shiny::sliderInput(
     inputId = ns(id),
-    label = "Transperancy:",
+    label = "Transparency:",
     min = 0.01,
     max = 1,
     step = 0.01,
-    value = 0.9
+    value = 0.1
   )
 
 
@@ -78,6 +78,20 @@ slider_input_size <- function(ns,
   )
 
 }
+
+
+#' Title
+#'
+#' @param n
+#'
+#' @return
+
+html_breaks <- function(n){
+
+  shiny::HTML(text = base::rep("<br>", n) %>% stringr::str_c(collapse = ""))
+
+}
+
 
 
 

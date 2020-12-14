@@ -1,5 +1,11 @@
 
 
+# Argument inputs ---------------------------------------------------------
+
+pretty_bar_positions <- c("Stacked" = "stack", "Dodged" = "dodge", "Filled" = "fill")
+
+
+
 # Descriptive statistics --------------------------------------------------
 
 testable_plottypes <- c("boxplot", "violinplot")
