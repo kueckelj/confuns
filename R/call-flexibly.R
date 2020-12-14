@@ -93,10 +93,15 @@ call_flexibly <- function(fn,
 
 
   # the specified input that determines how to proceed
-  input <-
-    base::parse(text = fn) %>%
-    base::eval(envir = caller_environment)
 
+  input <- base::tryCatch(
+
+    base::parse(text = fn) %>%
+    base::eval(envir = caller_environment),
+
+    error = function(error){ base::return(list())}
+
+  )
 
   # ----- Option 1: if a list was specified with arguments
 
