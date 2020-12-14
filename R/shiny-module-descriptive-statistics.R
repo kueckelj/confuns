@@ -61,7 +61,7 @@ moduleDescriptiveStatisticsPlotServer <- function(id, df, n.across.subset = 10){
         include_variables_picker_input(ns = ns,
                                        id = "variables",
                                        choices = num_variables,
-                                       selected = num_variables)
+                                       selected = num_variables[1])
 
       })
 

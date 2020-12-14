@@ -100,7 +100,7 @@ moduleCategoricalStatisticsPlotServer <- function(id, df, n.across.subset){
         include_variables_picker_input(ns = ns,
                                        id = "categorical_variables",
                                        choices = ctg_variables,
-                                       selected = ctg_variables)
+                                       selected = ctg_variables[1])
 
       })
 
