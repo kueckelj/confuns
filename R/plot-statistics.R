@@ -1,6 +1,8 @@
 
 #' @title Opens interactive application
 #'
+#' @inherit df params
+#'
 #' @export
 
 plot_statistics <- function(df, n.across.subset = 10){

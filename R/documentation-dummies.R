@@ -26,3 +26,10 @@ normalize_dummy <- function(){
 ggplot2_dummy <- function(){
 
 }
+
+
+#' @title normal df_dummy
+#'
+#' @param df A data.frame.
+#'
+df <- function(df){}

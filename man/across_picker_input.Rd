@@ -5,6 +5,8 @@
 \alias{across_subset_picker_input}
 \alias{colorpanel_picker_input}
 \alias{color_picker_input}
+\alias{bar_position_picker_input}
+\alias{include_variables_picker_input}
 \title{Picker inputs}
 \usage{
 across_picker_input(ns, id = "across", choices, selected = "condition", ...)
@@ -21,6 +23,16 @@ across_subset_picker_input(
 colorpanel_picker_input(ns, id = "pt_clrp")
 
 color_picker_input(ns, id = "pt_color")
+
+bar_position_picker_input(ns, id = "bar_position", selected = "fill", ...)
+
+include_variables_picker_input(
+  ns,
+  id = "variables",
+  choices,
+  selected,
+  options = list()
+)
 }
 \description{
 Picker inputs

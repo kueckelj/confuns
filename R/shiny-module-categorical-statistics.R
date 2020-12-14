@@ -34,7 +34,6 @@ moduleCategoricalStatisticsPlotUI <- function(id, module_width = 6, module_headl
 }
 
 
-
 moduleCategoricalStatisticsPlotServer <- function(id, df, n.across.subset){
 
   shiny::moduleServer(
