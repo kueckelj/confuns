@@ -580,7 +580,7 @@ check_one_of <- function(input, against, ref.input = NULL){
       stringr::str_c(., "' or '", against[n_against])
 
 
-    base::stop(glue::glue("{ref1} '{invalid_ref}' of input '{ref.input}' {ref2} invalid. Valid input-options are: '{against_ref}'."))
+    base::stop(glue::glue("{ref1} '{invalid_ref}' of '{ref.input}' {ref2} invalid. Valid input-options are: '{against_ref}'."))
 
   } else {
 
