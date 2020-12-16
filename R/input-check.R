@@ -603,21 +603,29 @@ check_one_of <- function(input, against, ref.input = NULL){
 #' @inherit verbose params
 #' @param ref.input The reference character value for input.
 #' @param ref.against The reference character value for against.
+#' @param ... Additional arguments given to \code{give_feedback()}.
 #'
 #' @return An informative error message about which elements of \code{input} were found in \code{against} or an invisible TRUE.
+#'
+#' @details Feedback message is constructed via:
+#'
+#'   glue::glue("Of {ref.input} did not find '{missing}' in {ref.against}."),
+#'
+#'   glue::glue("Did not find any element of {ref.input} in {ref.against}.")
+#'
 #' @export
 #'
 
 check_vector <- function(input,
                          against,
                          verbose = TRUE,
+                         fdb.fn = "message",
                          ref.input = "input vector",
-                         ref.against = "against vector"){
+                         ref.against = "against vector",
+                         ...){
 
-  base::stopifnot(is.vector(input) & is.vector(against))
-  base::stopifnot(class(input) == class(against))
-  is_value(ref.input, "character", "ref.input")
-  is_value(ref.against, "character", "ref.against")
+  base::stopifnot(base::is.vector(input) & base::is.vector(against))
+  base::stopifnot(base::class(input) == base::class(against))
 
   found <- against[against %in% input]
   missing <- input[!input %in% against]
@@ -636,7 +644,13 @@ check_vector <- function(input,
 
     if(base::isTRUE(verbose) && base::length(missing) != 0){
 
-      base::message(glue::glue("Of {ref.input} did not find '{missing}' in {ref.against}."))
+      msg <- glue::glue("Of {ref.input} did not find '{missing}' in {ref.against}.")
+
+      give_feedback(
+        fdb.fn = fdb.fn,
+        msg = msg,
+        ...
+      )
 
     }
 

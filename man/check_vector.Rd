@@ -33,3 +33,10 @@ An informative error message about which elements of \code{input} were found in 
 Compares the values of an input-vector against a control-vector containing
 valid values and returns the values of input that were found among the valid ones.
 }
+\details{
+Feedback message is constructed via:
+
+  glue::glue("Of {ref.input} did not find '{missing}' in {ref.against}."),
+
+  glue::glue("Did not find any element of {ref.input} in {ref.against}.")
+}

@@ -14,7 +14,7 @@
 #' @export
 #'
 
-check_across_subset <- function(df, across, across.subset){
+check_across_subset <- function(df, across, across.subset, fdb.fn = "warning"){
 
   if(base::is.null(across.subset)){
 
@@ -33,6 +33,12 @@ check_across_subset <- function(df, across, across.subset){
       against_input <- base::unique(df[[across]])
 
     }
+
+    across.subset <- check_vector(input = across.subset,
+                                  against = against_input,
+                                  fdb.fn = fdb.fn,
+                                  ref.input = glue::glue("input to subset '{across}'-groups"),
+                                  ref.against = glue::glue("valid options."))
 
     df <- dplyr::filter(.data = df, !!rlang::sym(across) %in% {{across.subset}})
 
