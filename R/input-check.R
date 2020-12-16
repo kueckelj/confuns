@@ -654,7 +654,7 @@ check_vector <- function(input,
 
     }
 
-    return(found)
+    return(input[input %in% found])
 
   }
 

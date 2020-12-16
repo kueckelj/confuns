@@ -38,7 +38,7 @@ check_across_subset <- function(df, across, across.subset, fdb.fn = "warning"){
                                   against = against_input,
                                   fdb.fn = fdb.fn,
                                   ref.input = glue::glue("input to subset '{across}'-groups"),
-                                  ref.against = glue::glue("valid options."))
+                                  ref.against = glue::glue("valid options"))
 
     df <- dplyr::filter(.data = df, !!rlang::sym(across) %in% {{across.subset}})
 
