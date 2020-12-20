@@ -116,19 +116,28 @@ scale_color_add_on <- function(aes = "color",
   } else if(!base::is.numeric(variable) |
             base::all(variable == "discrete")){
 
-    n <- base::unique(variable) %>% base::length()
+    n_groups <- dplyr::n_distinct(variable)
+    n_colors <- -Inf
+
+    # if variable is a factor make sure to name the colors
+    if(base::is.factor(variable)){
+
+      names <- base::levels(variable)
+
+    } else {
+
+      names <- NULL
+
+    }
 
     # 1. determine colors
     if(clrp %in% colorpanels){
 
       clrp_name <- clrp
 
-      clrp <-
-        stringr::str_c("clrp_", clrp, sep = "") %>%
-        base::parse(text = .) %>%
-        base::eval()
+      clrp <- color_vector(clrp = clrp, names = names)
 
-      l <- base::length(clrp)
+      n_colors <- base::length(clrp)
 
     } else if(clrp %in% c("default", "greyscale")){
 
@@ -143,7 +152,11 @@ scale_color_add_on <- function(aes = "color",
     # 2. check whether fill or color as aesthetic
     if(aes == "fill"){
 
-      if(base::all(clrp == "default")){
+      if(n_colors >= n_groups){
+
+        add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
+
+      } else if(base::all(clrp == "default")){
 
         add_on <- ggplot2::scale_fill_discrete(...)
 
@@ -151,20 +164,20 @@ scale_color_add_on <- function(aes = "color",
 
         add_on <- ggplot2::scale_fill_grey()
 
-      } else if(l > n){
-
-        add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
-
       } else {
 
-        base::message(glue::glue("Color panel '{clrp_name}' contains only {l} values. Need {n}. Using default color clrp."))
+        base::message(glue::glue("Color panel '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
         add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
 
       }
 
     } else if(aes == "color"){
 
-      if(base::all(clrp == "default")){
+      if(n_colors >= n_groups){
+
+        add_on <- ggplot2::scale_color_manual(values = clrp, ...)
+
+      } else if(base::all(clrp == "default")){
 
         add_on <- ggplot2::scale_color_discrete(...)
 
@@ -172,14 +185,10 @@ scale_color_add_on <- function(aes = "color",
 
         add_on <- ggplot2::scale_color_grey()
 
-      } else if(l > n){
-
-        add_on <- ggplot2::scale_color_manual(values = clrp, ...)
-
       } else {
 
-        base::message(glue::glue("Color panel '{clrp_name}' contains only {l} values. Need {n}. Using default color panel."))
-        add_on <- ggplot2::scale_color_discrete(...)
+        base::message(glue::glue("Color panel '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
+        add_on <- ggplot2::scale_color_manual(values = clrp, ...)
 
       }
 

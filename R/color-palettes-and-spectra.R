@@ -98,15 +98,38 @@ clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#
 #' @export
 #'
 
-color_vector <- function(clrp){
+color_vector <- function(clrp, names = NULL){
 
   is_value(x = clrp, mode = "character")
 
-  check_one_of(input = clrp, against = colorpanels, ref.input = "clrp")
+  check_one_of(input = clrp, against = c("default", colorpanels), ref.input = "clrp")
 
-  stringr::str_c("clrp", clrp, sep = "_") %>%
-  base::parse(text = .) %>%
+  clr_vector <-
+    stringr::str_c("clrp", clrp, sep = "_") %>%
+    base::parse(text = .) %>%
     base::eval()
+
+  # name the vector if names is specified as a character
+  if(base::is.character(names)){
+
+    n_names <- base::length(names)
+    n_colors <- base::length(clr_vector)
+
+    if(n_names > n_colors){
+
+      base::warning(glue::glue("Chosen colorpanel '{clrp}' provides {n_colors} colors. Need {n_names} colors. Returning 'default' colorpanel."))
+
+      hues <- base::seq(15, 375, length = n_names + 1)
+      clr_vector <- grDevices::hcl(h = hues, l = 65, c = 100)[1:n_names]
+
+    }
+
+    clr_vector <-
+      stats::setNames(object = clr_vector[1:n_names], nm = names)
+
+  }
+
+  base::return(clr_vector)
 
 }
 
