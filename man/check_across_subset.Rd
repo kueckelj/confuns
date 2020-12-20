@@ -4,7 +4,7 @@
 \alias{check_across_subset}
 \title{Subset the across-variables}
 \usage{
-check_across_subset(df, across, across.subset)
+check_across_subset(df, across, across.subset, fdb.fn = "warning")
 }
 \arguments{
 \item{df}{A data.frame that contains the variable specified in \code{across}.}

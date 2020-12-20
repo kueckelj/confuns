@@ -14,9 +14,6 @@ plot_categorical_statistics(
   ...
 )
 }
-\arguments{
-\item{...}{}
-}
 \value{
 
 }

@@ -372,12 +372,7 @@ plot_descriptive_statistics <- function(df,
 
 #' Title
 #'
-#' @param df
-#' @param variables
-#' @param across
-#' @param clrp
-#' @param position
-#' @param ...
+
 #'
 #' @return
 #' @export

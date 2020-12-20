@@ -102,6 +102,10 @@ is_list <- function(input){
 #' two are ignored.
 #' @param min.length,max.length Numeric value. Denotes that the vector has to be
 #' of certain mininmal and/or maximal length.
+#' @param skip.allow Logical. Allows the function to be skipped if \code{x} is equal
+#' to \code{skip.val}.
+#' @param skip.val The value that \code{x} needs to be equal to in order for the check
+#' to be skipped.
 #' @inherit give_feedback params
 #'
 #' @return An invisible TRUE or an informative error message.
@@ -119,25 +123,38 @@ is_list <- function(input){
 #'
 #'
 
-is_value <- function(x, mode, ref = NULL, fdb.fn = "stop"){
+is_value <- function(x,
+                     mode,
+                     ref = NULL,
+                     fdb.fn = "stop",
+                     skip.allow = FALSE,
+                     skip.val = NULL){
 
-  if(base::is.null(ref)){ ref <- base::substitute(x)}
+  if(base::isTRUE(skip.allow) && base::identical(x, skip.val)){
 
-  msg <- NULL
+    base::invisible(TRUE)
 
-  if(!base::length(x) == 1 ||
-     !base::is.vector(x, mode = mode)){
+  } else {
 
-    msg <- glue::glue("Input '{ref}' must be a {mode} value.")
+    if(base::is.null(ref)){ ref <- base::substitute(x)}
+
+    msg <- NULL
+
+    if(!base::length(x) == 1 ||
+       !base::is.vector(x, mode = mode)){
+
+      msg <- glue::glue("Input '{ref}' must be a {mode} value.")
+
+    }
+
+    give_feedback(fdb.fn = fdb.fn, msg = msg)
+
+    return_value <-
+      base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
+
+    base::invisible(return_value)
 
   }
-
-  give_feedback(fdb.fn = fdb.fn, msg = msg)
-
-  return_value <-
-    base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
-
-  base::invisible(return_value)
 
 }
 
@@ -149,92 +166,106 @@ is_vec <- function(x,
                    of.length = NULL,
                    min.length = NULL,
                    max.length = NULL,
-                   fdb.fn = "stop"){
+                   fdb.fn = "stop",
+                   skip.allow = FALSE,
+                   skip.val = NULL){
 
-  # refer to input in feedback
-  if(base::is.null(ref)){ ref <- base::substitute(x) }
+  if(base::isTRUE(skip.allow) && base::identical(x, skip.val)){
 
-  # default if all requirements are satisfied
-  msg <- NULL
-
-  # logical value indicating if the length is to be checked
-  length_requirements_given <-
-    base::any(c(!base::is.null(min.length), !base::is.null(max.length), !base::is.null(of.length)))
-
-  # check requirements and prepare feedback
-  if(base::isTRUE(length_requirements_given)){
-
-    if(!base::is.null(of.length)){
-
-      ref_length <- stringr::str_c(" of length ", of.length, sep = "")
-
-    } else {
-
-      ref_min_length <-
-        base::ifelse(test = base::is.null(min.length),
-                     yes = "",
-                     no = stringr::str_c(" of min. length ", min.length, sep = "")
-        )
-
-      ref_max_length <-
-        base::ifelse(test = base::is.null(max.length),
-                     yes = "",
-                     no = stringr::str_c(" of max. length ", max.length, sep = "")
-        )
-
-      # connect with 'and' if both requirements are given
-      ref_connect <-
-        base::ifelse(test = base::sum(c(!base::is.null(min.length), !base::is.null(max.length))) != 2,
-                     yes = "",
-                     no = " and ")
-
-      ref_length <-
-        glue::glue("{ref_min_length}{ref_connect}{ref_max_length}")
-
-    }
+    base::invisible(TRUE)
 
   } else {
 
-    ref_length <- ""
+    # refer to input in feedback
+    if(base::is.null(ref)){ ref <- base::substitute(x) }
 
-  }
+    # default if all requirements are satisfied
+    msg <- NULL
 
+    # logical value indicating if the length is to be checked
+    length_requirements_given <-
+      base::any(c(!base::is.null(min.length), !base::is.null(max.length), !base::is.null(of.length)))
 
-  # check input vector and assemble feedback
-  if(!base::is.vector(x, mode = mode)){
+    # check requirements and prepare feedback
+    if(base::isTRUE(length_requirements_given)){
 
-    msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+      if(!base::is.null(of.length)){
 
-  } else if(base::isTRUE(length_requirements_given)){
+        ref_length <- stringr::str_c(" of length ", of.length, sep = "")
 
-    if(!base::is.null(min.length) && !base::length(x) >= min.length){
+      } else {
 
-      msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+        ref_min_length <-
+          base::ifelse(test = base::is.null(min.length),
+                       yes = "",
+                       no = stringr::str_c(" of min. length ", min.length, sep = "")
+          )
 
-    } else if(!base::is.null(max.length) && !base::length(x) <= max.length){
+        ref_max_length <-
+          base::ifelse(test = base::is.null(max.length),
+                       yes = "",
+                       no = stringr::str_c(" of max. length ", max.length, sep = "")
+          )
 
-      msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+        # connect with 'and' if both requirements are given
+        ref_connect <-
+          base::ifelse(test = base::sum(c(!base::is.null(min.length), !base::is.null(max.length))) != 2,
+                       yes = "",
+                       no = " and ")
 
-    } else if(!base::is.null(of.length) && !base::length(x) == of.length){
+        ref_length <-
+          glue::glue("{ref_min_length}{ref_connect}{ref_max_length}")
 
-      msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+      }
+
+    } else {
+
+      ref_length <- ""
 
     }
 
+    # check input vector and assemble feedback
+    if(!base::is.vector(x, mode = mode)){
+
+      msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+
+    } else if(base::isTRUE(length_requirements_given)){
+
+      if(!base::is.null(min.length) && !base::length(x) >= min.length){
+
+        msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+
+      } else if(!base::is.null(max.length) && !base::length(x) <= max.length){
+
+        msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+
+      } else if(!base::is.null(of.length) && !base::length(x) == of.length){
+
+        msg <- glue::glue("Input '{ref}' must be a {mode} vector{ref_length}.")
+
+      }
+
+    }
+
+    give_feedback(fdb.fn = fdb.fn, msg = msg)
+
+    return_value <-
+      base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
+
+    base::invisible(return_value)
+
   }
-
-  give_feedback(fdb.fn = fdb.fn, msg = msg)
-
-  return_value <-
-    base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
-
-  base::invisible(return_value)
 
 }
 
 #' @rdname is_value
 #' @export
-are_values <- function(..., mode, fdb.fn = "stop", return = "boolean"){
+are_values <- function(...,
+                       mode,
+                       fdb.fn = "stop",
+                       skip.allow = FALSE,
+                       skip.val = NULL,
+                       return = "boolean"){
 
   input <- c(...)
 
@@ -245,7 +276,9 @@ are_values <- function(..., mode, fdb.fn = "stop", return = "boolean"){
   results <-
     purrr::map(.x = input, .f = ~ rlang::parse_expr(.x) %>% base::eval(envir = ce)) %>%
     purrr::set_names(nm = input) %>%
-    purrr::imap(.f = confuns::is_value, mode = mode, fdb.fn = fdb.fn) %>%
+    purrr::imap(.f = confuns::is_value,
+                mode = mode, fdb.fn = fdb.fn,
+                skip.allow = skip.allow, skip.val = skip.val) %>%
     purrr::flatten_lgl() %>%
     purrr::set_names(nm = input)
 
@@ -280,6 +313,8 @@ are_vectors <- function(...,
                         of.length = NULL,
                         min.length = NULL,
                         max.length = NULL,
+                        skip.allow = FALSE,
+                        skip.val = NULL,
                         return = "boolean"){
 
   input <- c(...)
@@ -296,7 +331,9 @@ are_vectors <- function(...,
                 fdb.fn = fdb.fn,
                 of.length = of.length,
                 min.length = min.length,
-                max.length = max.length) %>%
+                max.length = max.length,
+                skip.allow = skip.allow,
+                skip.val = skip.val) %>%
     purrr::flatten_lgl() %>%
     purrr::set_names(nm = input)
 
@@ -601,17 +638,20 @@ check_one_of <- function(input, against, ref.input = NULL){
 #' @param input A vector of any kind.
 #' @param against A vector of the same kind as \code{input}.
 #' @inherit verbose params
+#' @inherit give_feedback params
 #' @param ref.input The reference character value for input.
 #' @param ref.against The reference character value for against.
 #' @param ... Additional arguments given to \code{give_feedback()}.
 #'
 #' @return An informative error message about which elements of \code{input} were found in \code{against} or an invisible TRUE.
 #'
-#' @details Feedback message is constructed via:
+#' @details If none of the input values are found an error is raised with the message:
 #'
-#'   glue::glue("Of {ref.input} did not find '{missing}' in {ref.against}."),
+#'   glue::glue("Of \code{ref.input} did not find 'missing' in \code{ref.against}.")
 #'
-#'   glue::glue("Did not find any element of {ref.input} in {ref.against}.")
+#'   If only some of the input values are found the function denoted in \code{fdb.fn} is called with the message:
+#'
+#'   glue::glue("Did not find any element of \code{ref.input} in \code{ref.against}.")
 #'
 #' @export
 #'

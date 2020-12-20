@@ -7,7 +7,14 @@
 \alias{are_vectors}
 \title{One dimensional input check}
 \usage{
-is_value(x, mode, ref = NULL, fdb.fn = "stop")
+is_value(
+  x,
+  mode,
+  ref = NULL,
+  fdb.fn = "stop",
+  skip.allow = FALSE,
+  skip.val = NULL
+)
 
 is_vec(
   x,
@@ -16,10 +23,19 @@ is_vec(
   of.length = NULL,
   min.length = NULL,
   max.length = NULL,
-  fdb.fn = "stop"
+  fdb.fn = "stop",
+  skip.allow = FALSE,
+  skip.val = NULL
 )
 
-are_values(..., mode, fdb.fn = "stop", return = "boolean")
+are_values(
+  ...,
+  mode,
+  fdb.fn = "stop",
+  skip.allow = FALSE,
+  skip.val = NULL,
+  return = "boolean"
+)
 
 are_vectors(
   ...,
@@ -28,6 +44,8 @@ are_vectors(
   of.length = NULL,
   min.length = NULL,
   max.length = NULL,
+  skip.allow = FALSE,
+  skip.val = NULL,
   return = "boolean"
 )
 }
@@ -41,6 +59,12 @@ If set to NULL the value of \code{x} is evaluated via non standard evalulation.}
 
 \item{fdb.fn}{Character value. Determines the function to call if a feedback
 message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
+
+\item{skip.allow}{Logical. Allows the function to be skipped if \code{x} is equal
+to \code{skip.val}.}
+
+\item{skip.val}{The value that \code{x} needs to be equal to in order for the check
+to be skipped.}
 
 \item{of.length}{Numeric value. Denotes that the vector has to be of a certain length.
 Holds priority over \code{min.length} and \code{max.length} - if not set to NULL the letter

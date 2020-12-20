@@ -8,8 +8,10 @@ check_vector(
   input,
   against,
   verbose = TRUE,
+  fdb.fn = "message",
   ref.input = "input vector",
-  ref.against = "against vector"
+  ref.against = "against vector",
+  ...
 )
 }
 \arguments{
@@ -22,9 +24,14 @@ the computational progress will be printed.
 
 (Warning messages will always be printed.)}
 
+\item{fdb.fn}{Character value. Determines the function to call if a feedback
+message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
+
 \item{ref.input}{The reference character value for input.}
 
 \item{ref.against}{The reference character value for against.}
+
+\item{...}{Additional arguments given to \code{give_feedback()}.}
 }
 \value{
 An informative error message about which elements of \code{input} were found in \code{against} or an invisible TRUE.
@@ -34,9 +41,11 @@ Compares the values of an input-vector against a control-vector containing
 valid values and returns the values of input that were found among the valid ones.
 }
 \details{
-Feedback message is constructed via:
+If none of the input values are found an error is raised with the message:
 
-  glue::glue("Of {ref.input} did not find '{missing}' in {ref.against}."),
+  glue::glue("Of \code{ref.input} did not find 'missing' in \code{ref.against}.")
 
-  glue::glue("Did not find any element of {ref.input} in {ref.against}.")
+  If only some of the input values are found the function denoted in \code{fdb.fn} is called with the message:
+
+  glue::glue("Did not find any element of \code{ref.input} in \code{ref.against}.")
 }
