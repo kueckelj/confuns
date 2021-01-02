@@ -4,7 +4,7 @@
 \alias{color_vector}
 \title{Get vector of colors}
 \usage{
-color_vector(clrp)
+color_vector(clrp, names = NULL)
 }
 \arguments{
 \item{clrp}{Character value. Denotes the colorpanels of interest. Run \code{all_colorpanels()} to

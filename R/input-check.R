@@ -25,12 +25,13 @@ lazy_check_dummy <- function(){}
 #' @param msg Character value or glue. The message to be printed in the console.
 #' @param in.shiny Allows to use the function to stop a function without crashing
 #' a shiny session.
+#' @inherit verbose params
 #'
 #' @return
 #' @export
 #'
 
-give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL, in.shiny = FALSE, ...){
+give_feedback <- function(fdb.fn = "message", msg = NULL, in.shiny = FALSE, verbose = TRUE, ...){
 
   if(base::isTRUE(in.shiny)){
 
@@ -52,7 +53,7 @@ give_feedback <- function(fdb.fn = c("stop", "warning", "message"), msg = NULL, 
 
       base::warning(msg)
 
-    } else if(fdb.fn == "message"){
+    } else if(fdb.fn == "message" && base::isTRUE(verbose)){
 
       base::message(msg)
 

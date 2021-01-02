@@ -5,9 +5,10 @@
 \title{Print feedback in console}
 \usage{
 give_feedback(
-  fdb.fn = c("stop", "warning", "message"),
+  fdb.fn = "message",
   msg = NULL,
   in.shiny = FALSE,
+  verbose = TRUE,
   ...
 )
 }
@@ -19,6 +20,11 @@ message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
 
 \item{in.shiny}{Allows to use the function to stop a function without crashing
 a shiny session.}
+
+\item{verbose}{Logical. If set to TRUE informative messages regarding
+the computational progress will be printed.
+
+(Warning messages will always be printed.)}
 }
 \value{
 
