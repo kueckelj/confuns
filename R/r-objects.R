@@ -48,5 +48,6 @@ pretty_colorpanels_list <-
   list(
     Journals = pretty_journals_clrp_vector,
     Milo = "milo",
-    ggplot2 = pretty_ggplot2_clrp_vector
+    ggplot2 = pretty_ggplot2_clrp_vector,
+    `Viridis Options` = viridis_options
   )
