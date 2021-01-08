@@ -92,13 +92,19 @@ clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#
 #'
 #' @param clrp Character value. Denotes the colorpanels of interest. Run \code{all_colorpanels()} to
 #' obtain valid inputs.
+#' @param names Character vector or NULL. Assigns names to the colorvector (in the same order).
+#' @param adjust Character vector or NULL. Adjusts the resulting named color vector.
+#' Only named elements are kept. Elements of the color vector with the same names as in
+#' \code{adjust} are replaced such that the elements of \code{adjust} are displayed by
+#' the color their name indicates rather than the color the color panel would have assigned
+#' to them.
 #'
 #' @return Character vector.
 #'
 #' @export
 #'
 
-color_vector <- function(clrp, names = NULL){
+color_vector <- function(clrp, names = NULL, adjust = NULL){
 
   is_value(x = clrp, mode = "character")
 
@@ -126,6 +132,18 @@ color_vector <- function(clrp, names = NULL){
 
     clr_vector <-
       stats::setNames(object = clr_vector[1:n_names], nm = names)
+
+    if(base::is.character(adjust) && is_named(adjust)){
+
+      ajdust <- keep_named(input = adjust)
+
+      adjust_names <- base::names(adjust)
+
+      clr_vector <- clr_vector[!base::names(clr_vector) %in% adjust_names]
+
+      clr_vector <- c(clr_vector, adjust)
+
+    }
 
   }
 

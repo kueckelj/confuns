@@ -27,10 +27,9 @@ pretty_stattests_pairwise <- c("None" = "none", pretty_stattests[1:2])
 pretty_stattests_groupwise <- c("None" = "none", pretty_stattests[3:4])
 
 
-
-
-
 # Colors ------------------------------------------------------------------
+
+viridis_options <- c("cividis", "inferno", "magma", "plasma", "viridis")
 
 pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
                                  "Nature Publishing Group" = "npg",

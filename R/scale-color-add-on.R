@@ -18,16 +18,24 @@
 #'
 #' (Ignored if \code{variable} is numeric)
 #'
+#' @inherit color_vector params
+#'
 #' @param ... Additional arguments given to the respective function.
 #'
 #'  \itemize{
-#'   \item{\code{ggplot2::scale_color_viridis_c(...)}: If \code{variable} is numeric and
-#'   \code{clrsp} is one of \emph{'cividis', 'viridis', 'inferno', 'magma', 'plasma'}}
+#'   \item{\code{ggplot2::scale_<aes>_viridis_c(...)}: If \code{variable} is numeric and
+#'   \code{clrsp} is one of \emph{'cividis', 'viridis', 'inferno', 'magma', 'plasma'}.}
 #'   \item{\code{colorspace::scale_<aes>_continuous_sequential(...)}: If \code{variable} is numeric
-#'   and \code{clrsp} is sequential}
+#'   and \code{clrsp} is sequential.}
 #'   \item{\code{colorspace::scale_<aes>_continuous_diverging(...)}: If \code{variable} is numeric
-#'   and \code{clrsp} is diverging}
-#'   \item{\code{ggplot2::scale_<aes>_manual(...)}: If \code{variable} is categorical.}
+#'   and \code{clrsp} is diverging.}
+#'   \item{\code{ggplot2::scale_<aes>_viridis_d(...)}: If \code{variable} is numeric
+#'   and \code{clrp} is one of \emph{'cividis', 'viridis', 'inferno', 'magma', 'plasma'}.}
+#'   \item{\code{ggplot2::scale_<aes>_greyscale(...)}: If \code{variable} is discrete
+#'   and \code{clrp} is set to \emph{'greyscale'}.}
+#'   \item{\code{ggplot2:.scale_<aes>_discrete()}: If \code{variable} is discrete
+#'   and \code{clrp} is set to \emph{'default'}.}
+#'   \item{\code{ggplot2::scale_<aes>_manual(...)}: If \code{variable} is discrete.}
 #'   }
 #'
 #' @return An unnamed list containing the ggproto object.
@@ -53,6 +61,7 @@ scale_color_add_on <- function(aes = "color",
                                variable = "numeric",
                                clrsp = NULL,
                                clrp = NULL,
+                               adjust = NULL,
                                ...){
 
   confuns::is_value(aes, "character", "aes")
@@ -69,7 +78,7 @@ scale_color_add_on <- function(aes = "color",
 
       if(aes == "fill"){
 
-        if(clrsp %in% c("inferno", "cividis", "viridis", "magma", "plasma")){
+        if(clrsp %in% viridis_options){
 
           add_on <- ggplot2::scale_fill_viridis_c(option = clrsp, ...)
 
@@ -81,7 +90,7 @@ scale_color_add_on <- function(aes = "color",
 
       } else {
 
-        if(clrsp %in% c("inferno", "cividis", "viridis", "magma", "plasma")){
+        if(clrsp %in% viridis_options){
 
           add_on <- ggplot2::scale_color_viridis_c(option = clrsp, ...)
 
@@ -92,7 +101,6 @@ scale_color_add_on <- function(aes = "color",
         }
 
       }
-
 
     } else if(clrsp %in% confuns::diverging){
 
@@ -119,10 +127,14 @@ scale_color_add_on <- function(aes = "color",
     n_groups <- dplyr::n_distinct(variable)
     n_colors <- -Inf
 
-    # if variable is a factor make sure to name the colors
+    # if argument 'variable' is a factor or the variable itself make sure to name the colors
     if(base::is.factor(variable)){
 
       names <- base::levels(variable)
+
+    } else if(base::length(variable) > 1){
+
+      names <- base::unique(variable)
 
     } else {
 
@@ -135,11 +147,11 @@ scale_color_add_on <- function(aes = "color",
 
       clrp_name <- clrp
 
-      clrp <- color_vector(clrp = clrp, names = names)
+      clrp <- color_vector(clrp = clrp, names = names, adjust = adjust)
 
       n_colors <- base::length(clrp)
 
-    } else if(clrp %in% c("default", "greyscale")){
+    } else if(clrp %in% c("default", "greyscale", viridis_options)){
 
       # no panel needed
 
@@ -162,7 +174,11 @@ scale_color_add_on <- function(aes = "color",
 
       } else if(base::all(clrp == "greyscale")){
 
-        add_on <- ggplot2::scale_fill_grey()
+        add_on <- ggplot2::scale_fill_grey(...)
+
+      } else if(base::all(clrp %in% viridis_options)){
+
+        add_on <- ggplot2::scale_fill_viridis_d(option = clrp, ...)
 
       } else {
 
@@ -183,7 +199,11 @@ scale_color_add_on <- function(aes = "color",
 
       } else if(base::all(clrp == "greyscale")){
 
-        add_on <- ggplot2::scale_color_grey()
+        add_on <- ggplot2::scale_color_grey(...)
+
+      } else if(base::all(clrp %in% viridis_options)){
+
+        add_on <- ggplot2::scale_color_viridis_d(option = clrp, ...)
 
       } else {
 

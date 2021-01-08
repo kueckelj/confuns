@@ -28,7 +28,6 @@
 #' @inherit verbose params
 #'
 #' @export
-#'
 
 plot_descriptive_statistics <- function(df,
                                         variables = "all",
@@ -377,7 +376,7 @@ plot_descriptive_statistics <- function(df,
 #' @return
 #' @export
 #'
-#' @examples
+
 plot_categorical_statistics <- function(df,
                                         variables,
                                         across,
