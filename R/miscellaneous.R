@@ -49,6 +49,32 @@ error_handler <- function(fun){
 }
 
 
+#' @title Glue a human readable list report
+#'
+#' @param lst A named list of values.
+#' @param separator Character value.
+#'
+#' @return Glue object.
+#' @export
+
+glue_list_report <- function(lst, separator = " = "){
+
+  lst <- purrr::keep(.x = lst, .p = ~ base::is.vector(x = .x))
+
+  report <- base::vector(mode = "character", length = base::length(lst))
+
+  for(slot in base::names(lst)){
+
+    report[slot] <-
+      stringr::str_c("\n", slot, separator, base::as.character(lst[[slot]]))
+
+  }
+
+  glue::glue_collapse(report)
+
+}
+
+
 #' @title Adapt glue reference
 #'
 #' @description Switch between plural or singular reference.
@@ -60,7 +86,7 @@ error_handler <- function(fun){
 #' @param zero Character value to treturn if lengt of \code{input} is 0.
 #'
 #' @return Either sg or pl.
-#'
+#' @export
 
 adapt_reference <- function(input, sg, pl = NULL, zero = ""){
 
