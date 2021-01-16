@@ -4,22 +4,31 @@
 \alias{check_across_subset}
 \title{Subset the across-variables}
 \usage{
-check_across_subset(df, across, across.subset, fdb.fn = "warning")
+check_across_subset(
+  df,
+  across,
+  across.subset,
+  relevel = TRUE,
+  fdb.fn = "warning"
+)
 }
 \arguments{
-\item{df}{A data.frame that contains the variable specified in \code{across}.}
+\item{df}{A data.frame that contains the grouping variable specified in \code{across}.}
 
 \item{across}{Character value. Denotes the discrete variable in the data.frame
-across which the variables of interest are to be analyzed or displayed. Valid input
-options can be obtained via \code{getAcrossOptions()}.}
+across which the variables of interest are to be analyzed or displayed.}
 
-\item{across.subset}{Character vector. The groups of interest that the \code{across}-
-variable contains..}
+\item{across.subset}{Character vector. The groups of interest that the grouping variable
+denoted in \code{across} contains.}
+
+\item{relevel}{Logical value. If set to TRUE the input of \code{across.subset}
+determines the new order in which the results are displayed.}
 }
 \value{
 A filtered data.frame, informative messages or an error.
 }
 \description{
 Checks across and across.subset input and if at least one
-of the across.subset values exists filters the data.frame accordingly.
+of the \code{across.subset} values exists if the letter is not NULL. It
+then filters the input data.frame accordingly.
 }

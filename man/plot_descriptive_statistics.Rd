@@ -26,16 +26,15 @@ plot_descriptive_statistics(
 )
 }
 \arguments{
-\item{df}{A data.frame that contains the variable specified in \code{across}.}
+\item{df}{A data.frame that contains the grouping variable specified in \code{across}.}
 
 \item{variables}{Character vector. The names of the numeric variables of interest.}
 
 \item{across}{Character value. Denotes the discrete variable in the data.frame
-across which the variables of interest are to be analyzed or displayed. Valid input
-options can be obtained via \code{getAcrossOptions()}.}
+across which the variables of interest are to be analyzed or displayed.}
 
-\item{across.subset}{Character vector. The groups of interest that the \code{across}-
-variable contains..}
+\item{across.subset}{Character vector. The groups of interest that the grouping variable
+denoted in \code{across} contains.}
 
 \item{plot.type}{Character value. One of \emph{'histogram', 'ridgeplot', 'boxplot',
 'violinplot'} or \emph{'density'} to visualize the value distribution of those
