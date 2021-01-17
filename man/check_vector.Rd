@@ -7,11 +7,12 @@
 check_vector(
   input,
   against,
-  verbose = TRUE,
-  fdb.fn = "message",
   ref.input = "input vector",
-  ref.against = "against vector",
-  ...
+  ref.against = "valid options",
+  ref.connect = "among",
+  fdb.fn = "message",
+  verbose = TRUE,
+  with.time = FALSE
 )
 }
 \arguments{
@@ -19,17 +20,20 @@ check_vector(
 
 \item{against}{A vector of the same kind as \code{input}.}
 
+\item{ref.input}{The reference character value for input.}
+
+\item{ref.against}{The reference character value for against.}
+
+\item{fdb.fn}{Character value. Determines the function to call if a feedback
+message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
+
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 
 (Warning messages will always be printed.)}
 
-\item{fdb.fn}{Character value. Determines the function to call if a feedback
-message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
-
-\item{ref.input}{The reference character value for input.}
-
-\item{ref.against}{The reference character value for against.}
+\item{with.time}{Logical value. Indicates whether the current time is to be
+added to the feedback message.}
 
 \item{...}{Additional arguments given to \code{give_feedback()}.}
 }

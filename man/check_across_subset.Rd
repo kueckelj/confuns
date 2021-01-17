@@ -19,7 +19,7 @@ check_across_subset(
 across which the variables of interest are to be analyzed or displayed.}
 
 \item{across.subset}{Character vector. The groups of interest that the grouping variable
-denoted in \code{across} contains. If prefixed with an \emph{'-'} the groups are discarded.}
+denoted in \code{across} contains. Groups prefixed with an \emph{'-'} are discarded.}
 
 \item{relevel}{Logical value. If set to TRUE the input of \code{across.subset}
 determines the new order in which the results are displayed.}

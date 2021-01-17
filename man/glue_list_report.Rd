@@ -4,16 +4,28 @@
 \alias{glue_list_report}
 \title{Glue a human readable list report}
 \usage{
-glue_list_report(lst, separator = " = ")
+glue_list_report(lst, separator = " = ", combine_via = "\\n", ...)
 }
 \arguments{
 \item{lst}{A named list of values.}
 
-\item{separator}{Character value.}
+\item{separator}{Character value or NULL. Denotes the string with
+which the slot name is combined with the slot's content. If set to
+NULL neither the slot names nor the separators are mentioned and
+the slot's contents are combined as they are.}
 }
 \value{
 Glue object.
 }
 \description{
-Glue a human readable list report
+Combines all slots of the specified list in \code{lst}
+that are values to a character/glue object.
+}
+\examples{
+#Not run:
+
+ lst_input <- list("arg1" = TRUE, "arg2" = glue::glue_collapse(1:5, sep = ", "))
+
+ glue_list_report(lst = lst_input, separator = " = ")
+
 }

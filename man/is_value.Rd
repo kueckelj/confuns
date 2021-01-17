@@ -12,8 +12,10 @@ is_value(
   mode,
   ref = NULL,
   fdb.fn = "stop",
+  verbose = TRUE,
   skip.allow = FALSE,
-  skip.val = NULL
+  skip.val = NULL,
+  with.time = FALSE
 )
 
 is_vec(
@@ -23,15 +25,19 @@ is_vec(
   of.length = NULL,
   min.length = NULL,
   max.length = NULL,
-  fdb.fn = "stop",
   skip.allow = FALSE,
-  skip.val = NULL
+  skip.val = NULL,
+  fdb.fn = "stop",
+  verbose = TRUE,
+  with.time = FALSE
 )
 
 are_values(
   ...,
   mode,
   fdb.fn = "stop",
+  verbose = TRUE,
+  with.time = FALSE,
   skip.allow = FALSE,
   skip.val = NULL,
   return = "boolean"
@@ -41,6 +47,8 @@ are_vectors(
   ...,
   mode,
   fdb.fn = "stop",
+  verbose = TRUE,
+  with.time = FALSE,
   of.length = NULL,
   min.length = NULL,
   max.length = NULL,
@@ -60,22 +68,29 @@ If set to NULL the value of \code{x} is evaluated via non standard evalulation.}
 \item{fdb.fn}{Character value. Determines the function to call if a feedback
 message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
 
-\item{skip.allow}{Logical. Allows the function to be skipped if \code{x} is equal
-to \code{skip.val}.}
+\item{verbose}{Logical value. Indicates whether any kind of feedback is supposed to
+be given. \code{verbose} set to FALSE shuts down any error, warning or general messages
+and results in the functions returning what is specified in \code{return}.}
+
+\item{skip.allow}{Logical. Allows the function to be skipped if \code{x} and
+\code{skip.val} are identical.}
 
 \item{skip.val}{The value that \code{x} needs to be equal to in order for the check
 to be skipped.}
+
+\item{with.time}{Logical value. Indicates whether the current time is to be
+added to the feedback message.}
 
 \item{of.length}{Numeric value. Denotes that the vector has to be of a certain length.
 Holds priority over \code{min.length} and \code{max.length} - if not set to NULL the letter
 two are ignored.}
 
 \item{min.length, max.length}{Numeric value. Denotes that the vector has to be
-of certain mininmal and/or maximal length.}
+of certain minimal and/or maximal length.}
 
 \item{...}{Character vector denoting the objects to be checked.}
 
-\item{return}{Character value. Either \emph{'boolean'} which returns an
+\item{return}{Character value. Either \emph{'boolean'} which makes the function return an
 invisible TRUE or FALSE depending on if all tests evaluated to TRUE or not.
 Or \emph{'results'} which returns a named vector of all results.}
 }

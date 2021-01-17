@@ -34,7 +34,7 @@ plot_descriptive_statistics(
 across which the variables of interest are to be analyzed or displayed.}
 
 \item{across.subset}{Character vector. The groups of interest that the grouping variable
-denoted in \code{across} contains. If prefixed with an \emph{'-'} the groups are discarded.}
+denoted in \code{across} contains. Groups prefixed with an \emph{'-'} are discarded.}
 
 \item{plot.type}{Character value. One of \emph{'histogram', 'ridgeplot', 'boxplot',
 'violinplot'} or \emph{'density'} to visualize the value distribution of those

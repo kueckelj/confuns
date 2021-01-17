@@ -4,13 +4,33 @@
 \alias{check_directories}
 \title{Check directory input}
 \usage{
-check_directories(directories, ref = "directories", type = "folders")
+check_directories(
+  directories,
+  ref = NULL,
+  type = "folders",
+  fdb.fn = "stop",
+  with.time = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{directories}{Character vector. Directories to check.}
 
-\item{type}{Character value. One of "folders" or "files". Checks
-whether the given directories lead to the specified type.}
+\item{ref}{Character value. Input reference for the error message.
+If set to NULL the value of \code{x} is evaluated via non standard evalulation.}
+
+\item{type}{Character value. One of \emph{'files', 'folders', 'create_files'}. Checks
+whether the given directories lead to the specified type or are creatable.}
+
+\item{fdb.fn}{Character value. Determines the function to call if a feedback
+message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
+
+\item{with.time}{Logical value. Indicates whether the current time is to be
+added to the feedback message.}
+
+\item{verbose}{Logical value. Indicates whether any kind of feedback is supposed to
+be given. \code{verbose} set to FALSE shuts down any error, warning or general messages
+and results in the functions returning what is specified in \code{return}.}
 }
 \value{
 An informative error message or an invisible TRUE.

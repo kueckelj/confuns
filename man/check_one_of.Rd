@@ -4,7 +4,14 @@
 \alias{check_one_of}
 \title{Check valid values}
 \usage{
-check_one_of(input, against, ref.input = NULL)
+check_one_of(
+  input,
+  against,
+  ref.input = NULL,
+  fdb.fn = "stop",
+  verbose = TRUE,
+  with.time = FALSE
+)
 }
 \arguments{
 \item{input}{An input vector to be checked.}
@@ -23,5 +30,5 @@ Check valid values
 Error message is build via \code{glue::glue()} building the following
 string:
 
-"Value/Values '{invalid_ref}' of {ref.input} is/are invalid. Valid input options are: '{against_ref}'."
+"Value/Values '\emph{invalid values}' of {ref.input} is/are invalid. Valid input options are: '{\emph{valid inputs}}'."
 }

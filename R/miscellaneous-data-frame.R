@@ -8,7 +8,7 @@
 #' @param across Character value. Denotes the discrete variable in the data.frame
 #' across which the variables of interest are to be analyzed or displayed.
 #' @param across.subset Character vector. The groups of interest that the grouping variable
-#' denoted in \code{across} contains. If prefixed with an \emph{'-'} the groups are discarded.
+#' denoted in \code{across} contains. Groups prefixed with an \emph{'-'} are discarded.
 #' @param relevel Logical value. If set to TRUE the input of \code{across.subset}
 #' determines the new order in which the results are displayed.
 #'

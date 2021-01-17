@@ -8,6 +8,7 @@ give_feedback(
   fdb.fn = "message",
   msg = NULL,
   in.shiny = FALSE,
+  with.time = TRUE,
   verbose = TRUE,
   ...
 )
@@ -20,6 +21,9 @@ message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
 
 \item{in.shiny}{Allows to use the function to stop a function without crashing
 a shiny session.}
+
+\item{with.time}{Logical value. Indicates whether the current time is to be
+added to the feedback message.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.

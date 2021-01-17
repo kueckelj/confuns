@@ -51,22 +51,37 @@ error_handler <- function(fun){
 
 #' @title Glue a human readable list report
 #'
+#' @description Combines all slots of the specified list in \code{lst}
+#' that are values to a character/glue object.
+#'
 #' @param lst A named list of values.
-#' @param separator Character value.
+#' @param separator Character value or NULL. Denotes the string with
+#' which the slot name is combined with the slot's content. If set to
+#' NULL neither the slot names nor the separators are mentioned and
+#' the slot's contents are combined as they are.
 #'
 #' @return Glue object.
 #' @export
+#'
+#' @examples #Not run:
+#'
+#'  lst_input <- list("arg1" = TRUE, "arg2" = glue::glue_collapse(1:5, sep = ", "))
+#'
+#'  glue_list_report(lst = lst_input, separator = " = ")
+#'
 
-glue_list_report <- function(lst, separator = " = "){
+glue_list_report <- function(lst, separator = " = ", combine_via = "\n", ...){
 
-  lst <- purrr::keep(.x = lst, .p = ~ base::is.vector(x = .x))
+  lst <- purrr::keep(.x = keep_named(lst), .p = ~ is_vec(.x, mode = "any", of.length = 1, verbose = FALSE) & !base::is.list(x = .x))
 
   report <- base::vector(mode = "character", length = base::length(lst))
 
   for(slot in base::names(lst)){
 
+    ref_slot <- base::ifelse(base::is.character(separator), slot, "")
+
     report[slot] <-
-      stringr::str_c("\n", slot, separator, base::as.character(lst[[slot]]))
+      stringr::str_c(combine_via, ref_slot, separator, base::as.character(lst[[slot]]))
 
   }
 
