@@ -59,6 +59,8 @@ error_handler <- function(fun){
 #' which the slot name is combined with the slot's content. If set to
 #' NULL neither the slot names nor the separators are mentioned and
 #' the slot's contents are combined as they are.
+#' @param prefix Character value. Denotes the string with which to prefix
+#' each slots.
 #'
 #' @return Glue object.
 #' @export
@@ -70,7 +72,7 @@ error_handler <- function(fun){
 #'  glue_list_report(lst = lst_input, separator = " = ")
 #'
 
-glue_list_report <- function(lst, separator = " = ", combine_via = "\n", ...){
+glue_list_report <- function(lst, prefix = "", separator = " = ", combine_via = "\n", ...){
 
   lst <- purrr::keep(.x = keep_named(lst), .p = ~ is_vec(.x, mode = "any", of.length = 1, verbose = FALSE) & !base::is.list(x = .x))
 
@@ -81,7 +83,7 @@ glue_list_report <- function(lst, separator = " = ", combine_via = "\n", ...){
     ref_slot <- base::ifelse(base::is.character(separator), slot, "")
 
     report[slot] <-
-      stringr::str_c(combine_via, ref_slot, separator, base::as.character(lst[[slot]]))
+      stringr::str_c(combine_via, prefix, ref_slot, separator, base::as.character(lst[[slot]]))
 
   }
 

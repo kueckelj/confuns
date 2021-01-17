@@ -4,10 +4,13 @@
 \alias{glue_list_report}
 \title{Glue a human readable list report}
 \usage{
-glue_list_report(lst, separator = " = ", combine_via = "\\n", ...)
+glue_list_report(lst, prefix = "", separator = " = ", combine_via = "\\n", ...)
 }
 \arguments{
 \item{lst}{A named list of values.}
+
+\item{prefix}{Character value. Denotes the string with which to prefix
+each slots.}
 
 \item{separator}{Character value or NULL. Denotes the string with
 which the slot name is combined with the slot's content. If set to
