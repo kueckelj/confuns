@@ -76,33 +76,25 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
 
     # keep valid distinguished groups
     discard_groups <- discard_groups[discard_groups %in% across.subset_valid]
-    keep_groups <- keep_groups[keep_groups %in% across.subset_valid]
 
-    # create the final vector of groups to keep
-    groups_to_keep <- all_groups
+    # in case only -across.subset has been provided "refill" 'keep_groups'
+    if(base::length(keep_groups) == 0){
 
-    if(base::length(discard_groups) >= 1){
-
-      groups_to_keep <- groups_to_keep[!groups_to_keep %in% discard_groups]
+      keep_groups <- all_groups
 
     }
 
-    if(base::length(keep_groups) >= 1){
-
-      groups_to_keep <- groups_to_keep[groups_to_keep %in% keep_groups]
-
-    }
-
+    # discard what has been denoted with -
+    keep_groups <- keep_groups[!keep_groups %in% discard_groups]
 
     # filter input data.frame
-    df <- dplyr::filter(.data = df, !!rlang::sym(across) %in% {{groups_to_keep}})
-
+    df <- dplyr::filter(.data = df, !!rlang::sym(across) %in% {{keep_groups}})
 
     # relevel 'across' if desired
     if(base::isTRUE(relevel)){
 
       df[[across]] <-
-        base::factor(x = df[[across]], levels = groups_to_keep)
+        base::factor(x = df[[across]], levels = keep_groups)
 
     }
 
