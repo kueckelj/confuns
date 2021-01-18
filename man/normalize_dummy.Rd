@@ -4,7 +4,7 @@
 \alias{normalize_dummy}
 \title{normalize_dummy}
 \usage{
-normalize_dummy()
+normalize_dummy(normalize)
 }
 \arguments{
 \item{normalize}{Logical. If set to TRUE numeric values will be scaled to

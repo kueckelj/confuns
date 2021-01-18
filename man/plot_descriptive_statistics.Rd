@@ -30,12 +30,6 @@ plot_descriptive_statistics(
 
 \item{variables}{Character vector. The names of the numeric variables of interest.}
 
-\item{across}{Character value. Denotes the discrete variable in the data.frame
-across which the variables of interest are to be analyzed or displayed.}
-
-\item{across.subset}{Character vector. The groups of interest that the grouping variable
-denoted in \code{across} contains. Groups prefixed with an \emph{'-'} are discarded.}
-
 \item{plot.type}{Character value. One of \emph{'histogram', 'ridgeplot', 'boxplot',
 'violinplot'} or \emph{'density'} to visualize the value distribution of those
 variables specified via the \code{variables} argument.

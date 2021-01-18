@@ -60,13 +60,13 @@ across_options <- function(df, n.across.subset = 25){
     base::colnames()
 
   all_across_options <-
-    dplyr::select(df, - dplyr::all_of(x = numeric_names)) %>%
+    dplyr::select(df, -dplyr::all_of(x = numeric_names)) %>%
     base::colnames()
 
   if(base::length(all_across_options) == 0){ base::stop("No discrete variables in input for 'df'.") }
 
   valid_across_options <-
-    purrr::map_int(.x = df[,all_across_options], .f = dplyr::n_distinct) %>%
+    purrr::map(.x = dplyr::select(df, dplyr::all_of(all_across_options)), .f = dplyr::n_distinct) %>%
     purrr::keep(.p = ~ .x <= n.across.subset) %>%
     base::names()
 

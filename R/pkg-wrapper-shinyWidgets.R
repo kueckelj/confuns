@@ -25,7 +25,7 @@ across_subset_picker_input <- function(ns,
                                        ...){
 
   shinyWidgets::pickerInput(inputId = ns(id),
-                            label = "Subset groups:",
+                            label = "Subset Groups:",
                             choices = choices,
                             multiple = multiple,
                             selected = selected)
@@ -38,7 +38,7 @@ colorpanel_picker_input <- function(ns, id = "pt_clrp"){
 
   shinyWidgets::pickerInput(inputId = ns(id),
                             choices = pretty_colorpanels_list,
-                            label = "Color panel:",
+                            label = "Color Panel:",
                             multiple = FALSE,
                             selected = "milo")
 

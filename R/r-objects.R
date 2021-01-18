@@ -4,15 +4,40 @@
 
 pretty_bar_positions <- c("Stacked" = "stack", "Dodged" = "dodge", "Filled" = "fill")
 
+# Colors ------------------------------------------------------------------
 
+viridis_options <- c("cividis", "inferno", "magma", "plasma", "viridis")
+
+pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
+                                 "Nature Publishing Group" = "npg",
+                                 "American Association for the Advancement" = "aaas",
+                                 "New England Journal of Medicine" = "nejm",
+                                 "Lancet Oncology" = "lo",
+                                 "The Journal of the American Medical Association" = "jama",
+                                 "University of Chicago" = "uc"
+)
+
+pretty_ggplot2_clrp_vector <- c("Greyscale" = "greyscale",
+                                "Default" = "default")
+
+
+pretty_colorpanels_list <-
+  list(
+    Journals = pretty_journals_clrp_vector,
+    Milo = "milo",
+    ggplot2 = pretty_ggplot2_clrp_vector,
+    `Viridis Options` = viridis_options
+  )
 
 # Descriptive statistics --------------------------------------------------
 
-testable_plottypes <- c("boxplot", "violinplot")
+testable_plottypes <- c("boxplot", "violin")
 
+pairwise_tests <- c("t.test", "wilcox.test")
+groupwise_tests <- c("anova", "kruskal.test")
 
-pretty_plottypes <- c("Violinplot" = "violinplot",
-                      "Ridgeplot" = "ridgeplot",
+pretty_plottypes <- c("Violinplot" = "violin",
+                      "Ridgeplot" = "ridge",
                       "Densityplot" = "density",
                       "Boxplot" = "boxplot"
 )
@@ -27,27 +52,9 @@ pretty_stattests_pairwise <- c("None" = "none", pretty_stattests[1:2])
 pretty_stattests_groupwise <- c("None" = "none", pretty_stattests[3:4])
 
 
-# Colors ------------------------------------------------------------------
+# ggplot2 -----------------------------------------------------------------
 
-viridis_options <- c("cividis", "inferno", "magma", "plasma", "viridis")
+fill_shapes <- 21:25
 
-pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
-                                 "Nature Publishing Group" = "npg",
-                                 "American Association for the Advancement" = "aaas",
-                                 "New England Journal of Medicine" = "nejm",
-                                 "Lancet Oncology" = "lo",
-                                 "The Journal of the American Medical Association" = "jama",
-                                 "University of Chicago" = "uc"
-                                 )
+color_shapes <- 0:20
 
-pretty_ggplot2_clrp_vector <- c("Greyscale" = "greyscale",
-                                "Default" = "default")
-
-
-pretty_colorpanels_list <-
-  list(
-    Journals = pretty_journals_clrp_vector,
-    Milo = "milo",
-    ggplot2 = pretty_ggplot2_clrp_vector,
-    `Viridis Options` = viridis_options
-  )

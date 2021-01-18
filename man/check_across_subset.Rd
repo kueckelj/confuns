@@ -14,15 +14,6 @@ check_across_subset(
 }
 \arguments{
 \item{df}{A data.frame that contains the grouping variable specified in \code{across}.}
-
-\item{across}{Character value. Denotes the discrete variable in the data.frame
-across which the variables of interest are to be analyzed or displayed.}
-
-\item{across.subset}{Character vector. The groups of interest that the grouping variable
-denoted in \code{across} contains. Groups prefixed with an \emph{'-'} are discarded.}
-
-\item{relevel}{Logical value. If set to TRUE the input of \code{across.subset}
-determines the new order in which the results are displayed.}
 }
 \value{
 A filtered data.frame, informative messages or an error.

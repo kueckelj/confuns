@@ -61,7 +61,7 @@ scale_color_add_on <- function(aes = "color",
                                variable = "numeric",
                                clrsp = NULL,
                                clrp = NULL,
-                               adjust = NULL,
+                               clrp.adjust = NULL,
                                ...){
 
   confuns::is_value(aes, "character", "aes")
@@ -147,7 +147,7 @@ scale_color_add_on <- function(aes = "color",
 
       clrp_name <- clrp
 
-      clrp <- color_vector(clrp = clrp, names = names, adjust = adjust)
+      clrp <- color_vector(clrp = clrp, names = names, clrp.adjust = clrp.adjust)
 
       n_colors <- base::length(clrp)
 

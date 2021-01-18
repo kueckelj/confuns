@@ -5,12 +5,6 @@
 #' then filters the input data.frame accordingly.
 #'
 #' @param df A data.frame that contains the grouping variable specified in \code{across}.
-#' @param across Character value. Denotes the discrete variable in the data.frame
-#' across which the variables of interest are to be analyzed or displayed.
-#' @param across.subset Character vector. The groups of interest that the grouping variable
-#' denoted in \code{across} contains. Groups prefixed with an \emph{'-'} are discarded.
-#' @param relevel Logical value. If set to TRUE the input of \code{across.subset}
-#' determines the new order in which the results are displayed.
 #'
 #' @return A filtered data.frame, informative messages or an error.
 #' @export
@@ -19,7 +13,9 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
 
   across_subset_input <- base::substitute(across.subset)
 
-  if(base::is.null(across.subset)){
+  is_value(x = across, mode = "character", skip.allow = TRUE, skip.val = NULL)
+
+  if(base::is.null(across) | base::is.null(across.subset)){
 
     base::return(df)
 
@@ -30,9 +26,22 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
 
       all_groups <- base::levels(df[[across]])
 
-    } else {
+    } else if(base::is.character(df[[across]])) {
 
       all_groups <- base::unique(df[[across]])
+
+    } else {
+
+      class_across <- base::class(df[[across]])
+
+      msg <-
+        glue::glue("Input for argument 'across' must refers to a variable of class {class_across}. Must be of type 'character' or 'factor'.")
+
+      confuns::give_feedback(
+        msg = msg,
+        fdb.fn = "stop",
+        verbose = TRUE
+      )
 
     }
 
@@ -66,48 +75,103 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
     across.subset <- c(keep_groups, discard_groups)
 
     # keep valid groups
-    across.subset_valid <-
-      check_vector(input = across.subset,
-                   against = all_groups,
-                   fdb.fn = fdb.fn,
-                   ref.input = glue::glue("input to subset '{across}'-groups"),
-                   ref.against = glue::glue("valid options")
-                   )
+      check_one_of(
+        input = across.subset,
+        against = all_groups,
+        ref.input = base::as.character(glue::glue("input to subset '{across}'-groups"))
+      )
+
+    #if no error all are valid
+    across.subset_valid <- across.subset
 
     # keep valid distinguished groups
     discard_groups <- discard_groups[discard_groups %in% across.subset_valid]
-    keep_groups <- keep_groups[keep_groups %in% across.subset_valid]
 
-    # create the final vector of groups to keep
-    groups_to_keep <- all_groups
+    # in case only -across.subset has been provided "refill" 'keep_groups'
+    if(base::length(keep_groups) == 0){
 
-    if(base::length(discard_groups) >= 1){
-
-      groups_to_keep <- groups_to_keep[!groups_to_keep %in% discard_groups]
+      keep_groups <- all_groups
 
     }
 
-    if(base::length(keep_groups) >= 1){
-
-      groups_to_keep <- groups_to_keep[groups_to_keep %in% keep_groups]
-
-    }
-
+    # discard what has been denoted with -
+    keep_groups <- keep_groups[!keep_groups %in% discard_groups]
 
     # filter input data.frame
-    df <- dplyr::filter(.data = df, !!rlang::sym(across) %in% {{groups_to_keep}})
-
+    df <- dplyr::filter(.data = df, !!rlang::sym(across) %in% {{keep_groups}})
 
     # relevel 'across' if desired
     if(base::isTRUE(relevel)){
 
       df[[across]] <-
-        base::factor(x = df[[across]], levels = groups_to_keep)
+        base::factor(x = df[[across]], levels = keep_groups)
 
     }
 
     base::return(df)
 
   }
+
+}
+
+
+#' @title Process a data.frame
+#'
+#' A wrapper around \code{check_df_variables}, \code{check_across_subset()}
+#' and \code{dplyr::pivot_longer()}.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return
+#' @export
+
+process_and_shift_df <- function(df,
+                                 variables = NULL,
+                                 valid.classes = NULL,
+                                 across = NULL,
+                                 across.subset = NULL,
+                                 relevel = TRUE,
+                                 keep = NULL,
+                                 verbose = TRUE){
+
+  df_checked <-
+    check_df_variables(
+      df = df,
+      variables = variables,
+      valid.classes = valid.classes,
+      keep = c(across, keep),
+      verbose = verbose
+    ) %>%
+    check_across_subset(
+      df = .,
+      across = across,
+      across.subset = across.subset,
+      relevel = relevel,
+      fdb.fn = "warning"
+    )
+
+  unique_names <-
+    base::names(df_checked) %>%
+    base::unique()
+
+  shift_cols <-
+    purrr::keep(df_checked[, unique_names], .p = ~ is_any_of(.x, valid.classes = valid.classes)) %>%
+    base::colnames()
+
+  if(base::is.character(across)){
+
+    shift_cols <- shift_cols[shift_cols != across]
+
+  }
+
+  df_shifted <-
+    tidyr::pivot_longer(
+      data = df_checked,
+      cols = dplyr::all_of(shift_cols),
+      names_to = "variables",
+      values_to = "values"
+    )
+
+  base::return(df_shifted)
 
 }

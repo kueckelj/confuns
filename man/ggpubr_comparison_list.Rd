@@ -7,7 +7,7 @@
 \usage{
 ggpubr_comparison_list(ref.group, groups)
 
-ggpubr_y_labels(input.list, max.value)
+ggpubr_y_labels(lst, max.value)
 }
 \description{
 Prepare input for \code{ggpubr::stat_compare_means()}

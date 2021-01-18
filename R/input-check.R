@@ -137,10 +137,6 @@ extract_feedback <- function(fdb.fn){
 
 # is - functions ----------------------------------------------------------
 
-
-
-
-
 #' @title List input check
 #'
 #' @param input Object to be checked.
@@ -152,6 +148,37 @@ extract_feedback <- function(fdb.fn){
 is_list <- function(input){
 
   base::all(base::is.list(input) && !base::is.data.frame(input))
+
+}
+
+
+
+#' @title Any input check
+#'
+#' @param input Object to be checked.
+#' @inherit argument_dummy params
+#'
+#' @return TRUE if \code{input} is of at least one of
+#' the specified classes in \code{valid.classes}. FALSE
+#' if not.
+#'
+#' @export
+
+is_any_of <- function(input, valid.classes){
+
+  res_lgl <-
+    purrr::map_lgl(
+      .x = valid.classes,
+      .f = ~ base::is.vector(x = input, mode = .x)
+      )
+
+  if("factor" %in% valid.classes){
+
+    res_lgl <- c(res_lgl, base::is.factor(input))
+
+  }
+
+  base::any(res_lgl)
 
 }
 
@@ -579,7 +606,6 @@ check_assign <- function(assign = FALSE,
 
     }
 
-
   }
 
   base::return(TRUE)
@@ -587,6 +613,44 @@ check_assign <- function(assign = FALSE,
 }
 
 
+
+
+#' @title Check no overlap
+#'
+#' @param x,y Input vectors whoose content is to be checked.
+#'
+#' @return Error message if overlap is found. TRUE is no overlap is found.
+
+check_no_overlap <- function(x, y, fdb.fn = "stop", with.time = FALSE){
+
+  ref_x <- base::substitute(x)
+  ref_y <- base::substitute(y)
+
+  overlap <- base::intersect(x, y)
+
+  if(base::length(overlap) >= 1){
+
+    msg <-
+      glue::glue(
+        "Overlap is not allowed. {ref1} '{ref_overlap}' {ref2} part of input for argument '{ref_x}' and argument '{ref_y}'.",
+        ref1 = adapt_reference(overlap, sg = "Value", pl = "Values"),
+        ref2 = adapt_reference(overlap, sg = "is", pl = "are"),
+        ref_overlap = glue::glue_collapse(x = overlap, sep = "', '", last = "' and '")
+      )
+
+    give_feedback(
+      msg = msg,
+      fdb.fn = fdb.fn,
+      with.time = with.time
+    )
+
+  } else {
+
+    base::return(TRUE)
+
+  }
+
+}
 
 #' @title Check data.frame validity
 #'
@@ -644,15 +708,7 @@ check_data_frame <- function(df,
 
       report[[ref_name]] <- "is missing."
 
-    } else {
-
-      valid_class <-
-        purrr::map_lgl(
-          .x = var.class[[name]],
-          .f = ~ is_vec(x = df[[name]], mode = .x, verbose = FALSE)
-        )
-
-      if(!base::any(valid_class)){
+    } else if(!is_any_of(input = df[[name]], valid.classes = var.class[[name]])){
 
         report[[ref_name]] <-
           glue::glue(
@@ -661,8 +717,6 @@ check_data_frame <- function(df,
             ref_current_class = base::class(df[[name]])
           ) %>%
           base::as.character()
-
-      }
 
     }
 
@@ -909,6 +963,82 @@ check_one_of <- function(input,
 
 
 # adjusting check ---------------------------------------------------------
+
+
+#' @title Data.frame variable check
+#'
+#' @description Selects the variables denoted in
+#' \code{keep} and \code{variables}. The letter ones
+#' are checked for validity.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return The input \code{df} with all selected variables.
+#' @export
+#'
+
+check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL, verbose = TRUE){
+
+  if(base::is.character(keep) & base::is.character(variables) && !keep %in% variables){
+
+    keep_df <-
+      dplyr::select(df, dplyr::all_of(x = keep))
+
+  } else {
+
+    keep_df <- NULL
+
+  }
+
+  if(base::is.null(variables) | base::any(stringr::str_detect(variables, pattern = "^-"))){
+
+    res_df <-
+      purrr::keep(.x = df, .p = ~ is_any_of(.x, valid.classes))
+
+    discard_variables <-
+      stringr::str_subset(variables, pattern = "^-") %>%
+      stringr::str_remove(pattern = "^-")
+
+    if(base::length(discard_variables) >= 1){
+
+      check_one_of(
+        input = discard_variables,
+        against = base::colnames(res_df),
+        ref.input = "variables to be discarded"
+      )
+
+      res_df <- dplyr::select(res_df, -dplyr::all_of(discard_variables))
+
+    }
+
+  } else {
+
+    var.class <-
+      purrr::map(.x = variables, .f = function(var){ valid.classes }) %>%
+      purrr::set_names(nm = variables)
+
+    check_data_frame(
+        df = df,
+        var.class = var.class
+      )
+
+    # if no error was thrown keep all variables
+    res_df <- dplyr::select(df, dplyr::all_of(variables))
+
+  }
+
+  if(base::is.data.frame(keep_df) & base::is.data.frame(res_df)){
+
+    res_df <-
+      base::cbind(keep_df, res_df)
+
+  }
+
+  base::return(res_df)
+
+}
+
+
 
 #' @title Compare input to control input
 #'
