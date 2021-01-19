@@ -28,5 +28,3 @@ ggpubr_y_labels2 <- function(lst, max.values){
 
 }
 
-variables
-max.values <- max_values

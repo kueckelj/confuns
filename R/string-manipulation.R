@@ -20,7 +20,7 @@ make_pretty_names <- function(string, make.pretty = TRUE){
       purrr::flatten_chr()
 
     capital_letters <-
-      purrr::map(split_by_words, .f = ~ str_extract(.x, pattern = "^.")) %>%
+      purrr::map(split_by_words, .f = ~ stringr::str_extract(.x, pattern = "^.")) %>%
       purrr::flatten_chr() %>%
       base::toupper()
 
