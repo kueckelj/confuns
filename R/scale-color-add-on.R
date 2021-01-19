@@ -7,14 +7,13 @@
 #' used aesthetic.
 #' @param variable The variable that is mapped onto the denoted aesthetic or a character
 #' value - one of \emph{'numeric', 'discrete'}.
-#' @param clrsp Character value. The color spectrum of choice if \code{variable} is
-#' numeric. Run \code{confuns::all_colorspectra()}
+#' @param clrsp Character value. The color spectrum of choice. Run \code{confuns::all_color_spectra()}
 #' to see all valid input choices.
 #'
 #' (Ignored if \code{variable} is discrete)
 #'
-#' @param clrp Character value. The color panel of choice if \code{variable} is discrete
-#' Run \code{confuns::all_colorpanels()} to see all valid input choices.
+#' @param clrp Character value. The color palette of choice.
+#' Run \code{confuns::all_color_palettes()} to see all valid input choices.
 #'
 #' (Ignored if \code{variable} is numeric)
 #'
@@ -43,9 +42,6 @@
 #' @details If the specified \code{clrp} does not contain enough colors to cover the
 #' specified variable NULL is returned - which makes the call to \code{ggplot2::ggplot()}
 #' use the default ggplot2 color panel.
-#'
-#' Make sure to use correct capitalization and white spaces denoting the color panel or -spectrum
-#' of choice.
 #'
 #' @export
 #'

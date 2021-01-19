@@ -7,20 +7,19 @@
 color_vector(clrp, names = NULL, clrp.adjust = NULL)
 }
 \arguments{
-\item{clrp}{Character value. Denotes the colorpanels of interest. Run \code{all_colorpanels()} to
+\item{clrp}{Character value. Denotes the color palette of interest. Run \code{all_colorpalettes()} to
 obtain valid inputs.}
 
-\item{names}{Character vector or NULL. Assigns names to the colorvector (in the same order).}
+\item{names}{Character vector or NULL. Assigns names to the color vector (in the same order).}
 
-\item{clrp.adjust}{Character vector or NULL. Adjusts the resulting named color vector.
-Only named elements are kept. Elements of the color vector with the same names as in
-\code{clrp.adjust} are replaced such that the elements of \code{clrp.adjust} are displayed by
-the color their name indicates rather than the color the color panel would have assigned
-to them.}
+\item{clrp.adjust}{Named character vector or NULL. If character, it adjusts the
+colors that are used to represent the groups. Names of the input vector must refer
+to the group and the respective named element denotes the color with which to
+represent the group.}
 }
 \value{
 Character vector.
 }
 \description{
-Returns a vector of colorcodes of the respective panel
+Returns a vector of color codes of the respective palette
 }

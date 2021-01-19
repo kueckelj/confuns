@@ -18,13 +18,17 @@ check_df_variables(
 \item{valid.classes}{Character vector to specify the classes the input
 might have in order not to be discarded.}
 
-\item{variables}{Character vector. Denotes the variables
-of interest. If set to NULL all valid variables of input for \code{df} are
+\item{variables}{Character vector. Specifies the variables
+of interest. If set to NULL all valid variables of the input data.frame are
 considered (as long as the total number does not exceeds the limit).
 
 If there are more variables you are interested in than they are variables
 you are not interested in specify those that you are not interested in prefixed
 with an \emph{'-'}. Variables prefixed that way are discarded and the remaining are kept.}
+
+\item{keep}{Character vector or NULL. If character, specifies variables
+that are to be kept even if they are not of thoses classes denoted in
+\code{valid.classes}.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
@@ -37,5 +41,6 @@ The input \code{df} with all selected variables.
 \description{
 Selects the variables denoted in
 \code{keep} and \code{variables}. The letter ones
-are checked for validity.
+are checked for validity. If \code{variables} is
+set to NULL all valid variables are kept.
 }

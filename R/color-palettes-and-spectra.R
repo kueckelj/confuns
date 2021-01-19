@@ -31,9 +31,9 @@ diverging <-
 
 
 
-#' @title Color panels
+#' @title Color palettes
 #'
-#' @description Available discrete color panels.
+#' @description Available discrete color palettes.
 #'
 #' @details
 #'
@@ -52,52 +52,51 @@ diverging <-
 
 colorpanels <- c("milo", "jco", "npg", "aaas", "nejm", "lo", "jama", "uc")
 
-#' @title MILO Research Group - color panel
+#' @title MILO Research Group - color palette
 #' @export
 clrp_milo <- c("#C4432A", "#3A389C", "#478C3D", "#FFD700", "steelblue", "#FFA500", "#800000FF", "#64DB74",  "#8B2252", "#56D9ED", "#C934BD",
                  "#C9B972", "#4F1211", "#CD4F39", "#00868B", "#8B7355", "#CAFF70", "#2C6CA3", "#525252", "brown")
 
-#' @title Journal of Oncology - color panel
+#' @title Journal of Oncology - color palette
 #' @export
 clrp_jco <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#7AA6DCFF", "#003C67FF", "#8F7700FF", "#3B3B3BFF", "#A73030FF", "#4A6990FF")
 
-#' @title Nature Publishing Group - color panel
+#' @title Nature Publishing Group - color palette
 #' @export
 clrp_npg <- c("#E64B35FF", "#4DBBD5FF", "#00A087FF", "#3C5488FF", "#F39B7FFF", "#8491B4FF", "#91D1C2FF", "#DC0000FF", "#7E6148FF", "#B09C85FF")
 
-#' @title American Association for the Advancement - color panel
+#' @title American Association for the Advancement - color palette
 #' @export
 clrp_aaas <- c("#3B4992FF", "#EE0000FF", "#008B45FF", "#631879FF", "#008280FF", "#BB0021FF", "#5F559BFF", "#A20056FF", "#808180FF", "#1B1919FF")
 
-#' @title New England Journal of Medicine- color panel
+#' @title New England Journal of Medicine- color palette
 #' @export
 clrp_nejm <- c("#BC3C29FF", "#0072B5FF", "#E18727FF", "#20854EFF", "#7876B1FF", "#6F99ADFF", "#FFDC91FF", "#EE4C97FF","#b15928","#ffff33")
 
-#' @title Lancet Oncology - color panel
+#' @title Lancet Oncology - color palette
 #' @export
 clrp_lo <- c("#00468BFF", "#ED0000FF", "#42B540FF", "#0099B4FF", "#925E9FFF", "#FDAF91FF", "#AD002AFF", "#ADB6B6FF", "#1B1919FF", "#800000FF")
 
-#' @title The Journal of the American Medical Association - color panel
+#' @title The Journal of the American Medical Association - color palette
 #' @export
 clrp_jama <- c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", "#6A6599FF", "#80796BFF", "#008B45FF", "#fdbf6f", "#377eb8")
 
-#' @title University of Chicago - color panel
+#' @title University of Chicago - color palette
 #' @export
 clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF")
 
 
 #' @title Get vector of colors
 #'
-#' @description Returns a vector of colorcodes of the respective panel
+#' @description Returns a vector of color codes of the respective palette
 #'
-#' @param clrp Character value. Denotes the colorpanels of interest. Run \code{all_colorpanels()} to
+#' @param clrp Character value. Denotes the color palette of interest. Run \code{all_colorpalettes()} to
 #' obtain valid inputs.
-#' @param names Character vector or NULL. Assigns names to the colorvector (in the same order).
-#' @param clrp.adjust Character vector or NULL. Adjusts the resulting named color vector.
-#' Only named elements are kept. Elements of the color vector with the same names as in
-#' \code{clrp.adjust} are replaced such that the elements of \code{clrp.adjust} are displayed by
-#' the color their name indicates rather than the color the color panel would have assigned
-#' to them.
+#' @param names Character vector or NULL. Assigns names to the color vector (in the same order).
+#' @param clrp.adjust Named character vector or NULL. If character, it adjusts the
+#' colors that are used to represent the groups. Names of the input vector must refer
+#' to the group and the respective named element denotes the color with which to
+#' represent the group.
 #'
 #' @return Character vector.
 #'
@@ -157,15 +156,15 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL){
 #' @return A named list.
 #' @export
 
-all_colorpanels <- function(){
+all_color_palettes <- function(){
 
-  pretty_colorpanels_list
+  pretty_colorpalettes_list
 
 }
 
-#' @rdname all_colorpanels
+#' @rdname all_color_palettes
 #' @export
-all_colorspectra <- function(){
+all_color_spectra <- function(){
 
   list(
     "Diverging" = diverging,

@@ -3,7 +3,7 @@
 \docType{data}
 \name{clrp_lo}
 \alias{clrp_lo}
-\title{Lancet Oncology - color panel}
+\title{Lancet Oncology - color palette}
 \format{
 An object of class \code{character} of length 10.
 }
@@ -11,6 +11,6 @@ An object of class \code{character} of length 10.
 clrp_lo
 }
 \description{
-Lancet Oncology - color panel
+Lancet Oncology - color palette
 }
 \keyword{datasets}

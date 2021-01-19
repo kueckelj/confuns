@@ -7,6 +7,8 @@
 plot_statistics(df, plot_type = "violin", ...)
 }
 \arguments{
+\item{df}{A data.frame.}
+
 \item{plot_type}{Character value. Denotes the function to call. Must
 be one of \emph{'violin', 'boxplot', 'density', 'histogram', 'ridgeplot'}.}
 

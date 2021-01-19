@@ -20,8 +20,16 @@ pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
 pretty_ggplot2_clrp_vector <- c("Greyscale" = "greyscale",
                                 "Default" = "default")
 
-
+# use pretty_colorpalettes_list instead!
 pretty_colorpanels_list <-
+  list(
+    Journals = pretty_journals_clrp_vector,
+    Milo = "milo",
+    ggplot2 = pretty_ggplot2_clrp_vector,
+    `Viridis Options` = viridis_options
+  )
+
+pretty_colorpalettes_list <-
   list(
     Journals = pretty_journals_clrp_vector,
     Milo = "milo",
@@ -55,6 +63,5 @@ pretty_stattests_groupwise <- c("None" = "none", pretty_stattests[3:4])
 # ggplot2 -----------------------------------------------------------------
 
 fill_shapes <- 21:25
-
 color_shapes <- 0:20
 

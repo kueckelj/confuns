@@ -24,7 +24,6 @@ statistics_facet_wrap <- function(display.facets = TRUE, scales, ...){
 
   }
 
-
 }
 
 
@@ -35,6 +34,7 @@ statistics_facet_wrap <- function(display.facets = TRUE, scales, ...){
 statistics_geom_jitter <- function(df_shifted,
                                    across,
                                    aes_x,
+                                   aes_y,
                                    display.points,
                                    pt.alpha,
                                    pt.color,
@@ -50,9 +50,23 @@ statistics_geom_jitter <- function(df_shifted,
   } else if(base::isTRUE(display.points)){
 
     # sample data.frame
-    jitter_df <-
-      dplyr::group_by(.data = df_shifted, variables, !!rlang::sym(across)) %>%
-      dplyr::slice_sample(n = pt.num)
+
+    group <- "variables"
+
+    if(base::is.character(across)){
+
+      jitter_df <-
+        dplyr::group_by(.data = df_shifted, !!rlang::sym(group), !!rlang::sym(across)) %>%
+        dplyr::slice_sample(n = pt.num)
+
+    } else {
+
+      jitter_df <-
+        dplyr::group_by(.data = df_shifted, !!rlang::sym(group)) %>%
+        dplyr::slice_sample(n = pt.num)
+
+    }
+
 
     if(base::is.numeric(pt.shape)){
 
@@ -64,21 +78,7 @@ statistics_geom_jitter <- function(df_shifted,
           shape = pt.shape,
           size = pt.size,
           mapping = ggplot2::aes(x = .data[[aes_x]],
-                                 y = .data[["values"]]),
-          height = 0.25, width = 0.25
-        )
-
-    } else if(base::is.null(pt.shape)){
-
-      jitter_add_on <-
-        ggplot2::geom_jitter(
-          data = jitter_df,
-          alpha = pt.alpha,
-          color = pt.color,
-          size = pt.size,
-          mapping = ggplot2::aes(x = .data[[aes_x]],
-                                 y = .data[["values"]],
-                                 shape = .data[[aes_x]]),
+                                 y = .data[[aes_y]]),
           height = 0.25, width = 0.25
         )
 
@@ -90,8 +90,8 @@ statistics_geom_jitter <- function(df_shifted,
           alpha = pt.alpha,
           color = pt.color,
           size = pt.size,
-          mapping = ggplot2::aes(x = .data[[across]],
-                                 y = .data[["values"]],
+          mapping = ggplot2::aes(x = .data[[aes_x]],
+                                 y = .data[[aes_y]],
                                  shape = .data[[pt.shape]]),
           height = 0.25, width = 0.25
         )
@@ -110,6 +110,7 @@ statistics_geom_jitter <- function(df_shifted,
 
 statistics_tests <- function(df_shifted,
                              across,
+                             aes_y,
                              ref.group,
                              test.pairwise,
                              test.groupwise,
@@ -121,28 +122,45 @@ statistics_tests <- function(df_shifted,
 
   if(base::is.character(across)){
 
+    # if across refers to character convert to factor
+    if(!base::is.factor(df_shifted[[across]])){
+
+      df_shifted[[across]] <-
+        base::factor(df_shifted[[across]])
+
+    } else {
+
+      # if across refers to factor drop unused levels for statistical tests
+      df_shifted[[across]] <-
+        base::droplevels(df_shifted[[across]])
+
+    }
+
     # pairwise tests
     if(!base::is.null(test.pairwise)){
-
-      groups <- base::levels(df_shifted[[across]])
-
-      if(base::is.null(ref.group)){
-
-        ref.group <- groups[1]
-
-      }
-
-      check_one_of(
-        input = ref.group,
-        against = groups,
-        fdb.fn = "stop"
-      )
 
       check_one_of(
         input = test.pairwise,
         against = pairwise_tests,
         fdb.fn = "stop"
       )
+
+      groups <- base::levels(df_shifted[[across]])
+
+      # check ref.group input
+      if(base::is.null(ref.group)){
+
+        ref.group <- groups[1]
+
+      } else {
+
+        check_one_of(
+          input = ref.group,
+          against = groups,
+          fdb.fn = "stop"
+        )
+
+      }
 
       comparison_list <-
         ggpubr_comparison_list(ref.group = ref.group, groups = groups)
@@ -151,7 +169,7 @@ statistics_tests <- function(df_shifted,
         ggpubr::stat_compare_means(
           comparisons = comparison_list,
           data = df_shifted,
-          mapping = ggplot2::aes(x = .data[[across]], y = .data[["values"]]),
+          mapping = ggplot2::aes(x = .data[[across]], y = .data[[aes_y]]),
           method = test.pairwise,
           step.increase = step.increase
         )
@@ -173,7 +191,7 @@ statistics_tests <- function(df_shifted,
           method = test.groupwise,
           data = df_shifted,
           vjust = vjust,
-          mapping = ggplot2::aes(x = .data[[across]], y = .data[["values"]])
+          mapping = ggplot2::aes(x = .data[[across]], y = .data[[aes_y]])
         )
       )
 

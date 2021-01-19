@@ -3,7 +3,7 @@
 \docType{data}
 \name{colorpanels}
 \alias{colorpanels}
-\title{Color panels}
+\title{Color palettes}
 \format{
 An object of class \code{character} of length 8.
 }
@@ -11,7 +11,7 @@ An object of class \code{character} of length 8.
 colorpanels
 }
 \description{
-Available discrete color panels.
+Available discrete color palettes.
 }
 \details{
 \itemize{

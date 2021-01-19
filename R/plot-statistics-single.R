@@ -2,7 +2,7 @@
 
 #' @title Plot distribution and results of statistical tests
 #'
-#' @param df
+#' @inherit argument_dummy params
 #' @param plot_type Character value. Denotes the function to call. Must
 #' be one of \emph{'violin', 'boxplot', 'density', 'histogram', 'ridgeplot'}.
 #' @param ... Arguments given to the called function.
@@ -30,6 +30,12 @@ plot_statistics <- function(df, plot_type = "violin", ...){
 
 #' @title Plot distribution and results of statistical tests
 #'
+#' @description These functions visualize the distribution of numerical variables via box-
+#' and violinplots while simultaneously allowing for statistical tests.
+#' Argument \code{variables} accepts only values that refer to numerical
+#' variables. Use \code{vjust} and \code{step.increase} to move the results of statistical
+#' tests in order to keep the plot aesthetically pleasing.
+#'
 #' @param step.increase Numeric value. Denotes the increase in fraction of total
 #' height for every additional comparison to minimize overlap.
 #' @param vjust Numeric value. Denotes the relative, vertical position of the results of
@@ -42,7 +48,6 @@ plot_statistics <- function(df, plot_type = "violin", ...){
 #' @inherit scale_color_add_on params
 #' @inherit ggplot2_dummy return
 #'
-#' @return
 #' @export
 
 plot_violin <- function(df,
@@ -62,11 +67,10 @@ plot_violin <- function(df,
                         pt.alpha = 0.8,
                         pt.color = "black",
                         pt.num = 100,
-                        pt.size = 1.5,
                         pt.shape = 19,
+                        pt.size = 1.5,
                         clrp = "milo",
                         clrp.adjust = NULL,
-                        pretty.names = TRUE,
                         verbose = TRUE,
                         ...){
 
@@ -102,17 +106,26 @@ plot_violin <- function(df,
       verbose = verbose
     )
 
+
   # if across is not NULL set the information to the value of 'across'
   # otherwise set to "variables"
-  aes_x <- across_or(across, "variables")
-  aes_fill <- across_or(across, "variables")
 
+  aes_x <-
+    across_or(across, "variables")
+
+  aes_y <- "values"
+
+  aes_fill <-
+    across_or(across, "variables")
 
   # 3. Create ggplot add ons -----------------------------------------------
 
   # facet add on
   facet_add_on <-
-    statistics_facet_wrap(scales = scales, nrow = nrow, ncol = ncol)
+    statistics_facet_wrap(
+      scales = scales,
+      nrow = nrow,
+      ncol = ncol)
 
   # jitter add on
   jitter_add_on <-
@@ -120,6 +133,7 @@ plot_violin <- function(df,
       df_shifted = df_shifted,
       across = across,
       aes_x = aes_x,
+      aes_y = aes_y,
       display.points = display.points,
       pt.alpha = pt.alpha,
       pt.color = pt.color,
@@ -133,6 +147,7 @@ plot_violin <- function(df,
     statistics_tests(
       df_shifted = df_shifted,
       across = across,
+      aes_y = aes_y,
       ref.group = ref.group,
       test.pairwise = test.pairwise,
       test.groupwise = test.groupwise,
@@ -140,10 +155,18 @@ plot_violin <- function(df,
       vjust = vjust
     )
 
+  # legend add on
+  legend_add_on <-
+    base::ifelse(
+      test = base::is.null(across) & base::is.numeric(pt.shape),
+      yes = list(legend_none()),
+      no = list()
+    )
+
 
   # 4. Assemble final plot output -------------------------------------------
 
-  ggplot2::ggplot(data = df_shifted, aes(x = .data[[aes_x]], .data[["values"]])) +
+  ggplot2::ggplot(data = df_shifted, aes(x = .data[[aes_x]], .data[[aes_y]])) +
     ggplot2::geom_violin(ggplot2::aes(fill = .data[[aes_fill]]), ...) +
     theme_statistics() +
     facet_add_on +
@@ -154,7 +177,8 @@ plot_violin <- function(df,
       clrp = clrp, clrp.adjust = clrp.adjust
       ) +
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.1))) +
-    ggplot2::labs(x = NULL, y = NULL, fill = make_pretty_names(aes_fill, pretty.names))
+    ggplot2::labs(x = NULL, y = NULL) +
+    legend_add_on
 
 
 }
@@ -178,12 +202,11 @@ plot_boxplot <- function(df,
                          display.points = FALSE,
                          pt.alpha = 0.8,
                          pt.color = "black",
-                         pt.size = 1.5,
                          pt.num = 100,
                          pt.shape = 19,
+                         pt.size = 1.5,
                          clrp = "milo",
                          clrp.adjust = NULL,
-                         pretty.names = TRUE,
                          verbose = TRUE,
                          ...){
 
@@ -218,19 +241,31 @@ plot_boxplot <- function(df,
       across.subset = across.subset,
       relevel = relevel,
       verbose = verbose
+    ) %>%
+    make_pretty_df(
+      make.pretty = make.pretty
     )
+
 
   # if across is not NULL set the information to the value of 'across'
   # otherwise set to "variables"
-  aes_x <- across_or(across, "variables")
-  aes_fill <- across_or(across, "variables")
 
+  aes_x <-
+    across_or(across, "variables")
+
+  aes_y <- "values"
+
+  aes_fill <-
+    across_or(across, "variables")
 
   # 3. Create ggplot add ons -----------------------------------------------
 
   # facet add on
   facet_add_on <-
-    statistics_facet_wrap(scales = scales, nrow = nrow, ncol = ncol)
+    statistics_facet_wrap(
+      scales = scales,
+      nrow = nrow,
+      ncol = ncol)
 
   # jitter add on
   jitter_add_on <-
@@ -238,6 +273,7 @@ plot_boxplot <- function(df,
       df_shifted = df_shifted,
       across = across,
       aes_x = aes_x,
+      aes_y = aes_y,
       display.points = display.points,
       pt.alpha = pt.alpha,
       pt.color = pt.color,
@@ -251,6 +287,7 @@ plot_boxplot <- function(df,
     statistics_tests(
       df_shifted = df_shifted,
       across = across,
+      aes_y = aes_y,
       ref.group = ref.group,
       test.pairwise = test.pairwise,
       test.groupwise = test.groupwise,
@@ -258,10 +295,18 @@ plot_boxplot <- function(df,
       vjust = vjust
     )
 
+  # legend add on
+  legend_add_on <-
+    base::ifelse(
+      test = base::is.null(across) & base::is.numeric(pt.shape),
+      yes = list(legend_none()),
+      no = list()
+    )
+
 
   # 4. Assemble final plot output -------------------------------------------
 
-  ggplot2::ggplot(data = df_shifted, aes(x = .data[[aes_x]], .data[["values"]])) +
+  ggplot2::ggplot(data = df_shifted, aes(x = .data[[aes_x]], .data[[aes_y]])) +
     ggplot2::geom_boxplot(ggplot2::aes(fill = .data[[aes_fill]]), ...) +
     theme_statistics() +
     facet_add_on +
@@ -272,7 +317,8 @@ plot_boxplot <- function(df,
       clrp = clrp, clrp.adjust = clrp.adjust
     ) +
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.1))) +
-    ggplot2::labs(x = NULL, y = NULL, fill = make_pretty_names(aes_fill, pretty.names))
+    ggplot2::labs(x = NULL, y = NULL) +
+    legend_add_on
 
 }
 
@@ -280,6 +326,10 @@ plot_boxplot <- function(df,
 
 
 #' @title Plot distribution and results of statistical tests
+#'
+#' @description These functions visualize the distribution of numerical variables via
+#' histograms, density- and ridgeplots. Argument \code{variables} accepts
+#' only values that refer to numerical variables.
 #'
 #' @inherit plot_violin params return
 #' @inherit argument_dummy params return
@@ -299,7 +349,6 @@ plot_density <- function(df,
                          ncol = NULL,
                          clrp = "milo",
                          clrp.adjust = NULL,
-                         pretty.names = TRUE,
                          verbose = TRUE,
                          ...){
 
@@ -307,7 +356,7 @@ plot_density <- function(df,
 
   # 1. Control --------------------------------------------------------------
 
-  are_values(c("across", "ref.group"),
+  are_values(c("across"),
              mode = "character",
              skip.allow = TRUE,
              skip.value = NULL)
@@ -340,8 +389,19 @@ plot_density <- function(df,
 
   # facet add on
   facet_add_on <-
-    statistics_facet_wrap(display.facets = display.facets, scales = scales, nrow = nrow, ncol = ncol)
+    statistics_facet_wrap(
+      display.facets = display.facets,
+      scales = scales,
+      nrow = nrow,
+      ncol = ncol)
 
+  # legend add on
+  legend_add_on <-
+    base::ifelse(
+      test = base::is.null(across),
+      yes = list(legend_none()),
+      no = list()
+    )
 
   # 4. Assemble final plot output -------------------------------------------
 
@@ -353,7 +413,8 @@ plot_density <- function(df,
       aes = "fill", variable = df_shifted[[aes_fill]],
       clrp = clrp, clrp.adjust = clrp.adjust
     ) +
-    ggplot2::labs(x = NULL, y = NULL, fill = make_pretty_names(aes_fill, pretty.names))
+    ggplot2::labs(x = NULL, y = NULL) +
+    legend_add_on
 
 
 }
@@ -371,7 +432,6 @@ plot_histogram <- function(df,
                            ncol = NULL,
                            clrp = "milo",
                            clrp.adjust = NULL,
-                           pretty.names = TRUE,
                            verbose = TRUE,
                            ...){
 
@@ -379,7 +439,7 @@ plot_histogram <- function(df,
 
   # 1. Control --------------------------------------------------------------
 
-  are_values(c("across", "ref.group"),
+  are_values(c("across"),
              mode = "character",
              skip.allow = TRUE,
              skip.value = NULL)
@@ -413,17 +473,30 @@ plot_histogram <- function(df,
   # facet add on
   facet_add_on <-
     statistics_facet_wrap(scales = scales, nrow = nrow, ncol = ncol)
+
+  # legend add on
+  legend_add_on <-
+    base::ifelse(
+      test = base::is.null(across),
+      yes = list(legend_none()),
+      no = list()
+    )
+
   # 4. Assemble final plot output -------------------------------------------
 
   ggplot2::ggplot(data = df_shifted, aes(x = .data[["values"]])) +
-    ggplot2::geom_histogram(ggplot2::aes(fill = .data[[aes_fill]]), ...) +
+    ggplot2::geom_histogram(
+      ggplot2::aes(fill = .data[[aes_fill]]),
+      color = "black", ...
+      ) +
     theme_statistics() +
     facet_add_on +
     scale_color_add_on(
       aes = "fill", variable = df_shifted[[aes_fill]],
       clrp = clrp, clrp.adjust = clrp.adjust
     ) +
-    ggplot2::labs(x = NULL, y = NULL, fill = make_pretty_names(aes_fill, pretty.names))
+    ggplot2::labs(x = NULL, y = NULL) +
+    legend_add_on
 
 
 }
@@ -435,12 +508,13 @@ plot_ridgeplot <- function(df,
                            across = NULL,
                            across.subset = NULL,
                            relevel = TRUE,
+                           display.facets = TRUE,
                            scales = "free",
                            nrow = NULL,
                            ncol = NULL,
+                           alpha = 0.85,
                            clrp = "milo",
                            clrp.adjust = NULL,
-                           pretty.names = TRUE,
                            verbose = TRUE,
                            ...){
 
@@ -448,7 +522,7 @@ plot_ridgeplot <- function(df,
 
   # 1. Control --------------------------------------------------------------
 
-  are_values(c("across", "ref.group"),
+  are_values(c("across"),
              mode = "character",
              skip.allow = TRUE,
              skip.value = NULL)
@@ -483,27 +557,43 @@ plot_ridgeplot <- function(df,
 
   # facet add on
   facet_add_on <-
-    statistics_facet_wrap(scales = scales, nrow = nrow, ncol = ncol)
+    statistics_facet_wrap(
+      display.facets = base::ifelse(base::is.null(across), FALSE, display.facets),
+      scales = scales,
+      nrow = nrow,
+      ncol = ncol)
 
   # 4. Assemble final ggplot output -----------------------------------------
+
+  df_shifted <-
+    make_pretty_df(
+      df_shifted,
+      column.names = FALSE,
+      make.pretty = make.pretty
+    )
 
   ggplot2::ggplot(data = df_shifted, mapping = ggplot2::aes(.data[["values"]], .data[[aes_y]])) +
     ggridges::geom_density_ridges(
       mapping = ggplot2::aes(fill = .data[[aes_fill]]),
-      color = "black", alpha = 0.825, ...
+      color = "black", alpha = alpha, ...
       ) +
-    facet_add_on +
     theme_statistics() +
+    facet_add_on +
     scale_color_add_on(
       aes = "fill", variable = df_shifted[[aes_fill]],
       clrp = clrp, clrp.adjust = clrp.adjust
     ) +
-    ggplot2::labs(x = NULL, y = NULL, fill = make_pretty_names(aes_fill, pretty.names))
+    ggplot2::labs(x = NULL, y = NULL) +
+    legend_none()
 
 }
 
 
-#' Title
+#' @title Plot distribution of discrete/categorical variables
+#'
+#' @description This function visualizes the distribution of discrete
+#' variable - argument \code{variables} accepts only values that refer
+#' to discrete variables.
 #'
 #' @inherit plot_violin params return
 #' @inherit argument_dummy params return
@@ -511,17 +601,18 @@ plot_ridgeplot <- function(df,
 #' @return
 #' @export
 #'
-#' @examples
+
 plot_barplot <- function(df,
                          variables = NULL,
                          across = NULL,
                          across.subset = NULL,
+                         relevel = TRUE,
                          display.facets = TRUE,
                          nrow = NULL,
                          ncol = NULL,
                          clrp = "milo",
+                         clrp.adjust = NULL,
                          position = "dodge",
-                         pretty.names = TRUE,
                          ...){
 
   # 1. Control --------------------------------------------------------------
@@ -559,28 +650,48 @@ plot_barplot <- function(df,
 
   # if across is not NULL set the information to the value of 'across'
   # otherwise set to "variables"
-  aes_x <- across_or(across, "values")
-  aes_fill <- across_or(across, "values")
+  aes_fill <- across_or(across, "variables")
 
   # 3. Create ggplot add ons ------------------------------------------------
 
   facet_add_on <-
-    statistics_facet_wrap(display.facets = display.facets, scales = "free", nrow = nrow, ncol = ncol)
+    statistics_facet_wrap(
+      display.facets = display.facets,
+      scales = "free",
+      nrow = nrow,
+      ncol = ncol)
 
+  legend_add_on <-
+    base::ifelse(
+      test = base::is.null(across),
+      yes = list(legend_none()),
+      no = list()
+      )
+
+  scales_add_on <-
+    base::ifelse(
+      test = position == "fill",
+      yes = list(ggplot2::scale_y_continuous(labels = scales::percent)),
+      no = list()
+      )
 
   # 4. Assemble final ggplot ------------------------------------------------
 
-  ggplot2::ggplot(data = df_shifted, mapping = ggplot2::aes(x = .data[[aes_x]])) +
+  ggplot2::ggplot(data = df_shifted, mapping = ggplot2::aes(x = .data[["values"]])) +
     ggplot2::geom_bar(
       mapping = ggplot2::aes(fill = .data[[aes_fill]]),
-      position = position,
-      ...) +
-    facet_add_on +
+      color = "black",
+      position = position, ...
+      ) +
     theme_statistics() +
     scale_color_add_on(
-      aes = "fill", variable = df_shifted[[aes_fill]], clrp = clrp
+      aes = "fill", variable = df_shifted[[aes_fill]],
+      clrp = clrp, clrp.adjust = clrp.adjust
     ) +
-    ggplot2::labs(fill = make_pretty_names(aes_fill, make.pretty = pretty.names))
+    ggplot2::labs(x = NULL, y = NULL) +
+    facet_add_on +
+    legend_add_on +
+    scales_add_on
 
 }
 
@@ -595,19 +706,9 @@ across_or <- function(across, otherwise = "variables"){
 }
 
 
-barplot_x_lab <- function(display.facets, across){
 
-  if(base::isTRUE(display.facets)){
 
-    base::return(NULL)
 
-  } else {
-
-    base::return(across)
-
-  }
-
-}
 
 
 

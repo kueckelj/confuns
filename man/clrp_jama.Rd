@@ -3,7 +3,7 @@
 \docType{data}
 \name{clrp_jama}
 \alias{clrp_jama}
-\title{The Journal of the American Medical Association - color panel}
+\title{The Journal of the American Medical Association - color palette}
 \format{
 An object of class \code{character} of length 10.
 }
@@ -11,6 +11,6 @@ An object of class \code{character} of length 10.
 clrp_jama
 }
 \description{
-The Journal of the American Medical Association - color panel
+The Journal of the American Medical Association - color palette
 }
 \keyword{datasets}

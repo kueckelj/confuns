@@ -23,8 +23,8 @@ plot_violin(
   pt.alpha = 0.8,
   pt.color = "black",
   pt.num = 100,
-  pt.size = 1.5,
   pt.shape = 19,
+  pt.size = 1.5,
   clrp = "milo",
   clrp.adjust = NULL,
   pretty.names = TRUE,
@@ -49,9 +49,9 @@ plot_boxplot(
   display.points = FALSE,
   pt.alpha = 0.8,
   pt.color = "black",
-  pt.size = 1.5,
   pt.num = 100,
   pt.shape = 19,
+  pt.size = 1.5,
   clrp = "milo",
   clrp.adjust = NULL,
   pretty.names = TRUE,
@@ -62,15 +62,15 @@ plot_boxplot(
 \arguments{
 \item{df}{A data.frame.}
 
-\item{variables}{Character vector. Denotes the variables
-of interest. If set to NULL all valid variables of input for \code{df} are
+\item{variables}{Character vector. Specifies the variables
+of interest. If set to NULL all valid variables of the input data.frame are
 considered (as long as the total number does not exceeds the limit).
 
 If there are more variables you are interested in than they are variables
 you are not interested in specify those that you are not interested in prefixed
 with an \emph{'-'}. Variables prefixed that way are discarded and the remaining are kept.}
 
-\item{across}{Character value. Denotes the discrete variable in the data.frame
+\item{across}{Character value. Specifies the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed.}
 
 \item{across.subset}{Character vector. The groups of interest that the grouping variable
@@ -80,15 +80,16 @@ If there are more groups you are interested in than they are groups you are not 
 in specify those that you are not interested in prefixed with an \emph{'-'}.
 Variables prefixed that way are discarded and the remaining are kept.}
 
-\item{relevel}{Logical value. If set to TRUE the input of \code{across.subset}
-determines the new order in which the results are displayed.}
+\item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
+\code{variables} determines the order in which the groups of interest are displayed.}
 
-\item{test.pairwise}{Character value or NULL. If character, one of \emph{'none', 't.test', 'wilcox.test'}.}
+\item{test.pairwise}{Character value or NULL. If character, one of \emph{'t.test', 'wilcox.test'}.}
 
-\item{test.groupwise}{Character value or NULL. If character, one of \emph{'none', 'anova', 'kruskal.test'}.}
+\item{test.groupwise}{Character value or NULL. If character, one of \emph{'anova', 'kruskal.test'}.}
 
-\item{ref.group}{Character value. Denotes the reference group for the statistical tests. Must
-be one value of the variable specified in \code{across}.}
+\item{ref.group}{Character value. Specifies the reference group for the pairwise statistical test. Must
+be among the groups the variable specified in \code{across} contains. If set to NULL the
+first group found is taken.}
 
 \item{step.increase}{Numeric value. Denotes the increase in fraction of total
 height for every additional comparison to minimize overlap.}
@@ -97,36 +98,39 @@ height for every additional comparison to minimize overlap.}
 the test denoted in \code{test.groupwise}. Negative input highers, positive
 input lowers the position.}
 
-\item{scales}{Given to \code{ggplot2::facet_wrap()}.}
+\item{scales}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
 
-\item{nrow}{Given to \code{ggplot2::facet_wrap()}.}
+\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
 
-\item{ncol}{Given to \code{ggplot2::facet_wrap()}.}
+\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
 
-\item{pt.alpha}{Numeric value. Denotes the transperancy of the points.}
+\item{display.points}{Logical value. If set to TRUE points are used additionally
+to display the results.}
 
-\item{pt.color}{Character value. Denotes the color with
-which the points are displayed .}
+\item{pt.alpha}{Numeric value. Specifies the transparency of points.}
 
-\item{pt.num}{Numeric value. Regulates the number of points (sample size)
+\item{pt.color}{Character value. Specifies the color with which all points are displayed .}
+
+\item{pt.num}{Numeric value. Species the number of points (sample size)
 to prevent overplotting.}
-
-\item{pt.size}{Numeric values. Denote size of the points.}
 
 \item{pt.shape}{Numeric or character value. If numeric, the respective
 shape is taken for all points. If character, the respective variable is
 mapped to the shape-aesthetic.}
 
-\item{clrp}{Character value. The color panel of choice if \code{variable} is discrete
-Run \code{confuns::all_colorpanels()} to see all valid input choices.
+\item{pt.size}{Numeric values. Specifies size of points.}
 
-(Ignored if \code{variable} is numeric)}
+\item{clrp}{Character value. Specifies the color palette to be used to represent
+groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
+input options.}
 
-\item{clrp.adjust}{Character vector or NULL. Adjusts the resulting named color vector.
-Only named elements are kept. Elements of the color vector with the same names as in
-\code{clrp.adjust} are replaced such that the elements of \code{clrp.adjust} are displayed by
-the color their name indicates rather than the color the color panel would have assigned
-to them.}
+\item{clrp.adjust}{Named character vector or NULL. If character, it adjusts the
+colors that are used to represent the groups. Names of the input vector must refer
+to the group and the respective named element denotes the color with which to
+represent the group.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
@@ -137,8 +141,13 @@ the computational progress will be printed.
 function.}
 }
 \value{
-
+Returns a ggplot-object that can be additionally customized according
+to the rules of the ggplot2-framework.
 }
 \description{
-Plot distribution and results of statistical tests
+These functions visualize the distribution of numerical variables via box-
+and violinplots while simultaneously allowing for statistical tests.
+Argument \code{variables} accepts only values that refer to numerical
+variables. Use \code{vjust} and \code{step.increase} to move the results of statistical
+tests in order to keep the plot aesthetically pleasing.
 }

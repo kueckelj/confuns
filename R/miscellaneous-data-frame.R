@@ -14,14 +14,17 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
   across_subset_input <- base::substitute(across.subset)
 
   is_value(x = across, mode = "character", skip.allow = TRUE, skip.val = NULL)
+  is_vec(x = across.subset, mode = "character", skip.allow = TRUE, skip.val = NULL)
 
-  if(base::is.null(across) | base::is.null(across.subset)){
+  # 1. Return option (across is NULL - original df) -------------------------
+
+  if(base::is.null(across)){
 
     base::return(df)
 
   } else {
 
-    # get valid groups
+    # get valid groups and make sure that across is of type character or factor
     if(base::is.factor(df[[across]])){
 
       all_groups <- base::levels(df[[across]])
@@ -35,82 +38,99 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
       class_across <- base::class(df[[across]])
 
       msg <-
-        glue::glue("Input for argument 'across' must refers to a variable of class {class_across}. Must be of type 'character' or 'factor'.")
+        glue::glue("Input '{across}' for argument 'across' refers to a variable of class {class_across}. Must be of class character or factor.")
 
       confuns::give_feedback(
         msg = msg,
         fdb.fn = "stop",
-        verbose = TRUE
+        verbose = TRUE,
+        with.time = FALSE
       )
 
     }
 
-    # distinguish between groups to keep and groups to discard
-    discard_groups <-
-      stringr::str_subset(across.subset, pattern = "^-") %>%
-      stringr::str_remove_all(pattern = "^-")
 
-    keep_groups <-
-      stringr::str_subset(across.subset, pattern = "^[^-]")
+    # 2. Return option (across.subset is NULL - original df) ------------------
 
-    # check for ambiguous input
-    duplicated_groups <-
-      base::intersect(keep_groups, discard_groups)
+    if(base::is.null(across.subset)){
 
-    if(base::length(duplicated_groups) >= 1){
+      base::return(df)
 
-      duplicated_groups <- stringr::str_c("(-)", duplicated_groups)
+    } else if(base::is.character(across.subset)){
 
-      msg <-
-        glue::glue("Ambiguous values ('{duplicated_input}') in input for argument '{across_subset_input}'.",
-                   duplicated_input = glue::glue_collapse(x = duplicated_groups, sep = "', ", last = "' and '"))
+      # distinguish between groups to keep and groups to discard
+      discard_groups <-
+        stringr::str_subset(across.subset, pattern = "^-") %>%
+        stringr::str_remove_all(pattern = "^-")
 
-      give_feedback(
-        fdb.fn = "stop",
-        msg = msg
-      )
+      keep_groups <-
+        stringr::str_subset(across.subset, pattern = "^[^-]")
 
-    }
+      # check for ambiguous input
+      duplicated_groups <-
+        base::intersect(keep_groups, discard_groups)
 
-    across.subset <- c(keep_groups, discard_groups)
+      if(base::length(duplicated_groups) >= 1){
 
-    # keep valid groups
+        duplicated_groups <- stringr::str_c("(-)", duplicated_groups)
+
+        msg <-
+          glue::glue("Ambiguous values ('{duplicated_input}') in input for argument '{across_subset_input}'.",
+                     duplicated_input = glue::glue_collapse(x = duplicated_groups, sep = "', ", last = "' and '"))
+
+        give_feedback(
+          fdb.fn = "stop",
+          msg = msg
+        )
+
+      }
+
+      across.subset <- c(keep_groups, discard_groups)
+
+      # keep valid groups
       check_one_of(
         input = across.subset,
         against = all_groups,
         ref.input = base::as.character(glue::glue("input to subset '{across}'-groups"))
       )
 
-    #if no error all are valid
-    across.subset_valid <- across.subset
+      #if no error all are valid
+      across.subset_valid <- across.subset
 
-    # keep valid distinguished groups
-    discard_groups <- discard_groups[discard_groups %in% across.subset_valid]
+      # keep valid distinguished groups
+      discard_groups <- discard_groups[discard_groups %in% across.subset_valid]
 
-    # in case only -across.subset has been provided "refill" 'keep_groups'
-    if(base::length(keep_groups) == 0){
+      # in case only -across.subset has been provided "refill" 'keep_groups'
+      if(base::length(keep_groups) == 0){
 
-      keep_groups <- all_groups
+        keep_groups <- all_groups
+
+      }
+
+      # discard what has been denoted with -
+      keep_groups <- keep_groups[!keep_groups %in% discard_groups]
+
+      # filter input data.frame
+      df <- dplyr::filter(.data = df, !!rlang::sym(across) %in% {{keep_groups}})
+
+      # relevel 'across' if desired
+      if(base::isTRUE(relevel)){
+
+        df[[across]] <-
+          base::factor(x = df[[across]], levels = keep_groups)
+
+      }
+
+
+      # 3. Return option (across.subset is character - filtered df) ---------
+
+      base::return(df)
 
     }
-
-    # discard what has been denoted with -
-    keep_groups <- keep_groups[!keep_groups %in% discard_groups]
-
-    # filter input data.frame
-    df <- dplyr::filter(.data = df, !!rlang::sym(across) %in% {{keep_groups}})
-
-    # relevel 'across' if desired
-    if(base::isTRUE(relevel)){
-
-      df[[across]] <-
-        base::factor(x = df[[across]], levels = keep_groups)
-
-    }
-
-    base::return(df)
 
   }
+
+
 
 }
 
@@ -134,43 +154,65 @@ process_and_shift_df <- function(df,
                                  keep = NULL,
                                  verbose = TRUE){
 
+
+  # select and filter
+  keep <- base::unique(c(across, keep))
+
   df_checked <-
     check_df_variables(
       df = df,
       variables = variables,
       valid.classes = valid.classes,
-      keep = c(across, keep),
+      keep = keep,
       verbose = verbose
     ) %>%
     check_across_subset(
-      df = .,
       across = across,
       across.subset = across.subset,
       relevel = relevel,
       fdb.fn = "warning"
     )
 
-  unique_names <-
-    base::names(df_checked) %>%
-    base::unique()
 
-  shift_cols <-
-    purrr::keep(df_checked[, unique_names], .p = ~ is_any_of(.x, valid.classes = valid.classes)) %>%
-    base::colnames()
+  # extract the variables that are to be shifted
+  valid_variables <- base::colnames(df_checked)
 
-  if(base::is.character(across)){
+  if(base::is.character(keep) && base::length(keep) >= 1){
 
-    shift_cols <- shift_cols[shift_cols != across]
+    shift_cols <- valid_variables[!valid_variables %in% keep]
+
+  } else {
+
+    shift_cols <- valid_variables
 
   }
 
+  # shift the data.frame (unorder factor to prevent errors)
   df_shifted <-
+    df_checked %>%
+    dplyr::mutate_if(.predicate = base::is.ordered,
+                     .funs = base::factor,
+                     ordered = FALSE) %>%
     tidyr::pivot_longer(
-      data = df_checked,
       cols = dplyr::all_of(shift_cols),
       names_to = "variables",
       values_to = "values"
     )
+
+  # relevel variables if set to true
+  if(base::isTRUE(relevel) && base::is.character(variables)){
+
+    variables <- variables[!stringr::str_detect(variables, pattern = "^-")]
+
+    if(base::length(variables) >= 2){
+
+      variable_levels <- variables[variables %in% shift_cols]
+
+      df_shifted$variables <- base::factor(df_shifted$variables, levels = variable_levels)
+
+    }
+
+  }
 
   base::return(df_shifted)
 

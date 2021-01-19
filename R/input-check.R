@@ -172,7 +172,7 @@ is_any_of <- function(input, valid.classes){
       .f = ~ base::is.vector(x = input, mode = .x)
       )
 
-  if("factor" %in% valid.classes){
+  if("factor" %in% valid.classes | "any" %in% valid.classes){
 
     res_lgl <- c(res_lgl, base::is.factor(input))
 
@@ -585,7 +585,6 @@ are_vectors <- function(...,
 check_assign <- function(assign = FALSE,
                          assign_name = character(1)){
 
-
   confuns::is_value(assign, mode = "logical")
 
   if(base::isTRUE(assign)){
@@ -712,9 +711,10 @@ check_data_frame <- function(df,
 
         report[[ref_name]] <-
           glue::glue(
-            "must be of class '{ref_valid_classes}' but is of class '{ref_current_class}'.",
+            "must be of class '{ref_valid_classes}' but is of {ref1} '{ref_current_class}'.",
             ref_valid_classes = glue::glue_collapse(var.class[[name]], sep = "', '", last = "' or '"),
-            ref_current_class = base::class(df[[name]])
+            ref1 = adapt_reference(base::class(df[[name]]), sg = "class", pl = "classes"),
+            ref_current_class = glue::glue_collapse(base::class(df[[name]]), sep = ", ", last = "' and '")
           ) %>%
           base::as.character()
 
@@ -725,7 +725,7 @@ check_data_frame <- function(df,
   # return report if anything is invalid else return TRUE
   if(base::length(report) >= 1){
 
-    msg_init <- glue::glue("\n\nInvalid input for argument '{ref_input}':\n\n")
+    msg_init <- glue::glue("\n\nProblematic data.frame input for argument '{ref_input}':\n\n")
 
     msg_report <-
       glue_list_report(
@@ -962,6 +962,7 @@ check_one_of <- function(input,
 # -----
 
 
+
 # adjusting check ---------------------------------------------------------
 
 
@@ -969,8 +970,12 @@ check_one_of <- function(input,
 #'
 #' @description Selects the variables denoted in
 #' \code{keep} and \code{variables}. The letter ones
-#' are checked for validity.
+#' are checked for validity. If \code{variables} is
+#' set to NULL all valid variables are kept.
 #'
+#' @param keep Character vector or NULL. If character, specifies variables
+#' that are to be kept even if they are not of thoses classes denoted in
+#' \code{valid.classes}.
 #' @inherit argument_dummy params
 #'
 #' @return The input \code{df} with all selected variables.
@@ -979,17 +984,7 @@ check_one_of <- function(input,
 
 check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL, verbose = TRUE){
 
-  if(base::is.character(keep) & base::is.character(variables) && !keep %in% variables){
-
-    keep_df <-
-      dplyr::select(df, dplyr::all_of(x = keep))
-
-  } else {
-
-    keep_df <- NULL
-
-  }
-
+  # extract and check 'variables'
   if(base::is.null(variables) | base::any(stringr::str_detect(variables, pattern = "^-"))){
 
     res_df <-
@@ -1027,6 +1022,33 @@ check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL,
 
   }
 
+  variables_kept <- base::colnames(res_df)
+
+  # extract and check 'keep'
+  if(base::is.character(keep) & !base::all(keep %in% variables_kept)){
+
+    keep <- keep[!keep %in% variables_kept]
+
+    var.class <-
+      purrr::map(.x = keep, .f = function(i){ "any" }) %>%
+      purrr::set_names(nm = keep)
+
+    check_data_frame(
+      df = df,
+      var.class = var.class
+    )
+
+    keep_df <-
+      dplyr::select(df, dplyr::all_of(x = keep))
+
+  } else {
+
+    keep_df <- NULL
+
+  }
+
+  # if additional variables have been kept with argument 'keep'
+  # add to the resulting data.frame
   if(base::is.data.frame(keep_df) & base::is.data.frame(res_df)){
 
     res_df <-

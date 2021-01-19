@@ -21,8 +21,8 @@ process_and_shift_df(
 \arguments{
 \item{df}{A data.frame.}
 
-\item{variables}{Character vector. Denotes the variables
-of interest. If set to NULL all valid variables of input for \code{df} are
+\item{variables}{Character vector. Specifies the variables
+of interest. If set to NULL all valid variables of the input data.frame are
 considered (as long as the total number does not exceeds the limit).
 
 If there are more variables you are interested in than they are variables
@@ -32,7 +32,7 @@ with an \emph{'-'}. Variables prefixed that way are discarded and the remaining 
 \item{valid.classes}{Character vector to specify the classes the input
 might have in order not to be discarded.}
 
-\item{across}{Character value. Denotes the discrete variable in the data.frame
+\item{across}{Character value. Specifies the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed.}
 
 \item{across.subset}{Character vector. The groups of interest that the grouping variable
@@ -42,8 +42,8 @@ If there are more groups you are interested in than they are groups you are not 
 in specify those that you are not interested in prefixed with an \emph{'-'}.
 Variables prefixed that way are discarded and the remaining are kept.}
 
-\item{relevel}{Logical value. If set to TRUE the input of \code{across.subset}
-determines the new order in which the results are displayed.}
+\item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
+\code{variables} determines the order in which the groups of interest are displayed.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
