@@ -8,6 +8,7 @@ statistics_geom_jitter(
   df_shifted,
   across,
   aes_x,
+  aes_y,
   display.points,
   pt.alpha,
   pt.color,

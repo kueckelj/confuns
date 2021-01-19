@@ -7,6 +7,7 @@
 statistics_tests(
   df_shifted,
   across,
+  aes_y,
   ref.group,
   test.pairwise,
   test.groupwise,

@@ -16,7 +16,6 @@ plot_barplot(
   clrp = "milo",
   clrp.adjust = NULL,
   position = "dodge",
-  make.pretty = TRUE,
   ...
 )
 }

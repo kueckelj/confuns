@@ -241,9 +241,6 @@ plot_boxplot <- function(df,
       across.subset = across.subset,
       relevel = relevel,
       verbose = verbose
-    ) %>%
-    make_pretty_df(
-      make.pretty = make.pretty
     )
 
 
@@ -564,13 +561,6 @@ plot_ridgeplot <- function(df,
       ncol = ncol)
 
   # 4. Assemble final ggplot output -----------------------------------------
-
-  df_shifted <-
-    make_pretty_df(
-      df_shifted,
-      column.names = FALSE,
-      make.pretty = make.pretty
-    )
 
   ggplot2::ggplot(data = df_shifted, mapping = ggplot2::aes(.data[["values"]], .data[[aes_y]])) +
     ggridges::geom_density_ridges(

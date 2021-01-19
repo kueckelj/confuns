@@ -13,7 +13,7 @@ make_pretty_names(strings, ...)
 make_pretty_levels(fct, ...)
 }
 \arguments{
-\item{string}{Character value.}
+\item{string}{Character value. Returns input as is if it is not a character value.}
 
 \item{make.pretty}{Logical. If set to FALSE the input string is returned.}
 

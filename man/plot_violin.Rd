@@ -27,7 +27,6 @@ plot_violin(
   pt.size = 1.5,
   clrp = "milo",
   clrp.adjust = NULL,
-  pretty.names = TRUE,
   verbose = TRUE,
   ...
 )
@@ -54,7 +53,6 @@ plot_boxplot(
   pt.size = 1.5,
   clrp = "milo",
   clrp.adjust = NULL,
-  pretty.names = TRUE,
   verbose = TRUE,
   ...
 )

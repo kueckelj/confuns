@@ -18,7 +18,6 @@ plot_density(
   ncol = NULL,
   clrp = "milo",
   clrp.adjust = NULL,
-  pretty.names = TRUE,
   verbose = TRUE,
   ...
 )
@@ -34,7 +33,6 @@ plot_histogram(
   ncol = NULL,
   clrp = "milo",
   clrp.adjust = NULL,
-  pretty.names = TRUE,
   verbose = TRUE,
   ...
 )
@@ -52,7 +50,6 @@ plot_ridgeplot(
   alpha = 0.85,
   clrp = "milo",
   clrp.adjust = NULL,
-  pretty.names = TRUE,
   verbose = TRUE,
   ...
 )
