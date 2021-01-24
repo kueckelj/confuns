@@ -4,12 +4,12 @@
 \alias{arrange_rows}
 \title{Arrange rows}
 \usage{
-arrange_rows(df, across, verbose)
+arrange_rows(df, across = NULL, according.to, verbose)
 }
 \arguments{
 \item{df}{A data.frame with at least one numeric variable.}
 
-\item{across}{Character. Either \emph{'maxima} or \emph{'minima'}.}
+\item{according.to}{Character. Either \emph{'maxima} or \emph{'minima'}.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.

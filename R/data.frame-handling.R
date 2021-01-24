@@ -6,32 +6,39 @@
 #' returned data.frame.
 #'
 #' @param df A data.frame with at least one numeric variable.
-#' @param across Character. Either \emph{'maxima} or \emph{'minima'}.
+#' @param according.to Character. Either \emph{'maxima} or \emph{'minima'}.
 #'
 #' @inherit verbose params
 #'
 #' @return The arranged data.frame.
 #' @export
 
-arrange_rows <- function(df, across, verbose){
+arrange_rows <- function(df, across = NULL, according.to, verbose){
+
+  if(!base::is.null(across)){
+
+    warning("Argument 'across' of function 'arrange_rows()' is deprecated. Use 'according.to' ")
+
+    according.to <- across
+
+  }
 
   base::stopifnot(base::is.data.frame(df))
-  base::stopifnot(base::any(sapply(df, base::is.numeric)))
-  base::stopifnot(base::all(across == "maxima") | base::all(across == "minima"))
+  base::stopifnot(base::any(base::sapply(df, base::is.numeric)))
 
   if(verbose){
     base::message(glue::glue("Arranging rows according to their {across}."))
   }
 
-  if(across == "maxima"){
+  if(according.to == "maxima"){
 
-    df$order <- sapply(1:nrow(df), function(i){base::which.max(df[i, sapply(df, base::is.numeric)])})
-    df <- dplyr::arrange(df, order) %>% dplyr::select(-order) %>% as.data.frame()
+    df$order <- sapply(1:nrow(df), function(i){base::which.max(df[i, base::sapply(df, base::is.numeric)])})
+    df <- dplyr::arrange(df, order) %>% dplyr::select(-order) %>% base::as.data.frame()
 
-  } else if(across == "minima") {
+  } else if(according.to == "minima") {
 
-    df$order <- sapply(1:nrow(df), function(i){base::which.max(df[i, sapply(df, base::is.numeric)])})
-    df <- dplyr::arrange(df, desc(order)) %>% dplyr::select(-order) %>% as.data.frame()
+    df$order <- base::sapply(1:nrow(df), function(i){base::which.max(df[i, base::sapply(df, base::is.numeric)])})
+    df <- dplyr::arrange(df, desc(order)) %>% dplyr::select(-order) %>% base::as.data.frame()
 
   }
 
