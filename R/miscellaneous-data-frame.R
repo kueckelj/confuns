@@ -141,6 +141,7 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
 #' and \code{dplyr::pivot_longer()}.
 #'
 #' @inherit argument_dummy params
+#' @inherit check_df_variables params
 #'
 #' @return
 #' @export
@@ -152,6 +153,7 @@ process_and_shift_df <- function(df,
                                  across.subset = NULL,
                                  relevel = TRUE,
                                  keep = NULL,
+                                 ref_df = NULL,
                                  verbose = TRUE){
 
 
@@ -164,6 +166,7 @@ process_and_shift_df <- function(df,
       variables = variables,
       valid.classes = valid.classes,
       keep = keep,
+      ref_df = ref_df,
       verbose = verbose
     ) %>%
     check_across_subset(
