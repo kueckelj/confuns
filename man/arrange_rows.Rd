@@ -4,7 +4,7 @@
 \alias{arrange_rows}
 \title{Arrange rows}
 \usage{
-arrange_rows(df, across = NULL, according.to, verbose)
+arrange_rows(df, according.to, verbose)
 }
 \arguments{
 \item{df}{A data.frame with at least one numeric variable.}

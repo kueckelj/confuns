@@ -13,21 +13,13 @@
 #' @return The arranged data.frame.
 #' @export
 
-arrange_rows <- function(df, across = NULL, according.to, verbose){
-
-  if(!base::is.null(across)){
-
-    warning("Argument 'across' of function 'arrange_rows()' is deprecated. Use 'according.to' ")
-
-    according.to <- across
-
-  }
+arrange_rows <- function(df, according.to, verbose){
 
   base::stopifnot(base::is.data.frame(df))
   base::stopifnot(base::any(base::sapply(df, base::is.numeric)))
 
   if(verbose){
-    base::message(glue::glue("Arranging rows according to their {across}."))
+    base::message(glue::glue("Arranging rows according to their {according.to}."))
   }
 
   if(according.to == "maxima"){
