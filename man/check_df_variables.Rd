@@ -9,6 +9,7 @@ check_df_variables(
   valid.classes,
   variables = NULL,
   keep = NULL,
+  ref_df = NULL,
   verbose = TRUE
 )
 }
@@ -27,8 +28,12 @@ you are not interested in specify those that you are not interested in prefixed
 with an \emph{'-'}. Variables prefixed that way are discarded and the remaining are kept.}
 
 \item{keep}{Character vector or NULL. If character, specifies variables
-that are to be kept even if they are not of thoses classes denoted in
-\code{valid.classes}.}
+that are to be kept even if they are not of those classes denoted in
+\code{valid.classes}. Variables specified like that are not included in
+the pivoting process!}
+
+\item{ref_df}{Character value. Given to argument \code{ref} of
+function \code{check_data_frame()}.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.

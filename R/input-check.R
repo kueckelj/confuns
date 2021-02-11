@@ -974,15 +974,20 @@ check_one_of <- function(input,
 #' set to NULL all valid variables are kept.
 #'
 #' @param keep Character vector or NULL. If character, specifies variables
-#' that are to be kept even if they are not of thoses classes denoted in
-#' \code{valid.classes}.
+#' that are to be kept even if they are not of those classes denoted in
+#' \code{valid.classes}. Variables specified like that are not included in
+#' the pivoting process!
+#'
+#' @param ref_df Character value. Given to argument \code{ref} of
+#' function \code{check_data_frame()}.
+#'
 #' @inherit argument_dummy params
 #'
 #' @return The input \code{df} with all selected variables.
 #' @export
 #'
 
-check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL, verbose = TRUE){
+check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL, ref_df = NULL, verbose = TRUE){
 
   # extract and check 'variables'
   if(base::is.null(variables) | base::any(stringr::str_detect(variables, pattern = "^-"))){
@@ -1014,7 +1019,8 @@ check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL,
 
     check_data_frame(
         df = df,
-        var.class = var.class
+        var.class = var.class,
+        ref = ref_df
       )
 
     # if no error was thrown keep all variables
@@ -1035,7 +1041,8 @@ check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL,
 
     check_data_frame(
       df = df,
-      var.class = var.class
+      var.class = var.class,
+      ref = ref_df,
     )
 
     keep_df <-
