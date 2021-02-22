@@ -31,11 +31,11 @@ plot_statistics <- function(df, plot_type = "violin", ...){
 #' @title Plot distribution and results of statistical tests
 #'
 #' @description These functions visualize the distribution of numerical variables via box-
-#' and violinplots while simultaneously allowing for statistical tests.
-#' Argument \code{variables} accepts only values that refer to numerical
-#' variables. Use \code{vjust} and \code{step.increase} to move the results of statistical
-#' tests in order to keep the plot aesthetically pleasing.
+#' and violinplots while simultaneously allowing for statistical tests. See details
+#' for more.
 #'
+#' @param display.facets Logical value. Only relevant if \code{across} is set
+#' to NULL. Denotes if a subplot for each variable is supposed to be created.
 #' @param step.increase Numeric value. Denotes the increase in fraction of total
 #' height for every additional comparison to minimize overlap.
 #' @param vjust Numeric value. Denotes the relative, vertical position of the results of
@@ -48,7 +48,35 @@ plot_statistics <- function(df, plot_type = "violin", ...){
 #' @inherit scale_color_add_on params
 #' @inherit ggplot2_dummy return
 #'
+#' @details
+#' Argument \code{variables} accepts only values that refer to numerical
+#' variables. Use \code{vjust} and \code{step.increase} to move the results of statistical
+#' tests in order to keep the plot aesthetically pleasing.
+#'
 #' @export
+#'
+#' @examples #Not run:
+#'
+#' library(tidyerse)
+#'
+#' df <- mtcars
+#'
+#' df$cluster_kmeans <-
+#'   stats::kmeans(x = mtcars, centers = 4)$cluster %>%
+#'   base::as.factor()
+#'
+#' plot_violin(df)
+#'
+#' plot_violin(df, variables = c("qsec", "wt", "hp"))
+#'
+#' plot_violin(df,
+#'             variables = c("qsec", "wt", "hp"),
+#'             display.facets = FALSE)
+#'
+#' plot_violin(df,
+#'             variables = c("qsec", "wt", "hp"),
+#'             across = "cluster_kmeans",
+#'             ncol = 1)
 
 plot_violin <- function(df,
                         variables = NULL,
@@ -63,6 +91,7 @@ plot_violin <- function(df,
                         scales = "free",
                         nrow = NULL,
                         ncol = NULL,
+                        display.facets = TRUE,
                         display.points = FALSE,
                         pt.alpha = 0.8,
                         pt.color = "black",
@@ -125,7 +154,9 @@ plot_violin <- function(df,
     statistics_facet_wrap(
       scales = scales,
       nrow = nrow,
-      ncol = ncol)
+      ncol = ncol,
+      display.facets = display.facets
+      )
 
   # jitter add on
   jitter_add_on <-
@@ -166,7 +197,7 @@ plot_violin <- function(df,
 
   # 4. Assemble final plot output -------------------------------------------
 
-  ggplot2::ggplot(data = df_shifted, aes(x = .data[[aes_x]], .data[[aes_y]])) +
+  ggplot2::ggplot(data = df_shifted, ggplot2::aes(x = .data[[aes_x]], .data[[aes_y]])) +
     ggplot2::geom_violin(ggplot2::aes(fill = .data[[aes_fill]]), ...) +
     theme_statistics() +
     facet_add_on +
@@ -199,6 +230,7 @@ plot_boxplot <- function(df,
                          scales = "free",
                          nrow = NULL,
                          ncol = NULL,
+                         display.facets = TRUE,
                          display.points = FALSE,
                          pt.alpha = 0.8,
                          pt.color = "black",
@@ -262,7 +294,9 @@ plot_boxplot <- function(df,
     statistics_facet_wrap(
       scales = scales,
       nrow = nrow,
-      ncol = ncol)
+      ncol = ncol,
+      display.facets = display.facets
+    )
 
   # jitter add on
   jitter_add_on <-
@@ -387,10 +421,11 @@ plot_density <- function(df,
   # facet add on
   facet_add_on <-
     statistics_facet_wrap(
-      display.facets = display.facets,
       scales = scales,
       nrow = nrow,
-      ncol = ncol)
+      ncol = ncol,
+      display.facets = display.facets
+    )
 
   # legend add on
   legend_add_on <-
@@ -640,16 +675,22 @@ plot_barplot <- function(df,
 
   # if across is not NULL set the information to the value of 'across'
   # otherwise set to "variables"
-  aes_fill <- across_or(across, "variables")
+  aes_fill <-
+    across_or(
+      across = across,
+      otherwise = "variables",
+      variables = base::unique(df_shifted[["variables"]]),
+      "values")
 
   # 3. Create ggplot add ons ------------------------------------------------
 
   facet_add_on <-
     statistics_facet_wrap(
-      display.facets = display.facets,
       scales = "free",
       nrow = nrow,
-      ncol = ncol)
+      ncol = ncol,
+      display.facets = display.facets
+    )
 
   legend_add_on <-
     base::ifelse(
@@ -689,9 +730,17 @@ plot_barplot <- function(df,
 
 # Helper functions --------------------------------------------------------
 
-across_or <- function(across, otherwise = "variables"){
+across_or <- function(across, otherwise = "variables", variables = NULL, ...){
 
-  base::ifelse(base::is.null(across), yes = otherwise, no = across)
+  res <- base::ifelse(base::is.null(across), yes = otherwise, no = across)
+
+  if(!base::is.null(variables) && base::length(variables) == 1){
+
+    res <- c(...)
+
+  }
+
+  base::return(res)
 
 }
 

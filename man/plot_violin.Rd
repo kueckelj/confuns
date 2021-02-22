@@ -19,6 +19,7 @@ plot_violin(
   scales = "free",
   nrow = NULL,
   ncol = NULL,
+  display.facets = TRUE,
   display.points = FALSE,
   pt.alpha = 0.8,
   pt.color = "black",
@@ -45,6 +46,7 @@ plot_boxplot(
   scales = "free",
   nrow = NULL,
   ncol = NULL,
+  display.facets = TRUE,
   display.points = FALSE,
   pt.alpha = 0.8,
   pt.color = "black",
@@ -105,6 +107,9 @@ are displayed.}
 \item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}
 
+\item{display.facets}{Logical value. Only relevant if \code{across} is set
+to NULL. Denotes if a subplot for each variable is supposed to be created.}
+
 \item{display.points}{Logical value. If set to TRUE points are used additionally
 to display the results.}
 
@@ -144,8 +149,35 @@ to the rules of the ggplot2-framework.
 }
 \description{
 These functions visualize the distribution of numerical variables via box-
-and violinplots while simultaneously allowing for statistical tests.
+and violinplots while simultaneously allowing for statistical tests. See details
+for more.
+}
+\details{
 Argument \code{variables} accepts only values that refer to numerical
 variables. Use \code{vjust} and \code{step.increase} to move the results of statistical
 tests in order to keep the plot aesthetically pleasing.
+}
+\examples{
+#Not run:
+
+library(tidyerse)
+
+df <- mtcars
+
+df$cluster_kmeans <-
+  stats::kmeans(x = mtcars, centers = 4)$cluster \%>\%
+  base::as.factor()
+
+plot_violin(df)
+
+plot_violin(df, variables = c("qsec", "wt", "hp"))
+
+plot_violin(df,
+            variables = c("qsec", "wt", "hp"),
+            display.facets = FALSE)
+
+plot_violin(df,
+            variables = c("qsec", "wt", "hp"),
+            across = "cluster_kmeans",
+            ncol = 1)
 }

@@ -43,8 +43,8 @@ Variables prefixed that way are discarded and the remaining are kept.}
 \item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
 \code{variables} determines the order in which the groups of interest are displayed.}
 
-\item{display.facets}{Logical value. If set to TRUE the plot is split via
-\code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.}
+\item{display.facets}{Logical value. Only relevant if \code{across} is set
+to NULL. Denotes if a subplot for each variable is supposed to be created.}
 
 \item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}
