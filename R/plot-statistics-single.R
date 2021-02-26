@@ -337,7 +337,7 @@ plot_boxplot <- function(df,
 
   # 4. Assemble final plot output -------------------------------------------
 
-  ggplot2::ggplot(data = df_shifted, aes(x = .data[[aes_x]], .data[[aes_y]])) +
+  ggplot2::ggplot(data = df_shifted, ggplot2::aes(x = .data[[aes_x]], .data[[aes_y]])) +
     ggplot2::geom_boxplot(ggplot2::aes(fill = .data[[aes_fill]]), ...) +
     theme_statistics() +
     facet_add_on +
@@ -437,7 +437,7 @@ plot_density <- function(df,
 
   # 4. Assemble final plot output -------------------------------------------
 
-  ggplot2::ggplot(data = df_shifted, aes(x = .data[["values"]])) +
+  ggplot2::ggplot(data = df_shifted, ggplot2::aes(x = .data[["values"]])) +
     ggplot2::geom_density(ggplot2::aes(fill = .data[[aes_fill]]), ...) +
     theme_statistics() +
     facet_add_on +
@@ -516,7 +516,7 @@ plot_histogram <- function(df,
 
   # 4. Assemble final plot output -------------------------------------------
 
-  ggplot2::ggplot(data = df_shifted, aes(x = .data[["values"]])) +
+  ggplot2::ggplot(data = df_shifted, ggplot2::aes(x = .data[["values"]])) +
     ggplot2::geom_histogram(
       ggplot2::aes(fill = .data[[aes_fill]]),
       color = "black", ...
