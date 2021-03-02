@@ -18,9 +18,10 @@ arrange_rows <- function(df, according.to, verbose){
   base::stopifnot(base::is.data.frame(df))
   base::stopifnot(base::any(base::sapply(df, base::is.numeric)))
 
-  if(verbose){
-    base::message(glue::glue("Arranging rows according to their {according.to}."))
-  }
+  give_feedback(
+    msg = glue::glue("Arranging rows according to their {according.to}."),
+    verbose = verbose
+    )
 
   if(according.to == "maxima"){
 
