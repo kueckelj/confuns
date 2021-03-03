@@ -734,7 +734,7 @@ across_or <- function(across, otherwise = "variables", variables = NULL, ...){
 
   res <- base::ifelse(base::is.null(across), yes = otherwise, no = across)
 
-  if(!base::is.null(variables) && base::length(variables) == 1){
+  if(base::is.null(across) && !base::is.null(variables) && base::length(variables) == 1){
 
     res <- c(...)
 
