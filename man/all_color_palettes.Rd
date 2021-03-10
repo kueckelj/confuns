@@ -4,6 +4,7 @@
 \alias{all_color_palettes}
 \alias{all_color_spectra}
 \alias{all_colorpanels}
+\alias{all_colorspectra}
 \title{Color palette names}
 \usage{
 all_color_palettes()
@@ -11,6 +12,8 @@ all_color_palettes()
 all_color_spectra()
 
 all_colorpanels()
+
+all_colorspectra()
 }
 \value{
 A named list.
@@ -21,4 +24,7 @@ Returns all currently valid color palettes or -spectra.
 \details{
 \code{all_colorpanels()} is deprecated due to naming issues. Use
 \code{all_color_palettes()} instead.
+
+\code{all_colorspectra()} is deprecated due to naming issues. Use
+\code{all_color_spectra()} instead.
 }

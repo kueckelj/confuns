@@ -157,6 +157,9 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL){
 #' @details \code{all_colorpanels()} is deprecated due to naming issues. Use
 #' \code{all_color_palettes()} instead.
 #'
+#' \code{all_colorspectra()} is deprecated due to naming issues. Use
+#' \code{all_color_spectra()} instead.
+#'
 #' @export
 
 all_color_palettes <- function(){
