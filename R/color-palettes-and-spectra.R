@@ -49,8 +49,8 @@ diverging <-
 #' }
 #'
 #' @export
+colorpalettes <- c("milo", "jco", "npg", "aaas", "nejm", "lo", "jama", "uc")
 
-colorpanels <- c("milo", "jco", "npg", "aaas", "nejm", "lo", "jama", "uc")
 
 #' @title MILO Research Group - color palette
 #' @export
@@ -152,8 +152,11 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL){
 
 
 #' @title Color palette names
-#' @description Returns all currently valid color panels or -spectra.
+#' @description Returns all currently valid color palettes or -spectra.
 #' @return A named list.
+#' @details \code{all_colorpanels()} is deprecated due to naming issues. Use
+#' \code{all_color_palettes()} instead.
+#'
 #' @export
 
 all_color_palettes <- function(){
@@ -161,6 +164,7 @@ all_color_palettes <- function(){
   pretty_colorpalettes_list
 
 }
+
 
 #' @rdname all_color_palettes
 #' @export

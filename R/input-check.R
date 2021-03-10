@@ -362,7 +362,7 @@ is_vec <- function(x,
     }
 
     # give feedback
-    if(base::isFALSE(verbose)){fdb.fn <- "message"}
+    if(base::isFALSE(verbose)){fdb.fn <- "message"} # verbose = FALSE and fdb.fn = "message" -> no feedback
 
     give_feedback(
       fdb.fn = fdb.fn,
@@ -682,7 +682,7 @@ check_data_frame <- function(df,
                              with.time = FALSE,
                              fdb.fn = "stop"){
 
-  # get input reference
+  # denote input reference
   if(base::is.null(ref)){
 
     ref_input <- base::substitute(df)
@@ -1086,14 +1086,13 @@ check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL,
 #'
 #' @details If none of the input values are found an error is raised with the message:
 #'
-#'   glue::glue("Of \code{ref.input} did not find 'missing' in \code{ref.against}.")
+#'   glue::glue("Did not find any element of \code{ref.input} in \code{ref.against}.")
 #'
 #'   If only some of the input values are found the function denoted in \code{fdb.fn} is called with the message:
 #'
-#'   glue::glue("Did not find any element of \code{ref.input} in \code{ref.against}.")
+#'   glue::glue("Of \code{ref.input} did not find 'missing' in \code{ref.against}.")
 #'
 #' @export
-#'
 
 check_vector <- function(input,
                          against,

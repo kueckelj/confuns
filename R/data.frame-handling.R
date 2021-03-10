@@ -1,22 +1,25 @@
 #' @title Arrange rows
 #'
 #' @description Arranges the rows of a data.frame according to
-#' the positions of their maxima or or minima. The earlier
+#' the positions of their maxima or their minima. The earlier
 #' a rows maximum/minimum appears the earlier the row will appear in the
 #' returned data.frame.
 #'
 #' @param df A data.frame with at least one numeric variable.
 #' @param according.to Character. Either \emph{'maxima} or \emph{'minima'}.
+#' @param across Deprecated in favor of \code{according.to}.
 #'
 #' @inherit verbose params
 #'
 #' @return The arranged data.frame.
 #' @export
 
-arrange_rows <- function(df, according.to, verbose){
+arrange_rows <- function(df, according.to, verbose, across = NULL){
 
   base::stopifnot(base::is.data.frame(df))
   base::stopifnot(base::any(base::sapply(df, base::is.numeric)))
+
+  if(!base::is.null(across)){ according.to <- across }
 
   give_feedback(
     msg = glue::glue("Arranging rows according to their {according.to}."),

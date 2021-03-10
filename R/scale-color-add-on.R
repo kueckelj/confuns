@@ -60,7 +60,7 @@ scale_color_add_on <- function(aes = "color",
                                clrp.adjust = NULL,
                                ...){
 
-  confuns::is_value(aes, "character", "aes")
+  is_value(aes, "character", "aes")
   base::stopifnot(aes %in% c("fill", "color"))
 
   if(!base::is.null(clrp)){confuns::is_value(clrp, "character", "clrp")}
@@ -149,7 +149,7 @@ scale_color_add_on <- function(aes = "color",
 
     } else if(clrp %in% c("default", "greyscale", viridis_options)){
 
-      # no panel needed
+      # no palette needed
 
     } else {
 
@@ -178,7 +178,7 @@ scale_color_add_on <- function(aes = "color",
 
       } else {
 
-        base::message(glue::glue("Color panel '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
+        base::message(glue::glue("Color palette '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
         add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
 
       }
@@ -203,7 +203,7 @@ scale_color_add_on <- function(aes = "color",
 
       } else {
 
-        base::message(glue::glue("Color panel '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
+        base::message(glue::glue("Color palette '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
         add_on <- ggplot2::scale_color_manual(values = clrp, ...)
 
       }
