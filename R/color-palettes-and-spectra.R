@@ -154,12 +154,6 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL){
 #' @title Color palette names
 #' @description Returns all currently valid color palettes or -spectra.
 #' @return A named list.
-#' @details \code{all_colorpanels()} is deprecated due to naming issues. Use
-#' \code{all_color_palettes()} instead.
-#'
-#' \code{all_colorspectra()} is deprecated due to naming issues. Use
-#' \code{all_color_spectra()} instead.
-#'
 #' @export
 
 all_color_palettes <- function(){
