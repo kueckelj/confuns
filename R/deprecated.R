@@ -22,8 +22,15 @@ all_colorpanels <- function(){ # deprecated due to naming issues -> use 'all_col
 #' @return
 #' @export
 #'
-#' @examples
-all_colorspectra <- all_color_spectra
+all_colorspectra <- function(){
+
+  list(
+    "Diverging" = diverging,
+    "Sequential single hue" = sequential_single_hue,
+    "Sequential multi hue" = sequential_multi_hue
+  ) %>% purrr::map(.f = function(i){base::sort(i)})
+
+}
 
 
 #' @rdname colorpalettes
