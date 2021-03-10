@@ -7,7 +7,6 @@
 #' @return
 #' @export
 #'
-#' @examples
 all_colorpanels <- function(){ # deprecated due to naming issues -> use 'all_color_palettes()'
 
   list("science" = colorpanels)
