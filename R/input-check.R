@@ -743,6 +743,8 @@ check_data_frame <- function(df,
       verbose = verbose
     )
 
+    base::invisible(FALSE)
+
   } else {
 
     base::return(TRUE)
