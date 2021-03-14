@@ -3,7 +3,7 @@
 \docType{data}
 \name{clrp_nejm}
 \alias{clrp_nejm}
-\title{New England Journal of Medicine- color panel}
+\title{New England Journal of Medicine- color palette}
 \format{
 An object of class \code{character} of length 10.
 }
@@ -11,6 +11,6 @@ An object of class \code{character} of length 10.
 clrp_nejm
 }
 \description{
-New England Journal of Medicine- color panel
+New England Journal of Medicine- color palette
 }
 \keyword{datasets}

@@ -3,7 +3,7 @@
 \docType{data}
 \name{clrp_npg}
 \alias{clrp_npg}
-\title{Nature Publishing Group - color panel}
+\title{Nature Publishing Group - color palette}
 \format{
 An object of class \code{character} of length 10.
 }
@@ -11,6 +11,6 @@ An object of class \code{character} of length 10.
 clrp_npg
 }
 \description{
-Nature Publishing Group - color panel
+Nature Publishing Group - color palette
 }
 \keyword{datasets}

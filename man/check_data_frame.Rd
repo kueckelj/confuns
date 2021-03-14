@@ -4,7 +4,14 @@
 \alias{check_data_frame}
 \title{Check data.frame validity}
 \usage{
-check_data_frame(df, var.class = list(), ref = "df")
+check_data_frame(
+  df,
+  var.class = list(),
+  ref = NULL,
+  verbose = TRUE,
+  with.time = FALSE,
+  fdb.fn = "stop"
+)
 }
 \arguments{
 \item{df}{A data.frame.}
@@ -14,10 +21,21 @@ variable names of the data.frame that are to be validated. The respective
 elements specify the class the data.frame variable must have specified
 as character strings.}
 
-\item{ref}{Character value. Input reference for the error message.}
+\item{ref}{Character value. Input reference for the error message.
+If set to NULL the value of \code{x} is evaluated via non standard evalulation.}
+
+\item{verbose}{Logical value. Indicates whether any kind of feedback is supposed to
+be given. \code{verbose} set to FALSE shuts down any error, warning or general messages
+and results in the functions returning what is specified in \code{return}.}
+
+\item{with.time}{Logical value. Indicates whether the current time is to be
+added to the feedback message.}
+
+\item{fdb.fn}{Character value. Determines the function to call if a feedback
+message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
 }
 \value{
-An informative error message or an invisible TRUE.
+An informative message, warning or error or TRUE if valid.
 }
 \description{
 Checks whether the input data.frame contains variables

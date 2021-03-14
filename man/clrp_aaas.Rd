@@ -3,7 +3,7 @@
 \docType{data}
 \name{clrp_aaas}
 \alias{clrp_aaas}
-\title{American Association for the Advancement - color panel}
+\title{American Association for the Advancement - color palette}
 \format{
 An object of class \code{character} of length 10.
 }
@@ -11,6 +11,6 @@ An object of class \code{character} of length 10.
 clrp_aaas
 }
 \description{
-American Association for the Advancement - color panel
+American Association for the Advancement - color palette
 }
 \keyword{datasets}

@@ -4,24 +4,26 @@
 \alias{arrange_rows}
 \title{Arrange rows}
 \usage{
-arrange_rows(df, across, verbose)
+arrange_rows(df, according.to, verbose, across = NULL)
 }
 \arguments{
 \item{df}{A data.frame with at least one numeric variable.}
 
-\item{across}{Character. Either \emph{'maxima} or \emph{'minima'}.}
+\item{according.to}{Character. Either \emph{'maxima} or \emph{'minima'}.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 
 (Warning messages will always be printed.)}
+
+\item{across}{Deprecated in favor of \code{according.to}.}
 }
 \value{
 The arranged data.frame.
 }
 \description{
 Arranges the rows of a data.frame according to
-the positions of their maxima or or minima. The earlier
+the positions of their maxima or their minima. The earlier
 a rows maximum/minimum appears the earlier the row will appear in the
 returned data.frame.
 }

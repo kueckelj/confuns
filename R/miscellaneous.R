@@ -25,7 +25,6 @@ assign_obj <- function(assign, object, name){
 #' @param fun Character value. One of \emph{'message', 'warning', 'stop'}.
 #'
 #' @return The respective function
-#' @export
 #'
 
 error_handler <- function(fun){
@@ -44,6 +43,87 @@ error_handler <- function(fun){
   } else if(fun == "stop"){
 
     base::stop
+
+  }
+
+}
+
+
+#' @title Glue a human readable list report
+#'
+#' @description Combines all slots of the specified list in \code{lst}
+#' that are values to a character/glue object.
+#'
+#' @param lst A named list of values.
+#' @param separator Character value or NULL. Denotes the string with
+#' which the slot name is combined with the slot's content. If set to
+#' NULL neither the slot names nor the separators are mentioned and
+#' the slot's contents are combined as they are.
+#' @param prefix Character value. Denotes the string with which to prefix
+#' each slots.
+#'
+#' @return Glue object.
+#' @export
+#'
+#' @examples #Not run:
+#'
+#'  lst_input <- list("arg1" = TRUE, "arg2" = glue::glue_collapse(1:5, sep = ", "))
+#'
+#'  glue_list_report(lst = lst_input, separator = " = ")
+#'
+
+glue_list_report <- function(lst, prefix = "", separator = " = ", combine_via = "\n", ...){
+
+  lst <- purrr::keep(.x = keep_named(lst), .p = ~ is_vec(.x, mode = "any", of.length = 1, verbose = FALSE) & !base::is.list(x = .x))
+
+  report <- base::vector(mode = "character", length = base::length(lst))
+
+  for(slot in base::names(lst)){
+
+    ref_slot <- base::ifelse(base::is.character(separator), slot, "")
+
+    report[slot] <-
+      stringr::str_c(combine_via, prefix, ref_slot, separator, base::as.character(lst[[slot]]))
+
+  }
+
+  glue::glue_collapse(report)
+
+}
+
+
+#' @title Adapt glue reference
+#'
+#' @description Switch between plural or singular reference.
+#'
+#' @param input Vector to be checked.
+#' @param sg Character value to return if length of \code{input} is 1.
+#' @param pl Character value to return if length of \code{input} is > 1.
+#' If set to NULL an \emph{'s'} is attached to in put of \code{sg}.
+#' @param zero Character value to treturn if lengt of \code{input} is 0.
+#'
+#' @return Either sg or pl.
+#' @export
+
+adapt_reference <- function(input, sg, pl = NULL, zero = ""){
+
+  if(base::length(input) == 1){
+
+    base::return(sg)
+
+  } else if(base::length(input) >= 1){
+
+    if(base::is.null(pl)){
+
+      pl <- stringr::str_c(sg, "s", sep = "")
+
+    }
+
+    base::return(pl)
+
+  } else {
+
+    base::return(zero)
 
   }
 

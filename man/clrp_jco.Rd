@@ -3,7 +3,7 @@
 \docType{data}
 \name{clrp_jco}
 \alias{clrp_jco}
-\title{Journal of Oncology - color panel}
+\title{Journal of Oncology - color palette}
 \format{
 An object of class \code{character} of length 10.
 }
@@ -11,6 +11,6 @@ An object of class \code{character} of length 10.
 clrp_jco
 }
 \description{
-Journal of Oncology - color panel
+Journal of Oncology - color palette
 }
 \keyword{datasets}

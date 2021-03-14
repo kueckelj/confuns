@@ -7,9 +7,12 @@
 check_vector(
   input,
   against,
-  verbose = TRUE,
   ref.input = "input vector",
-  ref.against = "against vector"
+  ref.against = "valid options",
+  ref.connect = "among",
+  fdb.fn = "message",
+  verbose = TRUE,
+  with.time = FALSE
 )
 }
 \arguments{
@@ -17,14 +20,22 @@ check_vector(
 
 \item{against}{A vector of the same kind as \code{input}.}
 
+\item{ref.input}{The reference character value for input.}
+
+\item{ref.against}{The reference character value for against.}
+
+\item{fdb.fn}{Character value. Determines the function to call if a feedback
+message needs to be given. One of \emph{'stop', 'warning'} or \emph{'message'}.}
+
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 
 (Warning messages will always be printed.)}
 
-\item{ref.input}{The reference character value for input.}
+\item{with.time}{Logical value. Indicates whether the current time is to be
+added to the feedback message.}
 
-\item{ref.against}{The reference character value for against.}
+\item{...}{Additional arguments given to \code{give_feedback()}.}
 }
 \value{
 An informative error message about which elements of \code{input} were found in \code{against} or an invisible TRUE.
@@ -32,4 +43,13 @@ An informative error message about which elements of \code{input} were found in 
 \description{
 Compares the values of an input-vector against a control-vector containing
 valid values and returns the values of input that were found among the valid ones.
+}
+\details{
+If none of the input values are found an error is raised with the message:
+
+  glue::glue("Did not find any element of \code{ref.input} in \code{ref.against}.")
+
+  If only some of the input values are found the function denoted in \code{fdb.fn} is called with the message:
+
+  glue::glue("Of \code{ref.input} did not find 'missing' in \code{ref.against}.")
 }

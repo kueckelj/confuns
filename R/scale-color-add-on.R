@@ -7,27 +7,34 @@
 #' used aesthetic.
 #' @param variable The variable that is mapped onto the denoted aesthetic or a character
 #' value - one of \emph{'numeric', 'discrete'}.
-#' @param clrsp Character value. The color spectrum of choice if \code{variable} is
-#' numeric. Run \code{confuns::all_colorspectra()}
+#' @param clrsp Character value. The color spectrum of choice. Run \code{confuns::all_color_spectra()}
 #' to see all valid input choices.
 #'
 #' (Ignored if \code{variable} is discrete)
 #'
-#' @param clrp Character value. The color panel of choice if \code{variable} is discrete
-#' Run \code{confuns::all_colorpanels()} to see all valid input choices.
+#' @param clrp Character value. The color palette of choice.
+#' Run \code{confuns::all_color_palettes()} to see all valid input choices.
 #'
 #' (Ignored if \code{variable} is numeric)
+#'
+#' @inherit color_vector params
 #'
 #' @param ... Additional arguments given to the respective function.
 #'
 #'  \itemize{
-#'   \item{\code{ggplot2::scale_color_viridis_c(...)}: If \code{variable} is numeric and
-#'   \code{clrsp} is one of \emph{'cividis', 'viridis', 'inferno', 'magma', 'plasma'}}
+#'   \item{\code{ggplot2::scale_<aes>_viridis_c(...)}: If \code{variable} is numeric and
+#'   \code{clrsp} is one of \emph{'cividis', 'viridis', 'inferno', 'magma', 'plasma'}.}
 #'   \item{\code{colorspace::scale_<aes>_continuous_sequential(...)}: If \code{variable} is numeric
-#'   and \code{clrsp} is sequential}
+#'   and \code{clrsp} is sequential.}
 #'   \item{\code{colorspace::scale_<aes>_continuous_diverging(...)}: If \code{variable} is numeric
-#'   and \code{clrsp} is diverging}
-#'   \item{\code{ggplot2::scale_<aes>_manual(...)}: If \code{variable} is categorical.}
+#'   and \code{clrsp} is diverging.}
+#'   \item{\code{ggplot2::scale_<aes>_viridis_d(...)}: If \code{variable} is numeric
+#'   and \code{clrp} is one of \emph{'cividis', 'viridis', 'inferno', 'magma', 'plasma'}.}
+#'   \item{\code{ggplot2::scale_<aes>_greyscale(...)}: If \code{variable} is discrete
+#'   and \code{clrp} is set to \emph{'greyscale'}.}
+#'   \item{\code{ggplot2:.scale_<aes>_discrete()}: If \code{variable} is discrete
+#'   and \code{clrp} is set to \emph{'default'}.}
+#'   \item{\code{ggplot2::scale_<aes>_manual(...)}: If \code{variable} is discrete.}
 #'   }
 #'
 #' @return An unnamed list containing the ggproto object.
@@ -35,9 +42,6 @@
 #' @details If the specified \code{clrp} does not contain enough colors to cover the
 #' specified variable NULL is returned - which makes the call to \code{ggplot2::ggplot()}
 #' use the default ggplot2 color panel.
-#'
-#' Make sure to use correct capitalization and white spaces denoting the color panel or -spectrum
-#' of choice.
 #'
 #' @export
 #'
@@ -53,9 +57,10 @@ scale_color_add_on <- function(aes = "color",
                                variable = "numeric",
                                clrsp = NULL,
                                clrp = NULL,
+                               clrp.adjust = NULL,
                                ...){
 
-  confuns::is_value(aes, "character", "aes")
+  is_value(aes, "character", "aes")
   base::stopifnot(aes %in% c("fill", "color"))
 
   if(!base::is.null(clrp)){confuns::is_value(clrp, "character", "clrp")}
@@ -69,7 +74,7 @@ scale_color_add_on <- function(aes = "color",
 
       if(aes == "fill"){
 
-        if(clrsp %in% c("inferno", "cividis", "viridis", "magma", "plasma")){
+        if(clrsp %in% viridis_options){
 
           add_on <- ggplot2::scale_fill_viridis_c(option = clrsp, ...)
 
@@ -81,7 +86,7 @@ scale_color_add_on <- function(aes = "color",
 
       } else {
 
-        if(clrsp %in% c("inferno", "cividis", "viridis", "magma", "plasma")){
+        if(clrsp %in% viridis_options){
 
           add_on <- ggplot2::scale_color_viridis_c(option = clrsp, ...)
 
@@ -92,7 +97,6 @@ scale_color_add_on <- function(aes = "color",
         }
 
       }
-
 
     } else if(clrsp %in% confuns::diverging){
 
@@ -116,19 +120,36 @@ scale_color_add_on <- function(aes = "color",
   } else if(!base::is.numeric(variable) |
             base::all(variable == "discrete")){
 
-    n <- base::unique(variable) %>% base::length()
+    n_groups <- dplyr::n_distinct(variable)
+    n_colors <- -Inf
+
+    # if argument 'variable' is a factor or the variable itself make sure to name the colors
+    if(base::is.factor(variable)){
+
+      names <- base::levels(variable)
+
+    } else if(base::length(variable) > 1){
+
+      names <- base::unique(variable)
+
+    } else {
+
+      names <- NULL
+
+    }
 
     # 1. determine colors
     if(clrp %in% colorpanels){
 
       clrp_name <- clrp
 
-      clrp <-
-        stringr::str_c("clrp_", clrp, sep = "") %>%
-        base::parse(text = .) %>%
-        base::eval()
+      clrp <- color_vector(clrp = clrp, names = names, clrp.adjust = clrp.adjust)
 
-      l <- base::length(clrp)
+      n_colors <- base::length(clrp)
+
+    } else if(clrp %in% c("default", "greyscale", viridis_options)){
+
+      # no palette needed
 
     } else {
 
@@ -139,27 +160,51 @@ scale_color_add_on <- function(aes = "color",
     # 2. check whether fill or color as aesthetic
     if(aes == "fill"){
 
-      if(l > n){
+      if(n_colors >= n_groups){
 
         add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
 
+      } else if(base::all(clrp == "default")){
+
+        add_on <- ggplot2::scale_fill_discrete(...)
+
+      } else if(base::all(clrp == "greyscale")){
+
+        add_on <- ggplot2::scale_fill_grey(...)
+
+      } else if(base::all(clrp %in% viridis_options)){
+
+        add_on <- ggplot2::scale_fill_viridis_d(option = clrp, ...)
+
       } else {
 
-        base::message(glue::glue("Color panel '{clrp_name}' contains only {l} values. Need {n}. Using default color clrp."))
-        add_on <- NULL
+        base::message(glue::glue("Color palette '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
+        add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
 
       }
 
-    } else {
+    } else if(aes == "color"){
 
-      if(l > n){
+      if(n_colors >= n_groups){
 
         add_on <- ggplot2::scale_color_manual(values = clrp, ...)
 
+      } else if(base::all(clrp == "default")){
+
+        add_on <- ggplot2::scale_color_discrete(...)
+
+      } else if(base::all(clrp == "greyscale")){
+
+        add_on <- ggplot2::scale_color_grey(...)
+
+      } else if(base::all(clrp %in% viridis_options)){
+
+        add_on <- ggplot2::scale_color_viridis_d(option = clrp, ...)
+
       } else {
 
-        base::message(glue::glue("Colorclrp '{clrp_name}' contains only {l} values. Need {n}. Using default color panel."))
-        add_on <- NULL
+        base::message(glue::glue("Color palette '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
+        add_on <- ggplot2::scale_color_manual(values = clrp, ...)
 
       }
 

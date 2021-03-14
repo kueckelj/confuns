@@ -3,7 +3,7 @@
 \docType{data}
 \name{clrp_milo}
 \alias{clrp_milo}
-\title{MILO Research Group - color panel}
+\title{MILO Research Group - color palette}
 \format{
 An object of class \code{character} of length 20.
 }
@@ -11,6 +11,6 @@ An object of class \code{character} of length 20.
 clrp_milo
 }
 \description{
-MILO Research Group - color panel
+MILO Research Group - color palette
 }
 \keyword{datasets}

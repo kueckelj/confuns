@@ -3,7 +3,7 @@
 \docType{data}
 \name{clrp_uc}
 \alias{clrp_uc}
-\title{University of Chicago - color panel}
+\title{University of Chicago - color palette}
 \format{
 An object of class \code{character} of length 10.
 }
@@ -11,6 +11,6 @@ An object of class \code{character} of length 10.
 clrp_uc
 }
 \description{
-University of Chicago - color panel
+University of Chicago - color palette
 }
 \keyword{datasets}
