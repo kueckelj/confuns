@@ -44,8 +44,8 @@ testable_plottypes <- c("boxplot", "violin")
 pairwise_tests <- c("t.test", "wilcox.test")
 groupwise_tests <- c("anova", "kruskal.test")
 
-pretty_plottypes <- c("Violinplot" = "violin",
-                      "Ridgeplot" = "ridge",
+pretty_plottypes <- c("Violinplot" = "violinplot",
+                      "Ridgeplot" = "ridgeplot",
                       "Densityplot" = "density",
                       "Boxplot" = "boxplot"
 )
