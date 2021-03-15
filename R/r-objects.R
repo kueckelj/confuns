@@ -39,7 +39,7 @@ pretty_colorpalettes_list <-
 
 # Descriptive statistics --------------------------------------------------
 
-testable_plottypes <- c("boxplot", "violin")
+testable_plottypes <- c("boxplot", "violinplot")
 
 pairwise_tests <- c("t.test", "wilcox.test")
 groupwise_tests <- c("anova", "kruskal.test")
