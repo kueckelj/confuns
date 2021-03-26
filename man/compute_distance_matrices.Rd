@@ -4,7 +4,13 @@
 \alias{compute_distance_matrices}
 \title{Title}
 \usage{
-compute_distance_matrices(hcl.obj, methods.dist, p = 2, verbose = TRUE)
+compute_distance_matrices(
+  hcl.obj,
+  methods.dist,
+  p = 2,
+  verbose = TRUE,
+  force = FALSE
+)
 }
 \arguments{
 \item{verbose}{}
