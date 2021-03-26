@@ -17,8 +17,10 @@ hclust_conv <- methods::setClass(Class = "hclust_conv",
 
 # r-objects ---------------------------------------------------------------
 
+#' @export
 valid_methods_dist <- c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
 
+#' @export
 valid_methods_aggl <- c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
 
 
@@ -288,12 +290,43 @@ set_hclust_default <- function(hcl.obj, method.aggl = NA, method.dist = NA, dire
 #' @export
 #'
 
-compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TRUE){
+compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TRUE, force = FALSE){
 
   check_one_of(
     input = methods.dist,
     against = valid_methods_dist
   )
+
+
+  # make sure not to calculate needlessly
+  available_methods <- base::names(hcl.obj@dist_matrices)
+
+  redundant_methods <- methods.dist[methods.dist %in% available_methods]
+
+  if(base::length(redundant_methods) >= 1 & !base::isTRUE(force)){
+
+    msg <- glue::glue("Skipping computation of distance {ref1} according to {ref2} '{ref_methods}' as {ref3} {ref4} already present. Set argument 'force' to TRUE in order to force the computation.",
+                      ref1 = adapt_reference(redundant_methods, "matrix", "matrices"),
+                      ref2 = adapt_reference(redundant_methods, "method", "methods"),
+                      ref3 = adapt_reference(redundant_methods, "it", "they"),
+                      ref4 = adapt_reference(redundant_methods, "is", "are"),
+                      ref_methods = glue::glue_collapse(redundant_methods, sep = "', '", last = "' and '")
+                      )
+
+    give_feedback(msg = msg, verbose = verbose)
+
+    methods.dist <- methods.dist[!methods.dist %in% redundant_methods]
+
+  }
+
+  if(base::length(methods.dist) == 0){
+
+    msg <- "No distance methods remaining. Please specify distance methods according to which no distance matrix has been calculated yet or set argument 'force' to TRUE."
+
+    give_feedback(msg = msg, fdb.fn = "stop", with.time = FALSE)
+
+  }
+
 
   # compute matrices in for loop
   n_methods <- base::length(methods.dist)
@@ -302,7 +335,12 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
 
   pb <- create_progress_bar(total = n_methods)
 
-  give_feedback(msg = glue::glue("Computing distance matrices for {n_methods} methods."), verbose = verbose)
+  msg <- glue::glue("Computing distance {ref_matrix} according to {n_methods} {ref_method}.",
+                    ref_matrix = adapt_reference(methods.dist, "matrx", "matrices"),
+                    ref_method = adapt_reference(methods.dist, "method", "methods")
+                    )
+
+  give_feedback(msg = msg, verbose = verbose)
 
   data_mtr <- hcl.obj@data
 
@@ -352,6 +390,8 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
 compute_hierarchical_cluster <- function(hcl.obj, methods.aggl = NULL, methods.dist = NULL, verbose = TRUE){
 
 
+  assign_hclust_default(hcl.obj)
+
   # check input vality
   check_hclust_methods(methods.aggl = methods.aggl)
 
@@ -379,7 +419,11 @@ compute_hierarchical_cluster <- function(hcl.obj, methods.aggl = NULL, methods.d
 
     list_methods_aggl <- base::vector(mode = "list", length = n_methods_aggl)
 
-    give_feedback(msg = glue::glue("Iterating over {n_methods_aggl} agglomerative methods using distance matrix from slot '{method_dist}'."), verbose = verbose)
+    msg <-
+      glue::glue("Iterating over {n_methods_aggl} agglomerative {ref_method} using distance matrix from slot '{method_dist}'.",
+                 ref_method = adapt_reference(methods.dist, "method", "methods"))
+
+    give_feedback(msg = msg, verbose = verbose)
 
     for(method_aggl in methods.aggl){
 
@@ -548,7 +592,7 @@ get_hclust_df <- function(hcl.obj,
 
   check_hclust_methods(methods.dist = methods.dist, methods.aggl = methods.aggl)
 
-  check_h_k(k = k, h = h, only.one = FALSE)
+  check_h_k(k = k, h = h, only.one = FALSE, skip.allow = FALSE)
 
   if(base::isTRUE(with.data)){
 
@@ -573,7 +617,7 @@ get_hclust_df <- function(hcl.obj,
         get_hclust_obj(hcl.obj = hcl.obj,
                        method.dist = method_dist,
                        method.aggl = method_aggl,
-                       fdb.fn = "message")
+                       fdb.fn = "warning")
 
       if(!base::is.null(hclust_res)){
 
@@ -791,7 +835,7 @@ plot_dendrogram <- function(hcl.obj,
     hclust_res <- get_hclust_obj(hcl.obj = hcl.obj, method.dist = method.dist, method.aggl = method.aggl)
 
     # most basic dendro plot
-    dendro_plot <- ggdendro::ggdendrogram(data = hclust_res, ...)
+    dendro_plot <- ggdendro::ggdendrogram(data = hclust_res, labels = display.labels, ...)
 
   } else {
 
@@ -1029,3 +1073,78 @@ assign_hclust_default <- function(hcl.obj){
 
 
 
+
+
+# printing
+
+#' Title
+#'
+#' @param hcl.obj
+#' @param key_name
+#'
+#' @return
+#' @export
+#'
+print_hclust_overview <- function(hcl.obj, key_name = TRUE){
+
+  fdb_list <- list()
+
+  # key
+  if(base::isTRUE(key_name)){ fdb_list[["Key name"]] <- hcl.obj@key_name }
+
+
+  # distance matrices
+  dist_matrices <- base::names(hcl.obj@dist_matrices)
+
+  if(base::length(dist_matrices) == 0){
+
+    fdb_list[["Calculated distance matrices"]] <- "none"
+
+  } else {
+
+    fdb_list[["Calculated distance matrices"]] <-
+      glue::glue_collapse(dist_matrices, sep = "', '", last = "' and '") %>%
+      base::as.character()
+
+  }
+
+  base::print(x = glue_list_report(fdb_list, separator = ": "))
+
+  # hierarchical clustering
+
+  if(base::length(dist_matrices) == 0){
+
+    base::print("No hierarchical clustering has been conducted yet.")
+
+  } else {
+
+    hclust_fdb <-
+      purrr::map(.x = dist_matrices,
+                 .f = function(dist_mtr){
+
+                   hclust_res <- base::names(hcl.obj@hclust_results[[dist_mtr]])
+
+                   if(base::length(hclust_res) == 0){
+
+                     res <- "none"
+
+                   } else {
+
+                     res <-
+                       glue::glue_collapse(hclust_res, sep = ", ", last = " and ") %>%
+                       base::as.character()
+
+                   }
+
+                   base::return(res)
+
+                 }) %>%
+      purrr::set_names(nm = dist_matrices)
+
+    base::print(glue::glue("\nHierarchical clustering conducted with distance matrix:"))
+
+    base::print(glue_list_report(hclust_fdb, prefix = "- '", separator = "' with agglomerative methods: "))
+
+  }
+
+}
