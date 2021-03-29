@@ -58,6 +58,7 @@
 
 call_flexibly <- function(fn,
                           fn.ns,
+                          fn.ns.sep = "::",
                           default = list(),
                           verbose = TRUE,
                           v.fail = NULL,
@@ -70,7 +71,7 @@ call_flexibly <- function(fn,
   if(fn.ns != ""){
 
     fn_with_namespace <-
-      stringr::str_c( fn.ns, fn, sep = "::")
+      stringr::str_c( fn.ns, fn, sep = fn.ns.sep)
 
   } else {
 

@@ -1114,7 +1114,7 @@ print_hclust_overview <- function(hcl.obj, key_name = TRUE){
 
   if(base::length(dist_matrices) == 0){
 
-    base::print("No hierarchical clustering has been conducted yet.")
+    base::print(glue::glue("No hierarchical clustering has been conducted yet."))
 
   } else {
 
