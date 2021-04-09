@@ -158,6 +158,21 @@ plot_violin <- function(df,
       display.facets = display.facets
       )
 
+  # remove doubled names
+  if(base::isTRUE(display.facets) & base::is.null(across)){
+
+    x_axis_add_on <-
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_blank(),
+        axis.ticks.x = ggplot2::element_blank()
+      )
+
+  } else {
+
+    x_axis_add_on <- NULL
+
+  }
+
   # jitter add on
   jitter_add_on <-
     statistics_geom_jitter(
@@ -209,10 +224,16 @@ plot_violin <- function(df,
       ) +
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.1))) +
     ggplot2::labs(x = NULL, y = NULL) +
-    legend_add_on
+    legend_add_on +
+    x_axis_add_on
 
 
 }
+
+
+#' @rdname plot_violin
+#' @export
+plot_violinplot <- plot_violin
 
 
 #' @rdname plot_violin
@@ -298,6 +319,22 @@ plot_boxplot <- function(df,
       display.facets = display.facets
     )
 
+  # remove doubled names
+  if(base::isTRUE(display.facets) & base::is.null(across)){
+
+    x_axis_add_on <-
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_blank(),
+        axis.ticks.x = ggplot2::element_blank()
+      )
+
+  } else {
+
+    x_axis_add_on <- NULL
+
+  }
+
+
   # jitter add on
   jitter_add_on <-
     statistics_geom_jitter(
@@ -349,7 +386,8 @@ plot_boxplot <- function(df,
     ) +
     ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.1))) +
     ggplot2::labs(x = NULL, y = NULL) +
-    legend_add_on
+    legend_add_on +
+    x_axis_add_on
 
 }
 

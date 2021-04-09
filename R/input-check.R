@@ -867,7 +867,7 @@ check_directories <- function(directories,
 
       msg <-
         glue::glue(
-          "Attempting to create {ref1} '{ref_dir}' did not work. Do all subfolders of the specified {ref1} exist?",
+          "Attempting to create {ref1} '{ref_dir}' did not work. Do all subfolders of the specified {ref1} exist? Does the file or folder already exist?",
           ref1 = adapt_reference(not_creatable, sg = "directory", pl = "directories"),
           ref_dir = glue::glue_collapse(not_creatable, sep = "', '", last = "' and '")
           )

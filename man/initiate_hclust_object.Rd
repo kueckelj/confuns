@@ -5,8 +5,10 @@
 \title{Title}
 \usage{
 initiate_hclust_object(
-  hclust_data,
-  key_name,
+  hclust_data = NULL,
+  key_name = NULL,
+  hclust.data = NULL,
+  key.name = NULL,
   default.dist = "euclidean",
   default.aggl = "complete",
   default.dir = "conv-hcl-obj.RDS"

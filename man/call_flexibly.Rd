@@ -7,6 +7,7 @@
 call_flexibly(
   fn,
   fn.ns,
+  fn.ns.sep = "::",
   default = list(),
   verbose = TRUE,
   v.fail = NULL,

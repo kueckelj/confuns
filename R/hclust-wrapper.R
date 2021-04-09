@@ -156,13 +156,23 @@ check_hclust_methods <- function(method.dist = NULL, method.aggl = NULL, methods
 #' @export
 #'
 
-initiate_hclust_object <- function(hclust_data,
-                                   key_name,
+initiate_hclust_object <- function(hclust_data = NULL,
+                                   key_name = NULL,
+                                   hclust.data = NULL,
+                                   key.name = NULL,
                                    default.dist = "euclidean",
                                    default.aggl = "complete",
                                    default.dir = "conv-hcl-obj.RDS"){
 
   hcl.obj <- methods::new(Class = "hclust_conv")
+
+  if(!base::is.null(hclust_data)){ warning("hclust_data is deprecatd. Use argument hclust.data ")}
+
+  if(!base::is.null(key_name)){ warning("key_name is deprecatd. Use argument key.name ")}
+
+  if(!base::is.null(hclust.data)){ hclust_data <- hclust.data }
+
+  if(!base::is.null(key.name)){ key_name <- key.name }
 
   # set observations
   obs <- base::rownames(hclust_data)
@@ -173,7 +183,9 @@ initiate_hclust_object <- function(hclust_data,
 
   } else {
 
-    msg <- "Observations of input for argument 'hclust_data' must be named. Number of unique rownames must be equal to the number of rows."
+    msg <- "Observations of input for argument 'hclust.data' must be named and the number of unique rownames must be equal to the number of rows."
+
+    confuns::give_feedback(msg = msg, fdb.fn = "stop")
 
   }
 
@@ -1021,7 +1033,9 @@ plot_dendrograms <- function(hcl.obj,
 }
 
 
-# miscellaneous
+
+# miscellaneous -----------------------------------------------------------
+
 
 #' Title
 #'
