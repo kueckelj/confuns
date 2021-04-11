@@ -86,6 +86,18 @@ check_pam_input <- function(k, metric.pam, k.length = NULL, m.length = NULL){
 # initiation --------------------------------------------------------------
 
 
+#' Title
+#'
+#' @param pam.data
+#' @param key.name
+#' @param default.as.dist
+#' @param default.metric.pam
+#' @param default.k
+#' @param default.dir
+#'
+#' @return
+#' @export
+#'
 initiate_pam_object <- function(pam.data,
                                 key.name,
                                 default.as.dist = FALSE,
