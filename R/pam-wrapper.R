@@ -617,7 +617,67 @@ get_pam_sil_df <- function(pam.obj, k = NULL, metric.pam = NULL, m.length = 1){
 
 # plotting ----------------------------------------------------------------
 
+#' Title
+#'
+#' @param pam.obj
+#' @param k
+#' @param clr
+#' @param display.cols
+#' @param display.line
+#' @param display.points
+#'
+#' @return
+#' @export
+#'
+plot_avg_silhouette_widths <- function(pam.obj,
+                                       k,
+                                       clr = "steelblue",
+                                       display.cols = TRUE,
+                                       display.line = TRUE,
+                                       display.points = TRUE){
 
+  is_vec(k, mode = "numeric")
+
+  k <- base::sort(k)
+
+  k_string <- stringr::str_c("k_", k, sep = "")
+
+  k_results <- pam.obj@results$euclidean[k_string]
+
+  plot_df <-
+    data.frame(
+      k = base::factor(base::as.character(k), levels = base::as.character(k)),
+      avg_widhts = purrr::map_dbl(.x = k_results, .f = ~ .x$silinfo$avg.width)
+    )
+
+  p <-
+    ggplot2::ggplot(data = plot_df, mapping = ggplot2::aes(x = k, y = avg_widhts)) +
+    ggplot2::labs(x = "K", y = "Avg. Silhouette Width") +
+    theme_statistics()
+
+  # add layer
+  if(base::isTRUE(display.cols)){
+
+    p <- p + ggplot2::geom_col(color = "black", fill = clr)
+
+  }
+
+  if(base::isTRUE(display.points)){
+
+    p <- p + ggplot2::geom_point(color = "black")
+
+  }
+
+  if(base::isTRUE(display.line)){
+
+    p <- p + ggplot2::geom_line(color = "black", mapping = ggplot2::aes(group = 1))
+
+  }
+
+  # return plot
+  base::return(p)
+
+}
 
 
 #' Title
@@ -806,6 +866,10 @@ plot_silhouette_widths <- function(pam.obj,
     ggplot2::labs(x = NULL, y = NULL, color = NULL, fill = "Cluster")
 
 }
+
+
+
+
 
 
 # miscellaneous -----------------------------------------------------------
