@@ -11,14 +11,14 @@
 #' @param nrow
 #' @param scales
 #' @param space
-#' @param pt_alpha
-#' @param pt_clr
-#' @param pt_fill
-#' @param pt_shape
-#' @param pt_size
-#' @param smooth_clr
-#' @param smooth_method
-#' @param smooth_se
+#' @param pt.alpha
+#' @param pt.clr
+#' @param pt.fill
+#' @param pt.shape
+#' @param pt.size
+#' @param smooth.clr
+#' @param smooth.method
+#' @param smooth.se
 #'
 #' @return
 #' @export
@@ -33,14 +33,23 @@ plot_scatterplot <- function(df,
                              nrow = NULL,
                              scales = "fixed",
                              space = "fixed",
-                             pt_alpha = 0.9,
-                             pt_clr = "black",
-                             pt_fill = "black",
-                             pt_shape = 21,
-                             pt_size = 2,
-                             smooth_clr = "blue",
-                             smooth_method = NULL,
-                             smooth_se = FALSE){
+                             pt.alpha = 0.9,
+                             pt.clr = "black",
+                             pt.fill = "black",
+                             pt.shape = 21,
+                             pt.size = 1.5,
+                             smooth.alpha = 0.9,
+                             smooth.clr = "blue",
+                             smooth.method = NULL,
+                             smooth.se = FALSE,
+                             corr.display = TRUE,
+                             corr.method = "pearson",
+                             corr.p.min = 0.00005,
+                             corr.pos.x = NULL,
+                             corr.pos.y = NULL,
+                             corr.text.sep = "\n",
+                             corr.text.size = 1
+                             ){
 
   check_data_frame(
     df = df,
@@ -50,6 +59,8 @@ plot_scatterplot <- function(df,
   )
 
 
+  # subsetting according to across input ------------------------------------
+
   if(base::length(across) == 2){
 
     if(base::length(relevel == 1)){
@@ -58,7 +69,7 @@ plot_scatterplot <- function(df,
 
     }
 
-    if(!base::is.null(across.subset) & !confuns::is_list(input = across.subset)){
+    if(!base::is.null(across.subset) & !is_list(input = across.subset)){
 
       msg <- "If input for argument 'across' is of length two the input for argument 'across.subset' must be a named list or NULL."
 
@@ -78,12 +89,11 @@ plot_scatterplot <- function(df,
 
   p <-
     ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = .data[[x]], y = .data[[y]])) +
-    ggplot2::geom_point(alpha = pt_alpha, color = pt_clr, fill = pt_fill, shape = pt_shape, size = pt_size) +
+    ggplot2::geom_point(alpha = pt.alpha, color = pt.clr, fill = pt.fill, shape = pt.shape, size = pt.size) +
     ggplot2::theme_classic() +
     ggplot2::theme(
       strip.background = ggplot2::element_blank()
     )
-
 
   if(!base::is.null(across)){
 
@@ -114,17 +124,226 @@ plot_scatterplot <- function(df,
   }
 
 
-  if(base::is.character(smooth_method)){
+  # add model ---------------------------------------------------------------
 
-    p <- p + ggplot2::geom_smooth(formula = y ~ x, method = smooth_method, se = smooth_se, color = smooth_clr)
+  if(base::is.character(smooth.method)){
+
+    p <- p +
+      ggplot2::geom_smooth(formula = y ~ x,
+                           alpha = smooth.alpha,
+                           color = smooth.clr,
+                           method = smooth.method,
+                           se = smooth.se)
 
   }
+
+
+
+  # add correlation results -------------------------------------------------
+
+  if(base::isTRUE(corr.display)){
+
+    if(base::is.null(across)){
+
+      df_corr <-
+        scatter_correlation_df(
+          x.var = dplyr::pull(df, var = {{x}}),
+          y.var = dplyr::pull(df, var = {{y}}),
+          corr.pos.x = corr.pos.x,
+          corr.pos.y = corr.pos.y,
+          corr.method = corr.method,
+          corr.p.min = corr.p.min,
+          corr.text.sep = corr.text.sep
+        )
+
+      p <-
+        p + ggplot2::geom_text(mapping = ggplot2::aes(x = x, y = y, label = label),
+                               data = df_corr, size = corr.text.size)
+
+    } else if(base::length(across) == 1){
+
+      across_var <- dplyr::pull(df, var = {{across}})
+
+      if(base::is.factor(across_var)){
+
+        across_values <- base::levels(across_var)
+
+      } else {
+
+        across_values <- base::unique(across_var)
+
+      }
+
+      df_corr <-
+        purrr::map_df(.x = across_values,
+                      x = x,
+                      y = y,
+                      .f = function(across_value, x, y){
+
+                        df_filtered <-
+                          dplyr::filter(df, !!rlang::sym(across) == {{across_value}})
+
+                        df_corr <-
+                          scatter_correlation_df(
+                            x.var = dplyr::pull(df_filtered, var = {{x}}),
+                            y.var = dplyr::pull(df_filtered, var = {{y}}),
+                            corr.pos.x = corr.pos.x,
+                            corr.pos.y = corr.pos.y,
+                            corr.p.min = corr.p.min,
+                            corr.method = corr.method,
+                            corr.text.sep = corr.text.sep
+                          )
+
+                        df_corr[[across]] <- across_value
+
+                        base::return(df_corr)
+
+                      })
+
+      p <-
+        p + ggplot2::geom_text(mapping = ggplot2::aes(x = x, y = y, label = label),
+                               data = df_corr, size = corr.text.size)
+
+    } else if(base::length(across) == 2){
+
+      across1 <- across[1]
+
+      across_var1 <- dplyr::pull(df, var = {{across1}})
+
+      if(base::is.factor(across_var1)){
+
+        across_values1 <- base::levels(across_var1)
+
+      } else if(base::is.character(across_var1)){
+
+        across_values1 <- base::unique(across_var1)
+
+      }
+
+
+      across2 <- across[2]
+
+      across_var2 <- dplyr::pull(df, var = {{across2}})
+
+      if(base::is.factor(across_var2)){
+
+        across_values2 <- base::levels(across_var2)
+
+      } else if(base::is.character(across_var2)){
+
+        across_values2 <- base::character(across_var2)
+
+      }
+
+      across_combinations <-
+        tidyr::expand_grid(x = across_values1, y = across_values2) %>%
+        magrittr::set_colnames(value = across)
+
+      df_corr <-
+        base::apply(X = across_combinations, MARGIN = 1,
+                    x = x, y = y, across = across,
+                    FUN = function(combination, x, y, across){
+
+                      combination <- base::as.character(combination)
+
+                      across1 <- across[1]
+                      across2 <- across[2]
+
+                      across_value1 <- combination[1]
+                      across_value2 <- combination[2]
+
+                      df_filtered <-
+                        dplyr::filter(df,
+                                      !!rlang::sym(across1) == {{across_value1}} &
+                                      !!rlang::sym(across2) == {{across_value2}}
+                                      )
+
+                      df_corr <-
+                        scatter_correlation_df(
+                          x.var = dplyr::pull(df_filtered, var = {{x}}),
+                          y.var = dplyr::pull(df_filtered, var = {{y}}),
+                          corr.pos.x = corr.pos.x,
+                          corr.pos.y = corr.pos.y,
+                          corr.p.min = corr.p.min,
+                          corr.method = corr.method,
+                          corr.text.sep = corr.text.sep
+                        )
+
+                      df_corr[[across1]] <- across_value1
+                      df_corr[[across2]] <- across_value2
+
+                      base::return(df_corr)
+
+                    }) %>%
+        purrr::map_df(.f = ~ .x)
+
+      p <-
+        p +
+        ggplot2::geom_text(
+          mapping = ggplot2::aes(x = x, y = y, label = label),
+          data = df_corr, size = corr.text.size
+          ) +
+        ggplot2::theme(
+          strip.background = ggplot2::element_rect()
+        )
+
+    }
+
+  }
+
+
+  # return plot -------------------------------------------------------------
 
   base::return(p)
 
 }
 
 
+
+# helper ------------------------------------------------------------------
+
+scatter_correlation_df <- function(x.var,
+                                   y.var,
+                                   corr.method,
+                                   corr.p.min,
+                                   corr.pos.x,
+                                   corr.pos.y,
+                                   corr.text.sep){
+
+  corr_res <- stats::cor.test(x = x.var, y = y.var, method = corr.method)
+
+  if(base::is.null(corr.pos.x)){
+
+    corr.pos.x <- base::max(x.var) * 0.1
+
+  }
+
+  if(base::is.null(corr.pos.y)){
+
+    corr.pos.y <- base::max(y.var) * 0.9
+
+  }
+
+  p_rounded <- base::round(corr_res$p.value, digits = 5)
+
+  if(p_rounded < corr.p.min){
+
+    p_rounded <- corr.p.min
+
+  }
+
+  r_rounded <- base::round(corr_res$estimate, digits = 2)
+
+  corr_info <- stringr::str_c("p.value < ", p_rounded, corr.text.sep, "r = ", r_rounded)
+
+  res_df <-
+    data.frame(
+      x = corr.pos.x,
+      y = corr.pos.y,
+      label = corr_info
+    )
+
+}
 
 
 

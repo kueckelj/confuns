@@ -15,18 +15,26 @@ plot_scatterplot(
   nrow = NULL,
   scales = "fixed",
   space = "fixed",
-  pt_alpha = 0.9,
-  pt_clr = "black",
-  pt_fill = "black",
-  pt_shape = 21,
-  pt_size = 2,
-  smooth_clr = "blue",
-  smooth_method = NULL,
-  smooth_se = FALSE
+  pt.alpha = 0.9,
+  pt.clr = "black",
+  pt.fill = "black",
+  pt.shape = 21,
+  pt.size = 1.5,
+  smooth.alpha = 0.9,
+  smooth.clr = "blue",
+  smooth.method = NULL,
+  smooth.se = FALSE,
+  corr.display = TRUE,
+  corr.method = "pearson",
+  corr.p.min = 5e-05,
+  corr.pos.x = NULL,
+  corr.pos.y = NULL,
+  corr.text.sep = "\\n",
+  corr.text.size = 1
 )
 }
 \arguments{
-\item{smooth_se}{}
+\item{smooth.se}{}
 }
 \value{
 
