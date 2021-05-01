@@ -225,8 +225,6 @@ correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, verbo
 
   }
 
-  across_present <- base::names(corr.obj@results_across)
-
   df <- get_corr_data(corr.obj, keep.key = TRUE)
 
   output_list <-
@@ -235,6 +233,8 @@ correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, verbo
       msg <- glue::glue("Using correlation method '{method}'.")
 
       give_feedback(msg = msg, verbose = verbose)
+
+      across_present <- base::names(corr.obj@results_across[[method]])
 
       if(base::is.character(across_present)){
 
@@ -248,8 +248,12 @@ correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, verbo
 
       if(base::is.character(across_new)){
 
+        pb <- create_progress_bar(total = base::length(across_new))
+
         results <-
           purrr::map(.x = across_new, .f = function(.across){
+
+            if(base::isTRUE(verbose)){ pb$tick() }
 
             across_levels <- base::levels(dplyr::pull(df, var = {{.across}}))
 
