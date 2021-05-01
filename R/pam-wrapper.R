@@ -103,7 +103,8 @@ initiate_pam_object <- function(pam.data,
                                 default.as.dist = FALSE,
                                 default.metric.pam = "euclidean",
                                 default.k = 2,
-                                default.dir = "conv-pam-obj.RDS"){
+                                default.dir = "conv-pam-obj.RDS",
+                                verbose = TRUE){
 
   pam.obj <- methods::new(Class = "pam_conv")
 
@@ -164,7 +165,8 @@ initiate_pam_object <- function(pam.data,
       metric.pam = default.metric.pam,
       k = default.k,
       as.dist = default.as.dist,
-      directory = default.dir
+      directory = default.dir,
+      verbose = verbose
     )
 
   base::return(pam.obj)

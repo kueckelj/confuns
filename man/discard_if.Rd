@@ -7,10 +7,12 @@
 discard_if(
   input,
   one_of = NULL,
+  ref.do = "Ignoring",
   ref.of = "already present",
   ref.input = NULL,
-  v.empty = NULL,
   ref.empty = "Skipping.",
+  v.empty = NULL,
+  with.time = FALSE,
   verbose = FALSE
 )
 }

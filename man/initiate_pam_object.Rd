@@ -10,7 +10,8 @@ initiate_pam_object(
   default.as.dist = FALSE,
   default.metric.pam = "euclidean",
   default.k = 2,
-  default.dir = "conv-pam-obj.RDS"
+  default.dir = "conv-pam-obj.RDS",
+  verbose = TRUE
 )
 }
 \arguments{

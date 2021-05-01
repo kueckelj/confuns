@@ -54,10 +54,12 @@ keep_named <- function(input){
 
 discard_if <- function(input,
                        one_of = NULL,
+                       ref.do = "Ignoring",
                        ref.of = "already present",
                        ref.input = NULL,
-                       v.empty = NULL,
                        ref.empty = "Skipping.",
+                       v.empty = NULL,
+                       with.time = FALSE,
                        verbose = FALSE){
 
   if(base::is.null(ref.input)){
@@ -99,7 +101,7 @@ discard_if <- function(input,
 
     if(base::isTRUE(verbose)){
 
-      msg <- glue::glue("Discarding {ref1} '{discard_values}' of {ref.input} as {ref2} {ref3} {ref.of}.",
+      msg <- glue::glue("{ref.do} {ref1} '{discard_values}' of {ref.input} as {ref2} {ref3} {ref.of}.",
                         ref1 = adapt_reference(discard_values, sg = "value", pl = "values"),
                         ref2 = adapt_reference(discard_values, sg = "it", pl = "they"),
                         ref3 = adapt_reference(discard_values, sg = "is", pl = "are"),
@@ -114,7 +116,7 @@ discard_if <- function(input,
 
       msg <- glue::glue("No values left. {ref.empty}.")
 
-      give_feedback(msg = msg)
+      give_feedback(msg = msg, with.time = with.time)
 
       input <- v.empty
 

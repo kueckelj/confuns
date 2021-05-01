@@ -88,9 +88,9 @@ check_corr_availability <- function(input, method.corr, across = NULL, fdb.fn = 
 #'
 #' @return
 #' @export
-initiate_corr_obj <- function(corr.data,
-                              default.method = c("pearson", "spearman"),
-                              default.dir = "conv-corr-obj.RDS"){
+initiate_corr_object <- function(corr.data,
+                                 default.method = c("pearson", "spearman"),
+                                 default.dir = "conv-corr-obj.RDS"){
 
 
   corr.obj <- methods::new(Class = "corr_conv")
