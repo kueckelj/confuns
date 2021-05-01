@@ -10,8 +10,8 @@ corr_conv <- methods::setClass(Class = "corr_conv",
                                  meta = "data.frame",
                                  results_all = "list",
                                  results_across = "list",
-                                 variables_num = "character",
-                                 variables_discrete = "character"
+                                 variables_discrete = "character",
+                                 variables_num = "character"
                                ))
 
 
