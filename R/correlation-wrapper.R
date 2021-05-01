@@ -303,7 +303,7 @@ correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, print
     purrr::discard(.p = base::is.null)
 
 
-  if(base::isTRUE(print_errors)){
+  if(base::isTRUE(print.errors)){
 
     errors <-
       purrr::map(
@@ -312,7 +312,7 @@ correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, print
           purrr::discard(.x = ., .p = ~ base::length(.x) == 0)
       )
 
-    print(errors)
+    base::print(errors)
 
   }
 
@@ -321,9 +321,12 @@ correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, print
 
     for(across_val in across){
 
+      output_res <-
+        purrr::keep(.x = output_list[[method]][[across_val]],
+                    .p = ~ base::is.list(.x) & is_named(input = .x))
+
       corr.obj@results_across[[method]][[across_val]] <-
-        c(output_list[[method]][[across_val]],
-          corr.obj@results_across[[method]][[across_val]])
+        c(output_res, corr.obj@results_across[[method]][[across_val]])
 
     }
 
@@ -473,7 +476,7 @@ plot_corrplot <- function(corr.input,
       corr.mtr[base::upper.tri(corr.mtr, diag = !display.diagonal)] <- NA
       p.mtr[base::upper.tri(p.mtr, diag = !display.diagonal)] <- NA
 
-    } else if(plot.type == "complete"){
+    } else if(plot.type == "upper"){
 
       corr.mtr[base::lower.tri(corr.mtr, diag = !display.diagonal)] <- NA
       p.mtr[base::lower.tri(p.mtr, diag = !display.diagonal)] <- NA
@@ -943,8 +946,6 @@ plot_corrplots <- function(corr.obj,
     df_corr_insignificant <-
       dplyr::filter(df_grid, significance == "Insignificant")
 
-    print(head(df_corr_insignificant))
-
     if(base::nrow(df_corr_insignificant) >= 1){
 
       insignificance_add_on <-
@@ -984,7 +985,7 @@ plot_corrplots <- function(corr.obj,
 #' @return
 #' @export
 #'
-plot_correlation_sd <- function(corr.obj, method.corr = NULL,  across = NULL, aes.fill = "sd"){
+plot_correlation_sd <- function(corr.obj, method.corr = NULL,  across = NULL, aes.fill = "sd", signif.level = NULL){
 
   assign_corr_default(corr.obj)
 

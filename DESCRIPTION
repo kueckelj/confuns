@@ -14,4 +14,5 @@ Imports:
     dplyr,
     magrittr,
     purrr,
+    reshape2,
     rlang
