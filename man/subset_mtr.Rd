@@ -4,7 +4,7 @@
 \alias{subset_mtr}
 \title{Title}
 \usage{
-subset_mtr(mtr, identical.dims = TRUE, dim = NULL, variables.subset = NULL)
+subset_mtr(mtr = NULL, dims = NULL, variables.subset = NULL)
 }
 \arguments{
 \item{variables.subset}{}

@@ -1093,6 +1093,10 @@ plot_correlation_sd <- function(corr.obj, method.corr = NULL,  across = NULL, ae
 
 }
 
+#' @rdname plot_correlation_sd
+#' @export
+plot_correlation_variance <- plot_correlation_sd
+
 
 # miscellaneous -----------------------------------------------------------
 

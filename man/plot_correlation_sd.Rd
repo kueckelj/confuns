@@ -2,13 +2,23 @@
 % Please edit documentation in R/correlation-wrapper.R
 \name{plot_correlation_sd}
 \alias{plot_correlation_sd}
+\alias{plot_correlation_variance}
 \title{Title}
 \usage{
 plot_correlation_sd(
   corr.obj,
   method.corr = NULL,
   across = NULL,
-  aes.fill = "sd"
+  aes.fill = "sd",
+  signif.level = NULL
+)
+
+plot_correlation_variance(
+  corr.obj,
+  method.corr = NULL,
+  across = NULL,
+  aes.fill = "sd",
+  signif.level = NULL
 )
 }
 \arguments{
