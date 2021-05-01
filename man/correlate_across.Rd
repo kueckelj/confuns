@@ -4,7 +4,13 @@
 \alias{correlate_across}
 \title{Title}
 \usage{
-correlate_across(corr.obj, across = NULL, methods.corr = NULL, verbose = TRUE)
+correlate_across(
+  corr.obj,
+  across = NULL,
+  methods.corr = NULL,
+  print.errors = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{verbose}{}

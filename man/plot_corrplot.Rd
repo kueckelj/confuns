@@ -7,6 +7,7 @@
 plot_corrplot(
   corr.input,
   method.corr = NULL,
+  variables.subset = NULL,
   plot.type = "lower",
   display.diagonal = TRUE,
   p.mtr = NULL,

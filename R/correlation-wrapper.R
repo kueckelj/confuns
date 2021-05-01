@@ -211,7 +211,7 @@ correlate_all <- function(corr.obj, methods.corr = NULL){
 #' @return
 #' @export
 #'
-correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, verbose = TRUE){
+correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, print.errors = FALSE, verbose = TRUE){
 
   assign_corr_default(corr.obj)
 
@@ -303,7 +303,7 @@ correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, verbo
     purrr::discard(.p = base::is.null)
 
 
-  if(base::isTRUE(verbose)){
+  if(base::isTRUE(print_errors)){
 
     errors <-
       purrr::map(
@@ -442,6 +442,7 @@ get_corr_results <- function(corr.obj, method.corr = NULL, across = NULL, across
 #'
 plot_corrplot <- function(corr.input,
                           method.corr = NULL,
+                          variables.subset = NULL,
                           plot.type = "lower",
                           display.diagonal = TRUE,
                           p.mtr = NULL,
@@ -462,7 +463,7 @@ plot_corrplot <- function(corr.input,
 
   if(base::class(corr.input) == "corr_conv"){
 
-    corr.res<- get_corr_results(corr.obj, across = NULL, method.corr = method.corr)
+    corr.res<- get_corr_results(corr.input, across = NULL, method.corr = method.corr)
 
     corr.mtr <- corr.res$r
     p.mtr <- corr.res$P
@@ -487,6 +488,12 @@ plot_corrplot <- function(corr.input,
     corr.mtr <- corr.input
 
   }
+
+  corr.mtr <- subset_mtr(mtr = corr.mtr, dims = c(1,2), variables.subset = variables.subset)
+
+  p.mtr <- subset_mtr(mtr = p.mtr, dims = c(1,2), variables.subset = variables.subset)
+
+
 
 
   # reshape correlation input
