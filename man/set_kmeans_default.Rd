@@ -8,7 +8,8 @@ set_kmeans_default(
   kmeans.obj,
   method.kmeans = NA,
   centers = NA,
-  directory = NA
+  directory = NA,
+  verbose = FALSE
 )
 }
 \arguments{

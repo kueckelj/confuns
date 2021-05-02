@@ -8,6 +8,7 @@ get_kmeans_df(
   kmeans.obj,
   methods.kmeans = NULL,
   centers = NULL,
+  centers.string = "centers",
   cluster.prefix = "",
   with.data = FALSE,
   fdb.fn = "message"

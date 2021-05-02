@@ -9,7 +9,8 @@ initiate_kmeans_object(
   key.name,
   default.method.kmeans = "Hartigan-Wong",
   default.centers = 2,
-  default.dir = "conv-kmeans-obj.RDS"
+  default.dir = "conv-kmeans-obj.RDS",
+  verbose = TRUE
 )
 }
 \arguments{

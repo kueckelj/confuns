@@ -18,6 +18,7 @@ kmeans_conv <- methods::setClass(Class = "kmeans_conv",
 
 # r-objects ---------------------------------------------------------------
 
+#' @export
 valid_methods_kmeans <- c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen")
 
 
@@ -437,7 +438,7 @@ get_kmeans_df <- function(kmeans.obj,
   }
 
   cluster_df <- dplyr::rename_with(cluster_df,
-                                   .fn = ~ stringr::str_replace_all(string = .x, pattern = "-", replacement = "_"),
+                                   .fn = ~ stringr::str_replace_all(string = .x, pattern = "-", replacement = "."),
                                    .cols = dplyr::all_of(all_cluster_names))
 
 

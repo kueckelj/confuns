@@ -697,7 +697,7 @@ get_hclust_df <- function(hcl.obj,
 
   cluster_df <- dplyr::mutate(cluster_df, dplyr::across(.cols = dplyr::all_of(cluster), .fns = base::factor))
 
-  cluster_df <- dplyr::rename_with(cluster_df, .fn = ~ stringr::str_replace(string = .x, pattern = "-", replacement = "_"),
+  cluster_df <- dplyr::rename_with(cluster_df, .fn = ~ stringr::str_replace(string = .x, pattern = "-", replacement = "."),
                                    .cols = dplyr::all_of(cluster))
 
   base::return(cluster_df)

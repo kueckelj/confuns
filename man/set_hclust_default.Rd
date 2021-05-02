@@ -4,7 +4,13 @@
 \alias{set_hclust_default}
 \title{Title}
 \usage{
-set_hclust_default(hcl.obj, method.aggl = NA, method.dist = NA, directory = NA)
+set_hclust_default(
+  hcl.obj,
+  method.aggl = NA,
+  method.dist = NA,
+  directory = NA,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{method.dist}{}

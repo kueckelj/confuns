@@ -10,7 +10,7 @@ set_pam_default(
   directory = NULL,
   k = NULL,
   metric.pam = NULL,
-  verbose = TRUE
+  verbose = FALSE
 )
 }
 \arguments{

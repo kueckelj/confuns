@@ -11,7 +11,8 @@ initiate_hclust_object(
   key.name = NULL,
   default.dist = "euclidean",
   default.aggl = "complete",
-  default.dir = "conv-hcl-obj.RDS"
+  default.dir = "conv-hcl-obj.RDS",
+  verbose = TRUE
 )
 }
 \arguments{
