@@ -194,7 +194,7 @@ set_pam_default <- function(pam.obj,
                             directory = NULL,
                             k = NULL,
                             metric.pam = NULL,
-                            verbose = TRUE){
+                            verbose = FALSE){
 
   default_list <- pam.obj@default
 

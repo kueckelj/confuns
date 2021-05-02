@@ -286,7 +286,8 @@ plot_dim_red <- function(dimred.obj,
 
     check_one_of(
       input = clr.by,
-      against = base::colnames(dplyr::select(plot_df, -dplyr::all_of(key)))
+      against = base::colnames(dplyr::select(plot_df, -dplyr::all_of(c(key, x_axis, y_axis)))),
+      ref.input = glue::glue("input for argument '{base::substitute(clr.by)}'")
     )
 
     color_add_on <-

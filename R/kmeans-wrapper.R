@@ -70,7 +70,8 @@ initiate_kmeans_object <- function(kmeans.data,
                                    key.name,
                                    default.method.kmeans = "Hartigan-Wong",
                                    default.centers = 2,
-                                   default.dir = "conv-kmeans-obj.RDS"){
+                                   default.dir = "conv-kmeans-obj.RDS",
+                                   verbose = TRUE){
 
   kmeans.obj <- methods::new(Class = "kmeans_conv")
 
@@ -127,7 +128,8 @@ initiate_kmeans_object <- function(kmeans.data,
       kmeans.obj = kmeans.obj,
       method.kmeans = default.method.kmeans,
       centers = default.centers,
-      directory = default.dir
+      directory = default.dir,
+      verbose = verbose
     )
 
   # return obj
@@ -149,7 +151,7 @@ initiate_kmeans_object <- function(kmeans.data,
 #' @return
 #' @export
 #'
-set_kmeans_default <- function(kmeans.obj, method.kmeans = NA, centers = NA, directory = NA){
+set_kmeans_default <- function(kmeans.obj, method.kmeans = NA, centers = NA, directory = NA, verbose = FALSE){
 
   default_list <- kmeans.obj@default
 
@@ -160,7 +162,7 @@ set_kmeans_default <- function(kmeans.obj, method.kmeans = NA, centers = NA, dir
     default_list$method.kmeans <- method.kmeans
     default_list$methods.kmeans <- method.kmeans
 
-    give_feedback(msg = glue::glue("Setting default kmeans algorithm to '{method.kmeans}'."))
+    give_feedback(msg = glue::glue("Setting default kmeans algorithm to '{method.kmeans}'."), verbose = verbose)
 
   }
 
@@ -170,13 +172,13 @@ set_kmeans_default <- function(kmeans.obj, method.kmeans = NA, centers = NA, dir
 
       default_list$centers <- centers
 
-      give_feedback(msg = glue::glue("Setting default number of centers to {centers}."))
+      give_feedback(msg = glue::glue("Setting default number of centers to {centers}."), verbose = verbose)
 
     } else {
 
       msg <- "Input for argument 'centers' must be a numeric value bigger than 1."
 
-      give_feedback(msg = msg, fdb.fn = "stop")
+      give_feedback(msg = msg, fdb.fn = "stop", verbose = verbose)
 
     }
 
@@ -186,7 +188,7 @@ set_kmeans_default <- function(kmeans.obj, method.kmeans = NA, centers = NA, dir
 
     default_list$directory <- directory
 
-    give_feedback(msg = glue::glue("Setting default directory to '{directory}'."))
+    give_feedback(msg = glue::glue("Setting default directory to '{directory}'."), verbose = verbose)
 
 
   }
@@ -371,6 +373,7 @@ get_kmeans_obj <- function(kmeans.obj,
 get_kmeans_df <- function(kmeans.obj,
                           methods.kmeans = NULL,
                           centers = NULL,
+                          centers.string = "centers",
                           cluster.prefix = "",
                           with.data = FALSE,
                           fdb.fn = "message"){
@@ -396,6 +399,8 @@ get_kmeans_df <- function(kmeans.obj,
 
   }
 
+  all_cluster_names <- base::vector(mode = "character", length = 0)
+
   for(method in methods.kmeans){
 
     for(k in centers){
@@ -411,7 +416,9 @@ get_kmeans_df <- function(kmeans.obj,
 
       } else {
 
-        cluster_name <- stringr::str_c("kmeans", method, k, "centers", sep = "_")
+        cluster_name <- stringr::str_c("kmeans", method, centers.string, k, sep = "_")
+
+        all_cluster_names <- c(cluster_name, all_cluster_names)
 
         df_to_add <-
           base::as.data.frame(kmeans_res$cluster) %>%
@@ -428,6 +435,11 @@ get_kmeans_df <- function(kmeans.obj,
     }
 
   }
+
+  cluster_df <- dplyr::rename_with(cluster_df,
+                                   .fn = ~ stringr::str_replace_all(string = .x, pattern = "-", replacement = "_"),
+                                   .cols = dplyr::all_of(all_cluster_names))
+
 
   base::return(cluster_df)
 

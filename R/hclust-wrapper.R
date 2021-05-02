@@ -162,7 +162,8 @@ initiate_hclust_object <- function(hclust_data = NULL,
                                    key.name = NULL,
                                    default.dist = "euclidean",
                                    default.aggl = "complete",
-                                   default.dir = "conv-hcl-obj.RDS"){
+                                   default.dir = "conv-hcl-obj.RDS",
+                                   verbose = TRUE){
 
   hcl.obj <- methods::new(Class = "hclust_conv")
 
@@ -226,7 +227,8 @@ initiate_hclust_object <- function(hclust_data = NULL,
       hcl.obj = hcl.obj,
       method.dist = default.dist,
       method.aggl = default.aggl,
-      directory = default.dir
+      directory = default.dir,
+      verbose = verbose
       )
 
 
@@ -252,7 +254,7 @@ initiate_hclust_object <- function(hclust_data = NULL,
 #' @export
 #'
 
-set_hclust_default <- function(hcl.obj, method.aggl = NA, method.dist = NA, directory = NA){
+set_hclust_default <- function(hcl.obj, method.aggl = NA, method.dist = NA, directory = NA, verbose = FALSE){
 
   if(!base::is.na(method.dist)){
 
@@ -638,7 +640,7 @@ get_hclust_df <- function(hcl.obj,
 
           for(k_val in k){
 
-            var_name <- stringr::str_c(method_dist, method_aggl, "k", k_val, sep = "_")
+            var_name <- stringr::str_c("hcl", method_dist, method_aggl, "k", k_val, sep = "_")
 
             cluster_var <-
               stats::cutree(tree = hclust_res, k = k_val) %>%
@@ -662,7 +664,7 @@ get_hclust_df <- function(hcl.obj,
 
           for(h_val in h){
 
-            var_name <- stringr::str_c(method_dist, method_aggl, "h", h_val, sep = "_")
+            var_name <- stringr::str_c("hcl", method_dist, method_aggl, "h", h_val, sep = "_")
 
             cluster_var <-
               stats::cutree(tree = hclust_res, h = h) %>%
@@ -694,6 +696,9 @@ get_hclust_df <- function(hcl.obj,
   cluster <- base::colnames(cluster_df)[!base::colnames(cluster_df) %in% not_cluster]
 
   cluster_df <- dplyr::mutate(cluster_df, dplyr::across(.cols = dplyr::all_of(cluster), .fns = base::factor))
+
+  cluster_df <- dplyr::rename_with(cluster_df, .fn = ~ stringr::str_replace(string = .x, pattern = "-", replacement = "_"),
+                                   .cols = dplyr::all_of(cluster))
 
   base::return(cluster_df)
 
