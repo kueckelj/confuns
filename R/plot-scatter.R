@@ -232,7 +232,7 @@ plot_scatterplot <- function(df,
 
       } else if(base::is.character(across_var2)){
 
-        across_values2 <- base::character(across_var2)
+        across_values2 <- base::unique(across_var2)
 
       }
 
