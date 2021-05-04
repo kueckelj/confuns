@@ -38,11 +38,12 @@ plot_scatterplot <- function(df,
                              pt.fill = "black",
                              pt.shape = 21,
                              pt.size = 1.5,
+                             display.smooth = TRUE,
                              smooth.alpha = 0.9,
                              smooth.clr = "blue",
                              smooth.method = NULL,
                              smooth.se = FALSE,
-                             corr.display = TRUE,
+                             display.corr = TRUE,
                              corr.method = "pearson",
                              corr.p.min = 0.00005,
                              corr.pos.x = NULL,
@@ -126,7 +127,7 @@ plot_scatterplot <- function(df,
 
   # add model ---------------------------------------------------------------
 
-  if(base::is.character(smooth.method)){
+  if(base::is.TRUE(display.smooth)){
 
     p <- p +
       ggplot2::geom_smooth(formula = y ~ x,
@@ -141,7 +142,7 @@ plot_scatterplot <- function(df,
 
   # add correlation results -------------------------------------------------
 
-  if(base::isTRUE(corr.display)){
+  if(base::isTRUE(display.corr)){
 
     if(base::is.null(across)){
 

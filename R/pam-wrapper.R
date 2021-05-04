@@ -633,6 +633,7 @@ get_pam_sil_df <- function(pam.obj, k = NULL, metric.pam = NULL, m.length = 1){
 #'
 plot_avg_silhouette_widths <- function(pam.obj,
                                        k,
+                                       metrid.pam = NULL,
                                        clr = "steelblue",
                                        display.cols = TRUE,
                                        display.line = TRUE,
@@ -644,7 +645,7 @@ plot_avg_silhouette_widths <- function(pam.obj,
 
   k_string <- stringr::str_c("k_", k, sep = "")
 
-  k_results <- pam.obj@results$euclidean[k_string]
+  k_results <- pam.obj@results[[metric.pam]][k_string]
 
   plot_df <-
     data.frame(
