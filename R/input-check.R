@@ -930,6 +930,12 @@ check_one_of <- function(input,
 
   } else {
 
+    if("glue" %in% base::class(ref.input)){
+
+      ref.input <- base::as.character(ref.input)
+
+    }
+
     is_value(ref.input, mode = "character")
 
   }
