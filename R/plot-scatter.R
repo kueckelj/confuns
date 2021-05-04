@@ -127,7 +127,7 @@ plot_scatterplot <- function(df,
 
   # add model ---------------------------------------------------------------
 
-  if(base::is.TRUE(display.smooth)){
+  if(base::isTRUE(display.smooth)){
 
     p <- p +
       ggplot2::geom_smooth(formula = y ~ x,
