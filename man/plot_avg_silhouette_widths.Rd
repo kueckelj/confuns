@@ -7,7 +7,7 @@
 plot_avg_silhouette_widths(
   pam.obj,
   k,
-  metrid.pam = NULL,
+  metric.pam = NULL,
   clr = "steelblue",
   display.cols = TRUE,
   display.line = TRUE,

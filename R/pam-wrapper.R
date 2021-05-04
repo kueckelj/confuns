@@ -633,7 +633,7 @@ get_pam_sil_df <- function(pam.obj, k = NULL, metric.pam = NULL, m.length = 1){
 #'
 plot_avg_silhouette_widths <- function(pam.obj,
                                        k,
-                                       metrid.pam = NULL,
+                                       metric.pam = NULL,
                                        clr = "steelblue",
                                        display.cols = TRUE,
                                        display.line = TRUE,
