@@ -17,6 +17,7 @@ pca_conv <- methods::setClass(Class = "dim_red_conv",
                                  meta = "data.frame",
                                  method = "character",
                                  results = "list",
+                                 scale = "logical",
                                  variables_discrete = "character",
                                  variables_num = "character"
                                  )
@@ -76,6 +77,10 @@ compute_dim_red <- function(data,
 
   numeric_df <-
     dplyr::select_if(data, .predicate = base::is.numeric)
+
+
+  unscaled_mtr <- base::as.matrix(numeric_df)
+  base::rownames(unscaled_mtr) <- key_var
 
   if(base::isTRUE(scale)){
 
@@ -156,7 +161,7 @@ compute_dim_red <- function(data,
 
   dim_red_obj <- methods::new(Class = "dim_red_conv",
                           additional_arguments = keep_named(list(...)),
-                          data = mtr,
+                          data = unscaled_mtr,
                           dims = 1:base::ncol(embedding_df),
 
                           embedding = dplyr::mutate(embedding_df, !!key.name := {{key_var}}) %>%
@@ -168,6 +173,7 @@ compute_dim_red <- function(data,
 
                           method = method.dim.red,
                           results = dim_red_res,
+                          scale = scale,
                           variables_discrete = base::colnames(meta_df),
                           variables_num = base::colnames(mtr)
                           )
@@ -245,14 +251,16 @@ get_dim_red_df <- function(dimred.obj, with.data = TRUE, with.meta = TRUE){
 plot_dim_red <- function(dimred.obj,
                          clr.aes = "fill",
                          clr.by = NULL,
-                         clrp = "milo",
                          clrp.adjust = NULL,
-                         clrsp = "inferno",
                          pt.alpha = 0.9,
                          pt.clr = "black",
+                         pt.clrp = "milo",
+                         pt.clrsp = "inferno",
                          pt.fill = "black",
                          pt.shape = 21,
                          pt.size = 3,
+                         ncol = NULL,
+                         nrow = NULL,
                          add.df = NA,
                          ...
                          ){
@@ -273,7 +281,7 @@ plot_dim_red <- function(dimred.obj,
       dplyr::left_join(
         x = plot_df,
         y = add.df,
-        by = dimred.obj@key_name
+        by = key
       )
 
   }
@@ -284,57 +292,94 @@ plot_dim_red <- function(dimred.obj,
   # create geom_point_add_on
   if(base::is.character(clr.by)){
 
+    # select additional plot variables
+    plot_dfs <-
+      dplyr::select(plot_df, -dplyr::all_of(c(key, x_axis, y_axis))) %>%
+      dplyr::select(-dplyr::starts_with(match = "pc_"))
+
     check_one_of(
       input = clr.by,
-      against = base::colnames(dplyr::select(plot_df, -dplyr::all_of(c(key, x_axis, y_axis)))),
-      ref.input = glue::glue("input for argument '{base::substitute(clr.by)}'")
+      against = base::colnames(plot_dfs),
+      ref.input = glue::glue("input for argument clr.by/clr_by")
     )
-
-    color_add_on <-
-      scale_color_add_on(
-        aes = clr.aes,
-        variable = plot_df[[clr.by]],
-        clrsp = clrsp,
-        clrp = clrp,
-        clrp.adjust = clrp.adjust,
-        ... )
-
-    if(clr.aes == "color"){
-
-      geom_point_add_on <-
-        ggplot2::geom_point(
-          mapping = ggplot2::aes(color = .data[[clr.by]]),
-          alpha = pt.alpha, fill = pt.fill, shape = pt.shape, size = pt.size
-        )
-
-    } else if(clr.aes == "fill"){
-
-      geom_point_add_on <-
-        ggplot2::geom_point(
-          mapping = ggplot2::aes(fill = .data[[clr.by]]),
-          alpha = pt.alpha, color = pt.clr, shape = pt.shape, size = pt.size
-        )
-
-    }
 
   } else {
 
     geom_point_add_on <-
       ggplot2::geom_point(alpha = pt.alpha, fill = pt.fill, shape = pt.shape, size = pt.size)
 
-    color_add_on <- NULL
-
   }
 
-  ggplot2::ggplot(data = plot_df, mapping = ggplot2::aes(x = .data[[x_axis]], y = .data[[y_axis]])) +
-    geom_point_add_on +
-    ggplot2::theme_classic() +
-    ggplot2::theme(
-      axis.text = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank(),
-      axis.title = ggplot2::element_blank()
-    ) +
-    color_add_on
+  if(base::is.character(clr.by)){
+
+    plot_output <-
+      purrr::map(.x = clr.by,
+                 .f = function(.clr.by){
+
+                   if(clr.aes == "color"){
+
+                     geom_point_add_on <-
+                       ggplot2::geom_point(
+                         mapping = ggplot2::aes(color = .data[[.clr.by]]),
+                         alpha = pt.alpha, fill = pt.fill, shape = pt.shape, size = pt.size
+                       )
+
+                   } else if(clr.aes == "fill"){
+
+                     geom_point_add_on <-
+                       ggplot2::geom_point(
+                         mapping = ggplot2::aes(fill = .data[[.clr.by]]),
+                         alpha = pt.alpha, color = pt.clr, shape = pt.shape, size = pt.size
+                       )
+
+                   }
+
+                   p <-
+                    ggplot2::ggplot(data = plot_df, mapping = ggplot2::aes(x = .data[[x_axis]], y = .data[[y_axis]])) +
+                     geom_point_add_on +
+                     ggplot2::theme_classic() +
+                     ggplot2::theme(
+                       axis.text = ggplot2::element_blank(),
+                       axis.ticks = ggplot2::element_blank(),
+                       axis.title = ggplot2::element_blank(),
+                       strip.background = ggplot2::element_blank(),
+                       plot.subtitle = ggplot2::element_text(hjust = 0.5)
+                     ) +
+                     ggplot2::labs(subtitle = .clr.by) +
+                     scale_color_add_on(
+                       aes = clr.aes,
+                       variable = plot_df[[.clr.by]],
+                       clrp = pt.clrp,
+                       clrsp = pt.clrsp,
+                       clrp.adjust = clrp.adjust,
+                       ...
+                     )
+
+                   base::return(p)
+
+                 })
+
+    resulting_grid <- gridExtra::grid.arrange(grobs = plot_output, nrow = nrow, ncol = ncol)
+
+    base::plot(resulting_grid)
+
+  } else {
+
+    plot_output <-
+      ggplot2::ggplot(data = plot_df, mapping = ggplot2::aes(x = .data[[x_axis]], y = .data[[y_axis]])) +
+      geom_point_add_on +
+      ggplot2::theme_classic() +
+      ggplot2::theme(
+        axis.text = ggplot2::element_blank(),
+        axis.ticks = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
+        strip.background = ggplot2::element_blank(),
+        plot.title.position = "plot"
+      )
+
+    base::return(plot_output)
+  }
+
 
 
 }

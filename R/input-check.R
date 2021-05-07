@@ -934,9 +934,11 @@ check_one_of <- function(input,
 
       ref.input <- base::as.character(ref.input)
 
-    }
+    } else {
 
-    is_value(ref.input, mode = "character")
+      is_value(ref.input, "character")
+
+    }
 
   }
 
