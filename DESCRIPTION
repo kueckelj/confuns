@@ -12,6 +12,8 @@ RoxygenNote: 7.1.1
 Imports: 
     colorspace,
     dplyr,
+    ggplot2, 
+    ggridges,
     magrittr,
     purrr,
     reshape2,

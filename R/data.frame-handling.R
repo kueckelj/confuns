@@ -131,7 +131,8 @@ select_columns <- function(df,
                            starts.with = NULL,
                            ends.with = NULL,
                            negate = FALSE,
-                           return = "tibble"){
+                           return = "tibble",
+                           fdb.fn = "stop"){
 
   if(base::is.character(keep)){
 
@@ -146,11 +147,11 @@ select_columns <- function(df,
 
     if(base::isTRUE(negate)){
 
-      df <- dplyr::select(df, -dplyr::contains(match = contains))
+      df <- dplyr::select(df, -dplyr::contains(match = {{contains}}))
 
     } else {
 
-      df <- dplyr::select(df, dplyr::contains(match = contains))
+      df <- dplyr::select(df, dplyr::contains(match = {{contains}}))
 
     }
 
@@ -160,11 +161,11 @@ select_columns <- function(df,
 
     if(base::isTRUE(negate)){
 
-      df <- dplyr::select(df, -dplyr::matches(match = macthes))
+      df <- dplyr::select(df, -dplyr::matches(match = {{matches}}))
 
     } else {
 
-      df <- dplyr::select(df, dplyr::matches(match = macthes))
+      df <- dplyr::select(df, dplyr::matches(match = {{matches}}))
 
     }
 
@@ -174,11 +175,11 @@ select_columns <- function(df,
 
     if(base::isTRUE(negate)){
 
-      df <- dplyr::select(df, -dplyr::starts_with(match = starts.with))
+      df <- dplyr::select(df, -dplyr::starts_with(match = {{starts.with}}))
 
     } else {
 
-      df <- dplyr::select(df, dplyr::starts_with(match = starts.with))
+      df <- dplyr::select(df, dplyr::starts_with(match = {{starts.with}}))
 
     }
 
@@ -188,14 +189,30 @@ select_columns <- function(df,
 
     if(base::isTRUE(negate)){
 
-      df <- dplyr::select(df, -dplyr::ends_with(match = ends.with))
+      df <- dplyr::select(df, -dplyr::ends_with(match = {{ends.with}}))
 
     } else {
 
-      df <- dplyr::select(df, dplyr::ends_with(match = ends.with))
+      df <- dplyr::select(df, dplyr::ends_with(match = {{ends.with}}))
 
     }
 
+  }
+
+
+  if(base::ncol(df) == 0){
+
+    selection_input <-
+      list(contains = contains, matches = matches, starts_with = starts.with, ends_with = ends.with) %>%
+      purrr::keep(.p = base::is.character) %>%
+      base::names()
+
+    msg <- glue::glue("Variable selection via specification of {ref_argument} '{ref_input}' resulted in zero variables.",
+                      ref_input = glue::glue_collapse(selection_input, sep = "', '", last = "' and '"),
+                      ref_argument = adapt_reference(input = selection_input, "argument", "arguments")
+                      )
+
+    give_feedback(msg = msg, fdb.fn = fdb.fn, with.time = FALSE)
 
 
   }
