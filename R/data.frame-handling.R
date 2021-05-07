@@ -111,3 +111,107 @@ across_subset_options <- function(df, across){
 
 
 
+#' @title Wrapper around dplyr::select()
+#'
+#' @param df A data.frame.
+#' @param keep Columns that have to be kept.
+#' @param contains,matches,starts.with,ends.with Character or NULL. If character
+#' given to the respective tidyselect function as input for argument \code{match}.
+#' @param negate Logical value. If set to TRUE negates the regex input of the tidyselect
+#' input.
+#'
+#' @return Selected data.frame.
+#'
+#' @export
+#'
+select_columns <- function(df,
+                           keep = NULL,
+                           contains = NULL,
+                           matches = NULL,
+                           starts.with = NULL,
+                           ends.with = NULL,
+                           negate = FALSE,
+                           return = "tibble"){
+
+  if(base::is.character(keep)){
+
+    df_keep <- dplyr::select(df, dplyr::all_of(x = keep))
+
+    df <- dplyr::select(df, -dplyr::all_of(x = keep))
+
+  }
+
+
+  if(base::is.character(contains)){
+
+    if(base::isTRUE(negate)){
+
+      df <- dplyr::select(df, -dplyr::contains(match = contains))
+
+    } else {
+
+      df <- dplyr::select(df, dplyr::contains(match = contains))
+
+    }
+
+  }
+
+  if(base::is.character(matches)){
+
+    if(base::isTRUE(negate)){
+
+      df <- dplyr::select(df, -dplyr::matches(match = macthes))
+
+    } else {
+
+      df <- dplyr::select(df, dplyr::matches(match = macthes))
+
+    }
+
+  }
+
+  if(base::is.character(starts.with)){
+
+    if(base::isTRUE(negate)){
+
+      df <- dplyr::select(df, -dplyr::starts_with(match = starts.with))
+
+    } else {
+
+      df <- dplyr::select(df, dplyr::starts_with(match = starts.with))
+
+    }
+
+  }
+
+  if(base::is.character(ends.with)){
+
+    if(base::isTRUE(negate)){
+
+      df <- dplyr::select(df, -dplyr::ends_with(match = ends.with))
+
+    } else {
+
+      df <- dplyr::select(df, dplyr::ends_with(match = ends.with))
+
+    }
+
+
+
+  }
+
+  if(base::is.character(keep)){
+
+    df <- base::cbind(df_keep, df)
+
+  }
+
+  if(return == "tibble"){
+
+    df <- tibble::as_tibble(df)
+
+  }
+
+  base::return(df)
+
+}
