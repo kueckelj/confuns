@@ -8,10 +8,11 @@ pam_conv <- methods::setClass(Class = "pam_conv",
                               slots = c(
                                 data = "matrix",
                                 default = "list",
-                                results = "list",
-                                variables = "character",
+                                key_name = "character",
                                 observations = "character",
-                                key_name = "character"
+                                results = "list",
+                                scale = "logical",
+                                variables = "character"
                               ))
 
 
@@ -19,10 +20,7 @@ pam_conv <- methods::setClass(Class = "pam_conv",
 
 # r-objects ---------------------------------------------------------------
 
-
 valid_metrics_pam <- c("euclidean", "manhattan")
-
-
 
 
 # input check -------------------------------------------------------------
@@ -100,6 +98,7 @@ check_pam_input <- function(k, metric.pam, k.length = NULL, m.length = NULL){
 #'
 initiate_pam_object <- function(pam.data,
                                 key.name,
+                                scale = TRUE,
                                 default.as.dist = FALSE,
                                 default.metric.pam = "euclidean",
                                 default.k = 2,
@@ -168,6 +167,8 @@ initiate_pam_object <- function(pam.data,
       directory = default.dir,
       verbose = verbose
     )
+
+  pam.obj@scale <- scale
 
   base::return(pam.obj)
 
@@ -310,6 +311,16 @@ perform_pam_clustering <- function(pam.obj,
   }
 
   pam_data <- get_pam_data(pam.obj)
+
+  if(base::isTRUE(pam.obj@scale)){
+
+    give_feedback(msg = "Scaling data.")
+
+    pam_data <- base::scale(x = pam_data)
+
+    give_feedback(msg = "Done.", verbose = verbose)
+
+  }
 
   for(metric in metric.pam){
 

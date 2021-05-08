@@ -7,10 +7,11 @@ kmeans_conv <- methods::setClass(Class = "kmeans_conv",
                                  slots = c(
                                    data = "matrix",
                                    default = "list",
-                                   results = "list",
-                                   variables = "character",
+                                   key_name = "character",
                                    observations = "character",
-                                   key_name = "character"
+                                   results = "list",
+                                   scale = "logical",
+                                   variables = "character"
                                  ))
 
 
@@ -69,6 +70,7 @@ check_kmeans_availability <- function(input, method.kmeans, centers, fdb.fn = "s
 #'
 initiate_kmeans_object <- function(kmeans.data,
                                    key.name,
+                                   scale = TRUE,
                                    default.method.kmeans = "Hartigan-Wong",
                                    default.centers = 2,
                                    default.dir = "conv-kmeans-obj.RDS",
@@ -132,6 +134,8 @@ initiate_kmeans_object <- function(kmeans.data,
       directory = default.dir,
       verbose = verbose
     )
+
+  kmeans.obj@scale <- scale
 
   # return obj
   base::return(kmeans.obj)
@@ -257,6 +261,18 @@ perform_kmeans_clustering <- function(kmeans.obj,
 
   }
 
+  data_mtr <- kmeans.obj@data
+
+  if(base::isTRUE(kmeans.obj@scale)){
+
+    give_feedback(msg = "Scaling data.", verbose)
+
+    data_mtr <- base::scale(data_mtr)
+
+    give_feedback(msg = "Done.", verbose = verbose)
+
+  }
+
   for(method in methods.kmeans){
 
     if(base::isTRUE(verbose.pb)){ pb$tick() }
@@ -272,7 +288,7 @@ perform_kmeans_clustering <- function(kmeans.obj,
 
       give_feedback(msg = msg, verbose = verbose)
 
-      res <- stats::kmeans(x = kmeans.obj@data, centers = k, ...)
+      res <- stats::kmeans(x = data_mtr, centers = k, ...)
 
       if(shiny::isTruthy(res)){
 

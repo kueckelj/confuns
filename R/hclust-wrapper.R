@@ -8,9 +8,10 @@ hclust_conv <- methods::setClass(Class = "hclust_conv",
                                    default = "list",
                                    dist_matrices = "list",
                                    hclust_results = "list",
-                                   variables = "character",
+                                   key_name = "character",
                                    observations = "character",
-                                   key_name = "character"
+                                   scale = "logical",
+                                   variables = "character"
                                  ))
 
 
@@ -160,6 +161,7 @@ initiate_hclust_object <- function(hclust_data = NULL,
                                    key_name = NULL,
                                    hclust.data = NULL,
                                    key.name = NULL,
+                                   scale = TRUE,
                                    default.dist = "euclidean",
                                    default.aggl = "complete",
                                    default.dir = "conv-hcl-obj.RDS",
@@ -230,6 +232,8 @@ initiate_hclust_object <- function(hclust_data = NULL,
       directory = default.dir,
       verbose = verbose
       )
+
+  hcl.obj@scale <- scale
 
 
   # return obj
@@ -341,6 +345,18 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
 
   }
 
+  # extract and scale data
+  data_mtr <- hcl.obj@data
+
+  if(base::isTRUE(hcl.obj@scale)){
+
+    give_feedback(msg = "Scaling data.", verbose = verbose)
+
+    data_mtr <- base::scale(x = data_mtr)
+
+    give_feedback(msg = "Done.", verbose = verbose)
+
+  }
 
   # compute matrices in for loop
   n_methods <- base::length(methods.dist)
@@ -355,8 +371,6 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
                     )
 
   give_feedback(msg = msg, verbose = verbose)
-
-  data_mtr <- hcl.obj@data
 
   for(method in methods.dist){
 
