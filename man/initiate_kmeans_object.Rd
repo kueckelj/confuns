@@ -7,6 +7,7 @@
 initiate_kmeans_object(
   kmeans.data,
   key.name,
+  scale = TRUE,
   default.method.kmeans = "Hartigan-Wong",
   default.centers = 2,
   default.dir = "conv-kmeans-obj.RDS",

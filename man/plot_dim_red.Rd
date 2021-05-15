@@ -8,14 +8,16 @@ plot_dim_red(
   dimred.obj,
   clr.aes = "fill",
   clr.by = NULL,
-  clrp = "milo",
   clrp.adjust = NULL,
-  clrsp = "inferno",
   pt.alpha = 0.9,
   pt.clr = "black",
+  pt.clrp = "milo",
+  pt.clrsp = "inferno",
   pt.fill = "black",
   pt.shape = 21,
   pt.size = 3,
+  ncol = NULL,
+  nrow = NULL,
   add.df = NA,
   ...
 )

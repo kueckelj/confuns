@@ -7,6 +7,7 @@
 initiate_pam_object(
   pam.data,
   key.name,
+  scale = TRUE,
   default.as.dist = FALSE,
   default.metric.pam = "euclidean",
   default.k = 2,

@@ -12,7 +12,8 @@ select_columns(
   starts.with = NULL,
   ends.with = NULL,
   negate = FALSE,
-  return = "tibble"
+  return = "tibble",
+  fdb.fn = "stop"
 )
 }
 \arguments{

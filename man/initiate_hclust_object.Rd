@@ -9,6 +9,7 @@ initiate_hclust_object(
   key_name = NULL,
   hclust.data = NULL,
   key.name = NULL,
+  scale = TRUE,
   default.dist = "euclidean",
   default.aggl = "complete",
   default.dir = "conv-hcl-obj.RDS",
