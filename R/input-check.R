@@ -895,6 +895,63 @@ check_directories <- function(directories,
 
 }
 
+
+
+#' @title Overwrite check
+#'
+#' @description Make sure that nothing is overwritten without specifically allowing it.
+#'
+#' @inherit check_one_of params
+#' @export
+check_none_of <- function(input, against, ref.input = NULL, ref.against, overwrite = NULL, fdb.fn = "stop", with.time = FALSE){
+
+  if(base::is.null(ref.input)){
+
+    ref.input <- stringr::str_c("input for argument '", base::substitute(input), "'")
+
+  }
+
+
+  if(base::isTRUE(overwrite)){
+
+    base::invisible(TRUE)
+
+  } else {
+
+    overlap <- against[against %in% input]
+
+    if(base::length(overlap) >= 1){
+
+      ref_overlap <- glue::glue_collapse(overlap, sep = "', '", last = "' and '")
+
+      ref1 <- adapt_reference(overlap, sg = "Value", pl = "Values")
+
+      ref2 <- adapt_reference(overlap, sg = "is", pl = "are")
+
+      if(!base::is.null(overwrite)){
+
+        ref_overwrite <- overwrite_hint
+
+      } else {
+
+        ref_overwrite <- ""
+
+      }
+
+      msg <- glue::glue("{ref1} '{ref_overlap}' of {ref.input} {ref2} already present in {ref.against}.{ref_overwrite}")
+
+      give_feedback(msg = msg, fdb.fn = fdb.fn, with.time = with.time)
+
+    } else {
+
+      base::invisible(TRUE)
+
+    }
+
+  }
+
+}
+
 #' Check valid values
 #'
 #' @param input An input vector to be checked.

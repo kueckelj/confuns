@@ -65,3 +65,12 @@ pretty_stattests_groupwise <- c("None" = "none", pretty_stattests[3:4])
 fill_shapes <- 21:25
 color_shapes <- 0:20
 
+
+
+# Predefined feedback strings ---------------------------------------------
+
+
+overwrite_hint <- " Set argument 'overwrite' to TRUE in order to allow overwritting."
+
+
+
