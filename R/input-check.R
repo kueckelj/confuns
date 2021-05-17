@@ -973,6 +973,8 @@ check_one_of <- function(input,
                          against,
                          ref.input = NULL,
                          fdb.fn = "stop",
+                         fdb.opt = 1,
+                         ref.opt.2 = "valid input options",
                          verbose = TRUE,
                          with.time = FALSE){
 
@@ -1003,14 +1005,31 @@ check_one_of <- function(input,
 
     invalid <- input[!input %in% against]
 
-    msg <-
-      glue::glue(
-        "{ref1} '{ref_invalid}' of {ref.input} {ref2} invalid. Valid input-options are: '{ref_against}'.",
-        ref1 = adapt_reference(invalid, sg = "Value", pl = "Values"),
-        ref2 = adapt_reference(invalid, sg = "is", pl = "are"),
-        ref_invalid = glue::glue_collapse(invalid, sep = "', '", last = "' and '"),
-        ref_against = glue::glue_collapse(against, sep = "', '", last = "' and '")
+    if(fdb.opt == 1){
+
+      msg <-
+        glue::glue(
+          "{ref1} '{ref_invalid}' of {ref.input} {ref2} invalid. Valid input options are: '{ref_against}'.",
+          ref1 = adapt_reference(invalid, sg = "Value", pl = "Values"),
+          ref2 = adapt_reference(invalid, sg = "is", pl = "are"),
+          ref_invalid = glue::glue_collapse(invalid, sep = "', '", last = "' and '"),
+          ref_against = glue::glue_collapse(against, sep = "', '", last = "' and '")
         )
+
+    } else if(fdb.opt == 2) {
+
+      msg <- glue::glue(
+        glue::glue(
+          "Did not find {ref1} '{ref_invalid}' of {ref.input} among {ref.opt.2}. Valid input options are: '{ref_against}'.",
+          ref1 = adapt_reference(invalid, sg = "value", pl = "values"),
+          ref_invalid = glue::glue_collapse(invalid, sep = "', '", last = "' and '"),
+          ref_against = glue::glue_collapse(against, sep = "', '", last = "' and '")
+        )
+      )
+
+    }
+
+
 
     confuns::give_feedback(
       msg = msg,

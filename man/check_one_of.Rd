@@ -9,6 +9,8 @@ check_one_of(
   against,
   ref.input = NULL,
   fdb.fn = "stop",
+  fdb.opt = 1,
+  ref.opt.2 = "valid input options",
   verbose = TRUE,
   with.time = FALSE
 )
