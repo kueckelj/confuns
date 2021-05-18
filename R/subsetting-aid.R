@@ -108,7 +108,7 @@ discard_if <- function(input,
                         discard_values = glue::glue_collapse(discard_values, sep = "', '", last = "' and '"),
                         ref.of = ref.of)
 
-      give_feedback(msg = msg)
+      give_feedback(msg = msg, with.time = with.time)
 
     }
 
