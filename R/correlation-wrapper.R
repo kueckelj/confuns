@@ -89,6 +89,7 @@ check_corr_availability <- function(input, method.corr, across = NULL, fdb.fn = 
 #' @return
 #' @export
 initiate_corr_object <- function(corr.data,
+                                 key.name = NULL,
                                  default.method = c("pearson", "spearman"),
                                  default.dir = "conv-corr-obj.RDS"){
 
@@ -98,7 +99,22 @@ initiate_corr_object <- function(corr.data,
   corr.data <- base::as.data.frame(corr.data)
 
   # create key
-  key_var <- stringr::str_c("ID", 1:base::nrow(corr.data), sep = "_")
+  if(base::is.null(key.name)){
+
+    key_var <- stringr::str_c("ID", 1:base::nrow(corr.data), sep = "_")
+
+  } else {
+
+    key_var <- base::as.character(corr.data[,key.name])
+
+    corr.data[,key.name] <- NULL
+
+    n_distinct_vals <- dplyr::n_distinct(key_var)
+
+    base::stopifnot(n_distinct_vals == base::nrow(corr.data))
+
+  }
+
 
   # set variables
   corr.obj@variables_num <-
@@ -116,20 +132,9 @@ initiate_corr_object <- function(corr.data,
 
   # set meta
   corr.obj@meta <-
-    dplyr::select(corr.data, dplyr::all_of(x = corr.obj@variables_discrete)) %>%
-    purrr::map_df(.f = function(discr_var){
-
-      if(!base::is.factor(discr_var)){
-
-        discr_var <- base::as.factor(discr_var)
-
-      }
-
-      base::return(discr_var)
-
-    }) %>%
+    dplyr::mutate_if(corr.data, .predicate = base::is.character, .funs = base::as.factor)%>%
     dplyr::mutate(key = {{key_var}} ) %>%
-    dplyr::select(key, dplyr::everything())
+    dplyr::select(key, where(base::is.factor))
 
   # set default
   corr.obj <-
