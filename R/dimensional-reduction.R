@@ -373,7 +373,7 @@ plot_dim_red <- function(dimred.obj,
 
         geom_point_add_on <-
           ggplot2::geom_point(
-            mapping = ggplot2::aes(color = .data[[.clr.by]]),
+            mapping = ggplot2::aes(color = .data[[clr.by]]),
             alpha = pt.alpha, fill = pt.fill, shape = pt.shape, size = pt.size
           )
 
@@ -381,7 +381,7 @@ plot_dim_red <- function(dimred.obj,
 
         geom_point_add_on <-
           ggplot2::geom_point(
-            mapping = ggplot2::aes(fill = .data[[.clr.by]]),
+            mapping = ggplot2::aes(fill = .data[[clr.by]]),
             alpha = pt.alpha, color = pt.clr, shape = pt.shape, size = pt.size
           )
 
@@ -398,10 +398,10 @@ plot_dim_red <- function(dimred.obj,
           strip.background = ggplot2::element_blank(),
           plot.subtitle = ggplot2::element_text(hjust = 0.5)
         ) +
-        ggplot2::labs(subtitle = .clr.by) +
+        ggplot2::labs(subtitle = clr.by) +
         scale_color_add_on(
           aes = clr.aes,
-          variable = plot_df[[.clr.by]],
+          variable = plot_df[[clr.by]],
           clrp = pt.clrp,
           clrsp = pt.clrsp,
           clrp.adjust = clrp.adjust,
