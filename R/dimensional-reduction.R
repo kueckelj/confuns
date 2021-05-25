@@ -262,6 +262,7 @@ plot_dim_red <- function(dimred.obj,
                          ncol = NULL,
                          nrow = NULL,
                          add.df = NA,
+                         add.ons = list(),
                          ...
                          ){
 
@@ -353,7 +354,8 @@ plot_dim_red <- function(dimred.obj,
                        clrsp = pt.clrsp,
                        clrp.adjust = clrp.adjust,
                        ...
-                     )
+                     ) +
+                     add.ons
 
                    base::return(p)
 
