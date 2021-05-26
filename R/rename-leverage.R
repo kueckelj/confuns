@@ -50,12 +50,12 @@ vrename <- function(input, ..., safely = TRUE){
 
 #' @rdname vrename
 #' @export
-vrename_with <- function(input, .fn, ...){
+vrename_with <- function(input, .fn, .cols = dplyr::everythin(), ...){
 
   base::matrix(nrow = 1, ncol = base::length(input)) %>%
     base::as.data.frame() %>%
     magrittr::set_colnames(value = input) %>%
-    dplyr::rename_with(.fn = .fn, ...) %>%
+    dplyr::rename_with(.fn = .fn, .cols = .cols, ...) %>%
     base::colnames()
 
 }
@@ -93,19 +93,19 @@ mrename <- function(mtr, dims = c(1,2), ...){
 
 #' @rdname mrename
 #' @export
-mrename_with <- function(mtr, dims = c(1,2), .fn, ...){
+mrename_with <- function(mtr, dims = c(1,2), .fn, .cols = dplyr::everything(), ...){
 
   if(1 %in% dims){
 
     base::rownames(mtr) <-
-      vrename_with(input = base::rownames(mtr), .fn = .fn, ...)
+      vrename_with(input = base::rownames(mtr), .fn = .fn, .cols = .cols, ...)
 
   }
 
   if(2 %in% dims){
 
     base::colnames(mtr) <-
-      vrename_with(input = base::colnames(mtr), .fn = .fn, ...)
+      vrename_with(input = base::colnames(mtr), .fn = .fn, .cols = .cols, ...)
 
   }
 
@@ -199,17 +199,17 @@ rename_numeric_vars <- function(corr.obj, ..., rename.data = TRUE){
 
 #' @rdname rename_numeric_vars
 #' @export
-rename_numeric_vars_with <- function(corr.obj, .fn, ..., rename.data = TRUE){
+rename_numeric_vars_with <- function(corr.obj, .fn, .cols = dplyr::everything(), ..., rename.data = TRUE){
 
   # rename @variables_num
   corr.obj@variables_num <-
-    vrename_with(input = corr.obj@variables_num, .fn = .fn, ...)
+    vrename_with(input = corr.obj@variables_num, .fn = .fn, .cols = .cols, ...)
 
   if(base::isTRUE(rename.data)){
 
     # rename @data
     corr.obj@data <-
-      mrename_with(mtr = corr.obj@data, dims = 2, .fn = .fn, ...)
+      mrename_with(mtr = corr.obj@data, dims = 2, .fn = .fn, .cols = .cols, ...)
 
   }
 
@@ -225,6 +225,7 @@ rename_numeric_vars_with <- function(corr.obj, .fn, ..., rename.data = TRUE){
                      .at = c("r", "P"),
                      .f = mrename_with,
                      .fn = .fn,
+                     .cols = .cols,
                      ...
                    )
 
@@ -250,6 +251,7 @@ rename_numeric_vars_with <- function(corr.obj, .fn, ..., rename.data = TRUE){
                                                                .at = c("r", "P"), # only matric slots
                                                                .f = mrename_with,
                                                                .fn = .fn,
+                                                               .cols = .cols,
                                                                ...)
 
                                                base::return(group_list_out)
