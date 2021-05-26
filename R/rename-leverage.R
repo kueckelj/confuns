@@ -8,9 +8,9 @@
 #' @return
 #' @export
 #'
-vrename <- function(input, ..., savely = TRUE){
+vrename <- function(input, ..., safely = TRUE){
 
-  if(base::isTRUE(savely)){
+  if(base::isTRUE(safely)){
 
     renamed_input <-
       base::tryCatch({
@@ -135,7 +135,7 @@ rename_numeric_vars <- function(corr.obj, ...){
   corr.obj@data <-
     base::as.data.frame(corr.obj@data) %>%
     tibble::rownames_to_column(var = "key") %>%
-    rename_savely(df = ., ...) %>%
+    rename_safely(df = ., ...) %>%
     tibble::column_to_rownames(var = "key") %>%
     base::as.matrix()
 
@@ -267,7 +267,7 @@ rename_numeric_vars_with <- function(corr.obj, .fn, ...){
 #' @return
 #' @export
 #'
-rename_savely <- function(df, ...){
+rename_safely <- function(df, ...){
 
   df_renamed <-
     base::tryCatch({

@@ -5,7 +5,7 @@
 \alias{vrename_with}
 \title{Rename vector in tidyverse style}
 \usage{
-vrename(input, ..., savely = TRUE)
+vrename(input, ..., safely = TRUE)
 
 vrename_with(input, .fn, ...)
 }
