@@ -125,7 +125,6 @@ mrename_with <- function(mtr, dims = c(1,2), .fn, ...){
 #' @return
 #' @export
 #'
-#' @examples
 rename_numeric_vars <- function(corr.obj, ...){
 
   # rename @variables_num
@@ -136,7 +135,7 @@ rename_numeric_vars <- function(corr.obj, ...){
   corr.obj@data <-
     base::as.data.frame(corr.obj@data) %>%
     tibble::rownames_to_column(var = "key") %>%
-    dplyr::rename(...) %>%
+    rename_savely(df = ., ...) %>%
     tibble::column_to_rownames(var = "key") %>%
     base::as.matrix()
 
@@ -259,4 +258,37 @@ rename_numeric_vars_with <- function(corr.obj, .fn, ...){
 }
 
 
+
+#' @title Save wrapper around dplyr::rename()
+#'
+#' @param df
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+rename_savely <- function(df, ...){
+
+  df_renamed <-
+    base::tryCatch({
+
+      dplyr::rename(df, ...)
+
+    },error = function(error){
+
+      NA
+
+    })
+
+  if(!base::is.data.frame(df_renamed)){
+
+    base::return(df)
+
+  } else {
+
+    base::return(df_renamed)
+
+  }
+
+}
 

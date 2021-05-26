@@ -5,13 +5,11 @@
 \alias{vrename_with}
 \title{Rename vector in tidyverse style}
 \usage{
-vrename(input, ...)
+vrename(input, ..., savely = TRUE)
 
 vrename_with(input, .fn, ...)
 }
 \arguments{
-\item{input}{}
-
 \item{...}{}
 }
 \value{

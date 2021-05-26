@@ -10,10 +10,6 @@ mrename(mtr, dims = c(1, 2), ...)
 mrename_with(mtr, dims = c(1, 2), .fn, ...)
 }
 \arguments{
-\item{mtr}{}
-
-\item{dims}{}
-
 \item{...}{}
 }
 \value{

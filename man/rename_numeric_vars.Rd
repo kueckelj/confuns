@@ -10,8 +10,6 @@ rename_numeric_vars(corr.obj, ...)
 rename_numeric_vars_with(corr.obj, .fn, ...)
 }
 \arguments{
-\item{corr.obj}{}
-
 \item{...}{}
 }
 \value{
