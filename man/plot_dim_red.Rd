@@ -19,6 +19,7 @@ plot_dim_red(
   ncol = NULL,
   nrow = NULL,
   add.df = NA,
+  add.ons = list(),
   ...
 )
 }

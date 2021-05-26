@@ -6,6 +6,7 @@
 \usage{
 initiate_corr_object(
   corr.data,
+  key.name = NULL,
   default.method = c("pearson", "spearman"),
   default.dir = "conv-corr-obj.RDS"
 )
