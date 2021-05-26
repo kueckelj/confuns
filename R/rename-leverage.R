@@ -50,7 +50,7 @@ vrename <- function(input, ..., safely = TRUE){
 
 #' @rdname vrename
 #' @export
-vrename_with <- function(input, .fn, .cols = dplyr::everythin(), ...){
+vrename_with <- function(input, .fn, .cols = dplyr::everything(), ...){
 
   base::matrix(nrow = 1, ncol = base::length(input)) %>%
     base::as.data.frame() %>%
