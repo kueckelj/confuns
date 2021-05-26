@@ -199,15 +199,20 @@ rename_numeric_vars <- function(corr.obj, ..., rename.data = TRUE){
 
 #' @rdname rename_numeric_vars
 #' @export
-rename_numeric_vars_with <- function(corr.obj, .fn, ...){
+rename_numeric_vars_with <- function(corr.obj, .fn, ..., rename.data = TRUE){
 
   # rename @variables_num
   corr.obj@variables_num <-
     vrename_with(input = corr.obj@variables_num, .fn = .fn, ...)
 
-  # rename @data
-  corr.obj@data <-
-    mrename_with(mtr = corr.obj@data, dims = 2, .fn = .fn, ...)
+  if(base::isTRUE(rename.data)){
+
+    # rename @data
+    corr.obj@data <-
+      mrename_with(mtr = corr.obj@data, dims = 2, .fn = .fn, ...)
+
+  }
+
 
   # rename @results_all
   corr.obj@results_all <-
