@@ -125,19 +125,25 @@ mrename_with <- function(mtr, dims = c(1,2), .fn, ...){
 #' @return
 #' @export
 #'
-rename_numeric_vars <- function(corr.obj, ...){
+rename_numeric_vars <- function(corr.obj, ..., rename.data = TRUE){
 
   # rename @variables_num
   corr.obj@variables_num <-
     vrename(input = corr.obj@variables_num, ...)
 
-  # rename @data
-  corr.obj@data <-
-    base::as.data.frame(corr.obj@data) %>%
-    tibble::rownames_to_column(var = "key") %>%
-    rename_safely(df = ., ...) %>%
-    tibble::column_to_rownames(var = "key") %>%
-    base::as.matrix()
+  # rename @data, option to skip in case of integration
+  # in other S4 objects (data is added via extracting functions)
+  if(base::isTRUE(rename.data)){
+
+    corr.obj@data <-
+      base::as.data.frame(corr.obj@data) %>%
+      tibble::rownames_to_column(var = "key") %>%
+      rename_safely(df = ., ...) %>%
+      tibble::column_to_rownames(var = "key") %>%
+      base::as.matrix()
+
+  }
+
 
   # rename @results_all
   corr.obj@results_all <-
