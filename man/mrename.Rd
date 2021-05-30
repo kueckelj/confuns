@@ -7,7 +7,7 @@
 \usage{
 mrename(mtr, dims = c(1, 2), ...)
 
-mrename_with(mtr, dims = c(1, 2), .fn, ...)
+mrename_with(mtr, dims = c(1, 2), ...)
 }
 \arguments{
 \item{...}{}
