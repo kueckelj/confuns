@@ -1103,6 +1103,245 @@ plot_correlation_sd <- function(corr.obj, method.corr = NULL,  across = NULL, ae
 plot_correlation_variance <- plot_correlation_sd
 
 
+
+
+
+# object manipulation -----------------------------------------------------
+
+#' @title Discard numeric variables of corr_conv
+#'
+#' @param corr.obj
+#' @param vars
+#' @param discard.data
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+discard_numeric_vars <- function(corr.obj, vars, discard.data = TRUE, ...){
+
+  check_one_of(
+    input = vars,
+    against = corr.obj@variables_num,
+    ...
+  )
+
+  corr.obj@variables_num <-
+    corr.obj@variables_num[!corr.obj@variables_num %in% vars]
+
+  if(base::isTRUE(discard.data)){
+
+    corr.obj@data <-
+      base::as.data.frame(corr.obj@data) %>%
+      dplyr::select(-dplyr::all_of(vars)) %>%
+      base::as.matrix()
+
+  }
+
+  vars_discard <- stringr::str_c("-", vars)
+
+  # discard @results_all
+  corr.obj@results_all <-
+    purrr::map(.x = corr.obj@results_all,
+               .f = function(method_list){ # iterate over methods, names(): all corr methods
+
+                 method_list_out <-
+                   purrr::map_at(
+                     .x = method_list,
+                     .at = c("r", "P"),
+                     .f = subset_mtr,
+                     dims = c(1,2),
+                     variables.subset = vars_discard
+                   )
+
+               })
+
+  # discard @results_across
+  corr.obj@results_across <-
+    purrr::map(.x = corr.obj@results_across, # iterate over methods, names(): all corr methods
+               .f = function(method_list){
+
+                 method_list_out <-
+                   purrr::map(.x = method_list, # iterate over grouping variables, names(): all grouping variables
+                              .f = function(grouping_list){
+
+                                grouping_list_out <-
+                                  purrr::map(.x = grouping_list, # iterate over all groups, names(): all groups of the grouping variable
+                                             .f = function(group_list){
+
+                                               group_list_out <-
+                                                 purrr::map_at(.x = group_list, # iterate over the three corr slots r, n, P
+                                                               .at = c("r", "P"), # only matrix slots
+                                                               .f = subset_mtr,
+                                                               dims = c(1,2),
+                                                               variables.subset = vars_discard)
+
+                                               base::return(group_list_out)
+
+                                             })
+
+                                base::return(grouping_list_out)
+
+                              })
+
+                 base::return(method_list_out)
+
+               })
+
+  return(corr.obj)
+
+}
+
+
+#' @title Rename numeric variables of corr_conv objects
+#'
+#' @param corr.obj
+#' @param ...
+#'
+#' @return
+#' @export
+#'
+rename_numeric_vars <- function(corr.obj, ..., rename.data = TRUE){
+
+  # rename @variables_num
+  corr.obj@variables_num <-
+    vrename(input = corr.obj@variables_num, ...)
+
+  # rename @data, option to skip in case of integration
+  # in other S4 objects (data is added via extracting functions)
+  if(base::isTRUE(rename.data)){
+
+    corr.obj@data <-
+      base::as.data.frame(corr.obj@data) %>%
+      tibble::rownames_to_column(var = "key") %>%
+      rename_safely(df = ., ...) %>%
+      tibble::column_to_rownames(var = "key") %>%
+      base::as.matrix()
+
+  }
+
+
+  # rename @results_all
+  corr.obj@results_all <-
+    purrr::map(.x = corr.obj@results_all, # iterate over methods (pearson, spearman)
+               .f = function(input_list){ # list of three slots: r, n, P
+
+                 output_list <-
+                   purrr::map_at(
+                     .x = input_list,
+                     .at = c("r", "P"),
+                     .f = mrename,
+                     ...
+                   )
+
+                 base::return(output_list)
+
+               })
+
+  # rename @results_across
+  corr.obj@results_across <-
+    purrr::map(.x = corr.obj@results_across, # iterate over methods, names => all corr methods
+               .f = function(method_list){
+
+                 method_list_out <-
+                   purrr::map(.x = method_list, # iterate over grouping variables, names => all grouping variables
+                              .f = function(grouping_list){
+
+                                grouping_list_out <-
+                                  purrr::map(.x = grouping_list, # iterate over all groups, names => all groups of the grouping variable
+                                             .f = function(group_list){
+
+                                               group_list_out <-
+                                                 purrr::map_at(.x = group_list, # iterate over the three corr slots r, n, P
+                                                               .at = c("r", "P"), # only matric slots
+                                                               .f = mrename,
+                                                               ...)
+
+                                               base::return(group_list_out)
+
+                                             })
+
+                                base::return(grouping_list_out)
+
+                              })
+
+                 base::return(method_list_out)
+
+               })
+
+  return(corr.obj)
+
+}
+
+#' @rdname rename_numeric_vars
+#' @export
+rename_numeric_vars_with <- function(corr.obj, ..., rename.data = TRUE){
+
+  # rename @variables_num
+  corr.obj@variables_num <-
+    vrename_with(input = corr.obj@variables_num, ...)
+
+  if(base::isTRUE(rename.data)){
+
+    # rename @data
+    corr.obj@data <-
+      mrename_with(mtr = corr.obj@data, dims = 2, ...)
+
+  }
+
+
+  # rename @results_all
+  corr.obj@results_all <-
+    purrr::map(.x = corr.obj@results_all, # iterate over methods (pearson, spearman)
+               .f = function(method_list){ # list of three slots: r, n, P
+
+                 method_list_out <-
+                   purrr::map_at(
+                     .x = method_list,
+                     .at = c("r", "P"),
+                     .f = mrename_with,
+                     ...
+                   )
+
+                 base::return(method_list_out)
+
+               })
+
+  # rename @results_across
+  corr.obj@results_across <-
+    purrr::map(.x = corr.obj@results_across, # iterate over methods, names(): all corr methods
+               .f = function(method_list){
+
+                 method_list_out <-
+                   purrr::map(.x = method_list, # iterate over grouping variables, names(): all grouping variables
+                              .f = function(grouping_list){
+
+                                grouping_list_out <-
+                                  purrr::map(.x = grouping_list, # iterate over all groups, names(): all groups of the grouping variable
+                                             .f = function(group_list){
+
+                                               group_list_out <-
+                                                 purrr::map_at(.x = group_list, # iterate over the three corr slots r, n, P
+                                                               .at = c("r", "P"), # only matrix slots
+                                                               .f = mrename_with,
+                                                               ...)
+
+                                               base::return(group_list_out)
+
+                                             })
+
+                                base::return(grouping_list_out)
+
+                              })
+
+                 base::return(method_list_out)
+
+               })
+
+  return(corr.obj)
+
+}
+
 # miscellaneous -----------------------------------------------------------
 
 #' Title

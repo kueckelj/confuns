@@ -33,17 +33,18 @@ plot_scatterplot <- function(df,
                              nrow = NULL,
                              scales = "fixed",
                              space = "fixed",
+                             clr.by = NULL,
                              pt.alpha = 0.9,
                              pt.clr = "black",
                              pt.fill = "black",
                              pt.shape = 21,
                              pt.size = 1.5,
-                             display.smooth = TRUE,
+                             display.smooth = FALSE,
                              smooth.alpha = 0.9,
                              smooth.clr = "blue",
-                             smooth.method = NULL,
+                             smooth.method = "lm",
                              smooth.se = FALSE,
-                             display.corr = TRUE,
+                             display.corr = FALSE,
                              corr.method = "pearson",
                              corr.p.min = 0.00005,
                              corr.pos.x = NULL,
@@ -52,13 +53,13 @@ plot_scatterplot <- function(df,
                              corr.text.size = 1
                              ){
 
+
   check_data_frame(
     df = df,
     var.class = purrr::map(.x = c(x,y), .f = function(i){ return("numeric") }) %>% purrr::set_names(nm = c(x,y)),
     verbose = TRUE,
     with.time = FALSE
   )
-
 
   # subsetting according to across input ------------------------------------
 
@@ -90,11 +91,53 @@ plot_scatterplot <- function(df,
 
   p <-
     ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = .data[[x]], y = .data[[y]])) +
-    ggplot2::geom_point(alpha = pt.alpha, color = pt.clr, fill = pt.fill, shape = pt.shape, size = pt.size) +
     ggplot2::theme_classic() +
     ggplot2::theme(
       strip.background = ggplot2::element_blank()
     )
+
+
+  if(base::is.character(clr.by)){
+
+      if(pt.shape %in% color_shapes){
+
+        p_mapping <- ggplot2::aes(color = .data[[clr.by]])
+
+      } else if(pt.shape %in% fill_shapes){
+
+        p_mapping <- ggplot2::aes(fill = .data[[clr.by]])
+
+      } else {
+
+        base::stop("Input for argument pt.shape/pt_shape must be an integer between 1 and 25.")
+
+      }
+
+    p <-
+      p +
+      ggplot2::geom_point(
+        mapping = p_mapping,
+        alpha = pt.alpha,
+        shape = pt.shape,
+        size = pt.size)
+
+  } else {
+
+    p <-
+      p +
+      ggplot2::geom_point(
+        alpha = pt.alpha,
+        color = pt.clr,
+        fill = pt.fill,
+        shape = pt.shape,
+        size = pt.size)
+
+  }
+
+
+
+
+
 
   if(!base::is.null(across)){
 
