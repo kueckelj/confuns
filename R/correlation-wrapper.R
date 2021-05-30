@@ -1108,7 +1108,7 @@ plot_correlation_variance <- plot_correlation_sd
 
 # object manipulation -----------------------------------------------------
 
-#' @title Discard numeric variables of corr_conv
+#' @title Discard numeric variables of corr_conv objects
 #'
 #' @param corr.obj
 #' @param vars
