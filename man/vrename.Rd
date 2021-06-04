@@ -7,7 +7,7 @@
 \usage{
 vrename(input, ..., safely = TRUE)
 
-vrename_with(input, .fn, ...)
+vrename_with(input, ...)
 }
 \arguments{
 \item{...}{}

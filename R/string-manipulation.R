@@ -1,4 +1,5 @@
 
+
 #' @title Yolo
 #' @return A more aesthetically pleasing version of the input.
 make_pretty_dummy <- function(){}
@@ -169,5 +170,13 @@ make_pretty_df <- function(df,
 }
 
 
+#' @title Collapse with glue::glue_collapse
+#' @param string Character vector to be collapsed.
+#' @export
+scollapse <- function(string, sep = "', '", width = Inf, last = "' and '"){
+
+  glue::glue_collapse(x = string, sep = sep, width = width, last = last)
+
+}
 
 
