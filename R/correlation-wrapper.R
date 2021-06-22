@@ -1205,7 +1205,7 @@ rename_numeric_vars <- function(corr.obj, ..., rename.data = TRUE){
 
   # rename @variables_num
   corr.obj@variables_num <-
-    vrename(input = corr.obj@variables_num, ...)
+    vredefine(input = corr.obj@variables_num, ...)
 
   # rename @data, option to skip in case of integration
   # in other S4 objects (data is added via extracting functions)
@@ -1279,7 +1279,7 @@ rename_numeric_vars_with <- function(corr.obj, ..., rename.data = TRUE){
 
   # rename @variables_num
   corr.obj@variables_num <-
-    vrename_with(input = corr.obj@variables_num, ...)
+    vredefine_with(input = corr.obj@variables_num, ...)
 
   if(base::isTRUE(rename.data)){
 

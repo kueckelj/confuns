@@ -75,12 +75,25 @@ give_feedback <- function(fdb.fn = "message", msg = NULL, in.shiny = FALSE, with
 
   }
 
+  if(base::isTRUE(in.shiny) && !base::is.null(msg)){
 
-  if(base::isTRUE(in.shiny)){
+    if(fdb.fn == "stop"){
 
-    shiny_fdb(in.shiny = TRUE, ui = msg)
+      type <- "error"
 
-    if(type == "error"){
+    } else if(fdb.fn == "warning") {
+
+      type <- "warning"
+
+    } else if(fdb.fn == "message"){
+
+      type <- fdb.fn
+
+    }
+
+    shiny_fdb(in.shiny = TRUE, ui = msg, type = type)
+
+    if(fdb.fn == "stop"){
 
       shiny::req(FALSE)
 
