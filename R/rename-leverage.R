@@ -171,6 +171,8 @@ lrename <- function(lst, ..., safely = TRUE){
 
 }
 
+#' @rdname
+#' @export
 lrename_with <- function(lst, ...){
 
   input <- base::names(lst)
@@ -240,13 +242,6 @@ mrename_with <- function(mtr, dims = c(1,2), ...){
   base::return(mtr)
 
 }
-
-
-
-
-
-
-
 
 
 #' @title Save wrapper around dplyr::rename()
