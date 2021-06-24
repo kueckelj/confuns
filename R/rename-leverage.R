@@ -167,7 +167,7 @@ lrename <- function(lst, ..., safely = TRUE){
 
   renamed_lst <- purrr::set_names(lst, renamed_input)
 
-  base::return(renamed_list)
+  base::return(renamed_lst)
 
 }
 

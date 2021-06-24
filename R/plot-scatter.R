@@ -13,12 +13,27 @@
 #' @param space
 #' @param pt.alpha
 #' @param pt.clr
+#' @param pt.clrp
 #' @param pt.fill
 #' @param pt.shape
 #' @param pt.size
+#' @param clr.aes
+#' @param clr.by
+#' @param clrp.adjust
+#' @param display.smooth
+#' @param smooth.alpha
 #' @param smooth.clr
 #' @param smooth.method
 #' @param smooth.se
+#' @param smooth.size
+#' @param display.corr
+#' @param corr.method
+#' @param corr.p.min
+#' @param corr.pos.x
+#' @param corr.pos.y
+#' @param corr.text.sep
+#' @param corr.text.size
+#' @param ...
 #'
 #' @return
 #' @export
@@ -33,24 +48,29 @@ plot_scatterplot <- function(df,
                              nrow = NULL,
                              scales = "fixed",
                              space = "fixed",
-                             clr.by = NULL,
                              pt.alpha = 0.9,
                              pt.clr = "black",
+                             pt.clrp = "milo",
                              pt.fill = "black",
-                             pt.shape = 21,
+                             pt.shape = 19,
                              pt.size = 1.5,
+                             clr.aes = "color",
+                             clr.by = NULL,
+                             clrp.adjust = NULL,
                              display.smooth = FALSE,
                              smooth.alpha = 0.9,
                              smooth.clr = "blue",
                              smooth.method = "lm",
                              smooth.se = FALSE,
+                             smooth.size = 1,
                              display.corr = FALSE,
                              corr.method = "pearson",
                              corr.p.min = 0.00005,
                              corr.pos.x = NULL,
                              corr.pos.y = NULL,
                              corr.text.sep = "\n",
-                             corr.text.size = 1
+                             corr.text.size = 1,
+                             ...
                              ){
 
 
@@ -79,13 +99,29 @@ plot_scatterplot <- function(df,
 
     }
 
-    df <- check_across_subset(df = df, across = across[1], across.subset = across.subset[[across[1]]], relevel = relevel[1])
+    df <- check_across_subset(
+      df = df, across = across[1],
+      across.subset = across.subset[[across[1]]],
+      relevel = relevel[1]
+      )
 
-    df <- check_across_subset(df = df, across = across[2], across.subset = across.subset[[across[2]]], relevel = relevel[2])
+    df <-
+      check_across_subset(
+        df = df,
+        across = across[2],
+        across.subset = across.subset[[across[2]]],
+        relevel = relevel[2]
+        )
 
   } else {
 
-    df <- check_across_subset(df = df, across = across, across.subset = across.subset, relevel = relevel[1])
+    df <-
+      check_across_subset(
+        df = df,
+        across = across,
+        across.subset = across.subset,
+        relevel = relevel[1]
+        )
 
   }
 
@@ -98,6 +134,11 @@ plot_scatterplot <- function(df,
 
 
   if(base::is.character(clr.by)){
+
+    check_one_of(
+      input = clr.by,
+      against = dplyr::select(df, where(is.factor), where(is.character)) %>% base::colnames()
+    )
 
       if(pt.shape %in% color_shapes){
 
@@ -119,7 +160,14 @@ plot_scatterplot <- function(df,
         mapping = p_mapping,
         alpha = pt.alpha,
         shape = pt.shape,
-        size = pt.size)
+        size = pt.size) +
+      scale_color_add_on(
+        aes = clr.aes,
+        variable = df[[clr.by]],
+        clrp = pt.clrp,
+        clrp.adjust = clrp.adjust,
+        ...
+      )
 
   } else {
 
@@ -173,11 +221,14 @@ plot_scatterplot <- function(df,
   if(base::isTRUE(display.smooth)){
 
     p <- p +
-      ggplot2::geom_smooth(formula = y ~ x,
-                           alpha = smooth.alpha,
-                           color = smooth.clr,
-                           method = smooth.method,
-                           se = smooth.se)
+      ggplot2::geom_smooth(
+        formula = y ~ x,
+        alpha = smooth.alpha,
+        color = smooth.clr,
+        method = smooth.method,
+        se = smooth.se,
+        size = smooth.size
+        )
 
   }
 
