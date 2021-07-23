@@ -247,9 +247,9 @@ perform_kmeans_clustering <- function(kmeans.obj,
                       ref_method = adapt_reference(methods.kmeans, sg = "method", pl = "methods"),
                       ref_centers = adapt_reference(centers, sg = "option", pl = "options"))
 
-  }
+    give_feedback(msg = msg, verbose = verbose)
 
-  give_feedback(msg = msg, verbose = verbose)
+  }
 
   verbose_input <- verbose
 
