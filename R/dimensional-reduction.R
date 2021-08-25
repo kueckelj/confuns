@@ -7,21 +7,21 @@
 # s4 ----------------------------------------------------------------------
 
 
-pca_conv <- methods::setClass(Class = "dim_red_conv",
-                               slots = c(
-                                 additional_arguments = "list",
-                                 data = "matrix",
-                                 dims = "numeric",
-                                 embedding = "data.frame",
-                                 key_name = "character",
-                                 meta = "data.frame",
-                                 method = "character",
-                                 results = "list",
-                                 scale = "logical",
-                                 variables_discrete = "character",
-                                 variables_num = "character"
-                                 )
-                               )
+dim_red_conv <- methods::setClass(Class = "dim_red_conv",
+                                  slots = c(
+                                    additional_arguments = "list",
+                                    data = "matrix",
+                                    dims = "numeric",
+                                    embedding = "data.frame",
+                                    key_name = "character",
+                                    meta = "data.frame",
+                                    method = "character",
+                                    results = "list",
+                                    scale = "logical",
+                                    variables_discrete = "character",
+                                    variables_num = "character"
+                                  )
+)
 
 
 #' Title
@@ -38,6 +38,7 @@ compute_dim_red <- function(data,
                             method.dim.red,
                             scale = TRUE,
                             verbose = TRUE,
+                            seed = NULL,
                             ...){
 
   is_value(method.dim.red, mode = "character")
@@ -95,6 +96,14 @@ compute_dim_red <- function(data,
   mtr <- base::as.matrix(numeric_df)
 
   give_feedback(msg = glue::glue("Computing dimensional reduction. Method: {method.dim.red}"), verbose = verbose)
+
+  if(base::is.numeric(seed)){
+
+    give_feedback(msg = glue::glue("Setting seed: {seed}"), verbose = verbose)
+
+    base::set.seed(seed = seed)
+
+  }
 
   if(method.dim.red == "pca"){
 
