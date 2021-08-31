@@ -8,6 +8,8 @@ plot_medoid_barchart(
   pam.obj,
   k = NULL,
   metric.pam = NULL,
+  facet.by = "cluster",
+  clr.by = "variables",
   cluster.prefix = "",
   cluster.subset = NULL,
   cluster.relevel = TRUE,
@@ -22,6 +24,10 @@ plot_medoid_barchart(
 )
 }
 \arguments{
+\item{facet.by}{Character value. Either \emph{'cluster'} or \emph{'variables'}.}
+
+\item{clr.by}{Character value. Either \emph{'cluster'} or \emph{'variables'}.}
+
 \item{...}{}
 }
 \value{

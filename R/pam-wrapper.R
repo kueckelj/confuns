@@ -699,6 +699,8 @@ plot_avg_silhouette_widths <- function(pam.obj,
 #' @param pam.obj
 #' @param k
 #' @param metric.pam
+#' @param facet.by Character value. Either \emph{'cluster'} or \emph{'variables'}.
+#' @param clr.by Character value. Either \emph{'cluster'} or \emph{'variables'}.
 #' @param cluster.prefix
 #' @param cluster.subset
 #' @param cluster.relevel
@@ -717,6 +719,8 @@ plot_avg_silhouette_widths <- function(pam.obj,
 plot_medoid_barchart <- function(pam.obj,
                                  k = NULL,
                                  metric.pam = NULL,
+                                 facet.by = "cluster",
+                                 clr.by = "variables",
                                  cluster.prefix = "",
                                  cluster.subset = NULL,
                                  cluster.relevel = TRUE,
@@ -757,19 +761,36 @@ plot_medoid_barchart <- function(pam.obj,
   if(base::isTRUE(display.medoid.name)){
 
     medoids_df <-
-      dplyr::mutate(medoids_df,
-                    cluster = stringr::str_c(cluster, !!rlang::sym(pam.obj@key_name), sep = sep)
+      dplyr::mutate(
+        .data = medoids_df,
+        cluster = stringr::str_c(cluster, !!rlang::sym(pam.obj@key_name), sep = sep)
       )
 
   }
 
-  ggplot2::ggplot(data = medoids_df, mapping = ggplot2::aes(x = cluster, y = values)) +
-    ggplot2::geom_col(mapping = ggplot2::aes(fill = cluster), color = clr) +
-    ggplot2::facet_wrap(facets = . ~ variables, scales = "free_x") +
-    theme_statistics() +
-    ggplot2::coord_flip() +
-    ggplot2::labs(x = NULL, y = NULL, fill = "Cluster") +
-    scale_color_add_on(aes = "fill", variable = medoids_df$cluster, clrp = clrp, ...)
+  if(facet.by == "variables"){
+
+    ggplot2::ggplot(data = medoids_df, mapping = ggplot2::aes(x = cluster, y = values)) +
+      ggplot2::geom_col(mapping = ggplot2::aes(fill = .data[[clr.by]]), color = clr) +
+      ggplot2::facet_wrap(facets = . ~ variables, scales = "free_x") +
+      theme_statistics() +
+      ggplot2::coord_flip() +
+      ggplot2::labs(x = NULL, y = NULL, fill = clr.by) +
+      scale_color_add_on(aes = "fill", variable = medoids_df$cluster, clrp = clrp)
+
+  } else if(facet.by == "cluster"){
+
+    ggplot2::ggplot(data = medoids_df, mapping = ggplot2::aes(x = variables, y = values)) +
+      ggplot2::geom_col(mapping = ggplot2::aes(fill = .data[[clr.by]]), color = clr) +
+      ggplot2::facet_wrap(facets = . ~ cluster) +
+      theme_statistics() +
+      ggplot2::coord_flip() +
+      ggplot2::labs(x = NULL, y = NULL, fill = clr.by) +
+      scale_color_add_on(aes = "fill", variable = medoids_df[[clr.by]], clrp = clrp)
+
+  }
+
+
 
 }
 

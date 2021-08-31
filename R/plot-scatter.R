@@ -183,10 +183,6 @@ plot_scatterplot <- function(df,
   }
 
 
-
-
-
-
   if(!base::is.null(across)){
 
     if(base::length(across) == 1){

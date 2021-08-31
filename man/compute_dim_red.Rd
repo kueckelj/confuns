@@ -10,6 +10,7 @@ compute_dim_red(
   method.dim.red,
   scale = TRUE,
   verbose = TRUE,
+  seed = NULL,
   ...
 )
 }
