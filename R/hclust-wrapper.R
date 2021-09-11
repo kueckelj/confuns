@@ -235,10 +235,27 @@ initiate_hclust_object <- function(hclust_data = NULL,
 
   hcl.obj@scale <- scale
 
+  if(base::isTRUE(hcl.obj@scale)){
+
+    give_feedback(msg = "Scaling data.", verbose = verbose)
+
+    hcl.obj@data <-
+      base::apply(X = hcl.obj@data, MARGIN = 2, FUN = function(var){
+
+        var <- scales::rescale(x = var, to = c(0,1))
+
+        var <- var + 0.01
+
+        return(var)
+
+      })
+
+    give_feedback(msg = "Done.", verbose = verbose)
+
+  }
 
   # return obj
   base::return(hcl.obj)
-
 
 }
 
@@ -315,7 +332,6 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
     against = valid_methods_dist
   )
 
-
   # make sure not to calculate needlessly
   available_methods <- base::names(hcl.obj@dist_matrices)
 
@@ -347,16 +363,6 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
 
   # extract and scale data
   data_mtr <- hcl.obj@data
-
-  if(base::isTRUE(hcl.obj@scale)){
-
-    give_feedback(msg = "Scaling data.", verbose = verbose)
-
-    data_mtr <- base::scale(x = data_mtr)
-
-    give_feedback(msg = "Done.", verbose = verbose)
-
-  }
 
   # compute matrices in for loop
   n_methods <- base::length(methods.dist)

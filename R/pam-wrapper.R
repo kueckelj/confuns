@@ -110,9 +110,6 @@ initiate_pam_object <- function(pam.data,
   # set observations
   obs <- base::rownames(pam.data)
 
-  # set observations
-  obs <- base::rownames(pam.data)
-
   if(dplyr::n_distinct(obs) == base::nrow(pam.data)){
 
     pam.obj@observations <- obs
@@ -169,6 +166,28 @@ initiate_pam_object <- function(pam.data,
     )
 
   pam.obj@scale <- scale
+
+  if(base::isTRUE(pam.obj@scale)){
+
+    give_feedback(
+      msg = glue::glue("Scaling data."),
+      verbose = verbose
+      )
+
+    pam.obj@data <-
+      base::apply(X = pam.obj@data, MARGIN = 2, FUN = function(var){
+
+        var <- scales::rescale(x = var, to = c(0,1))
+
+        var <- var + 0.01
+
+        return(var)
+
+      })
+
+  }
+
+  give_feedback(msg = "Done.", verbose = verbose)
 
   base::return(pam.obj)
 
@@ -311,16 +330,6 @@ perform_pam_clustering <- function(pam.obj,
   }
 
   pam_data <- get_pam_data(pam.obj)
-
-  if(base::isTRUE(pam.obj@scale)){
-
-    give_feedback(msg = "Scaling data.")
-
-    pam_data <- base::scale(x = pam_data)
-
-    give_feedback(msg = "Done.", verbose = verbose)
-
-  }
 
   for(metric in metric.pam){
 

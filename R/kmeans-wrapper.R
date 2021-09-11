@@ -24,8 +24,6 @@ valid_methods_kmeans <- c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen")
 
 
 
-
-
 # input check -------------------------------------------------------------
 
 #' Title
@@ -136,6 +134,25 @@ initiate_kmeans_object <- function(kmeans.data,
     )
 
   kmeans.obj@scale <- scale
+
+  if(base::isTRUE(kmeans.obj@scale)){
+
+    give_feedback(msg = "Scaling data.", verbose)
+
+    kmeans.obj@data <-
+      base::apply(X = kmeans.obj@data, MARGIN = 2, FUN = function(var){
+
+        var <- scales::rescale(x = var, to = c(0,1))
+
+        var <- var + 0.01
+
+        return(var)
+
+      })
+
+    give_feedback(msg = "Done.", verbose = verbose)
+
+  }
 
   # return obj
   base::return(kmeans.obj)
@@ -262,16 +279,6 @@ perform_kmeans_clustering <- function(kmeans.obj,
   }
 
   data_mtr <- kmeans.obj@data
-
-  if(base::isTRUE(kmeans.obj@scale)){
-
-    give_feedback(msg = "Scaling data.", verbose)
-
-    data_mtr <- base::scale(data_mtr)
-
-    give_feedback(msg = "Done.", verbose = verbose)
-
-  }
 
   for(method in methods.kmeans){
 

@@ -87,7 +87,16 @@ compute_dim_red <- function(data,
 
     give_feedback(msg = "Scaling.", verbose = verbose)
 
-    numeric_df <- base::scale(numeric_df)
+    numeric_df <-
+      purrr::map_df(.x = numeric_df, .f = function(var){
+
+        var <- scales::rescale(x = var, to = c(0,1))
+
+        var <- var + 0.01
+
+        return(var)
+
+      })
 
     give_feedback(msg = "Done.", verbose = verbose)
 
