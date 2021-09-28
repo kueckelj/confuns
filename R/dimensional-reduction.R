@@ -75,30 +75,15 @@ compute_dim_red <- function(data,
 
   }
 
-
   numeric_df <-
     dplyr::select_if(data, .predicate = base::is.numeric)
-
 
   unscaled_mtr <- base::as.matrix(numeric_df)
   base::rownames(unscaled_mtr) <- key_var
 
   if(base::isTRUE(scale)){
 
-    give_feedback(msg = "Scaling.", verbose = verbose)
-
-    numeric_df <-
-      purrr::map_df(.x = numeric_df, .f = function(var){
-
-        var <- scales::rescale(x = var, to = c(0,1))
-
-        var <- var + 0.01
-
-        return(var)
-
-      })
-
-    give_feedback(msg = "Done.", verbose = verbose)
+    numeric_df <- rescale_df(df = numeric_df, verbose = verbose)
 
   }
 
@@ -177,24 +162,22 @@ compute_dim_red <- function(data,
 
   }
 
-  dim_red_obj <- methods::new(Class = "dim_red_conv",
-                          additional_arguments = keep_named(list(...)),
-                          data = unscaled_mtr,
-                          dims = 1:base::ncol(embedding_df),
-
-                          embedding = dplyr::mutate(embedding_df, !!key.name := {{key_var}}) %>%
-                                      dplyr::select(dplyr::all_of(key.name), dplyr::everything()),
-
-                          key_name = key.name,
-
-                          meta = meta_df,
-
-                          method = method.dim.red,
-                          results = dim_red_res,
-                          scale = scale,
-                          variables_discrete = base::colnames(meta_df),
-                          variables_num = base::colnames(mtr)
-                          )
+  dim_red_obj <- methods::new(
+    Class = "dim_red_conv",
+    additional_arguments = keep_named(list(...)),
+    data = unscaled_mtr,
+    dims = 1:base::ncol(embedding_df),
+    embedding =
+      dplyr::mutate(embedding_df, !!key.name := {{key_var}}) %>%
+      dplyr::select(dplyr::all_of(key.name), dplyr::everything()),
+    key_name = key.name,
+    meta = meta_df,
+    method = method.dim.red,
+    results = dim_red_res,
+    scale = scale,
+    variables_discrete = base::colnames(meta_df),
+    variables_num = base::colnames(mtr)
+    )
 
   base::return(dim_red_obj)
 

@@ -20,6 +20,27 @@ normalize <- function(x){
 
 }
 
+#' @title Zscore computation
+#'
+#' @description Computes zscores of the provided variable.
+#'
+#' @param x A numeric vector.
+#'
+#' @return A numeric with the same length as \code{x}.
+#' @export
+#'
+normalize_zscore <- function(x, na.rm = TRUE){
+
+  vec_mean <- base::mean(x, na.rm = na.rm)
+
+  vec_sd <- stats::sd(x = x, na.rm = na.rm)
+
+  vec_zscore <- (x - vec_mean) / vec_sd
+
+  return(vec_zscore)
+
+}
+
 
 
 #' @title Curve fitting
