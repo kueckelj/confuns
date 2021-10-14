@@ -66,6 +66,23 @@ scale_color_add_on <- function(aes = "color",
   if(!base::is.null(clrp)){confuns::is_value(clrp, "character", "clrp")}
   if(!base::is.null(clrsp)){confuns::is_value(clrsp, "character", "clrsp")}
 
+  if(base::all(base::is.na(variable))){
+
+    var_class <- base::class(variable)
+
+    if(!var_class %in% c("character", "numeric")){
+
+      stop("Invalid input for argument 'variable'.")
+
+    } else {
+
+      variable <- var_class
+
+    }
+
+  }
+
+
   # ----- numeric variable
   if(base::is.numeric(variable) | base::all(variable == "numeric")){
 
