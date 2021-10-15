@@ -91,7 +91,7 @@ give_feedback <- function(fdb.fn = "message", msg = NULL, in.shiny = FALSE, with
 
     }
 
-    shiny_fdb(in.shiny = TRUE, ui = msg, type = type)
+    shiny_fdb(in.shiny = TRUE, ui = msg, type = type, ...)
 
     if(fdb.fn == "stop"){
 
