@@ -74,7 +74,18 @@ error_handler <- function(fun){
 
 glue_list_report <- function(lst, prefix = "", separator = " = ", combine_via = "\n", ...){
 
-  lst <- purrr::keep(.x = keep_named(lst), .p = ~ is_vec(.x, mode = "any", of.length = 1, verbose = FALSE) & !base::is.list(x = .x))
+  lst <- purrr::keep(.x = keep_named(lst), .p = function(x){
+
+    res <- base::vector()
+
+    res[1] <- base::length(x) == 1
+    res[2] <- !base::is.list(x)
+
+    res_final <- base::all(res)
+
+    return(res_final)
+
+  })
 
   report <- base::vector(mode = "character", length = base::length(lst))
 
