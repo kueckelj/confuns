@@ -5,15 +5,15 @@
 # s4 ----------------------------------------------------------------------
 
 pam_conv <- methods::setClass(Class = "pam_conv",
-                              slots = c(
-                                data = "matrix",
-                                default = "list",
-                                key_name = "character",
-                                observations = "character",
-                                results = "list",
-                                scale = "logical",
-                                variables = "character"
-                              ))
+                             slots = c(
+                               data = "matrix",
+                               default = "list",
+                               key_name = "character",
+                               observations = "character",
+                               results = "list",
+                               scale = "logical",
+                               variables = "character"
+                             ))
 
 
 
