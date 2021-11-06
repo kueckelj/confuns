@@ -28,11 +28,13 @@ adjust_ggplot_params <- function(params){
   cfn <- rlang::caller_fn()
 
   # get names of the arguments of the plotting function
-  args_all_names <- rlang::fn_fmls_names(fn = cfn)
+  args_names <- rlang::fn_fmls_names(fn = cfn)
 
   # assemble list that contains the input of the arguments
   # of the plotting function
-  args_all <- assemble_list(obj_names = args_all_names, env = cenv)
+  args_all <- assemble_list(obj_names = args_names, env = cenv)
+
+  args_all_names <- base::names(args_all)
 
   # vector of names of the arguments that assign a variable
   # to an aesthetic that could otherwise be defined as a set parameter
