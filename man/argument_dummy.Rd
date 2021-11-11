@@ -38,6 +38,13 @@ to display the results.}
 \item{display.facets}{Logical value. If set to TRUE the plot is split via
 \code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.}
 
+\item{key.name, key_name}{Character value or NULL. Denotes the variable that is used
+to identify each observation uniquely.}
+
+\item{key.prefix, key_prefix}{Character value. The string with which
+the IDs in the newly constructed key variable are prefixed if \code{key_name} is
+NULL.}
+
 \item{pt.alpha}{Numeric value. Specifies the transparency of points.}
 
 \item{pt.color}{Character value. Specifies the color with which all points are displayed .}

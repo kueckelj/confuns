@@ -39,3 +39,50 @@ all_vars_numeric <- function(df){
   base::return(res)
 
 }
+
+
+#' @title Test key variable validity
+#'
+#' @description Tests if the denoted key variable identifies
+#' each observation uniquely.
+#'
+#' @inherit argument_dummy params
+#' @param df A data.frame.
+#' @param key.name Character value. The name of the key variable.
+#'
+#' @return TRUE or FALSE
+#' @export
+#'
+
+is_key_variable <- function(df, key.name, stop.if.false = FALSE){
+
+  n_obs <- base::nrow(df)
+
+  check_data_frame(
+    df = df,
+    var.class = purrr::set_names(list(c("character", "factor")), nm = key.name)
+  )
+
+  key_var <- df[[key.name]]
+
+  if(dplyr::n_distinct(key_var) == n_obs){
+
+    out <- TRUE
+
+  } else {
+
+    out <- FALSE
+
+  }
+
+  if(base::isFALSE(out) && base::isTRUE(stop.if.false)){
+
+    msg <- glue::glue("Variable '{key.name}' does not identify each observation uniquely.")
+
+    give_feedback(msg = msg, fdb.fn = "stop", with.time = FALSE)
+
+  }
+
+  return(out)
+
+}

@@ -63,6 +63,12 @@ verbose <- function(verbose){
 #' @param display.facets Logical value. If set to TRUE the plot is split via
 #' \code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.
 #'
+#' @param key.name,key_name Character value or NULL. Denotes the variable that is used
+#' to identify each observation uniquely.
+#' @param key.prefix,key_prefix Character value. The string with which
+#' the IDs in the newly constructed key variable are prefixed if \code{key_name} is
+#' NULL.
+#'
 #' @param pt.alpha Numeric value. Specifies the transparency of points.
 #' @param pt.color Character value. Specifies the color with which all points are displayed .
 #' @param pt.num Numeric value. Species the number of points (sample size)

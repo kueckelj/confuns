@@ -1,7 +1,6 @@
 
 
 
-
 #' @title S4 Default Assignment
 #'
 #' @description Extracts the default list from the respective slot
