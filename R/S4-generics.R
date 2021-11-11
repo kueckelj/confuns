@@ -72,9 +72,9 @@ set_data_hlpr <- function(object,
 
     is_key_variable(df = data, key.name = key.name, stop.if.false = TRUE)
 
-    data[[key.name]] <- base::as.character(df[[key.name]])
+    data[[key.name]] <- base::as.character(data[[key.name]])
 
-    base::rownames(df) <- NULL
+    base::rownames(data) <- NULL
 
   } else if(base::is.null(key.name)){
 
