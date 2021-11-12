@@ -15,6 +15,8 @@ set_data_hlpr(
 )
 }
 \arguments{
+\item{object}{Any object for whose class a method has been defined.}
+
 \item{key.name}{Character value or NULL. Denotes the variable that is used
 to identify each observation uniquely.}
 

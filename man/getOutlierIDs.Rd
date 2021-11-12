@@ -27,6 +27,8 @@ getOutlierIDs(object, ...)
 )
 }
 \arguments{
+\item{object}{Any object for whose class a method has been defined.}
+
 \item{variables}{Character vector. Specifies the variables
 of interest. If set to NULL all valid variables of the input data.frame are
 considered (as long as the total number does not exceeds the limit).

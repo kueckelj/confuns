@@ -10,6 +10,8 @@ setData(object, data, key_name = "id", key_prefix = "", verbose = TRUE)
 \S4method{setData}{OutlierDetection}(object, data, key_name = NULL, key_prefix = "id")
 }
 \arguments{
+\item{object}{Any object for whose class a method has been defined.}
+
 \item{key_name}{Character value or NULL. Denotes the variable that is used
 to identify each observation uniquely.}
 

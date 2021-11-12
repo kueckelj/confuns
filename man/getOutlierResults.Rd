@@ -10,6 +10,8 @@ getOutlierResults(object, ...)
 \S4method{getOutlierResults}{OutlierDetection}(object, method = "IQR", across = NULL, verbose = TRUE)
 }
 \arguments{
+\item{object}{Any object for whose class a method has been defined.}
+
 \item{method}{Character value. The outlier detection method. Valid
 input options are \emph{'IQR'} and \emph{'Mahalanobis'}.}
 

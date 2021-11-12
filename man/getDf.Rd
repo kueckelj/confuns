@@ -9,6 +9,9 @@ getDf(object)
 
 \S4method{getDf}{OutlierDetection}(object)
 }
+\arguments{
+\item{object}{Any object for whose class a method has been defined.}
+}
 \value{
 A data.frame with subclass \code{tibble}.
 }

@@ -69,6 +69,8 @@ verbose <- function(verbose){
 #' the IDs in the newly constructed key variable are prefixed if \code{key_name} is
 #' NULL.
 #'
+#' @param object Any object for whose class a method has been defined.
+#'
 #' @param pt.alpha Numeric value. Specifies the transparency of points.
 #' @param pt.color Character value. Specifies the color with which all points are displayed .
 #' @param pt.num Numeric value. Species the number of points (sample size)

@@ -13,6 +13,8 @@ getResults(object, ...)
 \S4method{getResults}{OutlierDetectionMethod}(object, across)
 }
 \arguments{
+\item{object}{Any object for whose class a method has been defined.}
+
 \item{...}{}
 
 \item{across}{Character value. Specifies the discrete variable in the data.frame

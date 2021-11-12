@@ -45,6 +45,8 @@ to identify each observation uniquely.}
 the IDs in the newly constructed key variable are prefixed if \code{key_name} is
 NULL.}
 
+\item{object}{Any object for whose class a method has been defined.}
+
 \item{pt.alpha}{Numeric value. Specifies the transparency of points.}
 
 \item{pt.color}{Character value. Specifies the color with which all points are displayed .}
