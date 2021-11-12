@@ -475,14 +475,18 @@ setGeneric(name = "detectOutliers", def = function(object, ...){
 #' @inherit detectOutliers params
 #' @inherit argument_dummy params
 #'
-#' @return If \code{across} is a character value the returned value is a list
-#' named according to the groups of the grouping variable \code{across}. Else
-#' its a data.frame if \code{method} = \emph{'Mahalanobis'} or a list if
-#' \code{method} = \emph{'IQR'}.
+#' @return  If \code{across} is NULL the return value is a data.frame if
+#' \code{method} = \emph{'Mahalanobis'} or a list if \code{method} = \emph{'IQR'}.
+#' In this list each slot is a vector of IDs that were identified
+#' as outliers within the variable denoted by the name of the list's slot.
 #'
-setGeneric(name = "getOutliers", def = function(object, method = "IQR", across = NULL, verbose = TRUE, ...){
+#' If \code{across} is a character value the returned value is a list
+#' named according to the groups of the grouping variable \code{across} each containing
+#' output as described above.
+#'
+setGeneric(name = "getOutlierResults", def = function(object, method = "IQR", across = NULL, verbose = TRUE, ...){
 
-  standardGeneric(f = "getOutliers")
+  standardGeneric(f = "getOutlierResults")
 
 })
 
@@ -528,10 +532,10 @@ setMethod(
   })
 
 
-#' @rdname getOutliers
+#' @rdname getOutlierResults
 #' @export
 setMethod(
-  f = "getOutliers",
+  f = "getOutlierResults",
   signature = "OutlierDetection",
   definition = function(object, method = "IQR", across = NULL, verbose = TRUE){
 
