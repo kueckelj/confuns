@@ -5,7 +5,7 @@
 \alias{getOutlierResults,OutlierDetection-method}
 \title{Obtain outlier results}
 \usage{
-getOutlierResults(object, method = "IQR", across = NULL, verbose = TRUE, ...)
+getOutlierResults(object, ...)
 
 \S4method{getOutlierResults}{OutlierDetection}(object, method = "IQR", across = NULL, verbose = TRUE)
 }
@@ -22,10 +22,17 @@ the computational progress will be printed.
 (Warning messages will always be printed.)}
 }
 \value{
-If \code{across} is NULL the return value is a data.frame if
-\code{method} = \emph{'Mahalanobis'} or a list if \code{method} = \emph{'IQR'}.
-In this list each slot is a vector of IDs that were identified
-as outliers within the variable denoted by the name of the list's slot.
+The return value depends on the method chosen:
+
+\itemize{
+ \item{\code{method} = \emph{'IQR'}:}{
+ A named list in which each slot is a vector of IDs which were identified
+ as outliers within a numeric variable denoted by the name of the list's slot.
+ }
+ \item{\code{method} = \emph{'Mahalanobis'}:}{
+  A data.frame  with column names \emph{<key.name>}, \emph{mahal} and \emph{pval}.
+ }
+}
 
 If \code{across} is a character value the returned value is a list
 named according to the groups of the grouping variable \code{across} each containing

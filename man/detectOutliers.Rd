@@ -7,7 +7,7 @@
 \usage{
 detectOutliers(object, ...)
 
-\S4method{detectOutliers}{OutlierDetection}(object, method, across = NULL, verbose = TRUE)
+\S4method{detectOutliers}{OutlierDetection}(object, method, across = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{method}{Character value. The outlier detection method. Valid

@@ -1,4 +1,10 @@
 
+
+
+# g -----------------------------------------------------------------------
+
+
+
 #' @title Obtain object data
 #'
 #' @description Extracts the objects data as a data.frame.
@@ -15,6 +21,32 @@ setGeneric(name = "getDf", def = function(object){
 
 })
 
+
+
+#' @title Obtain analysis results
+#'
+#' @description Generic extractor for results mainly used for
+#' programming purpose as it provides informative error
+#' messages if the requested content is missing.
+#'
+#' @inherit argument_dummy params
+#' @param ...
+#'
+#' @return Depends on the objects class.
+#' @export
+#'
+
+setGeneric(name = "getResults", def = function(object, ...){
+
+  standardGeneric(f = "getResults")
+
+})
+
+
+
+
+
+# s -----------------------------------------------------------------------
 
 #' @title Set data and key variables
 #'

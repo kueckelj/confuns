@@ -286,7 +286,7 @@ detectOutliersIQR <- function(object, across = NULL, verbose = TRUE){
       verbose = verbose
     )
 
-    iqr_results <- OutlierDetectionIQR(key_name = key_name)
+    iqr_results <- OutlierDetectionIQR(key_name = key_name, method = "IQR")
 
   }
 
@@ -378,7 +378,7 @@ detectOutliersMahalanobis <- function(object, across = NULL, verbose = TRUE){
       verbose = verbose
     )
 
-    mahal_results <- OutlierDetectionMahalanobis(key_name = key_name)
+    mahal_results <- OutlierDetectionMahalanobis(key_name = key_name, method = "Mahalanobis")
 
   }
 
@@ -445,6 +445,9 @@ detectOutliersMahalanobis <- function(object, across = NULL, verbose = TRUE){
 
 # own generics ------------------------------------------------------------
 
+
+# d
+
 #' @title Detect outliers
 #'
 #' @description Runs outlier detection according to the method
@@ -466,6 +469,28 @@ setGeneric(name = "detectOutliers", def = function(object, ...){
 
 })
 
+# g
+
+#' @title Obtain outlier ids
+#'
+#' @description Extracts IDs that identify the observations
+#' that were determined as outliers.
+#'
+#' @inherit argument_dummy params
+#' @param flatten Logical value. If \code{across} is specified
+#' \code{flatten} can be set to TRUE in order to force the
+#' flatten teh list into a character vector of IDs.
+#'
+#' @return Character vector if \code{across} = NULL. List of character
+#' vectors if \code{across} is a character value.
+#'
+#' @export
+
+setGeneric(name = "getOutlierIDs", def = function(object, ...){
+
+  standardGeneric(f = "getOutlierIDs")
+
+})
 
 
 #' @title Obtain outlier results
@@ -475,20 +500,28 @@ setGeneric(name = "detectOutliers", def = function(object, ...){
 #' @inherit detectOutliers params
 #' @inherit argument_dummy params
 #'
-#' @return  If \code{across} is NULL the return value is a data.frame if
-#' \code{method} = \emph{'Mahalanobis'} or a list if \code{method} = \emph{'IQR'}.
-#' In this list each slot is a vector of IDs that were identified
-#' as outliers within the variable denoted by the name of the list's slot.
+#' @return The return value depends on the method chosen:
+#'
+#' \itemize{
+#'  \item{\code{method} = \emph{'IQR'}:}{
+#'  A named list in which each slot is a vector of IDs which were identified
+#'  as outliers within a numeric variable denoted by the name of the list's slot.
+#'  }
+#'  \item{\code{method} = \emph{'Mahalanobis'}:}{
+#'   A data.frame  with column names \emph{<key.name>}, \emph{mahal} and \emph{pval}.
+#'  }
+#' }
 #'
 #' If \code{across} is a character value the returned value is a list
 #' named according to the groups of the grouping variable \code{across} each containing
 #' output as described above.
 #'
-setGeneric(name = "getOutlierResults", def = function(object, method = "IQR", across = NULL, verbose = TRUE, ...){
+setGeneric(name = "getOutlierResults", def = function(object, ...){
 
   standardGeneric(f = "getOutlierResults")
 
 })
+
 
 # -----
 
@@ -500,7 +533,7 @@ setGeneric(name = "getOutlierResults", def = function(object, method = "IQR", ac
 setMethod(
   f = "detectOutliers",
   signature = "OutlierDetection",
-  definition = function(object, method, across = NULL, verbose = TRUE){
+  definition = function(object, method, across = NULL, verbose = TRUE, ...){
 
     check_one_of(
       input = method,
@@ -532,6 +565,130 @@ setMethod(
   })
 
 
+#' @rdname getOutlierIDs
+#' @export
+setMethod(
+  f = "getOutlierIDs",
+  signature = "OutlierDetectionIQR",
+  definition = function(object,
+                        variables = NULL,
+                        across = NULL,
+                        across_subset = NULL,
+                        flatten = FALSE,
+                        ...){
+
+    if(base::is.null(across)){
+
+      out <- getResults(object = object, across = across)
+
+      if(base::is.character(variables)){
+
+        check_one_of(
+          input = variables,
+          against = base::names(out),
+          fdb.opt = 2,
+          ref.opt.2 = "variables for which outliers have been detected"
+        )
+
+        out <- lselect(lst = out, all_of(variables))
+
+      }
+
+      out <- purrr::flatten_chr(out) %>% base::unique()
+
+    } else if(base::is.character(across)){
+
+      out <- getResults(object, across = across)
+
+      if(base::is.character(across_subset)){
+
+        check_one_of(
+          input = across_subset,
+          against = base::names(out),
+          fdb.opt = 2,
+          ref.opt.2 = glue::glue("groups of grouping variable '{across}'")
+        )
+
+        out <- lselect(lst = out, all_of(across_subset))
+
+      }
+
+      if(base::is.character(variables)){
+
+        all_vars <-
+          purrr::map(.x = out, .f = base::names) %>%
+          purrr::flatten_chr() %>%
+          base::unique()
+
+        check_one_of(
+          input = variables,
+          against = all_vars,
+          ref.input = "variable input",
+          fdb.opt = 2,
+          ref.opt.2 = "variables for which outliers have been detected"
+        )
+
+        out <- purrr::map(.x = out, .f = ~ lselect(lst = .x, all_of(variables)))
+
+      }
+
+      out <-
+        purrr::map(
+          .x = out,
+          .f = ~ purrr::flatten_chr(.x) %>% base::unique()
+        )
+
+      if(base::isTRUE(flatten)){
+
+        out <-
+          purrr::flatten_chr(out) %>%
+          base::unique()
+
+      }
+
+    }
+
+    return(out)
+
+  })
+
+
+#' @rdname getOutlierIDs
+#' @export
+setMethod(
+  f = "getOutlierIDs",
+  signature = "OutlierDetection",
+  definition = function(object,
+                        method = "IQR",
+                        variables = NULL,
+                        across = NULL,
+                        across_subset = NULL,
+                        flatten = FALSE){
+
+    method_obj <- getResults(object, method = method)
+
+    if(method == "IQR"){
+
+      out <-
+        getOutlierIDs(
+          object = method_obj,
+          variables = variables,
+          across = across,
+          across_subset = across_subset,
+          flatten = flatten
+        )
+
+    }
+
+    return(out)
+
+  }
+)
+
+
+
+
+
 #' @rdname getOutlierResults
 #' @export
 setMethod(
@@ -539,13 +696,7 @@ setMethod(
   signature = "OutlierDetection",
   definition = function(object, method = "IQR", across = NULL, verbose = TRUE){
 
-    method_obj <- object@methods[[method]]
-
-    if(base::is.null(method_obj)){
-
-      stop(glue::glue("No outlier detection results found for method '{method}'."))
-
-    }
+    method_obj <- getResults(object = object, method = method)
 
     if(base::is.character(across)){
 
@@ -554,23 +705,12 @@ setMethod(
         against = object@variables_grouping
       )
 
-      out <- method_obj@results_across[[across]]
+      out <- getResults(object = method_obj, across = across)
 
-      if(base::is.null(out)){
-
-        stop(glue::glue("No outlier detection results found for method '{method}' across variable '{across}'."))
-
-      }
 
     } else {
 
-      out <- method_obj@results
-
-      if(rlang::is_empty(out)){
-
-        stop(glue::glue("No outlier detection results found for method '{method}'."))
-
-      }
+      out <- getResults(object = method_obj, across = across)
 
     }
 
@@ -584,12 +724,60 @@ setMethod(
 # methods for external generics -------------------------------------------
 
 
-
 #' @rdname getDf
 #' @export
 setMethod(f = "getDf", signature = "OutlierDetection", definition = function(object){
 
   tibble::as_tibble(object@data)
+
+})
+
+
+#' @rdname getResults
+#' @export
+setMethod(f = "getResults", signature = "OutlierDetection", definition = function(object, method){
+
+  out <- object@methods[[method]]
+
+  if(base::is.null(out)){
+
+    stop(glue::glue("No outlier detection results found for method '{method}'."))
+
+  }
+
+  return(out)
+
+})
+
+#' @rdname getResults
+#' @export
+setMethod(f = "getResults", signature = "OutlierDetectionMethod", definition = function(object, across){
+
+  method <- object@method
+
+  if(base::is.character(across)){
+
+    out <- object@results_across[[across]]
+
+    if(base::is.null(out)){
+
+      stop(glue::glue("No outlier detection results found for method '{method}' across variable '{across}'."))
+
+    }
+
+  } else {
+
+    out <- object@results
+
+    if(rlang::is_empty(x= out)){
+
+      stop(glue::glue("No outlier detection results found for method '{method}'. (across = NULL)"))
+
+    }
+
+  }
+
+  return(out)
 
 })
 
