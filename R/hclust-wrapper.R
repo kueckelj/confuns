@@ -18,13 +18,6 @@ hclust_conv <- methods::setClass(Class = "hclust_conv",
 
 # r-objects ---------------------------------------------------------------
 
-#' @export
-valid_methods_dist <- c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
-
-#' @export
-valid_methods_aggl <- c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
-
-
 
 # input check -------------------------------------------------------------
 
@@ -325,7 +318,7 @@ set_hclust_default <- function(hcl.obj, method.aggl = NA, method.dist = NA, dire
 #' @export
 #'
 
-compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TRUE, force = FALSE){
+compute_distance_matricesx <- function(hcl.obj, methods.dist, p = 2, verbose = TRUE, force = FALSE){
 
   check_one_of(
     input = methods.dist,
@@ -421,7 +414,10 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
 #' @export
 #'
 
-compute_hierarchical_cluster <- function(hcl.obj, methods.aggl = NULL, methods.dist = NULL, verbose = TRUE){
+compute_hierarchical_cluster <- function(hcl.obj,
+                                         methods.aggl = NULL,
+                                         methods.dist = NULL,
+                                         verbose = TRUE){
 
 
   assign_hclust_default(hcl.obj)

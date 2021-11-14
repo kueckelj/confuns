@@ -11,7 +11,8 @@ check_none_of(
   ref.against,
   overwrite = NULL,
   fdb.fn = "stop",
-  with.time = FALSE
+  with.time = FALSE,
+  force = NULL
 )
 }
 \arguments{

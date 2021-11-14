@@ -6,33 +6,6 @@
 
 ### Parent
 
-DataConv <- setClass(Class = "DataConv",
-                     slots = list(
-                       data_categorical = "data.frame",
-                       data_numeric = "matrix",
-                       data_logical = "data.frame",
-                       default = "list",
-                       key_name = "character",
-                       observations = "character",
-                       scale = "logical",
-                       variables_categorical = "character",
-                       variables_logical = "character",
-                       variables_numeric = "character"
-                     ))
-
-AnalysisConv <- setClass(Class = "AnalysisConv",
-                         slots = list(
-                           data_categorical = "data.frame",
-                           data_numeric = "matrix",
-                           data_logical = "data.frame",
-                           default = "list",
-                           dim_red = "list",
-                           clustering = "ClusterConv"
-                         ), contains = "DataConv")
-
-
-
-
 ### Hierarchical Clustering
 
 HclustConv <- setClass(Class = "HclustConv",

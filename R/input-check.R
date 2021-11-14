@@ -916,7 +916,14 @@ check_directories <- function(directories,
 #'
 #' @inherit check_one_of params
 #' @export
-check_none_of <- function(input, against, ref.input = NULL, ref.against, overwrite = NULL, fdb.fn = "stop", with.time = FALSE){
+check_none_of <- function(input,
+                          against,
+                          ref.input = NULL,
+                          ref.against,
+                          overwrite = NULL,
+                          fdb.fn = "stop",
+                          with.time = FALSE,
+                          force = NULL){
 
   if(base::is.null(ref.input)){
 
@@ -924,8 +931,7 @@ check_none_of <- function(input, against, ref.input = NULL, ref.against, overwri
 
   }
 
-
-  if(base::isTRUE(overwrite)){
+  if(base::isTRUE(overwrite) | base::isTRUE(force)){
 
     base::invisible(TRUE)
 
@@ -944,6 +950,16 @@ check_none_of <- function(input, against, ref.input = NULL, ref.against, overwri
       if(!base::is.null(overwrite)){
 
         ref_overwrite <- overwrite_hint
+
+      } else {
+
+        ref_overwrite <- ""
+
+      }
+
+      if(!base::is.null(force)){
+
+        ref_overwrite <- " Set argument 'force' to TRUE in order to force computation."
 
       } else {
 
@@ -1064,6 +1080,64 @@ check_one_of <- function(input,
 
 # adjusting check ---------------------------------------------------------
 
+#' @title Check across subset input
+#' @export
+check_across_subset_negate <- function(across, across.subset, all.groups){
+
+  across_subset_input <- base::substitute(across.subset)
+
+  # distinguish between groups to keep and groups to discard
+  discard_groups <-
+    stringr::str_subset(across.subset, pattern = "^-") %>%
+    stringr::str_remove_all(pattern = "^-")
+
+  keep_groups <-
+    stringr::str_subset(across.subset, pattern = "^[^-]")
+
+  # check for ambiguous input
+  duplicated_groups <-
+    base::intersect(keep_groups, discard_groups)
+
+  if(base::length(duplicated_groups) >= 1){
+
+    duplicated_groups <- stringr::str_c("(-)", duplicated_groups)
+
+    msg <-
+      glue::glue("Ambiguous values ('{duplicated_input}') in input for argument '{across_subset_input}'.",
+                 duplicated_input = glue::glue_collapse(x = duplicated_groups, sep = "', ", last = "' and '"))
+
+    give_feedback(fdb.fn = "stop", msg = msg, with.time = FALSE)
+
+  }
+
+  across.subset <- c(keep_groups, discard_groups)
+
+  # keep valid groups
+  check_one_of(
+    input = across.subset,
+    against = all.groups,
+    ref.input = base::as.character(glue::glue("input to subset '{across}'-groups"))
+  )
+
+  #if no error all are valid
+  across.subset_valid <- across.subset
+
+  # keep valid distinguished groups
+  discard_groups <- discard_groups[discard_groups %in% across.subset_valid]
+
+  # in case only -across.subset has been provided "refill" 'keep_groups'
+  if(base::length(keep_groups) == 0){
+
+    keep_groups <- all.groups
+
+  }
+
+  # discard what has been denoted with -
+  keep_groups <- keep_groups[!keep_groups %in% discard_groups]
+
+  return(keep_groups)
+
+}
 
 #' @title Data.frame variable check
 #'
@@ -1166,6 +1240,25 @@ check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL,
 
 }
 
+
+#' @title Check and adjust k
+#' @return Numeric vector.
+#' @export
+#'
+check_ks <- function(k.input, of.length = NULL){
+
+  ref <- base::substitute(k.input)
+
+  is_vec(x = k.input, ref = ref,  mode = "numeric", of.length = of.length)
+
+  out <-
+    base::as.integer(k.input) %>%
+    base::unique() %>%
+    purrr::keep(.p = ~ .x > 1)
+
+  return(out)
+
+}
 
 
 #' @title Compare input to control input

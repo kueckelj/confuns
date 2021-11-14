@@ -1,6 +1,4 @@
-
-
-#' @include S4-generics.R
+#' @include S4-AnalysisAspect.R
 NULL
 
 # S4-classes --------------------------------------------------------------
@@ -14,6 +12,8 @@ NULL
 #' @slot key_name character. The name of the variable that is used to identify
 #' each observation uniquely.
 #' @slot methods list. A list of objects of S4-class \code{OutlierDetectionMethods}.
+#' @slot meta data.frame. Data that was part of the input data but is not supposed
+#' to be included in analysis steps.
 #' @slot variables_grouping character. The names of all grouping variables
 #' of the input data - variables of class character or factor. (Does not include
 #' variable of slot @@key_name)
@@ -23,13 +23,9 @@ NULL
 #' @export
 
 OutlierDetection <- setClass(Class = "OutlierDetection",
-                             slots = list(
-                               data = "data.frame",
-                               key_name = "character",
-                               methods = "list",
-                               variables_grouping = "character",
-                               variables_numeric = "character"
-                             ))
+                             slots = list(),
+                             contains = "AnalysisAspect"
+                             )
 
 #' @title The \code{OutlierDetectionMethod}-class
 #'
@@ -122,35 +118,21 @@ valid_methods_outlier_detection <- base::names(outlier_var_classes)
 #' @return An object of S4-class \code{OutlierDetection}.
 #' @export
 #'
-initiateOutlierDetection <- function(data, key_name, key_prefix = "ID", verbose = TRUE){
-
-  # input check
-  is_value(x = key_name, mode = "character", skip.allow = TRUE, skip.val = NULL)
-
-  df <- base::as.data.frame(data)
-
-  variables_numeric <-
-    dplyr::select_if(df, .predicate = base::is.numeric) %>%
-    base::colnames()
-
-  variables_grouping <-
-    dplyr::select(df, -{{key_name}}) %>%
-    dplyr::select_if(.predicate = ~ base::is.character(.x) | base::is.factor(.x)) %>%
-    base::colnames()
+initiateOutlierDetection <- function(data,
+                                     key_name,
+                                     key_prefix = "ID",
+                                     meta_names = character(0),
+                                     verbose = TRUE
+                                     ){
 
   object <-
-    OutlierDetection(
-      variables_grouping = variables_grouping,
-      variables_numeric = variables_numeric
-    )
-
-  object <-
-    setData(
-      object = object,
+    initiateAnalysisAspect(
       data = data,
       key_name = key_name,
       key_prefix = key_prefix,
-      verbose = verbose
+      meta_names = meta_names,
+      verbose = verbose,
+      analysis_aspect = "OutlierDetection",
     )
 
   return(object)
@@ -440,6 +422,14 @@ detectOutliersMahalanobis <- function(object, across = NULL, verbose = TRUE){
 }
 
 
+#' @rdname validInput
+#' @export
+validMethodsOutlierDetection <- function(){
+
+  return(valid_methods_outlier_detection)
+
+}
+
 # -----
 
 
@@ -724,14 +714,6 @@ setMethod(
 # methods for external generics -------------------------------------------
 
 
-#' @rdname getDf
-#' @export
-setMethod(f = "getDf", signature = "OutlierDetection", definition = function(object){
-
-  tibble::as_tibble(object@data)
-
-})
-
 
 #' @rdname getResults
 #' @export
@@ -751,59 +733,7 @@ setMethod(f = "getResults", signature = "OutlierDetection", definition = functio
 
 #' @rdname getResults
 #' @export
-setMethod(f = "getResults", signature = "OutlierDetectionMethod", definition = function(object, across){
-
-  method <- object@method
-
-  if(base::is.character(across)){
-
-    out <- object@results_across[[across]]
-
-    if(base::is.null(out)){
-
-      stop(glue::glue("No outlier detection results found for method '{method}' across variable '{across}'."))
-
-    }
-
-  } else {
-
-    out <- object@results
-
-    if(rlang::is_empty(x= out)){
-
-      stop(glue::glue("No outlier detection results found for method '{method}'. (across = NULL)"))
-
-    }
-
-  }
-
-  return(out)
-
-})
 
 
-#' @rdname setData
-#' @export
-setMethod(
-  f = "setData",
-  signature = "OutlierDetection",
-  definition = function(object,
-                        data,
-                        key_name = NULL,
-                        key_prefix = "id"){
-
-    object <-
-      set_data_hlpr(
-        object = object,
-        data = data,
-        key.name = key_name,
-        key.prefix = key_prefix,
-        slot.data = "data",
-        slot.key.name = "key_name"
-      )
-
-    return(object)
-
-  })
 
 # -----

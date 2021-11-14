@@ -19,9 +19,16 @@ Imports:
     reshape2,
     rlang
 Collate: 
-    'S4-default.R'
     'S4-generics.R'
-    'S4-outlierDetection.R'
+    'S4-AnalysisAspect.R'
+    'S4-Clustering.R'
+    'S4-clustering.R'
+    'S4-ClusteringHclust.R'
+    'S4-ClusteringKmeans.R'
+    'S4-ClusteringPam.R'
+    'S4-OutlierDetection.R'
+    'S4-blueprint.R'
+    'S4-default.R'
     'call-flexibly.R'
     'cluster-wrapper.R'
     'clustering-convenient.R'

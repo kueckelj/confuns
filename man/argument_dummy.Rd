@@ -45,6 +45,36 @@ to identify each observation uniquely.}
 the IDs in the newly constructed key variable are prefixed if \code{key_name} is
 NULL.}
 
+\item{k}{Numeric value. Denotes the number of clusters. Must be bigger than 1. Must
+not be bigger than the number of observations of the data set.}
+
+\item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
+Is converted into an integer vector.}
+
+\item{method.aggl, method_aggl}{Character value. Specifies the agglomerative method
+of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
+
+\item{methods.aggl, methods_aggl}{Character vector. Specifies the agglomerative
+methods of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
+
+\item{method.dist, method_dist}{Character value. Specifies the distance method
+of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
+
+\item{methods.dist, methods_dist}{Character value. Specifies the distance methods
+of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
+
+\item{method.kmeans, method_kmeans}{Character value. Specifies the kmeans method
+of interest. Use \code{validMethodsKmeans()} to obtain all valid input options.}
+
+\item{methods.kmeans, methods_kmeans}{Character vector. Specifies the kmeans methods
+of interest. Use \code{validMethodsKmeans()} to obtain all valid input options.}
+
+\item{method.pam, method_pam}{Character value. Specifies the pam-method of interest.
+Use \code{validMethodsPam()} to obtain all valid input options.}
+
+\item{methods.pam, methods_pam}{Character value. Specifies the pam-method of interest.
+Use \code{validMethodsPam()} to obtain all valid input options.}
+
 \item{object}{Any object for whose class a method has been defined.}
 
 \item{pt.alpha}{Numeric value. Specifies the transparency of points.}
@@ -69,6 +99,9 @@ first group found is taken.}
 
 \item{scales, nrow, ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}
+
+\item{stop_if_null}{Logical value. If TRUE and the function does not find the object to
+extract an informative error is raised. Else the empty value - usually NULL - is returned.}
 
 \item{test.pairwise}{Character value or NULL. If character, one of \emph{'t.test', 'wilcox.test'}.}
 

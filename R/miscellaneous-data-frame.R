@@ -124,7 +124,7 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
 
       # 3. Return option (across.subset is character - filtered df) ---------
 
-      base::return(df)
+      return(df)
 
     }
 

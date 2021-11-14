@@ -69,6 +69,33 @@ verbose <- function(verbose){
 #' the IDs in the newly constructed key variable are prefixed if \code{key_name} is
 #' NULL.
 #'
+#' @param k Numeric value. Denotes the number of clusters. Must be bigger than 1. Must
+#' not be bigger than the number of observations of the data set.
+#' @param ks Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
+#' Is converted into an integer vector.
+#'
+#' @param method.aggl,method_aggl Character value. Specifies the agglomerative method
+#' of interest. Use \code{validMethodsAggl()} to obtain all valid input options.
+#'
+#' @param methods.aggl,methods_aggl Character vector. Specifies the agglomerative
+#' methods of interest. Use \code{validMethodsAggl()} to obtain all valid input options.
+#'
+#' @param method.dist,method_dist Character value. Specifies the distance method
+#' of interest. Use \code{validMethodsDist()} to obtain all valid input options.
+#' @param methods.dist,methods_dist Character value. Specifies the distance methods
+#' of interest. Use \code{validMethodsDist()} to obtain all valid input options.
+#'
+#'
+#' @param method.kmeans,method_kmeans Character value. Specifies the kmeans method
+#' of interest. Use \code{validMethodsKmeans()} to obtain all valid input options.
+#' @param methods.kmeans,methods_kmeans Character vector. Specifies the kmeans methods
+#' of interest. Use \code{validMethodsKmeans()} to obtain all valid input options.
+#'
+#' @param method.pam,method_pam Character value. Specifies the pam-method of interest.
+#' Use \code{validMethodsPam()} to obtain all valid input options.
+#' @param methods.pam,methods_pam Character value. Specifies the pam-method of interest.
+#' Use \code{validMethodsPam()} to obtain all valid input options.
+#'
 #' @param object Any object for whose class a method has been defined.
 #'
 #' @param pt.alpha Numeric value. Specifies the transparency of points.
@@ -89,6 +116,9 @@ verbose <- function(verbose){
 #'
 #' @param scales,nrow,ncol Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 #' are displayed.
+#'
+#' @param stop_if_null Logical value. If TRUE and the function does not find the object to
+#' extract an informative error is raised. Else the empty value - usually NULL - is returned.
 #'
 #' @param test.pairwise Character value or NULL. If character, one of \emph{'t.test', 'wilcox.test'}.
 #' @param test.groupwise Character value or NULL. If character, one of \emph{'anova', 'kruskal.test'}.

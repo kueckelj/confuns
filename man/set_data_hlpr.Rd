@@ -9,8 +9,10 @@ set_data_hlpr(
   data,
   key.name,
   key.prefix,
-  slot.key.name = "key_name",
+  meta.names,
   slot.data = "data",
+  slot.key.name = "key_name",
+  slot.meta = "meta",
   verbose = TRUE
 )
 }
