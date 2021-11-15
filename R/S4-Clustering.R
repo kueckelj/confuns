@@ -1,5 +1,5 @@
 #' @include S4-AnalysisAspect.R
-
+NULL
 
 
 # S4-classes --------------------------------------------------------------
@@ -316,7 +316,7 @@ setMethod(
       base::as.matrix()
 
     results <-
-      compute_distance_matrices(
+      compute_dist_matrices(
         data = data,
         methods.dist = methods_dist,
         p = p,
@@ -386,6 +386,119 @@ setMethod(f = "getClusteringPam", signature = "Clustering", definition = functio
 
 })
 
+
+#' @rdname getDendro
+#' @export
+setMethod(
+  f = "getDendro",
+  signature = "Clustering",
+  definition = function(object,
+                        method_dist = "euclidean",
+                        method_aggl = "ward.D",
+                        k = NULL,
+                        h = NULL,
+                        type = "rectangle"){
+
+    check_h_k(k = k, h = h, only.one = TRUE, skip.allow = TRUE)
+
+    hclust_obj <-
+      getHclust(
+        object = object,
+        method_dist = method_dist,
+        method_aggl = method_aggl
+      )
+
+    hcdata <- ggdendro::dendro_data(hclust_obj, type = type)
+
+    if(base::any(base::is.numeric(c(k, h)))){
+
+      seg <- hcdata$segments
+      labclust <- stats::cutree(hclust_obj, k = k, h = h)[hclust_obj$order]
+
+      if(base::is.null(k) & base::is.numeric(h)){
+
+        k <- base::max(base::as.numeric(labclust))
+
+      }
+
+      segclust <- base::rep(0L, base::nrow(seg))
+      heights <- base::sort(hclust_obj$height, decreasing = TRUE)
+      height <- base::mean(c(heights[k], heights[k - 1L]), na.rm = TRUE)
+
+      for (i in 1:k) {
+        xi <- hcdata$labels$x[labclust == i]
+        idx1 <- seg$x >= base::min(xi) & seg$x <= base::max(xi)
+        idx2 <- seg$xend >= base::min(xi) & seg$xend <= base::max(xi)
+        idx3 <- seg$yend < height
+        idx <- idx1 & idx2 & idx3
+        segclust[idx] <- i
+      }
+
+      idx <- base::which(segclust == 0L)
+      segclust[idx] <- segclust[idx + 1L]
+      hcdata$segments$clust <- segclust %>% base::as.factor()
+      hcdata$segments$line <- base::as.integer(segclust < 1L) %>% base::as.factor()
+      hcdata$labels$clust <- labclust %>% base::as.factor()
+
+    }
+
+
+    return(hcdata)
+
+  })
+
+#' @rdname getDendroSegmentDf
+#' @export
+setMethod(
+  f = "getDendroSegmentDf",
+  signature = "Clustering",
+  definition = function(object,
+                        methods_dist = "euclidean",
+                        methods_aggl = "ward.D",
+                        k = NULL,
+                        h = NULL,
+                        type = "rectangle"){
+
+    check_one_of(
+      input = method_dist,
+      against = validMethodsDist()
+    )
+
+    check_one_of(
+      input = methods_aggl,
+      against = validMethodsAggl()
+    )
+
+    check_h_k(h = h, k = k, only.one = TRUE, skip.allow = TRUE)
+
+    df <-
+      purrr::map_df(.x = methods_dist, .f = function(method_dist){
+
+        purrr::map_df(.x = methods_aggl, .f = function(method_aggl){
+
+          getDendro(
+            object = object,
+            method_dist = method_dist,
+            method_aggl = method_aggl,
+            k = k,
+            h = h,
+            type = type
+          ) %>%
+            ggdendro::segment() %>%
+            dplyr::mutate(
+              dist = {{method_dist}},
+              aggl = {{method_aggl}}
+            )
+
+        })
+
+      }) %>%
+      tibble::as_tibble()
+
+    return(df)
+
+  }
+)
 
 #' @rdname getHclust
 #' @export
@@ -511,6 +624,207 @@ setMethod(
 
     # return plot
     return(p)
+
+  }
+)
+
+#' @rdname plotDendrogram
+#' @export
+setMethod(
+  f = "plotDendrogram",
+  signature = "Clustering",
+  definition = function(object,
+                        methods_dist = "euclidean",
+                        methods_aggl = "ward.D",
+                        k = NULL,
+                        h = NULL,
+                        plot_type = "rectangle",
+                        facet_with = "grid",
+                        direction = "bt",
+                        branch_color = "black",
+                        branch_size = 1,
+                        display_labels = FALSE,
+                        labels_angle = 90,
+                        labels_hjust = 0,
+                        labels_nudge = 0.01,
+                        labels_size = 3,
+                        labels_vjust = 0.5,
+                        display_legend = TRUE,
+                        display_title = FALSE,
+                        clrp = "milo",
+                        clrp_adjust = NULL,
+                        simple = FALSE,
+                        nrow = NULL,
+                        ncol = NULL,
+                        ...){
+
+    check_one_of(
+      input = methods_dist,
+      against = validMethodsDist()
+    )
+
+    check_one_of(
+      input = methods_aggl,
+      against = validMethodsAggl()
+    )
+
+    if(base::isTRUE(simple)){
+
+      hclust_obj <-
+        getHclust(
+          object = object,
+          method_dist = methods_dist[1],
+          method_aggl = methods_aggl[1]
+        )
+
+      base::plot(hclust_obj, ...)
+
+    } else if(FALSE){ # base::all(base::is.null(k), base::is.null(h))
+
+      hclust_obj <-
+        getHclust(
+          object = object,
+          method_dist = methods_dist[1],
+          method_aggl = methods_aggl[1]
+        )
+
+      dendro_plot <- ggdendro::ggdendrogram(data = hclust_obj, labels = display_labels, ...)
+
+      return(dendro_plot)
+
+    } else {
+
+      multiple_dendros <- base::length(c(methods_dist, methods_aggl)) > 2
+
+      if(multiple_dendros){
+
+        dendro_data <- NULL
+
+        segment_df <-
+          getDendroSegmentDf(
+            object = object,
+            methods_dist = methods_dist,
+            methods_aggl = methods_aggl
+          )
+
+        if(facet_with == "grid"){
+
+          facet_add_on <-
+            ggplot2::facet_grid(rows = vars(aggl), cols = vars(dist), scales = "free")
+
+        } else {
+
+          facet_add_on <-
+            ggplot2::facet_wrap(facets = dist ~ aggl, nrow = nrow, ncol = ncol, scales = "free")
+
+        }
+
+      } else {
+
+        dendro_data <-
+          getDendro(
+            object = object,
+            method_dist = method_dist,
+            method_aggl = method_aggl,
+            k = k,
+            h = h,
+            type = plot_type
+          )
+
+        segment_df <- ggdendro::segment(x = dendro_data)
+
+        facet_add_on <- NULL
+
+      }
+
+      # basic parameters
+      ybreaks   <- base::pretty(segment_df$y, n = 5)
+      ymin      <- base::min(segment_df$y)
+
+      if("clust" %in% base::colnames(segment_df)){
+
+        cluster_levels <- segment_df$clust %>% base::levels()
+
+        forced_adjustment <- "black"
+        base::names(forced_adjustment) <- cluster_levels[1]
+
+        clrp_adjust <- c(clrp_adjust, forced_adjustment)
+        breaks <- cluster_levels[2:base::length(cluster_levels)]
+
+        segment_add_on <-
+          list(
+            ggplot2::geom_segment(
+              data = segment_df,
+              mapping = ggplot2::aes(x = x, xend = xend, y = y, yend = yend, color = clust),
+              lineend = "round",
+              size = branch_size,
+              show.legend = TRUE
+            ),
+            scale_color_add_on(
+              variable = segment_df$clust,
+              clrp = clrp,
+              clrp.adjust = clrp_adjust,
+              breaks = breaks,
+              ...)
+          )
+
+      } else {
+
+        segment_add_on <-
+          ggplot2::geom_segment(
+            data = segment_df,
+            mapping = ggplot2::aes(x = x, xend = xend, y = y, yend = yend),
+            lineend = "round",
+            size = branch_size,
+            color = branch_color
+          )
+
+      }
+
+      # basic dendro plot
+      dendro_plot <-
+        ggplot2::ggplot() +
+        segment_add_on +
+        ggplot2::scale_x_continuous(breaks = NULL) +
+        ggplot2::theme_minimal() +
+        ggplot2::labs(x = NULL, y = NULL, color = "Cluster") +
+        facet_add_on
+
+      # flip coordinates if desired
+      if(direction == "lr"){
+
+        dendro_plot <- dendro_plot + ggplot2::coord_flip()
+
+      }
+
+      # add labels
+      if(base::isTRUE(display_labels) & base::isFALSE(multiple_dendros)){
+
+        label_params <-
+          define_label_params(
+            nbLabels = base::nrow(dendro_data$labels),
+            labels.angle = labels_angle,
+            labels.hjust = labels_hjust,
+            direction = direction,
+            fan = FALSE)
+
+        dendro_data$labels$angle <- label_params$angle
+        dendro_data$labels$y <- dendro_data$labels$y + labels_vjust
+
+        dendro_plot <-
+          dendro_plot +
+          ggplot2::geom_text(
+            data = ggdendro::label(dendro_data),
+            mapping = ggplot2::aes(x = x, y = y, label = label, color = clust, angle = angle),
+            hjust = label_params$hjust,
+            nudge_y = labels_nudge,
+            size = labels_size
+          )
+      }
+
+      return(dendro_plot)
+
+    }
 
   }
 )

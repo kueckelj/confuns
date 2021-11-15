@@ -908,7 +908,34 @@ check_directories <- function(directories,
 
 }
 
+#' @title Check h and k input for hclust
+#' @export
 
+check_h_k <- function(h = NULL, k = NULL, only.one = FALSE, skip.allow = TRUE){
+
+  are_vectors(c("k", "h"), mode = "numeric", skip.allow = skip.allow, skip.val = NULL)
+
+  if(base::all(base::is.null(k), base::is.null(h)) & base::isFALSE(skip.allow)){
+
+    msg <- "Please specify either argument 'k' or argument 'h'."
+
+    give_feedback(msg = msg, fdb.fn = "stop")
+
+  }
+
+  if(base::isTRUE(only.one)){
+
+    if(base::all(base::is.numeric(k), base::is.numeric(h))){
+
+      msg <- "Please specify only one of argument 'k' or argument 'h'. Not both."
+
+      give_feedback(msg = msg, fdb.fn = "stop")
+
+    }
+
+  }
+
+}
 
 #' @title Overwrite check
 #'

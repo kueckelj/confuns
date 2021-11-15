@@ -5,8 +5,8 @@
 # S4-classes --------------------------------------------------------------
 
 ClusteringPam <- setClass(Class = "ClusteringPam",
-                             slots = list(),
-                             contains = "ClusteringMethod"
+                           slots = list(),
+                           contains = "ClusteringMethod"
 )
 
 # r-objects ---------------------------------------------------------------
@@ -33,7 +33,6 @@ valid_methods_pam <- c("euclidean", "manhattan")
 #'
 #' @export
 #'
-#' @examples
 compute_clustering_pam <- function(data,
                                    ks,
                                    methods.pam = NULL,

@@ -89,11 +89,36 @@ agglomerate_hierarchical_trees <- function(dist.matrices,
 
 }
 
+check_h_k <- function(h = NULL, k = NULL, only.one = FALSE, skip.allow = TRUE){
 
-compute_distance_matrices <- function(data,
-                                      methods.dist,
-                                      p = 2,
-                                      verbose = TRUE){
+  are_vectors(c("k", "h"), mode = "numeric", skip.allow = TRUE, skip.val = NULL)
+
+  if(base::all(base::is.null(k), base::is.null(h)) & base::isFALSE(skip.allow)){
+
+    msg <- "Please specify either argument 'k' or argument 'h'."
+
+    give_feedback(msg = msg, fdb.fn = "stop")
+
+  }
+
+  if(base::isTRUE(only.one)){
+
+    if(base::all(base::is.numeric(k), base::is.numeric(h))){
+
+      msg <- "Please specify only one of argument 'k' or argument 'h'. Not both."
+
+      give_feedback(msg = msg, fdb.fn = "stop")
+
+    }
+
+  }
+
+}
+
+compute_dist_matrices <- function(data,
+                                  methods.dist,
+                                  p = 2,
+                                  verbose = TRUE){
 
   check_one_of(
     input = methods.dist,
@@ -135,6 +160,34 @@ compute_distance_matrices <- function(data,
 
 }
 
+define_label_params <- function(nbLabels,
+                                labels.angle = 0,
+                                labels.hjust = 0,
+                                direction = c("tb", "bt", "lr", "rl"),
+                                fan = FALSE) {
+  if(base::isTRUE(fan)){
+
+    angle <- 360 / nbLabels * 1:nbLabels + 90
+    idx <- angle >= 90 & angle <= 270
+    angle[idx] <- angle[idx] + 180
+    hjust <- base::rep(0, nbLabels)
+    hjust[idx] <- 1
+
+  } else {
+
+    angle <- base::rep(labels.angle, nbLabels)
+    hjust <- labels.hjust
+
+    if (direction %in% c("tb", "rl")){ hjust <- 1 }
+
+  }
+
+  res_list <- list(angle = angle, hjust = hjust)
+
+  return(res_list)
+
+}
+
 
 #' @rdname validInput
 #' @export
@@ -159,9 +212,6 @@ validMethodsDist <- function(){
 
 
 
-
-
-
 # methods for external generics -------------------------------------------
 
 
@@ -176,7 +226,7 @@ setMethod(
                         stop_if_null = TRUE){
 
     check_one_of(
-      input = mehod_dist,
+      input = method_dist,
       against = validMethodsDist()
     )
 
@@ -191,7 +241,7 @@ setMethod(
 
       stop(
         glue::glue(
-          "No hclust objet for distance mehod {method_dist} and agglomerative method {method_aggl}."
+          "No hclust object for distance mehod {method_dist} and agglomerative method {method_aggl}."
         )
       )
 

@@ -34,7 +34,6 @@ valid_methods_kmeans <- c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen")
 #'
 #' @export
 #'
-#' @examples
 compute_clustering_kmeans <- function(data,
                                       ks = 2:10,
                                       methods.kmeans = NULL,

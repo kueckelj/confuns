@@ -38,5 +38,5 @@ the computational progress will be printed.
 The input object.
 }
 \description{
-Compute distance matrices of the input data.
+Computes distance matrices of the input data.
 }

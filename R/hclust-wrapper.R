@@ -21,41 +21,7 @@ hclust_conv <- methods::setClass(Class = "hclust_conv",
 
 # input check -------------------------------------------------------------
 
-#' Title
-#'
-#' @param h
-#' @param k
-#' @param only.one
-#'
-#' @return
-#' @export
-#'
 
-check_h_k <- function(h = NULL, k = NULL, only.one = FALSE, skip.allow = TRUE){
-
-  are_vectors(c("k", "h"), mode = "numeric", skip.allow = TRUE, skip.val = NULL)
-
-  if(base::all(base::is.null(k), base::is.null(h)) & base::isFALSE(skip.allow)){
-
-    msg <- "Please specify either argument 'k' or argument 'h'."
-
-    give_feedback(msg = msg, fdb.fn = "stop")
-
-  }
-
-  if(base::isTRUE(only.one)){
-
-    if(base::all(base::is.numeric(k), base::is.numeric(h))){
-
-      msg <- "Please specify only one of argument 'k' or argument 'h'. Not both."
-
-      give_feedback(msg = msg, fdb.fn = "stop")
-
-    }
-
-  }
-
-}
 
 #' Title
 #'
@@ -318,7 +284,7 @@ set_hclust_default <- function(hcl.obj, method.aggl = NA, method.dist = NA, dire
 #' @export
 #'
 
-compute_distance_matricesx <- function(hcl.obj, methods.dist, p = 2, verbose = TRUE, force = FALSE){
+compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TRUE, force = FALSE){
 
   check_one_of(
     input = methods.dist,
@@ -798,31 +764,6 @@ get_dendro_data <- function(hcl.obj,
 #' @export
 #'
 
-define_label_params <- function(nbLabels,
-                                labels.angle = 0,
-                                labels.hjust = 0,
-                                direction = c("tb", "bt", "lr", "rl"),
-                                fan       = FALSE) {
-  if (base::isTRUE(fan)){
-
-    angle       <-  360 / nbLabels * 1:nbLabels + 90
-    idx         <-  angle >= 90 & angle <= 270
-    angle[idx]  <-  angle[idx] + 180
-    hjust       <-  base::rep(0, nbLabels)
-    hjust[idx]  <-  1
-
-  } else {
-
-    angle       <-  base::rep(labels.angle, nbLabels)
-    hjust       <-  labels.hjust
-    if (direction %in% c("tb", "rl")) { hjust <- 1 }
-  }
-
-  res_list <- list(angle = angle, hjust = hjust)
-
-  base::return(res_list)
-
-}
 
 
 #' Title

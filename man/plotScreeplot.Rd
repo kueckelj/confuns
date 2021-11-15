@@ -40,7 +40,7 @@ Is converted into an integer vector.}
 A ggplot.
 }
 \description{
-Visualizes quality of clustering results
+Plots quality of clustering results
 suggested by kmeans with a screeplot.
 }
 \details{

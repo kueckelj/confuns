@@ -228,6 +228,36 @@ setMethod(
 })
 
 
+#' @rdname getMtr
+#' @export
+setMethod(
+  f = "getMtr",
+  signature = "AnalysisAspect",
+  definition = function(object, scale = FALSE){
+
+    mtr <-
+      getDf(object, numeric = TRUE) %>%
+      tibble::column_to_rownames(var = object@key_name) %>%
+      base::as.matrix()
+
+    if(base::isTRUE(scale)){
+
+      mtr <-
+        base::apply(
+          X = mtr,
+          MARGIN = 2,
+          FUN = normalize_zscore, na.rm = TRUE
+          )
+
+    }
+
+    return(mtr)
+
+  }
+)
+
+#' @rdname getResults
+#' @export
 setMethod(
   f = "getResults",
   signature = "AnalysisAspect",

@@ -3,7 +3,7 @@
 \name{plotAvgSilWidths}
 \alias{plotAvgSilWidths}
 \alias{plotAvgSilWidths,Clustering-method}
-\title{Visualize avg sil-width data}
+\title{Plot avg sil-width data}
 \usage{
 plotAvgSilWidths(object, ...)
 

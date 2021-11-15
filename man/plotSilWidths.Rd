@@ -3,7 +3,7 @@
 \name{plotSilWidths}
 \alias{plotSilWidths}
 \alias{plotSilWidths,Clustering-method}
-\title{Visualize sil-width data}
+\title{Plot sil-width data}
 \usage{
 plotSilWidths(object, ...)
 

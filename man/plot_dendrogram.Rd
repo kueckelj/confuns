@@ -54,8 +54,12 @@ plot_dendrograms(
 }
 \arguments{
 \item{...}{}
+
+\item{fan}{}
 }
 \value{
+
+
 
 }
 \description{

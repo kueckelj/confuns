@@ -27,7 +27,7 @@ setGeneric(name = "agglomerateHierarchicalTrees", def = function(object, ...){
 
 #' @title Compute cluster with kmeans
 #'
-#' @description Compute cluster with method \emph{kmeans}.
+#' @description Computes cluster with method \emph{kmeans}.
 #'
 #' @inherit argument_dummy params
 #'
@@ -43,7 +43,7 @@ setGeneric(name = "computeClusteringKmeans", def = function(object, ...){
 
 #' @title Compute cluster with pam
 #'
-#' @description Compute cluster with method \emph{pam}.
+#' @description Computes cluster with method \emph{pam}.
 #'
 #' @inherit argument_dummy params
 #'
@@ -59,7 +59,7 @@ setGeneric(name = "computeClusteringPam", def = function(object, ...){
 
 #' @title Compute distance matrices
 #'
-#' @description Compute distance matrices of the input data.
+#' @description Computes distance matrices of the input data.
 #'
 #' @inherit argument_dummy params
 #'
@@ -72,6 +72,23 @@ setGeneric(name = "computeDistanceMatrices", def = function(object, ...){
 
 })
 
+
+#' @title Compute correlation
+#'
+#' @description Computes correlation matrix as well as corresponding
+#' p-values.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return The input object.
+#'
+#' @export
+#'
+setGeneric(name = "computeCorrelation", def = function(object, ...){
+
+  standardGeneric(f = "computeCorrelation")
+
+})
 
 
 # g -----------------------------------------------------------------------
@@ -94,24 +111,6 @@ setGeneric(name = "getAvgSilWidthsDf", def = function(object, ...){
   standardGeneric(f = "getAvgSilWidthsDf")
 
 })
-
-
-#' @title Obtain object data
-#'
-#' @description Extracts the objects data as a data.frame.
-#'
-#' @inherit argument_dummy params
-#'
-#' @return A data.frame with subclass \code{tibble}.
-#' @export
-#'
-
-setGeneric(name = "getDf", def = function(object, ...){
-
-  standardGeneric(f = "getDf")
-
-})
-
 
 #' @title Obtain object of class \code{ClusteringKmeans}
 #'
@@ -144,6 +143,58 @@ setGeneric(name = "getClusteringKmeans", def = function(object, ...){
 setGeneric(name = "getClusteringPam", def = function(object, ...){
 
   standardGeneric(f = "getClusteringPam")
+
+})
+
+
+#' @title Obtain object of class \code{dendro}
+#'
+#' @description Extracts the data from the computed \code{hclust} object
+#' with which a dendrogram can be plotted.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return An object of class \code{dendro}. Contains data for argument
+#' \code{data} of function \code{{ggdendro::ggdendrogram()}}.
+#'
+#' @export
+#'
+
+setGeneric(name = "getDendro", def = function(object, ...){
+
+  standardGeneric(f = "getDendro")
+
+})
+
+#' @title Obtain dendrogram segments
+#'
+#' @description Extracts a data.frame that contains data to plot
+#' a dendrogram with \code{ggplot2::geom_segment()}.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return Data.frame.
+#' @export
+#'
+setGeneric(name = "getDendroSegmentDf", def = function(object, ...){
+
+  standardGeneric(f = "getDendroSegmentDf")
+
+})
+
+#' @title Obtain object data
+#'
+#' @description Extracts the objects data as a data.frame.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A data.frame with subclass \code{tibble}.
+#' @export
+#'
+
+setGeneric(name = "getDf", def = function(object, ...){
+
+  standardGeneric(f = "getDf")
 
 })
 
@@ -184,6 +235,21 @@ setGeneric(name = "getKmeans", def = function(object, ...){
 })
 
 
+#' @title Obtain data matrix
+#'
+#' @description Extracts the numeric data of the object in form
+#' of a matrix. The key variable is used as rownames.
+#'
+#' @inherit argument_dummy params
+#'
+#' @export
+#'
+setGeneric(name = "getMtr", def = function(object, ...){
+
+  standardGeneric(f = "getMtr")
+
+})
+
 #' @title Obtain object of class \code{pam}
 #'
 #' @description Extracts an object of class \code{pam}
@@ -210,7 +276,6 @@ setGeneric(name = "getPam", def = function(object, ...){
 #' messages if the requested content is missing.
 #'
 #' @inherit argument_dummy params
-#' @param ...
 #'
 #' @return Depends on the objects class.
 #' @export
@@ -244,7 +309,7 @@ setGeneric(name = "getSilWidthsDf", def = function(object, ...){
 
 # p -----------------------------------------------------------------------
 
-#' @title Visualize avg sil-width data
+#' @title Plot avg sil-width data
 #'
 #' @description Plots information about the average silhouette
 #' widths of different clustering results with method \emph{pam}.
@@ -263,9 +328,26 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 })
 
 
+
+#' @title Plot dendrograms
+#'
+#' @description Plots a dendrogram with either ggplot or base plot.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot or a base plot.
+#' @export
+#'
+
+setGeneric(name = "plotDendrogram", def = function(object, ...){
+
+  standardGeneric(f = "plotDendrogram")
+
+})
+
 #' @title Plot a screeplot
 #'
-#' @description Visualizes quality of clustering results
+#' @description Plots quality of clustering results
 #' suggested by kmeans with a screeplot.
 #'
 #' @inherit argument_dummy params
@@ -283,7 +365,7 @@ setGeneric(name = "plotScreeplot", def = function(object, ...){
 
 })
 
-#' @title Visualize sil-width data
+#' @title Plot sil-width data
 #'
 #' @description Plots information about the silhouette width of
 #' every observation in different clustering results with method \emph{pam}.

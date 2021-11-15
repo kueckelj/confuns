@@ -29,5 +29,5 @@ the computational progress will be printed.
 The input object.
 }
 \description{
-Compute cluster with method \emph{kmeans}.
+Computes cluster with method \emph{kmeans}.
 }
