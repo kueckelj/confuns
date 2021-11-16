@@ -9,7 +9,9 @@
 \alias{validMethodsDist}
 \alias{validMethodsKmeans}
 \alias{validMethodsPam}
-\alias{validMethodsCorr}
+\alias{validMethodsCorrelation}
+\alias{validShapesCorrelation}
+\alias{validTypesCorrelation}
 \alias{validMethodsOutlierDetection}
 \alias{validInput}
 \title{Obtain valid input options}
@@ -28,7 +30,11 @@ validMethodsKmeans()
 
 validMethodsPam()
 
-validMethodsCorr()
+validMethodsCorrelation()
+
+validShapesCorrelation()
+
+validTypesCorrelation()
 
 validMethodsOutlierDetection()
 

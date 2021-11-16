@@ -75,6 +75,7 @@ initiateAnalysisAspect <- function(data,
                                    key_name,
                                    key_prefix = "ID",
                                    meta_names = character(0),
+                                   lgl_to_group = TRUE,
                                    analysis_aspect = "AnalysisAspect",
                                    verbose = TRUE){
 
@@ -86,9 +87,19 @@ initiateAnalysisAspect <- function(data,
     against = valid_analysis_aspects
   )
 
+  data <- base::as.data.frame(data)
+
+  if(base::isTRUE(lgl_to_group)){
+
+    data <- logical_to_group(data, skip = meta_names)
+
+  }
+
   df <-
     base::as.data.frame(data) %>%
     dplyr::select(-dplyr::all_of(meta_names))
+
+
 
   variables_grouping <-
     dplyr::select(df, -{{key_name}}) %>%
@@ -118,6 +129,7 @@ initiateAnalysisAspect <- function(data,
       data = data,
       key_name = key_name,
       key_prefix = key_prefix,
+      meta_names = meta_names,
       verbose = verbose
     )
 

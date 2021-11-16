@@ -12,6 +12,7 @@ initiateAnalysisAspect(
   key_name,
   key_prefix = "ID",
   meta_names = character(0),
+  lgl_to_group = TRUE,
   analysis_aspect = "AnalysisAspect",
   verbose = TRUE
 )
@@ -20,6 +21,7 @@ initiateClustering(
   data,
   key_name,
   key_prefix = "ID",
+  lgl_to_group = TRUE,
   meta_names = character(0),
   verbose = TRUE
 )
@@ -28,6 +30,7 @@ initiateClustering(
   data,
   key_name,
   key_prefix = "ID",
+  lgl_to_group = TRUE,
   meta_names = character(0),
   verbose = TRUE
 )
@@ -36,6 +39,7 @@ initiateCorrelation(
   data,
   key_name,
   key_prefix = "ID",
+  lgl_to_group = TRUE,
   meta_names = character(0),
   verbose = TRUE
 )

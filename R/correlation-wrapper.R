@@ -501,9 +501,6 @@ plot_corrplot <- function(corr.input,
 
   p.mtr <- subset_mtr(mtr = p.mtr, dims = c(1,2), variables.subset = variables.subset)
 
-
-
-
   # reshape correlation input
   df_corr <-
     reshape2::melt(data = base::as.matrix(corr.mtr),

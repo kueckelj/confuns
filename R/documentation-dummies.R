@@ -80,6 +80,13 @@ verbose <- function(verbose){
 #' @param methods.aggl,methods_aggl Character vector. Specifies the agglomerative
 #' methods of interest. Use \code{validMethodsAggl()} to obtain all valid input options.
 #'
+#' @param method.corr,method_corr Character value. Specifies the correlation
+#' method of interest. Use \code{validMethodsCorrelation()} to obtain all valid
+#' input options.
+#' @param methods.corr,methods_corr Character value. Specifies the correlation
+#' methods of interest. Use \code{validMethodsCorrelation()} to obtain all valid
+#' input options.
+#'
 #' @param method.dist,method_dist Character value. Specifies the distance method
 #' of interest. Use \code{validMethodsDist()} to obtain all valid input options.
 #' @param methods.dist,methods_dist Character value. Specifies the distance methods
@@ -106,6 +113,9 @@ verbose <- function(verbose){
 #' shape is taken for all points. If character, the respective variable is
 #' mapped to the shape-aesthetic.
 #' @param pt.size Numeric values. Specifies size of points.
+#'
+#' @param pval_threshold Numeric value or NULL. If numeric, denotes the maximum p-value to be considered as
+#' significant. Must no be higher than 0.05.
 #'
 #' @param ref.group Character value. Specifies the reference group for the pairwise statistical test. Must
 #' be among the groups the variable specified in \code{across} contains. If set to NULL the

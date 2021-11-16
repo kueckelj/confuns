@@ -121,6 +121,7 @@ valid_methods_outlier_detection <- base::names(outlier_var_classes)
 initiateOutlierDetection <- function(data,
                                      key_name,
                                      key_prefix = "ID",
+                                     lgl_to_group = TRUE,
                                      meta_names = character(0),
                                      verbose = TRUE
                                      ){
@@ -131,6 +132,7 @@ initiateOutlierDetection <- function(data,
       key_name = key_name,
       key_prefix = key_prefix,
       meta_names = meta_names,
+      lgl_to_group = lgl_to_group,
       verbose = verbose,
       analysis_aspect = "OutlierDetection",
     )

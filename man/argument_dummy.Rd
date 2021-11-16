@@ -57,6 +57,14 @@ of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
 \item{methods.aggl, methods_aggl}{Character vector. Specifies the agglomerative
 methods of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
 
+\item{method.corr, method_corr}{Character value. Specifies the correlation
+method of interest. Use \code{validMethodsCorrelation()} to obtain all valid
+input options.}
+
+\item{methods.corr, methods_corr}{Character value. Specifies the correlation
+methods of interest. Use \code{validMethodsCorrelation()} to obtain all valid
+input options.}
+
 \item{method.dist, method_dist}{Character value. Specifies the distance method
 of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
 
@@ -89,6 +97,9 @@ shape is taken for all points. If character, the respective variable is
 mapped to the shape-aesthetic.}
 
 \item{pt.size}{Numeric values. Specifies size of points.}
+
+\item{pval_threshold}{Numeric value or NULL. If numeric, denotes the maximum p-value to be considered as
+significant. Must no be higher than 0.05.}
 
 \item{ref.group}{Character value. Specifies the reference group for the pairwise statistical test. Must
 be among the groups the variable specified in \code{across} contains. If set to NULL the

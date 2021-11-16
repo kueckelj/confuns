@@ -11,14 +11,21 @@ computeCorrelation(object, ...)
   object,
   across = NULL,
   methods_corr = "pearson",
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
+\item{...}{Additional arguments given to \code{Hmisc::rcorr()}.}
+
 \item{across}{Character value. Specifies the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed.}
+
+\item{methods_corr}{Character value. Specifies the correlation
+methods of interest. Use \code{validMethodsCorrelation()} to obtain all valid
+input options.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
@@ -31,4 +38,7 @@ The input object.
 \description{
 Computes correlation matrix as well as corresponding
 p-values.
+}
+\details{
+Computation is conducted with \code{Hmisc::rcorr()}.
 }

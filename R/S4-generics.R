@@ -79,6 +79,9 @@ setGeneric(name = "computeDistanceMatrices", def = function(object, ...){
 #' p-values.
 #'
 #' @inherit argument_dummy params
+#' @param ... Additional arguments given to \code{Hmisc::rcorr()}.
+#'
+#' @details Computation is conducted with \code{Hmisc::rcorr()}.
 #'
 #' @return The input object.
 #'
@@ -145,6 +148,71 @@ setGeneric(name = "getClusteringPam", def = function(object, ...){
   standardGeneric(f = "getClusteringPam")
 
 })
+
+#' @title Obtain correlation data.frame
+#'
+#' @description Extracts correlation results in form of a data.frame
+#' that has been constructed by \emph{melting} a correlation matrix
+#' and its corresponding p-values to a data.frame via \code{reshape2::melt()}.
+#'
+#' @param distinct Logical. If TRUE, redundant correlation observations are dropped.
+#' Additionally, correlation observations of the same variables are dropped.
+#'
+#' (Effectively, sets \code{type} to \emph{'lower'} and \code{diagonal} to FALSE.)
+#'
+#' @param digits Numeric. Given to \code{base::round()} and indicates the number
+#' of digits to which the correlation value is rounded. Defaults to 2.
+#' @param sep Character value. Denots the string with which the variable pairs
+#' are combined in variable \emph{var_pair} of the output data.frame.
+#' @inherit argument_dummy params
+#'
+#' @return A data.frame of class \code{corr_df} with the following columns:
+#'
+#' \itemize{
+#'  \item{\emph{across}:}{ Factor or NULL. If factor, the group names of the grouping variable.},
+#'  \item{\emph{var1}:}{ Factor. First one of the variable pair.}
+#'  \item{\emph{var2}:}{ Factor. Second one of the correlated variable pair.},
+#'  \item{\emph{var_pair}:}{Factor. Combination of \emph{var1} and \emph{var2}},
+#'  \item{\emph{corr}:}{ Numeric. The correlation vaule.},
+#'  \item{\emph{pval}:}{ Numeric. The corresponding p-value.},
+#'  \item{emph{pval_threshold}:}{ Numeric. The denoted p-value threshold.},
+#'  \item{\emph{signif}:}{ Logical. Indicates if the p-value of the correlated pair is below the
+#'  denoted threshold.}
+#'  \item{\emph{method_corr}:}{ Character. The correlation method.}
+#'  }
+#'
+#' If \code{across} has been specified the variable paris of \emph{var1} and \emph{var2}
+#' are not unique but appear multiple times - one time for each group.
+#'
+#' @export
+
+setGeneric(name = "getCorrDf", def = function(object, ...){
+
+  standardGeneric(f = "getCorrDf")
+
+})
+
+#' @title Obtain correlation matrix
+#'
+#' @description Extracts correlation results in form of correlation
+#' matrices.
+#'
+#' @inherit argument_dummy params
+#'
+#' @details If \code{across} is a character a list of correlation matrices
+#' is returned. Slots are named according to the groups of the denoted
+#' grouping variable. If \code{across_subset} is NULL all groups are considered.
+#' If \code{across_subset} is of length one and \code{flatten} is TRUE the
+#' output list is flattened and a single correlation matrix is returned.
+#'
+#' @export
+#'
+setGeneric(name = "getCorrMtr", def = function(object, ...){
+
+  standardGeneric(f = "getCorrMtr")
+
+})
+
 
 
 #' @title Obtain object of class \code{dendro}
@@ -268,6 +336,31 @@ setGeneric(name = "getPam", def = function(object, ...){
 
 })
 
+#' @title Obtain object of class \code{rcorr}
+#'
+#' @description Extracts correlation results in form of class \code{rcorr}.
+#'
+#' @param as_list Logical value. If TRUE, \code{rcorr} objects are returned
+#' as simple lists.
+#' @inherit argument_dummy params
+#' @inherit Hmisc::rcorr return
+#'
+#' @details If \code{across} is NULL one object of class \code{rcorr} is
+#' returned - the one for the complete data set. If \code{across} is a character the list of \code{rcorr} is
+#' extracted and subsetted by the groups of interest denoted in \code{across_subset}.
+#' If \code{across_subset} is NULL the complete list is returned. If \code{across_subset}
+#' is of length one and \code{flatten} is TRUE the output list is flattened and
+#' a single \code{rcorr} object is returned.
+#'
+#' @export
+#'
+
+setGeneric(name = "getRcorr", def = function(object, ...){
+
+  standardGeneric(f = "getRcorr")
+
+})
+
 
 #' @title Obtain analysis results
 #'
@@ -327,7 +420,19 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 
 })
 
+#' @title Plot correlation plot
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
 
+setGeneric(name = "plotCorrplot", def = function(object, ...){
+
+  standardGeneric(f = "plotCorrplot")
+
+})
 
 #' @title Plot dendrograms
 #'
