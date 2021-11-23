@@ -11,8 +11,6 @@ getAvgSilWidthsDf(object, ...)
 
 \S4method{getAvgSilWidthsDf}{Clustering}(object, ks, methods_pam = "euclidean")
 
-\S4method{getAvgSilWidthsDf}{Clustering}(object, ks, methods_pam = "euclidean")
-
 \S4method{getAvgSilWidthsDf}{ClusteringPam}(object, ks, methods_pam = "euclidean")
 }
 \arguments{

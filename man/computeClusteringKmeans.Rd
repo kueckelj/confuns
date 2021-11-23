@@ -8,8 +8,6 @@
 computeClusteringKmeans(object, ...)
 
 \S4method{computeClusteringKmeans}{Clustering}(object, ks, methods_kmeans, verbose = TRUE)
-
-\S4method{computeClusteringKmeans}{Clustering}(object, ks, methods_kmeans, verbose = TRUE)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

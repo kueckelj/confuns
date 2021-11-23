@@ -11,8 +11,6 @@ getDistMtr(object, ...)
 
 \S4method{getDistMtr}{Clustering}(object, method_dist = "euclidean", stop_if_null = FALSE)
 
-\S4method{getDistMtr}{Clustering}(object, method_dist = "euclidean", stop_if_null = FALSE)
-
 \S4method{getDistMtr}{ClusteringHclust}(object, method_dist = "euclidean", stop_if_null = FALSE)
 }
 \arguments{

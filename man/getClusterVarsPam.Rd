@@ -14,14 +14,6 @@ getClusterVarsPam(object, ...)
   prefix = "",
   naming = "{method_pam}_k{k}"
 )
-
-\S4method{getClusterVarsPam}{Clustering}(
-  object,
-  ks,
-  methods_pam = "euclidean",
-  prefix = "",
-  naming = "{method_pam}_k{k}"
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

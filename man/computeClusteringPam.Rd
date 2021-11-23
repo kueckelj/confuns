@@ -8,8 +8,6 @@
 computeClusteringPam(object, ...)
 
 \S4method{computeClusteringPam}{Clustering}(object, ks, methods_pam, verbose = TRUE)
-
-\S4method{computeClusteringPam}{Clustering}(object, ks, methods_pam, verbose = TRUE)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

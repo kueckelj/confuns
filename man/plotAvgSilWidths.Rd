@@ -18,18 +18,6 @@ plotAvgSilWidths(object, ...)
   ncol = NULL,
   nrow = NULL
 )
-
-\S4method{plotAvgSilWidths}{Clustering}(
-  object,
-  ks,
-  methods_pam = "euclidean",
-  color = "steelblue",
-  display_cols = TRUE,
-  display_points = TRUE,
-  display_line = TRUE,
-  ncol = NULL,
-  nrow = NULL
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

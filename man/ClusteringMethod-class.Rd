@@ -8,23 +8,10 @@
 \description{
 S4-class that contains results from the clustering
 algorithm it stands for.
-
-S4-class that contains results from the clustering
-algorithm it stands for.
 }
 \section{Slots}{
 
 \describe{
-\item{\code{key_name}}{character. The name of the variable that is used to identify
-each observation uniquely.}
-
-\item{\code{method}}{character. The name of the method. Is additionally encoded
-in the name of the S4-class that inherits class \code{ClusteringMethod} using
-the syntax \emph{Clustering<method>}.}
-
-\item{\code{results}}{list. A list of results. Varies from cluster method to
-cluster method.}
-
 \item{\code{key_name}}{character. The name of the variable that is used to identify
 each observation uniquely.}
 

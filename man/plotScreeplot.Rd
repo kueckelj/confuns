@@ -16,16 +16,6 @@ plotScreeplot(object, ...)
   display_line = TRUE,
   display_points = TRUE
 )
-
-\S4method{plotScreeplot}{Clustering}(
-  object,
-  methods_kmeans,
-  ks = NULL,
-  color = "steelblue",
-  display_cols = TRUE,
-  display_line = TRUE,
-  display_points = TRUE
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

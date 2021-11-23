@@ -11,8 +11,6 @@ getKmeans(object, ...)
 
 \S4method{getKmeans}{Clustering}(object, k, method_kmeans = "Hartigan-Wong")
 
-\S4method{getKmeans}{Clustering}(object, k, method_kmeans = "Hartigan-Wong")
-
 \S4method{getKmeans}{ClusteringKmeans}(object, k, method_kmeans = "Hartigan-Wong", stop_if_null = TRUE)
 }
 \arguments{

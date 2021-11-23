@@ -22,7 +22,6 @@ Collate:
     'S4-generics.R'
     'S4-AnalysisAspect.R'
     'S4-Clustering.R'
-    'S4-clustering.R'
     'S4-ClusteringHclust.R'
     'S4-ClusteringKmeans.R'
     'S4-ClusteringPam.R'

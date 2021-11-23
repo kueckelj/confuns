@@ -11,8 +11,6 @@ getPam(object, ...)
 
 \S4method{getPam}{Clustering}(object, k, method_pam = "euclidean")
 
-\S4method{getPam}{Clustering}(object, k, method_pam = "euclidean")
-
 \S4method{getPam}{ClusteringPam}(object, k, method_pam = "euclidean", stop_if_null = TRUE)
 }
 \arguments{

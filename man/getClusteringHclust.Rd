@@ -8,8 +8,6 @@
 getClusteringHclust(object, ...)
 
 \S4method{getClusteringHclust}{Clustering}(object, ...)
-
-\S4method{getClusteringHclust}{Clustering}(object, ...)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

@@ -13,13 +13,6 @@ computeClusteringHclust(object, ...)
   methods_aggl = "ward.D",
   verbose = TRUE
 )
-
-\S4method{computeClusteringHclust}{Clustering}(
-  object,
-  methods_dist = "euclidean",
-  methods_aggl = "ward.D",
-  verbose = TRUE
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

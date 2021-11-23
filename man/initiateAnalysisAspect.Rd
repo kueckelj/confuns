@@ -27,15 +27,6 @@ initiateClustering(
   verbose = TRUE
 )
 
-initiateClustering(
-  data,
-  key_name,
-  key_prefix = NULL,
-  lgl_to_group = TRUE,
-  meta_names = character(0),
-  verbose = TRUE
-)
-
 initiateCorrelation(
   data,
   key_name,

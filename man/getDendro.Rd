@@ -15,15 +15,6 @@ getDendro(object, ...)
   h = NULL,
   type = "rectangle"
 )
-
-\S4method{getDendro}{Clustering}(
-  object,
-  method_dist = "euclidean",
-  method_aggl = "ward.D",
-  k = NULL,
-  h = NULL,
-  type = "rectangle"
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

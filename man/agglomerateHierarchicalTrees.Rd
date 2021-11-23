@@ -14,14 +14,6 @@ agglomerateHierarchicalTrees(object, ...)
   verbose = TRUE,
   ...
 )
-
-\S4method{agglomerateHierarchicalTrees}{Clustering}(
-  object,
-  methods_dist = "euclidean",
-  methods_aggl = "ward.D",
-  verbose = TRUE,
-  ...
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

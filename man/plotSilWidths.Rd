@@ -16,16 +16,6 @@ plotSilWidths(object, ...)
   nrow = NULL,
   verbose = TRUE
 )
-
-\S4method{plotSilWidths}{Clustering}(
-  object,
-  ks,
-  method_pam = "euclidean",
-  clrp = "milo",
-  ncol = NULL,
-  nrow = NULL,
-  verbose = TRUE
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

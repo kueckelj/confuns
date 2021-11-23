@@ -14,14 +14,6 @@ getClusterVarsKmeans(object, ...)
   prefix = "",
   naming = "{method_kmeans}_k{k}"
 )
-
-\S4method{getClusterVarsKmeans}{Clustering}(
-  object,
-  ks,
-  methods_kmeans = "Hartigan-Wong",
-  prefix = "",
-  naming = "{method_kmeans}_k{k}"
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

@@ -1,4 +1,4 @@
-#' @include S4-clustering.R
+#' @include S4-Clustering.R
 
 
 

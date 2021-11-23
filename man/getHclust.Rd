@@ -11,8 +11,6 @@ getHclust(object, ...)
 
 \S4method{getHclust}{Clustering}(object, method_dist = "euclidean", method_aggl = "ward.D")
 
-\S4method{getHclust}{Clustering}(object, method_dist = "euclidean", method_aggl = "ward.D")
-
 \S4method{getHclust}{ClusteringHclust}(
   object,
   method_dist = "euclidean",

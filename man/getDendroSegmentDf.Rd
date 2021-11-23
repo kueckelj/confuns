@@ -15,15 +15,6 @@ getDendroSegmentDf(object, ...)
   h = NULL,
   type = "rectangle"
 )
-
-\S4method{getDendroSegmentDf}{Clustering}(
-  object,
-  methods_dist = "euclidean",
-  methods_aggl = "ward.D",
-  k = NULL,
-  h = NULL,
-  type = "rectangle"
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

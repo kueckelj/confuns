@@ -22,8 +22,6 @@ validAnalysisAspects()
 
 validMethodsClustering()
 
-validMethodsClustering()
-
 validMethodsAggl()
 
 validMethodsDist()

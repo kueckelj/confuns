@@ -17,17 +17,6 @@ getClusterVarsHclust(object, ...)
   naming_k = "{method_dist}_{method_aggl}_k{k}",
   naming_h = "{method_dist}_{method_aggl}_h{h}"
 )
-
-\S4method{getClusterVarsHclust}{Clustering}(
-  object,
-  ks = NULL,
-  hs = NULL,
-  methods_dist = "euclidean",
-  methods_aggl = "ward.D",
-  prefix = "",
-  naming_k = "{method_dist}_{method_aggl}_k{k}",
-  naming_h = "{method_dist}_{method_aggl}_h{h}"
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

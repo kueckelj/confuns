@@ -8,8 +8,6 @@
 getClusteringPam(object, ...)
 
 \S4method{getClusteringPam}{Clustering}(object, ...)
-
-\S4method{getClusteringPam}{Clustering}(object, ...)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

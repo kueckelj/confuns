@@ -33,33 +33,6 @@ plotDendrogram(object, ...)
   ncol = NULL,
   ...
 )
-
-\S4method{plotDendrogram}{Clustering}(
-  object,
-  methods_dist = "euclidean",
-  methods_aggl = "ward.D",
-  k = NULL,
-  h = NULL,
-  plot_type = "rectangle",
-  facet_with = "grid",
-  direction = "bt",
-  branch_color = "black",
-  branch_size = 1,
-  display_labels = FALSE,
-  labels_angle = 90,
-  labels_hjust = 0,
-  labels_nudge = 0.01,
-  labels_size = 3,
-  labels_vjust = 0.5,
-  display_legend = TRUE,
-  display_title = FALSE,
-  clrp = "milo",
-  clrp_adjust = NULL,
-  simple = FALSE,
-  nrow = NULL,
-  ncol = NULL,
-  ...
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

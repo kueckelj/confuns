@@ -14,14 +14,6 @@ computeDistanceMatrices(object, ...)
   force = FALSE,
   verbose = TRUE
 )
-
-\S4method{computeDistanceMatrices}{Clustering}(
-  object,
-  methods_dist = "euclidean",
-  p = 2,
-  force = FALSE,
-  verbose = TRUE
-)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}

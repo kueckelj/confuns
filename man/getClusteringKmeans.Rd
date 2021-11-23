@@ -8,8 +8,6 @@
 getClusteringKmeans(object, ...)
 
 \S4method{getClusteringKmeans}{Clustering}(object, ...)
-
-\S4method{getClusteringKmeans}{Clustering}(object, ...)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
