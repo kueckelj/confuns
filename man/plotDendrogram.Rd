@@ -73,6 +73,8 @@ methods of interest. Use \code{validMethodsAggl()} to obtain all valid input opt
 \item{k}{Numeric value. Denotes the number of clusters. Must be bigger than 1. Must
 not be bigger than the number of observations of the data set.}
 
+\item{h}{Numeric value. Denotes the height at which the dendrogram is cut.}
+
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
 input options.}

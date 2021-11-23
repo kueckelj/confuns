@@ -9,6 +9,7 @@ getCorrDf(object, ...)
 
 \S4method{getCorrDf}{Correlation}(
   object,
+  method_corr = "pearson",
   across = NULL,
   across_subset = NULL,
   pval_threshold = 0.05,
@@ -24,19 +25,15 @@ getCorrDf(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
+\item{method_corr}{Character value. Specifies the correlation
+method of interest. Use \code{validMethodsCorrelation()} to obtain all valid
+input options.}
+
 \item{across}{Character value. Specifies the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed.}
 
 \item{pval_threshold}{Numeric value or NULL. If numeric, denotes the maximum p-value to be considered as
 significant. Must no be higher than 0.05.}
-
-\item{distinct}{Logical. If TRUE, redundant correlation observations are dropped.
-Additionally, correlation observations of the same variables are dropped.
-
-(Effectively, sets \code{type} to \emph{'lower'} and \code{diagonal} to FALSE.)}
-
-\item{digits}{Numeric. Given to \code{base::round()} and indicates the number
-of digits to which the correlation value is rounded. Defaults to 2.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
@@ -50,9 +47,10 @@ are combined in variable \emph{var_pair} of the output data.frame.}
 A data.frame of class \code{corr_df} with the following columns:
 
 \itemize{
- \item{\emph{across}:}{ Factor or NULL. If factor, the group names of the grouping variable.},
- \item{\emph{var1}:}{ Factor. First one of the variable pair.}
- \item{\emph{var2}:}{ Factor. Second one of the correlated variable pair.},
+ \item{\emph{across}:}{ Factor or NULL. If factor, the group names of the grouping variable
+ denoted in \code{across}.},
+ \item{\emph{var1}:}{ Factor. First variable of the correlated variable pair.}
+ \item{\emph{var2}:}{ Factor. Second variable  of the correlated variable pair.},
  \item{\emph{var_pair}:}{Factor. Combination of \emph{var1} and \emph{var2}},
  \item{\emph{corr}:}{ Numeric. The correlation vaule.},
  \item{\emph{pval}:}{ Numeric. The corresponding p-value.},
@@ -61,9 +59,6 @@ A data.frame of class \code{corr_df} with the following columns:
  denoted threshold.}
  \item{\emph{method_corr}:}{ Character. The correlation method.}
  }
-
-If \code{across} has been specified the variable paris of \emph{var1} and \emph{var2}
-are not unique but appear multiple times - one time for each group.
 }
 \description{
 Extracts correlation results in form of a data.frame

@@ -2,6 +2,7 @@
 % Please edit documentation in R/miscellaneous-data-frame.R
 \name{check_across_subset}
 \alias{check_across_subset}
+\alias{check_across_subset2}
 \title{Subset the across-variables}
 \usage{
 check_across_subset(
@@ -11,6 +12,8 @@ check_across_subset(
   relevel = TRUE,
   fdb.fn = "warning"
 )
+
+check_across_subset2(df, across, across.subset, relevel)
 }
 \arguments{
 \item{df}{A data.frame that contains the grouping variable specified in \code{across}.}

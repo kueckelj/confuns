@@ -4,16 +4,14 @@
 \alias{adjust_corr_mtr}
 \title{Adjust correlation matrix}
 \usage{
-adjust_corr_mtr(mtr, type = "lower", diagonal = TRUE)
+adjust_corr_mtr(mtr, type = "complete", diagonal = TRUE)
 }
 \arguments{
 \item{mtr}{Correlation or p-value matrix.}
 
-\item{type}{Character value. Denotes the adjustment type. Either of \emph{'lower',
-'upper'} or \emph{'complete'}.}
-
-\item{diagonal}{Logical. Indicates whether the diagonal of the correlation
-matrix should be kept or should be converted to NA.}
+\item{diagonal}{Logical value.  Indicates if the diagonal values of the
+matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
+= \emph{'complete'}.}
 }
 \value{
 Adjusted input matrix.

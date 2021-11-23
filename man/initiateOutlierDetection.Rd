@@ -7,7 +7,7 @@
 initiateOutlierDetection(
   data,
   key_name,
-  key_prefix = "ID",
+  key_prefix = NULL,
   lgl_to_group = TRUE,
   meta_names = character(0),
   verbose = TRUE

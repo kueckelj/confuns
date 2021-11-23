@@ -134,6 +134,55 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
 
 }
 
+#' @rdname check_across_subset
+#' @export
+check_across_subset2 <- function(df, across, across.subset, relevel){
+
+  if(base::length(across) == 2){
+
+    if(base::length(relevel == 1)){
+
+      relevel <- base::rep(relevel, 2)
+
+    }
+
+    if(!base::is.null(across.subset) & !is_list(input = across.subset)){
+
+      msg <- "If input for argument 'across' is of length two the input for argument 'across.subset' must be a named list or NULL."
+
+      give_feedback(msg = msg, fdb.fn = "stop", with.time = FALSE)
+
+    }
+
+    df <- check_across_subset(
+      df = df, across = across[1],
+      across.subset = across.subset[[across[1]]],
+      relevel = relevel[1]
+    )
+
+    df <-
+      check_across_subset(
+        df = df,
+        across = across[2],
+        across.subset = across.subset[[across[2]]],
+        relevel = relevel[2]
+      )
+
+  } else {
+
+    df <-
+      check_across_subset(
+        df = df,
+        across = across,
+        across.subset = across.subset,
+        relevel = relevel[1]
+      )
+
+  }
+
+  return(df)
+
+}
 
 #' @title Process a data.frame
 #'

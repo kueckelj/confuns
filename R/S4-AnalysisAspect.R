@@ -7,6 +7,7 @@ NULL
 #' aspect such as clustering, dimensional reduction, outlier detection etc.
 #'
 #' @slot data data.frame. The data on which the analysis bases on.
+#' @slot data_scaled data.frame The numeric data scaled via z-score.
 #' @slot key_name character. The name of the variable that is used to identify
 #' each observation uniquely.
 #' @slot meta data.frame. Data that was part of the input data but is not supposed
@@ -25,6 +26,7 @@ NULL
 AnalysisAspect <- setClass(Class = "AnalysisAspect",
                            slots = list(
                              data = "data.frame",
+                             data_scaled = "data.frame",
                              key_name = "character",
                              meta = "data.frame",
                              methods = "list",
@@ -73,7 +75,7 @@ valid_analysis_aspects <- c("AnalysisAspect", "Clustering", "Correlation", "DimR
 #'
 initiateAnalysisAspect <- function(data,
                                    key_name,
-                                   key_prefix = "ID",
+                                   key_prefix = NULL,
                                    meta_names = character(0),
                                    lgl_to_group = TRUE,
                                    analysis_aspect = "AnalysisAspect",
@@ -98,8 +100,6 @@ initiateAnalysisAspect <- function(data,
   df <-
     base::as.data.frame(data) %>%
     dplyr::select(-dplyr::all_of(meta_names))
-
-
 
   variables_grouping <-
     dplyr::select(df, -{{key_name}}) %>%
@@ -162,16 +162,7 @@ validAnalysisAspects <- function(){
 
 
 
-# methods for own generics ------------------------------------------------
-
-
-# -----
-
-
-
 # methods for external generics -------------------------------------------
-
-
 
 #' @param grouping,logical,numeric Logical value. Indicate if the respective variable
 #' types should be part of the output data.frame.
@@ -239,6 +230,19 @@ setMethod(
 
 })
 
+
+#' @rdname getKeyDf
+#' @export
+setMethod(
+  f = "getKeyDf",
+  signature = "AnalysisAspect",
+  definition = function(object, ...){
+
+    object@data[object@key_name] %>%
+      tibble::as_tibble()
+
+  }
+)
 
 #' @rdname getMtr
 #' @export
@@ -317,6 +321,154 @@ setMethod(
 )
 
 
+#' @rdname getScaledDf
+#' @export
+setMethod(
+  f = "getScaledDf",
+  signature = "AnalysisAspect",
+  definition = function(object, grouping = FALSE, logical = FALSE){
+
+    sdf <- object@data_scaled
+
+    if(purrr::is_empty(x = sdf)){
+
+      stop(glue::glue("No scaled data in this object of class {base::class(object)}"))
+
+    }
+
+    df <- getDf(object, grouping = grouping, logical = logical, complete = FALSE)
+
+    out <- dplyr::left_join(x = sdf, y = df, by = object@key_name)
+
+    return(out)
+
+  })
+
+#' @rdname getScaledMtr
+#' @export
+setMethod(
+  f = "getScaledMtr",
+  signature = "AnalysisAspect",
+  definition = function(object, ...){
+
+    out <-
+      getScaledDf(object) %>%
+      tibble::column_to_rownames(var = object@key_name) %>%
+      base::as.matrix()
+
+    return(out)
+
+  }
+)
+
+#' @rdname plotScatterplot
+#' @export
+setMethod(
+  f = "plotScatterplot",
+  signature = "AnalysisAspect",
+  definition = function(object,
+                        x,
+                        y,
+                        across = NULL,
+                        across_subset = NULL,
+                        relevel = TRUE,
+                        ncol = NULL,
+                        nrow = NULL,
+                        scales = "fixed",
+                        space = "fixed",
+                        pt_alpha = 0.9,
+                        pt_color = "black",
+                        pt_clrp = "milo",
+                        pt_fill = "black",
+                        pt_shape = 19,
+                        pt_size = 1.5,
+                        color_aes = "color",
+                        color_by = NULL,
+                        clrp = "milo",
+                        clrp_adjust = NULL,
+                        clrsp = "inferno",
+                        display_smooth = FALSE,
+                        smooth_alpha = 0.9,
+                        smooth_color = "blue",
+                        smooth_method = "lm",
+                        smooth_se = FALSE,
+                        smooth_size = 1,
+                        display_corr = FALSE,
+                        corr_method = "pearson",
+                        corr_p_min = 0.00005,
+                        corr_pos_x = NULL,
+                        corr_pos_y = NULL,
+                        corr_text_sep = "\n",
+                        corr_text_size = 1,
+                        ...){
+
+    df <-
+      getDf(object, numeric = TRUE, grouping = TRUE)
+
+    plot_scatterplot(
+      df = df,
+      x = x,
+      y = y,
+      across = across,
+      across.subset = across_subset,
+      relevel = relevel,
+      ncol = ncol,
+      nrow = nrow,
+      scales = scales,
+      space = space,
+      pt.alpha = pt_alpha,
+      pt.color = pt_color,
+      pt.clrp = pt_clrp,
+      pt.fill = pt_fill,
+      pt.shape = pt_shape,
+      pt.size = pt_size,
+      color.aes = color_aes,
+      color.by = color_by,
+      clrp = clrp,
+      clrp.adjust = clrp_adjust,
+      clrsp = clrsp,
+      display.smooth = display_smooth,
+      smooth.alpha = smooth_alpha,
+      smooth.color = smooth_color,
+      smooth.method = smooth_method,
+      smooth.se = smooth_se,
+      smooth.size = smooth_size,
+      display.corr = display_corr,
+      corr.method = corr_method,
+      corr.p.min = corr_p_min,
+      corr.pos.x = corr_pos_x,
+      corr.pos.y = corr_pos_y,
+      corr.text.sep = "\n",
+      corr.text.size = corr_text_size,
+    )
+
+  }
+)
+
+#' @rdname scaleData
+#' @export
+setMethod(
+  f = "scaleData",
+  signature = "AnalysisAspect",
+  definition = function(object, na_rm = TRUE, verbose = TRUE, ...){
+
+  give_feedback(msg = "Scaling data.", verbose = verbose)
+
+  object@data_scaled <-
+    getDf(object, numeric = TRUE, complete = FALSE) %>%
+    dplyr::mutate(
+      dplyr::across(
+        .cols = dplyr::all_of(x = object@variables_numeric),
+        .fns = normalize_zscore,
+        na.rm = na_rm
+      )
+    )
+
+  return(object)
+
+})
+
+
 #' @rdname setData
 #' @export
 setMethod(
@@ -345,6 +497,8 @@ setMethod(
     return(object)
 
   })
+
+
 
 
 # -----

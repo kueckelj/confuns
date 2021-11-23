@@ -24,6 +24,10 @@ If there are more groups you are interested in than they are groups you are not 
 in specify those that you are not interested in prefixed with an \emph{'-'}.
 Variables prefixed that way are discarded and the remaining are kept.}
 
+\item{alpha.by, alpha_by, color.by, color_by, shape.by, shape_by, size.by, size_by}{Character
+value or NULL. If character, specifies the variable that is mapped to the respective
+aesthetic of the plot.}
+
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
 input options.}
@@ -32,11 +36,27 @@ input options.}
 continuous values of numeric variables. Run \code{all_color_spectra()} to obtain
 valid input options.}
 
+\item{color.aes, color_aes}{Either \emph{'color'} or \emph{'fill'}. Specifies the
+aesthetic that is used to visualize the variable that is specified in \code{color_by}.
+
+Ignored if \code{color_by} is NULL.}
+
 \item{display.points}{Logical value. If set to TRUE points are used additionally
 to display the results.}
 
 \item{display.facets}{Logical value. If set to TRUE the plot is split via
 \code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.}
+
+\item{display.grid, display_grid}{Logical value. If TRUE, a grid is displayed.}
+
+\item{grid.alpha, grid.alpha, grid.size, grid_size}{Numeric values. Specify transparency
+and thickness of the lines of the grid.}
+
+\item{grid.color, grid_color}{Character value. Specifies the color of the grid lines.}
+
+\item{h}{Numeric value. Denotes the height at which the dendrogram is cut.}
+
+\item{hs}{Numeric vector. Denotes the heights at which the dendrogram is cut.}
 
 \item{key.name, key_name}{Character value or NULL. Denotes the variable that is used
 to identify each observation uniquely.}
@@ -61,7 +81,7 @@ methods of interest. Use \code{validMethodsAggl()} to obtain all valid input opt
 method of interest. Use \code{validMethodsCorrelation()} to obtain all valid
 input options.}
 
-\item{methods.corr, methods_corr}{Character value. Specifies the correlation
+\item{methods.corr, methods_corr}{Character vector. Specifies the correlation
 methods of interest. Use \code{validMethodsCorrelation()} to obtain all valid
 input options.}
 
@@ -85,18 +105,18 @@ Use \code{validMethodsPam()} to obtain all valid input options.}
 
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{pt.alpha}{Numeric value. Specifies the transparency of points.}
+\item{pt.alpha, pt_alpha}{Numeric value. Specifies the transparency of points.}
 
-\item{pt.color}{Character value. Specifies the color with which all points are displayed .}
+\item{pt.color, pt_color}{Character value. Specifies the color with which all points are displayed .}
 
-\item{pt.num}{Numeric value. Species the number of points (sample size)
+\item{pt.num, pt_num}{Numeric value. Species the number of points (sample size)
 to prevent overplotting.}
 
-\item{pt.shape}{Numeric or character value. If numeric, the respective
+\item{pt.shape, pt_shape}{Numeric or character value. If numeric, the respective
 shape is taken for all points. If character, the respective variable is
 mapped to the shape-aesthetic.}
 
-\item{pt.size}{Numeric values. Specifies size of points.}
+\item{pt.size, pt_shape}{Numeric values. Specifies size of points.}
 
 \item{pval_threshold}{Numeric value or NULL. If numeric, denotes the maximum p-value to be considered as
 significant. Must no be higher than 0.05.}
@@ -120,6 +140,15 @@ extract an informative error is raised. Else the empty value - usually NULL - is
 
 \item{valid.classes}{Character vector to specify the classes the input
 might have in order not to be discarded.}
+
+\item{values_alpha, values_size}{Numeric values. Denote transparency and size of
+the displayed values.}
+
+\item{values_color}{Character value. Denotes the color in which the values
+are displayed.}
+
+\item{values_digits}{Numeric value. Denotes the number of digits to which
+the displayed values are rounded.}
 
 \item{variables}{Character vector. Specifies the variables
 of interest. If set to NULL all valid variables of the input data.frame are

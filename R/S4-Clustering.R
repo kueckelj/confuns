@@ -59,11 +59,27 @@ valid_methods_clustering <- c("hclust", "kmeans", "pam")
 
 # functions ---------------------------------------------------------------
 
+cluster_vec_to_df <- function(vec, name, prefix, key){
+
+  df <- base::as.data.frame(vec)
+
+  df[[1]] <- stringr::str_c(prefix, df[[1]], sep = "")
+
+  df <-
+    magrittr::set_colnames(df, value = name) %>%
+    dplyr::mutate(dplyr::across(.fns = base::as.factor)) %>%
+    tibble::rownames_to_column(var = key) %>%
+    tibble::as_tibble()
+
+  return(df)
+
+}
+
 #' @rdname initiateAnalysisAspect
 #' @export
 initiateClustering <- function(data,
                                key_name,
-                               key_prefix = "ID",
+                               key_prefix = NULL,
                                lgl_to_group = TRUE,
                                meta_names = character(0),
                                verbose = TRUE){
@@ -79,6 +95,8 @@ initiateClustering <- function(data,
       analysis_aspect = "Clustering"
     )
 
+  object <- scaleData(object, na_rm = TRUE)
+
   return(object)
 
 }
@@ -93,14 +111,6 @@ validMethodsClustering <- function(){
 
 
 # -----
-
-
-# own generics ------------------------------------------------------------
-
-
-# -----
-
-
 
 
 # methods for external generics -------------------------------------------
@@ -155,6 +165,58 @@ setMethod(
   }
 )
 
+#' @rdname computeClusteringHclust
+#' @export
+setMethod(
+  f = "computeClusteringHclust",
+  signature = "Clustering",
+  definition = function(object,
+                        methods_dist = "euclidean",
+                        methods_aggl = "ward.D",
+                        verbose = TRUE){
+
+    hclust_obj <- object@methods[["hclust"]]
+
+    if(base::is.null(hclust_obj)){
+
+      give_feedback(msg = "Creating new object of class ClusteringHclust.", verbose = verbose)
+
+      hclust_obj <- ClusteringHclust(key_name = object@key_name, method = "hclust")
+
+    }
+
+    mtr <- getScaledMtr(object)
+
+    for(method_dist in methods_dist){
+
+      dist_mtr <- getDistMtr(object = hclust_obj, method_dist = method_dist, stop_if_null = FALSE)
+
+      if(base::is.null(dist_mtr)){
+
+        give_feedback(
+          msg = glue::glue("Computing temporary distance matrix for method '{method_dist}'."),
+          verbose = verbose
+        )
+
+        dist_mtr <- stats::dist(x = mtr, method = method_dist)
+
+      }
+
+      for(method_aggl in methods_aggl){
+
+        hclust_obj@results[[method_dist]][[method_aggl]] <- stats::hclust(d = dist_mtr, method = method_aggl)
+
+      }
+
+    }
+
+    object@methods[["hclust"]] <- hclust_obj
+
+    return(object)
+
+  }
+)
+
 #' @rdname computeClusteringKmeans
 #' @export
 setMethod(
@@ -186,10 +248,7 @@ setMethod(
 
     }
 
-    data <-
-      getDf(object, numeric = TRUE) %>%
-      tibble::column_to_rownames(var = object@key_name) %>%
-      base::as.matrix()
+    data <- getScaledMtr(object)
 
     results <-
       compute_clustering_kmeans(
@@ -248,10 +307,7 @@ setMethod(
 
     }
 
-    data <-
-      getDf(object, numeric = TRUE) %>%
-      tibble::column_to_rownames(var = object@key_name) %>%
-      base::as.matrix()
+    data <- getScaledMtr(object)
 
     results <-
       compute_clustering_pam(
@@ -312,10 +368,7 @@ setMethod(
 
     }
 
-    data <-
-      getDf(object = object, numeric = TRUE) %>%
-      tibble::column_to_rownames(var = object@key_name) %>%
-      base::as.matrix()
+    data <- getScaledMtr(object)
 
     results <-
       compute_dist_matrices(
@@ -364,6 +417,19 @@ setMethod(
   }
 )
 
+
+#' @rdname getClusteringHclust
+#' @export
+setMethod(f = "getClusteringHclust", signature = "Clustering", definition = function(object, ...){
+
+  getResults(
+    object = object,
+    method = "hclust",
+    ...
+  )
+
+})
+
 #' @rdname getClusteringKmeans
 #' @export
 setMethod(f = "getClusteringKmeans", signature = "Clustering", definition = function(object, ...){
@@ -387,6 +453,145 @@ setMethod(f = "getClusteringPam", signature = "Clustering", definition = functio
   )
 
 })
+
+
+#' @rdname getClusterVarsHclust
+#' @export
+setMethod(
+  f = "getClusterVarsHclust",
+  signature = "Clustering",
+  definition = function(object,
+                        ks = NULL,
+                        hs = NULL,
+                        methods_dist = "euclidean",
+                        methods_aggl = "ward.D",
+                        prefix = "",
+                        naming_k = "{method_dist}_{method_aggl}_k{k}",
+                        naming_h = "{method_dist}_{method_aggl}_h{h}"){
+
+    key <- object@key_name
+
+    out_df <- getKeyDf(object)
+
+    for(method_dist in methods_dist){
+
+      for(method_aggl in methods_aggl){
+
+        hclust_obj <- getHclust(object, method_dist = method_dist, method_aggl = method_aggl)
+
+        for(k in ks){
+
+          name <- glue::glue(naming_k)
+
+          df <-
+            cluster_vec_to_df(
+              vec = stats::cutree(tree = hclust_obj, k = k),
+              prefix = prefix,
+              name = name,
+              key = key
+            )
+
+          out_df <- dplyr::left_join(x = out_df, y = df, by = key)
+
+        }
+
+        for(h in hs){
+
+          name <- glue::glue(naming_h)
+
+          df <-
+            cluster_vec_to_df(
+              vec = stats::cutree(tree = hclust_obj, h = h),
+              prefix = prefix,
+              name = name,
+              key = key
+            )
+
+          out_df <- dplyr::left_join(x = out_df, y = df, by = key)
+
+        }
+
+      }
+
+    }
+
+    return(out_df)
+
+  }
+)
+
+#' @rdname getClusterVarsKmeans
+#' @export
+setMethod(
+  f = "getClusterVarsKmeans",
+  signature = "Clustering",
+  definition = function(object,
+                        ks,
+                        methods_kmeans = "Hartigan-Wong",
+                        prefix = "",
+                        naming = "{method_kmeans}_k{k}"){
+
+    key <- object@key_name
+
+    out_df <- getKeyDf(object)
+
+    for(k in ks){
+
+      for(method_kmeans in methods_kmeans){
+
+        cluster_vec <- getKmeans(object, k = k, method_kmeans = method_kmeans)$cluster
+
+        name <- glue::glue(naming)
+
+        df <- cluster_vec_to_df(vec = custer_vec, name = name, prefix = prefix, key = key)
+
+        out_df <- dplyr::left_join(out_df, y = df, by = key)
+
+      }
+
+    }
+
+    return(out_df)
+
+  }
+)
+
+#' @rdname getClusterVarsPam
+#' @export
+setMethod(
+  f = "getClusterVarsPam",
+  signature = "Clustering",
+  definition = function(object,
+                        ks,
+                        methods_pam = "euclidean",
+                        prefix = "",
+                        naming = "{method_pam}_k{k}"){
+
+    key <- object@key_name
+
+    out_df <- getKeyDf(object)
+
+    for(k in ks){
+
+      for(method_pam in methods_pam){
+
+        cluster_vec <- getPam(object, method_pam = method_pam, k = k)$clustering
+
+        name <- glue::glue(naming)
+
+        df <- cluster_vec_to_df(vec = cluster_vec, name = name, prefix = prefix, key = key)
+
+        out_df <- dplyr::left_join(x = out_df, y = df, by = key)
+
+      }
+
+    }
+
+    return(out_df)
+
+  }
+)
+
 
 
 #' @rdname getDendro
@@ -502,6 +707,36 @@ setMethod(
   }
 )
 
+#' @rdname getDistMtr
+#' @export
+setMethod(
+  f = "getDistMtr",
+  signature = "Clustering",
+  definition = function(object, method_dist = "euclidean", stop_if_null = FALSE){
+
+    check_one_of(
+      input = method_dist,
+      against = validMethodsDist()
+    )
+
+    out <- object@methods[["hclust"]]@dist_matrices
+
+    if(base::is.null(out) & base::isTRUE(stop_if_null)){
+
+      stop(
+        glue::glue(
+          "No distance matrix found for method '{method_dist}'."
+        )
+      )
+
+    }
+
+    return(out)
+
+  })
+
+
+
 #' @rdname getHclust
 #' @export
 setMethod(
@@ -556,6 +791,8 @@ setMethod(
     pam_obj <- getResults(object, method = "pam")
 
     pam <- getPam(object = pam_obj, k = k, method_pam = method_pam)
+
+    pam$data <- getScaledMtr(object)
 
     return(pam)
 

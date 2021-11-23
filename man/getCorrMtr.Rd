@@ -27,11 +27,9 @@ input options.}
 \item{across}{Character value. Specifies the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed.}
 
-\item{type}{Character value. Denotes the adjustment type. Either of \emph{'lower',
-'upper'} or \emph{'complete'}.}
-
-\item{diagonal}{Logical. Indicates whether the diagonal of the correlation
-matrix should be kept or should be converted to NA.}
+\item{diagonal}{Logical value.  Indicates if the diagonal values of the
+matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
+= \emph{'complete'}.}
 }
 \description{
 Extracts correlation results in form of correlation

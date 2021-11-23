@@ -25,6 +25,22 @@ setGeneric(name = "agglomerateHierarchicalTrees", def = function(object, ...){
 
 # c -----------------------------------------------------------------------
 
+#' @title Compute \code{hclust} objects
+#'
+#' @description Computes \code{hclust} objects for all combinations of distance
+#' and agglomration methods. Does not store distance matrices in the object!
+#'
+#' @inherit argument_dummy params
+#'
+#' @return The input object.
+#' @export
+#'
+setGeneric(name = "computeClusteringHclust", def = function(object, ...){
+
+  standardGeneric(f = "computeClusteringHclust")
+
+})
+
 #' @title Compute cluster with kmeans
 #'
 #' @description Computes cluster with method \emph{kmeans}.
@@ -78,7 +94,21 @@ setGeneric(name = "computeDistanceMatrices", def = function(object, ...){
 #' @description Computes correlation matrix as well as corresponding
 #' p-values.
 #'
+#' @inherit across_an2 params
 #' @inherit argument_dummy params
+#'
+#' @details If argument \code{across} is NULL. All numeric variables are simply
+#' correlated.
+#'
+#' If \code{across} is character: Prior to correlation, the data set is split into subsets for
+#' each group a grouping variable contains. Then the variables are correlated separately
+#' for each group. This is done for every grouping variable denoted in the input
+#' vector of \code{across.}
+#'
+#' Results can be retrieved or visualized by specifying the grouping
+#' variable of interest in the \code{across} argument and the group(s) of interest
+#' with the \code{across_subset} argument of the respective function.
+#'
 #' @param ... Additional arguments given to \code{Hmisc::rcorr()}.
 #'
 #' @details Computation is conducted with \code{Hmisc::rcorr()}.
@@ -90,6 +120,61 @@ setGeneric(name = "computeDistanceMatrices", def = function(object, ...){
 setGeneric(name = "computeCorrelation", def = function(object, ...){
 
   standardGeneric(f = "computeCorrelation")
+
+})
+
+
+#' @title Compute PCA
+#'
+#' @description Computes principal components and stores the embedding
+#' in form of a data.frame.
+#'
+#' @param n_dims Numeric value. Integer that indicates the number of
+#' principal components to compute. Must be lower than the number
+#' of numeric variables based on which principal components are
+#' computed.
+#' @param ... Additional arguments given to \code{irlba::prcomp_irlba()}.
+#' @inherit argument_dummy params
+
+#' @export
+setGeneric(name = "computePCA", def = function(object, ...){
+
+  standardGeneric(f = "computePCA")
+
+})
+
+#' @title Compute TSNE
+#'
+#' @description Computes t stochastic neighbour embedding stores the embedding
+#' in form of a data.frame.
+#'
+#' @param n_dims Numeric value. Integer that indicates the number of
+#' dimensions of the resulting embedding. Must be lower than the number
+#' of numeric variables based on which principal components are
+#' computed. Given to argument \code{k} of function \code{tsne::tsne()}.
+#' @param ... Additional arguments given to \code{tsne::tsne()}.
+#' @inherit argument_dummy params
+
+#' @export
+setGeneric(name = "computeTSNE", def = function(object, ...){
+
+  standardGeneric(f = "computeTSNE")
+
+})
+
+#' @title Compute UMAP
+#'
+#' @description Computes a manifold approximation and projection.
+#'
+#' @param ... Additional arguments given to \code{umap::umap()}.
+#' @inherit argument_dummy params
+#'
+#' @return The input object.
+#' @export
+#'
+setGeneric(name = "computeUMAP", def = function(object, ...){
+
+  standardGeneric(f = "computeUMAP")
 
 })
 
@@ -112,6 +197,23 @@ setGeneric(name = "computeCorrelation", def = function(object, ...){
 setGeneric(name = "getAvgSilWidthsDf", def = function(object, ...){
 
   standardGeneric(f = "getAvgSilWidthsDf")
+
+})
+
+#' @title Obtain object of class \code{ClusteringHclust}
+#'
+#' @description Extracts an object of class \code{ClusteringHclust}.
+#'
+#' @inherit argument_dummy params
+#'
+#' @seealso getHclust()
+#'
+#' @return An object of class \code{ClusteringHclust}.
+#' @export
+
+setGeneric(name = "getClusteringHclust", def = function(object, ...){
+
+  standardGeneric(f = "getClusteringHclust")
 
 })
 
@@ -149,19 +251,64 @@ setGeneric(name = "getClusteringPam", def = function(object, ...){
 
 })
 
+
+#' @title Obtain cluster variables (hclust)
+#'
+#' @description Extracts a data.frame that contains grouping variables
+#' according to clustering results.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A data.frame.
+#' @export
+
+setGeneric(name = "getClusterVarsHclust", def = function(object, ...){
+
+  standardGeneric(f = "getClusterVarsHclust")
+
+})
+
+#' @title Obtain cluster variables (kmeans)
+#'
+#' @description Extracts a data.frame that contains grouping variables
+#' according to clustering results.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A data.frame.
+#' @export
+
+setGeneric(name = "getClusterVarsKmeans", def = function(object, ...){
+
+  standardGeneric(f = "getClusterVarsKmeans")
+
+})
+
+#' @title Obtain cluster variables (PAM)
+#'
+#' @description Extracts a data.frame that contains grouping variables
+#' according to clustering results.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A data.frame.
+#' @export
+#'
+setGeneric(name = "getClusterVarsPam", def = function(object, ...){
+
+  standardGeneric(f = "getClusterVarsPam")
+
+})
+
+
 #' @title Obtain correlation data.frame
 #'
 #' @description Extracts correlation results in form of a data.frame
 #' that has been constructed by \emph{melting} a correlation matrix
 #' and its corresponding p-values to a data.frame via \code{reshape2::melt()}.
 #'
-#' @param distinct Logical. If TRUE, redundant correlation observations are dropped.
-#' Additionally, correlation observations of the same variables are dropped.
+#' @inhrit corr_dummy params
 #'
-#' (Effectively, sets \code{type} to \emph{'lower'} and \code{diagonal} to FALSE.)
-#'
-#' @param digits Numeric. Given to \code{base::round()} and indicates the number
-#' of digits to which the correlation value is rounded. Defaults to 2.
 #' @param sep Character value. Denots the string with which the variable pairs
 #' are combined in variable \emph{var_pair} of the output data.frame.
 #' @inherit argument_dummy params
@@ -169,9 +316,10 @@ setGeneric(name = "getClusteringPam", def = function(object, ...){
 #' @return A data.frame of class \code{corr_df} with the following columns:
 #'
 #' \itemize{
-#'  \item{\emph{across}:}{ Factor or NULL. If factor, the group names of the grouping variable.},
-#'  \item{\emph{var1}:}{ Factor. First one of the variable pair.}
-#'  \item{\emph{var2}:}{ Factor. Second one of the correlated variable pair.},
+#'  \item{\emph{across}:}{ Factor or NULL. If factor, the group names of the grouping variable
+#'  denoted in \code{across}.},
+#'  \item{\emph{var1}:}{ Factor. First variable of the correlated variable pair.}
+#'  \item{\emph{var2}:}{ Factor. Second variable  of the correlated variable pair.},
 #'  \item{\emph{var_pair}:}{Factor. Combination of \emph{var1} and \emph{var2}},
 #'  \item{\emph{corr}:}{ Numeric. The correlation vaule.},
 #'  \item{\emph{pval}:}{ Numeric. The corresponding p-value.},
@@ -180,9 +328,6 @@ setGeneric(name = "getClusteringPam", def = function(object, ...){
 #'  denoted threshold.}
 #'  \item{\emph{method_corr}:}{ Character. The correlation method.}
 #'  }
-#'
-#' If \code{across} has been specified the variable paris of \emph{var1} and \emph{var2}
-#' are not unique but appear multiple times - one time for each group.
 #'
 #' @export
 
@@ -267,6 +412,41 @@ setGeneric(name = "getDf", def = function(object, ...){
 })
 
 
+#' @title Obtain distance matrix
+#'
+#' @description Extracts distance matrix from S4 object.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A distance matrix or NULL (if none has been computed yet).
+#'
+#' @export
+
+setGeneric(name = "getDistMtr", def = function(object, ...){
+
+  standardGeneric(f = "getDistMtr")
+
+})
+
+
+#' @title Obtain \code{DimRed} embedding
+#'
+#' @description Extracts the dimensional reduction embedding in form
+#' of a data.frame. Naming of the variables corresponds
+#' to the chosen method.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A data.frame.
+#' @export
+#'
+setGeneric(name = "getEmbeddingDf", def = function(object, ...){
+
+  standardGeneric(f = "getEmbeddingDf")
+
+})
+
+
 #' @title Obtain object of class \code{hclust}
 #'
 #' @description Extracts object of class \code{hclust}
@@ -283,6 +463,23 @@ setGeneric(name = "getHclust", def = function(object, ...){
   standardGeneric(f = "getHclust")
 
 })
+
+
+#' @title Obtain empty data.frame
+#'
+#' @description Extracts a data.frame that contains only the key variable.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A data.frame.
+#' @export
+#'
+setGeneric(name = "getKeyDf", def = function(object, ...){
+
+  standardGeneric(f = "getKeyDf")
+
+})
+
 
 #' @title Obtain object of class \code{kmeans}
 #'
@@ -381,6 +578,39 @@ setGeneric(name = "getResults", def = function(object, ...){
 })
 
 
+#' @title Obtain scaled data
+#'
+#' @description Extracts the scaled data in a data.frame. Grouping and
+#' logical variables can be joined
+#'
+#' @inherit getDf params
+#'
+#' @return A data.frame.
+#' @export
+#'
+setGeneric(name = "getScaledDf", def = function(object, ...){
+
+  standardGeneric(f = "getScaledDf")
+
+})
+
+#' @title Obtain scaled matrix
+#'
+#' @description Extracts the scaled data as a matrix. Key variable is used
+#' for the rownames.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A matrix.
+#' @export
+#'
+setGeneric(name = "getScaledMtr", def = function(object, ...){
+
+  standardGeneric(f = "getScaledMtr")
+
+})
+
+
 #' @title Obtain sil-width data
 #'
 #' @description Extracts a data.frame that contains information
@@ -422,6 +652,25 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 
 #' @title Plot correlation plot
 #'
+#'
+#' @param color_low,color_high Character values. Specifies the colors that are
+#' used to generate the color spectrum with which the gradient from negative
+#' \code{color_low}) to positive correlation (\code{color_high}) is displayed.
+#' @param size_by_corr Logical value. If TRUE, size is used in addition to coloring
+#' to indicate the correlation. Ignored if \emph{shape} = \emph{'tile'}
+#'
+#' @param type Character value. Denotes how the underlying correlation matrix is
+#' handled.
+#' If \code{type} = \emph{'complete'}, the matrix is let as is.
+#' If \code{type} =  \emph{'lower'}, the part below the diagonal is used. The upper part is set to NA.
+#' If \code{type} =  \emph{'upper}, the part above the diagonal is used. the lower part is set to NA.
+#'
+#'
+#' @param variables_subset Character vector or NULL. If character, specifies
+#' the subset of variable names that is included in the plot. To exclude single
+#' variables the variable name can be provided prefixed with a \emph{'-'}.
+#' @inherit corr_dummy params
+#' @inherit across_vis1 params
 #' @inherit argument_dummy params
 #'
 #' @return A ggplot.
@@ -449,6 +698,40 @@ setGeneric(name = "plotDendrogram", def = function(object, ...){
   standardGeneric(f = "plotDendrogram")
 
 })
+
+
+
+#' @title Plot PCA
+#'
+#' @description Plots PCA results in a scatterplot.
+#'
+#' @param n_dims Numeric value. Integer that indicates the number of principal
+#' component vectors that are plotted.
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotPCA", def = function(object, ...){
+
+  standardGeneric(f = "plotPCA")
+
+})
+
+
+#' @title Plot a scatterplot
+#'
+#' @description Plots two numeric variables on the x- and y-axis.
+#'
+#' @return A ggplot.
+#'
+#' @export
+setGeneric(name = "plotScatterplot", def = function(object, ...){
+
+  standardGeneric(f = "plotScatterplot")
+
+})
+
 
 #' @title Plot a screeplot
 #'
@@ -487,9 +770,54 @@ setGeneric(name = "plotSilWidths", def = function(object, ...){
 
 })
 
+#' @title Plot TSNE
+#'
+#' @description Plots TSNE results in a scatterplot.
+#'
+#' @param n_dims Numeric value. Integer that indicates the number of dimensions that are plotted.
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotTSNE", def = function(object, ...){
 
+  standardGeneric(f = "plotTSNE")
+
+})
+
+#' @title Plot UMAP
+#'
+#' @description Plots UMAP results in a scatterplot.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotUMAP", def = function(object, ...){
+
+  standardGeneric(f = "plotUMAP")
+
+})
 
 # s -----------------------------------------------------------------------
+
+#' @title Scale data
+#'
+#' @description Scales all numeric variables via zscore.
+#'
+#' @param na_rm Logical. If TRUE, NAs are ignored.
+#' @inherit argument_dummy params
+#'
+#' @return The input object.
+#' @export
+#'
+setGeneric(name = "scaleData", def = function(object, ...){
+
+  standardGeneric(f = "scaleData")
+
+})
 
 #' @title Set data and key variables
 #'
@@ -581,6 +909,12 @@ set_data_hlpr <- function(object,
         verbose = verbose
       )
 
+      if(base::is.character(key.prefix)){
+
+        key_var <- stringr::str_c(key.prefix, key_var, sep = "")
+
+      }
+
     }
 
     key.name <- "data_ids"
@@ -590,6 +924,8 @@ set_data_hlpr <- function(object,
     )
 
     data[[key.name]] <- key_var
+
+    base::rownames(data) <- NULL
 
   }
 

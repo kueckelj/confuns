@@ -26,6 +26,29 @@ normalize_dummy <- function(normalize){
 }
 
 
+#' @title corr_dummy
+#'
+#' @param diagonal Logical value.  Indicates if the diagonal values of the
+#' matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
+#' = \emph{'complete'}.
+#' @param digits Numeric. Given to \code{base::round()} and indicates the number
+#' of digits to which the correlation value is rounded. Defaults to 2.
+#' @param distinct Logical value. If TRUE only one observation per variable pair remains
+#' in the output data.frame. Ignored if \code{type} = \emph{'complete'}.
+#' @param shape Character value. Specifies the shape of the geometric objects with
+#' which the variable pairs are displayed. Either \emph{'circle', 'rect'} or \emph{'tile'}.
+#' @param type Character value. Denotes how the underlying correlation matrix is
+#' handled. Three options:
+#'
+#' \itemize{
+#'  \item{\emph{'complete'}:}{ The matrix is let as is.},
+#'  \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
+#'  \item{\emph{'upper}:{The part above the diagonal is used. the lower part is set to NA.}
+#'  }
+#'
+corr_dummy <- function(diagonal, digits, distinct, type){}
+
+
 #' @title verbose
 #' @param verbose Logical. If set to TRUE informative messages regarding
 #' the computational progress will be printed.
@@ -39,6 +62,55 @@ verbose <- function(verbose){
 
 
 
+#' @title across an1 dummy
+#'
+#' @param across Character value or NULL. If character, the name of the grouping variable
+#' that contains the group assignment across which analysis should
+#' be conducted. If NULL, no grouping is done.
+#' @param across.subset,across_subset Character vector or NULL. If NULL, all groups
+#' are considered. If character, specifies the groups of the
+#' grouping variable that are of interest. Prefixing group names with
+#' \emph{'-'} excludes them.
+#'
+across_an1 <- function(across, across_subset){}
+
+#' @title across an2 dummy
+#'
+#' @param across Character vector or NULL. If character, the name of the grouping variables
+#' that contain the group assignment across which analysis should
+#' be conducted. If NULL, no grouping is done.
+#' @param across.subset,across_subset Character vector or NULL. If NULL, all groups
+#' are considered. If character, specifies the groups of the
+#' grouping variable that are of interest. Prefixing group names with
+#' \emph{'-'} excludes them.
+#'
+across_an2 <- function(across, across_subset){}
+
+#' @title across vis1 dummy
+#'
+#' @param across Character value or NULL. If character, specifies the name of the grouping variable
+#' that contains the group assignment across which results are displayed. If NULL,
+#' no grouping is done.
+#' @param acrosss.subset,across_subset Character vector or NULL. If character, specifies groups of the
+#' grouping variable that are of interest. Prefixing group names with \emph{'-'} excludes them.
+#' If NULL, all groups are considered.
+#'
+across_vis1 <- function(across, across_subset){}
+
+
+#' @title across vis2 dummy
+#'
+#' @param across Character vector. The names of the grouping variables
+#' that contain the group assignments across which results are displayed.
+#'
+#' @param across_subset List of character vectors. Must be named according
+#' to the input of argument \code{across}. Named slots of the list should be character
+#' vectors containing the groups of interest. Prefixing group names with
+#' \emph{'-'} excludes them.
+#'
+across_vis2 <- function(across, across_subset){}
+
+
 #' @title Argument dummy
 #'
 #' @param across Character value. Specifies the discrete variable in the data.frame
@@ -50,6 +122,10 @@ verbose <- function(verbose){
 #' in specify those that you are not interested in prefixed with an \emph{'-'}.
 #' Variables prefixed that way are discarded and the remaining are kept.
 #'
+#' @param alpha.by,alpha_by,color.by,color_by,shape.by,shape_by,size.by,size_by Character
+#' value or NULL. If character, specifies the variable that is mapped to the respective
+#' aesthetic of the plot.
+#'
 #' @param clrp Character value. Specifies the color palette to be used to represent
 #' groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
 #' input options.
@@ -58,10 +134,23 @@ verbose <- function(verbose){
 #' continuous values of numeric variables. Run \code{all_color_spectra()} to obtain
 #' valid input options.
 #'
+#' @param color.aes,color_aes Either \emph{'color'} or \emph{'fill'}. Specifies the
+#' aesthetic that is used to visualize the variable that is specified in \code{color_by}.
+#'
+#' Ignored if \code{color_by} is NULL.
+#'
 #' @param display.points Logical value. If set to TRUE points are used additionally
 #' to display the results.
 #' @param display.facets Logical value. If set to TRUE the plot is split via
 #' \code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.
+#' @param display.grid,display_grid Logical value. If TRUE, a grid is displayed.
+#'
+#' @param grid.alpha,grid.alpha,grid.size,grid_size Numeric values. Specify transparency
+#' and thickness of the lines of the grid.
+#' @param grid.color,grid_color Character value. Specifies the color of the grid lines.
+#'
+#' @param h Numeric value. Denotes the height at which the dendrogram is cut.
+#' @param hs Numeric vector. Denotes the heights at which the dendrogram is cut.
 #'
 #' @param key.name,key_name Character value or NULL. Denotes the variable that is used
 #' to identify each observation uniquely.
@@ -83,7 +172,7 @@ verbose <- function(verbose){
 #' @param method.corr,method_corr Character value. Specifies the correlation
 #' method of interest. Use \code{validMethodsCorrelation()} to obtain all valid
 #' input options.
-#' @param methods.corr,methods_corr Character value. Specifies the correlation
+#' @param methods.corr,methods_corr Character vector. Specifies the correlation
 #' methods of interest. Use \code{validMethodsCorrelation()} to obtain all valid
 #' input options.
 #'
@@ -105,14 +194,14 @@ verbose <- function(verbose){
 #'
 #' @param object Any object for whose class a method has been defined.
 #'
-#' @param pt.alpha Numeric value. Specifies the transparency of points.
-#' @param pt.color Character value. Specifies the color with which all points are displayed .
-#' @param pt.num Numeric value. Species the number of points (sample size)
+#' @param pt.alpha,pt_alpha Numeric value. Specifies the transparency of points.
+#' @param pt.color,pt_color Character value. Specifies the color with which all points are displayed .
+#' @param pt.num,pt_num Numeric value. Species the number of points (sample size)
 #' to prevent overplotting.
-#' @param pt.shape Numeric or character value. If numeric, the respective
+#' @param pt.shape,pt_shape Numeric or character value. If numeric, the respective
 #' shape is taken for all points. If character, the respective variable is
 #' mapped to the shape-aesthetic.
-#' @param pt.size Numeric values. Specifies size of points.
+#' @param pt.size,pt_shape Numeric values. Specifies size of points.
 #'
 #' @param pval_threshold Numeric value or NULL. If numeric, denotes the maximum p-value to be considered as
 #' significant. Must no be higher than 0.05.
@@ -136,6 +225,12 @@ verbose <- function(verbose){
 #' @param valid.classes Character vector to specify the classes the input
 #' might have in order not to be discarded.
 #'
+#' @param values_alpha,values_size Numeric values. Denote transparency and size of
+#' the displayed values.
+#' @param values_color Character value. Denotes the color in which the values
+#' are displayed.
+#' @param values_digits Numeric value. Denotes the number of digits to which
+#' the displayed values are rounded.
 #' @param variables Character vector. Specifies the variables
 #' of interest. If set to NULL all valid variables of the input data.frame are
 #' considered (as long as the total number does not exceeds the limit).

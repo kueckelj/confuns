@@ -9,18 +9,19 @@ melt_rcorr(rcorr_obj, type = "complete", diagonal = TRUE, distinct = FALSE)
 \arguments{
 \item{rcorr_obj}{An object of class \code{rcorr}.}
 
-\item{type}{Character value. Denotes the adjustment type. Either of \emph{'lower',
-'upper'} or \emph{'complete'}.}
+\item{diagonal}{Logical value.  Indicates if the diagonal values of the
+matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
+= \emph{'complete'}.}
 
-\item{diagonal}{Logical. Indicates whether the diagonal of the correlation
-matrix should be kept or should be converted to NA.}
+\item{distinct}{Logical value. If TRUE only one observation per variable pair remains
+in the output data.frame. Ignored if \code{type} = \emph{'complete'}.}
 }
 \value{
 A data.frame with the following columns:
 
 \itemize{
- \item{\emph{var1}:}{ Factor. First one of the variable pair.}
- \item{\emph{var2}:}{ Factor. Second one of the correlated variable pair.},
+ \item{\emph{var1}:}{ Factor. First variable of the correlated variable pair.}
+ \item{\emph{var2}:}{ Factor. Second variable of the correlated variable pair.},
  \item{\emph{corr}:}{ Numeric. The correlation vaule.},
  \item{\emph{pval}:}{ Numeric. The corresponding p-value.},
  }

@@ -72,16 +72,13 @@ valid_shapes_corr <- c("circle", "rect", "tile")
 #' @description
 #'
 #' @param mtr Correlation or p-value matrix.
-#' @param type Character value. Denotes the adjustment type. Either of \emph{'lower',
-#' 'upper'} or \emph{'complete'}.
-#' @param diagonal Logical. Indicates whether the diagonal of the correlation
-#' matrix should be kept or should be converted to NA.
+#' @inherit corr_dummy params
 #'
 #' @return Adjusted input matrix.
 #' @export
 #'
 
-adjust_corr_mtr <- function(mtr, type = "lower", diagonal = TRUE){
+adjust_corr_mtr <- function(mtr, type = "complete", diagonal = TRUE){
 
   if(type == "lower"){
 
@@ -114,7 +111,8 @@ distinct_corr_df <- function(corr_df){
     magrittr::set_colnames(value = c("var1", "var2"))
 
   out <-
-    dplyr::left_join(x = comb_df, y = corr_df, by = c("var1", "var2"))
+    dplyr::left_join(x = comb_df, y = corr_df, by = c("var1", "var2")) %>%
+    tibble::as_tibble()
 
   return(out)
 
@@ -150,13 +148,13 @@ initiateCorrelation <- function(data,
 #' @description Melts object of class \code{rcorr} to a data.frame.
 #'
 #' @param rcorr_obj An object of class \code{rcorr}.
-#' @inherit adjust_corr_mtr params
+#' @inherit corr_dummy params
 #'
 #' @return A data.frame with the following columns:
 #'
 #' \itemize{
-#'  \item{\emph{var1}:}{ Factor. First one of the variable pair.}
-#'  \item{\emph{var2}:}{ Factor. Second one of the correlated variable pair.},
+#'  \item{\emph{var1}:}{ Factor. First variable of the correlated variable pair.}
+#'  \item{\emph{var2}:}{ Factor. Second variable of the correlated variable pair.},
 #'  \item{\emph{corr}:}{ Numeric. The correlation vaule.},
 #'  \item{\emph{pval}:}{ Numeric. The corresponding p-value.},
 #'  }
@@ -227,6 +225,7 @@ validTypesCorrelation <- function(){
 
 methods::setOldClass(Classes = "corr_df")
 
+
 #' @rdname computeCorrelation
 setMethod(
   f = "computeCorrelation",
@@ -243,7 +242,9 @@ setMethod(
       against = validMethodsCorrelation()
     )
 
-    is_value(x = across, mode = "character", skip.allow = TRUE, skip.val = NULL)
+    n_vars <- base::length(object@variables_numeric)
+
+    is_vec(x = across, mode = "character", skip.allow = TRUE, skip.val = NULL)
 
     for(method_corr in methods_corr){
 
@@ -269,7 +270,7 @@ setMethod(
       }
 
       give_feedback(
-        msg = glue::glue("Computing correlation according to method '{method_corr}'."),
+        msg = glue::glue("Correlating {n_vars} variables according to method '{method_corr}'."),
         verbose = verbose
         )
 
@@ -283,52 +284,62 @@ setMethod(
 
       } else {
 
-        check_one_of(
-          input = across,
-          against = object@variables_grouping
-        )
+        all_across <- base::unique(across)
 
-        give_feedback(msg = glue::glue("Computing across '{across}'."), verbose = verbose)
+        base::rm(across)
 
-        df <- getDf(object, numeric = TRUE, grouping = TRUE)
+        for(across in all_across){
 
-        groups <- base::levels(df[[across]])
+          check_one_of(
+            input = across,
+            against = object@variables_grouping
+          )
 
-        corr_obj@results_across[[across]] <-
-          purrr::map(.x = groups, .f = function(group){
+          give_feedback(msg = glue::glue("Correlating {n_vars} variables across '{across}'."), verbose = verbose)
 
-            mtr <-
-              dplyr::filter(df, !!rlang::sym(across) == {{group}}) %>%
-              tibble::column_to_rownames(var = object@key_name) %>%
-              dplyr::select_if(.predicate = base::is.numeric) %>%
-              base::as.matrix()
+          df <- getDf(object, numeric = TRUE, grouping = TRUE)
 
-            out <-
-              tryCatch({
+          groups <- base::levels(df[[across]])
 
-                res <-
-                  Hmisc::rcorr(x = mtr, type = method_corr) %>%
-                  magrittr::set_attr(which = "class", value = "list")
+          corr_obj@results_across[[across]] <-
+            purrr::map(.x = groups, .f = function(group){
 
-                res
+              mtr <-
+                dplyr::filter(df, !!rlang::sym(across) == {{group}}) %>%
+                tibble::column_to_rownames(var = object@key_name) %>%
+                dplyr::select_if(.predicate = base::is.numeric) %>%
+                base::as.matrix()
 
-              },
-              error = function(error){
+              out <-
+                tryCatch({
 
-                give_feedback(
-                  msg = glue::glue(
-                    "The following error occured in group '{group}': ",
-                    "'{error$message}.'"
-                  ),
-                  verbose = TRUE
-                )
+                  res <-
+                    Hmisc::rcorr(x = mtr, type = method_corr) %>%
+                    magrittr::set_attr(which = "class", value = "list")
 
-              })
+                  res
 
-            return(out)
+                },
+                error = function(error){
 
-          }) %>%
-          purrr::set_names(nm = groups)
+                  give_feedback(
+                    msg = glue::glue(
+                      "The following error occured in group '{group}': ",
+                      "'{error$message}.'"
+                    ),
+                    verbose = TRUE
+                  )
+
+                })
+
+              return(out)
+
+            }) %>%
+            purrr::set_names(nm = groups)
+
+        }
+
+
 
       }
 
@@ -342,12 +353,14 @@ setMethod(
 
   })
 
+
 #' @rdname getCorrDf
 #' @export
 setMethod(
   f = "getCorrDf",
   signature = "Correlation",
   definition = function(object,
+                        method_corr = "pearson",
                         across = NULL,
                         across_subset = NULL,
                         pval_threshold = 0.05,
@@ -438,7 +451,7 @@ setMethod(
   }
 )
 
-#' @inherit adjust_corr_mtr params
+#' @inherit corr_dummy params
 #' @rdname getCorrMtr
 #' @export
 setMethod(
@@ -657,11 +670,23 @@ setMethod(
         digits = values_digits,
         pval_threshold = base::ifelse(test = base::is.null(pval_threshold), 0.5, pval_threshold),
         verbose = verbose
-      ) %>%
-      check_across_subset(
-        across = across,
-        across.subset = across_subset
       )
+
+    if(base::is.character(variables_subset)){
+
+      corr_df <-
+        check_across_subset(
+          df = corr_df,
+          across = "var1",
+          across_subset = variables_subset
+        ) %>%
+        check_across_subset(
+          df = .,
+          across = "var2",
+          across_subset = variables_subset
+        )
+
+    }
 
     # baseline plot
     p <-
@@ -693,8 +718,6 @@ setMethod(
 
       insignif_df <- dplyr::filter(corr_df, base::isFALSE(signif))
 
-
-      print(insignif_df)
       insignif_add_on <-
         ggplot2::geom_point(
           data = insignif_df,
@@ -705,21 +728,6 @@ setMethod(
     } else {
 
       insignif_add_on <- NULL
-
-    }
-
-    # add grid
-    if(base::isTRUE(display_grid)){
-
-      grid_add_on <-
-        ggplot2::geom_tile(
-          fill = NA, color = grid_color, size = grid_size,
-          data = corr_df
-        )
-
-    } else {
-
-      grid_add_on <- NULL
 
     }
 
@@ -777,6 +785,21 @@ setMethod(
           ggplot2::geom_tile(mapping = ggplot2::aes(x = var1, y = var2, fill = corr)),
           ggplot2::scale_fill_gradient2(midpoint = 0, low = color_low, high = color_high, na.value = "white")
         )
+
+    }
+
+    # add grid
+    if(base::isTRUE(display_grid)){
+
+      grid_add_on <-
+        ggplot2::geom_tile(
+          fill = NA, color = grid_color, size = grid_size,
+          data = shape_df
+        )
+
+    } else {
+
+      grid_add_on <- NULL
 
     }
 

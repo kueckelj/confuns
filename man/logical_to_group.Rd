@@ -4,7 +4,7 @@
 \alias{logical_to_group}
 \title{Convert lgl vars to factors}
 \usage{
-logical_to_group(df, suffix = "_group")
+logical_to_group(df, suffix = "_group", skip = character(0))
 }
 \description{
 Convert lgl vars to factors

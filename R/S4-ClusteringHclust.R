@@ -71,6 +71,12 @@ agglomerate_hierarchical_trees <- function(dist.matrices,
 
         list_methods_aggl[[method_aggl]] <- NULL
 
+        give_feedback(
+          msg = glue::glue("Agglomeration failed for method '{method_aggl}' with distance matrix '{method_dist}'."),
+          verbose = TRUE,
+          fdb.fn = "warning"
+          )
+
       } else {
 
         list_methods_aggl[[method_aggl]] <- results
@@ -214,6 +220,36 @@ validMethodsDist <- function(){
 
 # methods for external generics -------------------------------------------
 
+#' @rdname getDistMtr
+#' @export
+setMethod(
+  f = "getDistMtr",
+  signature = "ClusteringHclust",
+  definition = function(object,
+                        method_dist = "euclidean",
+                        stop_if_null = FALSE){
+
+    check_one_of(
+      input = method_dist,
+      against = validMethodsDist()
+    )
+
+    out <- object@dist_matrices[[method_dist]]
+
+    if(base::is.null(out & base::isTRUE(stop_if_null))){
+
+      stop(
+        glue::glue(
+          "No distance matrix found for method '{method_dist}'."
+        )
+      )
+
+    }
+
+    return(out)
+
+  }
+)
 
 #' @rdname getHclust
 #' @export
@@ -241,7 +277,7 @@ setMethod(
 
       stop(
         glue::glue(
-          "No hclust object for distance mehod {method_dist} and agglomerative method {method_aggl}."
+          "No hclust object for distance method '{method_dist}' and agglomerative method '{method_aggl}'."
         )
       )
 

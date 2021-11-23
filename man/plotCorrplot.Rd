@@ -27,7 +27,7 @@ plotCorrplot(object, ...)
   values_digits = 2,
   values_size = 4,
   display_grid = TRUE,
-  grid_color = "black",
+  grid_color = "grey",
   grid_size = 0.5,
   nrow = NULL,
   ncol = NULL,
@@ -41,11 +41,59 @@ plotCorrplot(object, ...)
 method of interest. Use \code{validMethodsCorrelation()} to obtain all valid
 input options.}
 
-\item{across}{Character value. Specifies the discrete variable in the data.frame
-across which the variables of interest are to be analyzed or displayed.}
+\item{across}{Character value or NULL. If character, specifies the name of the grouping variable
+that contains the group assignment across which results are displayed. If NULL,
+no grouping is done.}
+
+\item{across_subset}{Character vector or NULL. If character, specifies groups of the
+grouping variable that are of interest. Prefixing group names with \emph{'-'} excludes them.
+If NULL, all groups are considered.}
+
+\item{variables_subset}{Character vector or NULL. If character, specifies
+the subset of variable names that is included in the plot. To exclude single
+variables the variable name can be provided prefixed with a \emph{'-'}.}
 
 \item{pval_threshold}{Numeric value or NULL. If numeric, denotes the maximum p-value to be considered as
 significant. Must no be higher than 0.05.}
+
+\item{type}{Character value. Denotes how the underlying correlation matrix is
+handled.
+If \code{type} = \emph{'complete'}, the matrix is let as is.
+If \code{type} =  \emph{'lower'}, the part below the diagonal is used. The upper part is set to NA.
+If \code{type} =  \emph{'upper}, the part above the diagonal is used. the lower part is set to NA.}
+
+\item{diagonal}{Logical value.  Indicates if the diagonal values of the
+matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
+= \emph{'complete'}.}
+
+\item{color_low, color_high}{Character values. Specifies the colors that are
+used to generate the color spectrum with which the gradient from negative
+\code{color_low}) to positive correlation (\code{color_high}) is displayed.}
+
+\item{shape}{Character value. Specifies the shape of the geometric objects with
+which the variable pairs are displayed. Either \emph{'circle', 'rect'} or \emph{'tile'}.}
+
+\item{size_by_corr}{Logical value. If TRUE, size is used in addition to coloring
+to indicate the correlation. Ignored if \emph{shape} = \emph{'tile'}}
+
+\item{values_alpha}{Numeric values. Denote transparency and size of
+the displayed values.}
+
+\item{values_color}{Character value. Denotes the color in which the values
+are displayed.}
+
+\item{values_digits}{Numeric value. Denotes the number of digits to which
+the displayed values are rounded.}
+
+\item{values_size}{Numeric values. Denote transparency and size of
+the displayed values.}
+
+\item{display_grid}{Logical value. If TRUE, a grid is displayed.}
+
+\item{grid_color}{Character value. Specifies the color of the grid lines.}
+
+\item{grid_size}{Numeric values. Specify transparency
+and thickness of the lines of the grid.}
 
 \item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}

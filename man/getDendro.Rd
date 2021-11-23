@@ -36,6 +36,8 @@ of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
 
 \item{k}{Numeric value. Denotes the number of clusters. Must be bigger than 1. Must
 not be bigger than the number of observations of the data set.}
+
+\item{h}{Numeric value. Denotes the height at which the dendrogram is cut.}
 }
 \value{
 An object of class \code{dendro}. Contains data for argument

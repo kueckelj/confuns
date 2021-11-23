@@ -20,10 +20,11 @@ computeCorrelation(object, ...)
 
 \item{...}{Additional arguments given to \code{Hmisc::rcorr()}.}
 
-\item{across}{Character value. Specifies the discrete variable in the data.frame
-across which the variables of interest are to be analyzed or displayed.}
+\item{across}{Character vector or NULL. If character, the name of the grouping variables
+that contain the group assignment across which analysis should
+be conducted. If NULL, no grouping is done.}
 
-\item{methods_corr}{Character value. Specifies the correlation
+\item{methods_corr}{Character vector. Specifies the correlation
 methods of interest. Use \code{validMethodsCorrelation()} to obtain all valid
 input options.}
 
@@ -40,5 +41,17 @@ Computes correlation matrix as well as corresponding
 p-values.
 }
 \details{
+If argument \code{across} is NULL. All numeric variables are simply
+correlated.
+
+If \code{across} is character: Prior to correlation, the data set is split into subsets for
+each group a grouping variable contains. Then the variables are correlated separately
+for each group. This is done for every grouping variable denoted in the input
+vector of \code{across.}
+
+Results can be retrieved or visualized by specifying the grouping
+variable of interest in the \code{across} argument and the group(s) of interest
+with the \code{across_subset} argument of the respective function.
+
 Computation is conducted with \code{Hmisc::rcorr()}.
 }
