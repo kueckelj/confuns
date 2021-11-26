@@ -32,9 +32,8 @@ plotUMAP(object, ...)
 value or NULL. If character, specifies the variable that is mapped to the respective
 aesthetic of the plot.}
 
-\item{color_by}{Character
-value or NULL. If character, specifies the variable that is mapped to the respective
-aesthetic of the plot.}
+\item{color_by}{Character value or NULL. If character, specifies the
+variable that is displayed by color.}
 
 \item{shape_by}{Character
 value or NULL. If character, specifies the variable that is mapped to the respective
@@ -54,15 +53,18 @@ mapped to the shape-aesthetic.}
 
 \item{color_aes}{Either \emph{'color'} or \emph{'fill'}. Specifies the
 aesthetic that is used to visualize the variable that is specified in \code{color_by}.
-
 Ignored if \code{color_by} is NULL.}
 
 \item{clrp}{Character value. Specifies the color palette to be used to represent
-groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
+groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
-\item{clrsp}{Chracter value. Specfies the color spectrum to be used to represent
-continuous values of numeric variables. Run \code{all_color_spectra()} to obtain
+\item{clrp_adjust}{Named character vector. Can be used to adjust colors
+with which groups are displayed. Names indicate groups, values
+indicate the colors with which specific groups are supposed to be displayed.}
+
+\item{clrsp}{Character value. Specfies the color spectrum to be used to represent
+continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
 }
 \value{

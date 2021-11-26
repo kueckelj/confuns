@@ -13,7 +13,7 @@ plotDendrogram(object, ...)
   methods_aggl = "ward.D",
   k = NULL,
   h = NULL,
-  plot_type = "rectangle",
+  type = "rectangle",
   facet_with = "grid",
   direction = "bt",
   branch_color = "black",
@@ -49,8 +49,12 @@ not be bigger than the number of observations of the data set.}
 \item{h}{Numeric value. Denotes the height at which the dendrogram is cut.}
 
 \item{clrp}{Character value. Specifies the color palette to be used to represent
-groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
+groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
+
+\item{clrp_adjust}{Named character vector. Can be used to adjust colors
+with which groups are displayed. Names indicate groups, values
+indicate the colors with which specific groups are supposed to be displayed.}
 
 \item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}

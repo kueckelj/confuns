@@ -33,5 +33,10 @@ The input object.
 }
 \description{
 Computes \code{hclust} objects for all combinations of distance
-and agglomration methods. Does not store distance matrices in the object!
+and agglomeration methods. Does not store distance matrices in the object!
+}
+\note{
+If you want to store distance matrices use \code{computeDistanceMatrices()}
+and subsequently \code{agglomerateHierarchicalTrees()}. \code{computeClusteringHclust()}
+is a wrapper around both that skips storing the distance matrices.
 }

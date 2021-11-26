@@ -1,41 +1,9 @@
 
 #' Title
 #'
-#' @param df
-#' @param x
-#' @param y
-#' @param across
-#' @param across.subset
-#' @param relevel
-#' @param ncol
-#' @param nrow
-#' @param scales
-#' @param space
-#' @param pt.alpha
-#' @param pt.color
-#' @param pt.clrp
-#' @param pt.fill
-#' @param pt.shape
-#' @param pt.size
-#' @param color.aes
-#' @param color.by
-#' @param clrp.adjust
-#' @param display.smooth
-#' @param smooth.alpha
-#' @param smooth.color
-#' @param smooth.method
-#' @param smooth.se
-#' @param smooth.size
-#' @param display.corr
-#' @param corr.method
-#' @param corr.p.min
-#' @param corr.pos.x
-#' @param corr.pos.y
-#' @param corr.text.sep
-#' @param corr.text.size
-#' @param ...
+#' @inherit argument_dummy params
 #'
-#' @return
+#' @return A ggplot.
 #' @export
 #'
 plot_scatterplot <- function(df,

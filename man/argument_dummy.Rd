@@ -24,21 +24,27 @@ If there are more groups you are interested in than they are groups you are not 
 in specify those that you are not interested in prefixed with an \emph{'-'}.
 Variables prefixed that way are discarded and the remaining are kept.}
 
-\item{alpha.by, alpha_by, color.by, color_by, shape.by, shape_by, size.by, size_by}{Character
+\item{alpha.by, alpha_by, shape.by, shape_by, size.by, size_by}{Character
 value or NULL. If character, specifies the variable that is mapped to the respective
 aesthetic of the plot.}
 
+\item{color.by, color_by}{Character value or NULL. If character, specifies the
+variable that is displayed by color.}
+
 \item{clrp}{Character value. Specifies the color palette to be used to represent
-groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
+groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
-\item{clrsp}{Chracter value. Specfies the color spectrum to be used to represent
-continuous values of numeric variables. Run \code{all_color_spectra()} to obtain
+\item{clrsp}{Character value. Specfies the color spectrum to be used to represent
+continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
+
+\item{clrp.adjust, clrp_adjust}{Named character vector. Can be used to adjust colors
+with which groups are displayed. Names indicate groups, values
+indicate the colors with which specific groups are supposed to be displayed.}
 
 \item{color.aes, color_aes}{Either \emph{'color'} or \emph{'fill'}. Specifies the
 aesthetic that is used to visualize the variable that is specified in \code{color_by}.
-
 Ignored if \code{color_by} is NULL.}
 
 \item{display.points}{Logical value. If set to TRUE points are used additionally
@@ -48,6 +54,8 @@ to display the results.}
 \code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.}
 
 \item{display.grid, display_grid}{Logical value. If TRUE, a grid is displayed.}
+
+\item{force}{Logical value. Must be set to TRUE to allow overwriting.}
 
 \item{grid.alpha, grid.alpha, grid.size, grid_size}{Numeric values. Specify transparency
 and thickness of the lines of the grid.}
@@ -130,6 +138,16 @@ first group found is taken.}
 
 \item{scales, nrow, ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}
+
+\item{smooth.alpha, smooth_alpha}{Numeric value. The transparency of the smoothed line.}
+
+\item{smooth.color, smooth_color}{Character value. The color of the smoothed line.}
+
+\item{smooth.method, smooth_method}{Character value. The smoothing method. Given to argument
+\code{method} of \code{ggplot2::geom_smooth()}.}
+
+\item{smooth.se, smooth_se}{Logical value. Indicates if the confidence intervals are
+displayed.}
 
 \item{stop_if_null}{Logical value. If TRUE and the function does not find the object to
 extract an informative error is raised. Else the empty value - usually NULL - is returned.}

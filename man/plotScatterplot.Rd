@@ -45,6 +45,86 @@ plotScatterplot(object, ...)
   ...
 )
 }
+\arguments{
+\item{object}{Any object for whose class a method has been defined.}
+
+\item{x, y}{Character values. The variables to plotted on the x- and y-axis.}
+
+\item{across}{Character vector. The names of the grouping variables
+that contain the group assignments across which results are displayed.}
+
+\item{across_subset}{List of character vectors. Must be named according
+to the input of argument \code{across}. Named slots of the list should be character
+vectors containing the groups of interest. Prefixing group names with
+\emph{'-'} excludes them.}
+
+\item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
+\code{variables} determines the order in which the groups of interest are displayed.}
+
+\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
+
+\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
+
+\item{scales}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
+
+\item{pt_alpha}{Numeric value. Specifies the transparency of points.}
+
+\item{pt_color}{Character value. Specifies the color with which all points are displayed .}
+
+\item{pt_shape}{Numeric or character value. If numeric, the respective
+shape is taken for all points. If character, the respective variable is
+mapped to the shape-aesthetic.}
+
+\item{color_aes}{Either \emph{'color'} or \emph{'fill'}. Specifies the
+aesthetic that is used to visualize the variable that is specified in \code{color_by}.
+Ignored if \code{color_by} is NULL.}
+
+\item{color_by}{Character value or NULL. If character, specifies the
+variable that is displayed by color.}
+
+\item{clrp}{Character value. Specifies the color palette to be used to represent
+groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
+input options.}
+
+\item{clrp_adjust}{Named character vector. Can be used to adjust colors
+with which groups are displayed. Names indicate groups, values
+indicate the colors with which specific groups are supposed to be displayed.}
+
+\item{clrsp}{Character value. Specfies the color spectrum to be used to represent
+continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
+valid input options.}
+
+\item{display_smooth}{Logical value. Indicates if a smoothed line is displayed.}
+
+\item{smooth_alpha}{Numeric value. The transparency of the smoothed line.}
+
+\item{smooth_color}{Character value. The color of the smoothed line.}
+
+\item{smooth_method}{Character value. The smoothing method. Given to argument
+\code{method} of \code{ggplot2::geom_smooth()}.}
+
+\item{smooth_se}{Logical value. Indicates if the confidence intervals are
+displayed.}
+
+\item{display_corr}{Logical value. Indicates if correlation values of the x-
+and y-variable are computed and displayed as text in the plot.}
+
+\item{corr_method}{Character value. Specifies the correlation method.}
+
+\item{corr_p_min}{Numeric value. Specifies the}
+
+\item{corr_pos_x, corr_pos_y}{Numeric value or NULL. If numeric, specifies the exact
+position of the text on the x- or y-axis.}
+
+\item{corr_text_sep}{Character value. The string with which p-value and correlation
+value are separated.}
+
+\item{corr_text_size, pt_size, smooth_size}{Numeric value. The size with which
+results are displayed.}
+}
 \value{
 A ggplot.
 }

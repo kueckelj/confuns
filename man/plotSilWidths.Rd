@@ -27,7 +27,7 @@ Is converted into an integer vector.}
 Use \code{validMethodsPam()} to obtain all valid input options.}
 
 \item{clrp}{Character value. Specifies the color palette to be used to represent
-groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
+groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
 \item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots

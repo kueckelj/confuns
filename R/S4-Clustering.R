@@ -593,7 +593,6 @@ setMethod(
 )
 
 
-
 #' @rdname getDendro
 #' @export
 setMethod(
@@ -667,7 +666,7 @@ setMethod(
                         type = "rectangle"){
 
     check_one_of(
-      input = method_dist,
+      input = methods_dist,
       against = validMethodsDist()
     )
 
@@ -877,7 +876,7 @@ setMethod(
                         methods_aggl = "ward.D",
                         k = NULL,
                         h = NULL,
-                        plot_type = "rectangle",
+                        type = "rectangle",
                         facet_with = "grid",
                         direction = "bt",
                         branch_color = "black",
@@ -943,7 +942,10 @@ setMethod(
           getDendroSegmentDf(
             object = object,
             methods_dist = methods_dist,
-            methods_aggl = methods_aggl
+            methods_aggl = methods_aggl,
+            k = k,
+            h = h,
+            type = type
           )
 
         if(facet_with == "grid"){
@@ -963,11 +965,11 @@ setMethod(
         dendro_data <-
           getDendro(
             object = object,
-            method_dist = method_dist,
-            method_aggl = method_aggl,
+            method_dist = methods_dist,
+            method_aggl = methods_aggl,
             k = k,
             h = h,
-            type = plot_type
+            type = type
           )
 
         segment_df <- ggdendro::segment(x = dendro_data)

@@ -59,8 +59,8 @@ significant. Must no be higher than 0.05.}
 \item{type}{Character value. Denotes how the underlying correlation matrix is
 handled.
 If \code{type} = \emph{'complete'}, the matrix is let as is.
-If \code{type} =  \emph{'lower'}, the part below the diagonal is used. The upper part is set to NA.
-If \code{type} =  \emph{'upper}, the part above the diagonal is used. the lower part is set to NA.}
+If \code{type} = \emph{'lower'}, the part below the diagonal is used. The upper part is set to NA.
+If \code{type} = \emph{'upper}, the part above the diagonal is used. the lower part is set to NA.}
 
 \item{diagonal}{Logical value.  Indicates if the diagonal values of the
 matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}

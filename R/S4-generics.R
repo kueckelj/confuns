@@ -28,7 +28,11 @@ setGeneric(name = "agglomerateHierarchicalTrees", def = function(object, ...){
 #' @title Compute \code{hclust} objects
 #'
 #' @description Computes \code{hclust} objects for all combinations of distance
-#' and agglomration methods. Does not store distance matrices in the object!
+#' and agglomeration methods. Does not store distance matrices in the object!
+#'
+#' @note If you want to store distance matrices use \code{computeDistanceMatrices()}
+#' and subsequently \code{agglomerateHierarchicalTrees()}. \code{computeClusteringHclust()}
+#' is a wrapper around both that skips storing the distance matrices.
 #'
 #' @inherit argument_dummy params
 #'
@@ -662,8 +666,8 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 #' @param type Character value. Denotes how the underlying correlation matrix is
 #' handled.
 #' If \code{type} = \emph{'complete'}, the matrix is let as is.
-#' If \code{type} =  \emph{'lower'}, the part below the diagonal is used. The upper part is set to NA.
-#' If \code{type} =  \emph{'upper}, the part above the diagonal is used. the lower part is set to NA.
+#' If \code{type} = \emph{'lower'}, the part below the diagonal is used. The upper part is set to NA.
+#' If \code{type} = \emph{'upper}, the part above the diagonal is used. the lower part is set to NA.
 #'
 #'
 #' @param variables_subset Character vector or NULL. If character, specifies
@@ -687,6 +691,7 @@ setGeneric(name = "plotCorrplot", def = function(object, ...){
 #'
 #' @description Plots a dendrogram with either ggplot or base plot.
 #'
+#' @inherit
 #' @inherit argument_dummy params
 #'
 #' @return A ggplot or a base plot.
@@ -723,6 +728,21 @@ setGeneric(name = "plotPCA", def = function(object, ...){
 #'
 #' @description Plots two numeric variables on the x- and y-axis.
 #'
+#' @param x,y Character values. The variables to plotted on the x- and y-axis.
+#' @param display_smooth Logical value. Indicates if a smoothed line is displayed.
+#' @param display_corr Logical value. Indicates if correlation values of the x-
+#' and y-variable are computed and displayed as text in the plot.
+#' @param corr_method Character value. Specifies the correlation method.
+#' @param corr_p_min Numeric value. Specifies the
+#' @param corr_pos_x,corr_pos_y Numeric value or NULL. If numeric, specifies the exact
+#' position of the text on the x- or y-axis.
+#' @param corr_text_sep Character value. The string with which p-value and correlation
+#' value are separated.
+#' @param corr_text_size,pt_size,smooth_size Numeric value. The size with which
+#' results are displayed.
+#' @inherit across_vis2 params
+#' @inherit argument_dummy params
+#'
 #' @return A ggplot.
 #'
 #' @export
@@ -731,6 +751,7 @@ setGeneric(name = "plotScatterplot", def = function(object, ...){
   standardGeneric(f = "plotScatterplot")
 
 })
+
 
 
 #' @title Plot a screeplot

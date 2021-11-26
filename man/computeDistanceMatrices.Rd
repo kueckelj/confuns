@@ -21,6 +21,8 @@ computeDistanceMatrices(object, ...)
 \item{methods_dist}{Character value. Specifies the distance methods
 of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
 
+\item{force}{Logical value. Must be set to TRUE to allow overwriting.}
+
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 

@@ -17,6 +17,13 @@ ggplot2_dummy <- function(){
 }
 
 
+#' hclust_dummy
+#'
+#' @param type Character value. Indicates the shape of the dendrogram.
+#' Input \emph{'rectangle'} will draw rectangular lines, while \emph{'triangle'} will draw triangular lines.
+#'
+hclust_dummy <- function(type){}
+
 #' @title normalize_dummy
 #' @param normalize Logical. If set to TRUE numeric values will be scaled to
 #' values between one and zero.
@@ -41,7 +48,7 @@ normalize_dummy <- function(normalize){
 #' handled. Three options:
 #'
 #' \itemize{
-#'  \item{\emph{'complete'}:}{ The matrix is let as is.},
+#'  \item{\emph{'complete'}:}{ The matrix stays as is.},
 #'  \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
 #'  \item{\emph{'upper}:{The part above the diagonal is used. the lower part is set to NA.}
 #'  }
@@ -122,21 +129,27 @@ across_vis2 <- function(across, across_subset){}
 #' in specify those that you are not interested in prefixed with an \emph{'-'}.
 #' Variables prefixed that way are discarded and the remaining are kept.
 #'
-#' @param alpha.by,alpha_by,color.by,color_by,shape.by,shape_by,size.by,size_by Character
+#' @param alpha.by,alpha_by,shape.by,shape_by,size.by,size_by Character
 #' value or NULL. If character, specifies the variable that is mapped to the respective
 #' aesthetic of the plot.
 #'
+#' @param color.by,color_by Character value or NULL. If character, specifies the
+#' variable that is displayed by color.
+#'
 #' @param clrp Character value. Specifies the color palette to be used to represent
-#' groups of discrete variables. Run \code{all_color_palettes()} to obtain valid
+#' groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 #' input options.
 #'
-#' @param clrsp Chracter value. Specfies the color spectrum to be used to represent
-#' continuous values of numeric variables. Run \code{all_color_spectra()} to obtain
+#' @param clrsp Character value. Specfies the color spectrum to be used to represent
+#' continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 #' valid input options.
+#'
+#' @param clrp.adjust,clrp_adjust Named character vector. Can be used to adjust colors
+#' with which groups are displayed. Names indicate groups, values
+#' indicate the colors with which specific groups are supposed to be displayed.
 #'
 #' @param color.aes,color_aes Either \emph{'color'} or \emph{'fill'}. Specifies the
 #' aesthetic that is used to visualize the variable that is specified in \code{color_by}.
-#'
 #' Ignored if \code{color_by} is NULL.
 #'
 #' @param display.points Logical value. If set to TRUE points are used additionally
@@ -145,6 +158,7 @@ across_vis2 <- function(across, across_subset){}
 #' \code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.
 #' @param display.grid,display_grid Logical value. If TRUE, a grid is displayed.
 #'
+#' @param force Logical value. Must be set to TRUE to allow overwriting.
 #' @param grid.alpha,grid.alpha,grid.size,grid_size Numeric values. Specify transparency
 #' and thickness of the lines of the grid.
 #' @param grid.color,grid_color Character value. Specifies the color of the grid lines.
@@ -181,7 +195,6 @@ across_vis2 <- function(across, across_subset){}
 #' @param methods.dist,methods_dist Character value. Specifies the distance methods
 #' of interest. Use \code{validMethodsDist()} to obtain all valid input options.
 #'
-#'
 #' @param method.kmeans,method_kmeans Character value. Specifies the kmeans method
 #' of interest. Use \code{validMethodsKmeans()} to obtain all valid input options.
 #' @param methods.kmeans,methods_kmeans Character vector. Specifies the kmeans methods
@@ -215,7 +228,12 @@ across_vis2 <- function(across, across_subset){}
 #'
 #' @param scales,nrow,ncol Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 #' are displayed.
-#'
+#' @param smooth.alpha,smooth_alpha Numeric value. The transparency of the smoothed line.
+#' @param smooth.color,smooth_color Character value. The color of the smoothed line.
+#' @param smooth.method,smooth_method Character value. The smoothing method. Given to argument
+#' \code{method} of \code{ggplot2::geom_smooth()}.
+#' @param smooth.se,smooth_se Logical value. Indicates if the confidence intervals are
+#' displayed.
 #' @param stop_if_null Logical value. If TRUE and the function does not find the object to
 #' extract an informative error is raised. Else the empty value - usually NULL - is returned.
 #'
