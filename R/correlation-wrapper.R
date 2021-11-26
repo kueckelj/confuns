@@ -872,7 +872,6 @@ plot_corrplots <- function(corr.obj,
 
 
 #' @export
-#'
 plot_correlation_sd <- function(corr.obj, method.corr = NULL,  across = NULL, aes.fill = "sd", signif.level = NULL){
 
   assign_corr_default(corr.obj)
