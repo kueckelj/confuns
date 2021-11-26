@@ -27,6 +27,15 @@ input options.}
 \item{across}{Character value. Specifies the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed.}
 
+\item{type}{Character value. Denotes how the underlying correlation matrix is
+handled. Three options:
+
+\itemize{
+ \item{\emph{'complete'}:}{ The matrix stays as is.},
+ \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
+ \item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
+ }}
+
 \item{diagonal}{Logical value.  Indicates if the diagonal values of the
 matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
 = \emph{'complete'}.}

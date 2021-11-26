@@ -6,12 +6,6 @@
 \usage{
 rename_safely(df, ...)
 }
-\arguments{
-\item{...}{}
-}
-\value{
-
-}
 \description{
 Save wrapper around dplyr::rename()
 }

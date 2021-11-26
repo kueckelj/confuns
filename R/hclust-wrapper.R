@@ -22,15 +22,6 @@ hclust_conv <- methods::setClass(Class = "hclust_conv",
 # input check -------------------------------------------------------------
 
 
-
-#' Title
-#'
-#' @param input
-#' @param method.dist
-#' @param method.aggl
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 
@@ -49,14 +40,6 @@ check_hclust_availability <- function(input, method.dist, method.aggl, fdb.fn = 
 }
 
 
-#' Title
-#'
-#' @param method.dist
-#' @param method.aggl
-#' @param methods.dist
-#' @param methods.aggl
-#'
-#' @return
 #' @export
 #'
 
@@ -107,12 +90,6 @@ check_hclust_methods <- function(method.dist = NULL, method.aggl = NULL, methods
 
 # initiation  -------------------------------------------------------------
 
-
-#' Title
-#'
-#' @param hclust_data
-#'
-#' @return
 #' @export
 #'
 
@@ -224,13 +201,6 @@ initiate_hclust_object <- function(hclust_data = NULL,
 
 # set ---------------------------------------------------------------------
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param method.aggl
-#' @param method.dist
-#'
-#' @return
 #' @export
 #'
 
@@ -273,14 +243,6 @@ set_hclust_default <- function(hcl.obj, method.aggl = NA, method.dist = NA, dire
 
 # computation  ------------------------------------------------------------
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param methods.dist
-#' @param p
-#' @param verbose
-#'
-#' @return
 #' @export
 #'
 
@@ -370,13 +332,6 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
 }
 
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param methods.aggl
-#' @param methods.dist
-#'
-#' @return
 #' @export
 #'
 
@@ -502,11 +457,6 @@ compute_hierarchical_cluster <- function(hcl.obj,
 # extraction --------------------------------------------------------------
 
 
-#' Title
-#'
-#' @param hcl.obj
-#'
-#' @return
 #' @export
 #'
 
@@ -529,14 +479,6 @@ get_hclust_data <- function(hcl.obj, return.tibble = TRUE){
 
 }
 
-
-#' Title
-#'
-#' @param hcl.obj
-#' @param method.dist
-#' @param method.aggl
-#'
-#' @return
 #' @export
 #'
 
@@ -563,15 +505,6 @@ get_hclust_obj <- function(hcl.obj,
 }
 
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param methods.dist
-#' @param methods.aggl
-#' @param k
-#' @param h
-#'
-#' @return
 #' @export
 #'
 
@@ -686,14 +619,6 @@ get_hclust_df <- function(hcl.obj,
 
 }
 
-
-#' Title
-#'
-#' @param hc
-#' @param k
-#' @param h
-#'
-#' @return
 #' @export
 #'
 
@@ -754,27 +679,11 @@ get_dendro_data <- function(hcl.obj,
 
 # plotting ----------------------------------------------------------------
 
-#' Title
-#'
-#' @param nbLabels
-#' @param direction
-#' @param fan
-#'
-#' @return
 #' @export
 #'
 
 
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param method.dist
-#' @param method.aggl
-#' @param display.title
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 
@@ -912,7 +821,6 @@ plot_dendrogram <- function(hcl.obj,
 }
 
 
-#' @rdname plot_dendrogram
 #' @export
 plot_dendrograms <- function(hcl.obj,
                              methods.dist = NULL,
@@ -999,11 +907,6 @@ plot_dendrograms <- function(hcl.obj,
 # miscellaneous -----------------------------------------------------------
 
 
-#' Title
-#'
-#' @param hcl.obj
-#'
-#' @return
 #' @export
 #'
 assign_hclust_default <- function(hcl.obj){
@@ -1053,12 +956,6 @@ assign_hclust_default <- function(hcl.obj){
 
 # printing
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param key_name
-#'
-#' @return
 #' @export
 #'
 print_hclust_overview <- function(hcl.obj, key_name = TRUE){

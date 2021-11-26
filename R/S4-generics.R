@@ -311,7 +311,7 @@ setGeneric(name = "getClusterVarsPam", def = function(object, ...){
 #' that has been constructed by \emph{melting} a correlation matrix
 #' and its corresponding p-values to a data.frame via \code{reshape2::melt()}.
 #'
-#' @inhrit corr_dummy params
+#' @inherit corr_dummy params
 #'
 #' @param sep Character value. Denots the string with which the variable pairs
 #' are combined in variable \emph{var_pair} of the output data.frame.
@@ -691,7 +691,7 @@ setGeneric(name = "plotCorrplot", def = function(object, ...){
 #'
 #' @description Plots a dendrogram with either ggplot or base plot.
 #'
-#' @inherit
+#' @inherit hclust_dummy params
 #' @inherit argument_dummy params
 #'
 #' @return A ggplot or a base plot.

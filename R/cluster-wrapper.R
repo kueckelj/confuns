@@ -1,13 +1,5 @@
 
 
-#' Title
-#'
-#' @param data
-#' @param make.names
-#' @param names.prefix
-#' @param names.sep
-#'
-#' @return
 #' @export
 #'
 prepare_cluster_data <- function(data,

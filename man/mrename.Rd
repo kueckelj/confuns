@@ -2,18 +2,9 @@
 % Please edit documentation in R/rename-leverage.R
 \name{mrename}
 \alias{mrename}
-\alias{mrename_with}
 \title{Rename matrix in tidyverse style}
 \usage{
 mrename(mtr, dims = c(1, 2), ...)
-
-mrename_with(mtr, dims = c(1, 2), ...)
-}
-\arguments{
-\item{...}{}
-}
-\value{
-
 }
 \description{
 Rename matrix in tidyverse style

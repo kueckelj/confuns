@@ -50,7 +50,7 @@ normalize_dummy <- function(normalize){
 #' \itemize{
 #'  \item{\emph{'complete'}:}{ The matrix stays as is.},
 #'  \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
-#'  \item{\emph{'upper}:{The part above the diagonal is used. the lower part is set to NA.}
+#'  \item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
 #'  }
 #'
 corr_dummy <- function(diagonal, digits, distinct, type){}

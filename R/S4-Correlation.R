@@ -161,7 +161,6 @@ initiateCorrelation <- function(data,
 #'
 #' @export
 #'
-#' @examples
 melt_rcorr <- function(rcorr_obj, type = "complete", diagonal = TRUE, distinct = FALSE){
 
   pval_df <-

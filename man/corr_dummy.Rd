@@ -17,6 +17,15 @@ of digits to which the correlation value is rounded. Defaults to 2.}
 \item{distinct}{Logical value. If TRUE only one observation per variable pair remains
 in the output data.frame. Ignored if \code{type} = \emph{'complete'}.}
 
+\item{type}{Character value. Denotes how the underlying correlation matrix is
+handled. Three options:
+
+\itemize{
+ \item{\emph{'complete'}:}{ The matrix stays as is.},
+ \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
+ \item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
+ }}
+
 \item{shape}{Character value. Specifies the shape of the geometric objects with
 which the variable pairs are displayed. Either \emph{'circle', 'rect'} or \emph{'tile'}.}
 }

@@ -48,6 +48,9 @@ not be bigger than the number of observations of the data set.}
 
 \item{h}{Numeric value. Denotes the height at which the dendrogram is cut.}
 
+\item{type}{Character value. Indicates the shape of the dendrogram.
+Input \emph{'rectangle'} will draw rectangular lines, while \emph{'triangle'} will draw triangular lines.}
+
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}

@@ -26,14 +26,6 @@ valid_methods_kmeans <- c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen")
 
 # input check -------------------------------------------------------------
 
-#' Title
-#'
-#' @param input
-#' @param method.dist
-#' @param method.aggl
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 check_kmeans_availability <- function(input, method.kmeans, centers, fdb.fn = "stop"){
@@ -55,15 +47,6 @@ check_kmeans_availability <- function(input, method.kmeans, centers, fdb.fn = "s
 
 # initation ---------------------------------------------------------------
 
-#' Title
-#'
-#' @param kmeans.data
-#' @param key.name
-#' @param default.dir
-#' @param default.method.kmeans
-#' @param default.centers
-#'
-#' @return
 #' @export
 #'
 initiate_kmeans_object <- function(kmeans.data,
@@ -163,14 +146,6 @@ initiate_kmeans_object <- function(kmeans.data,
 # set ---------------------------------------------------------------------
 
 
-#' Title
-#'
-#' @param kmeans.obj
-#' @param method.kmeans
-#' @param centers
-#' @param directory
-#'
-#' @return
 #' @export
 #'
 set_kmeans_default <- function(kmeans.obj, method.kmeans = NA, centers = NA, directory = NA, verbose = FALSE){
@@ -230,15 +205,6 @@ set_kmeans_default <- function(kmeans.obj, method.kmeans = NA, centers = NA, dir
 
 # computation  ------------------------------------------------------------
 
-#' Title
-#'
-#' @param kmeans.obj
-#' @param centers
-#' @param methods.kmeans
-#' @param verbose
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 perform_kmeans_clustering <- function(kmeans.obj,
@@ -327,12 +293,6 @@ perform_kmeans_clustering <- function(kmeans.obj,
 
 # extraction --------------------------------------------------------------
 
-#' Title
-#'
-#' @param kmeans.obj
-#' @param return.tibble
-#'
-#' @return
 #' @export
 #'
 get_kmeans_data <- function(kmeans.obj, return.tibble = TRUE){
@@ -356,14 +316,6 @@ get_kmeans_data <- function(kmeans.obj, return.tibble = TRUE){
 
 
 
-#' Title
-#'
-#' @param kmeans.obj
-#' @param method.kmeans
-#' @param centers
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 get_kmeans_obj <- function(kmeans.obj,
@@ -384,14 +336,6 @@ get_kmeans_obj <- function(kmeans.obj,
 }
 
 
-#' Title
-#'
-#' @param kmeans.obj
-#' @param methods.kmeans
-#' @param centers
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 get_kmeans_df <- function(kmeans.obj,
@@ -474,16 +418,6 @@ get_kmeans_df <- function(kmeans.obj,
 
 # plotting ----------------------------------------------------------------
 
-#' Title
-#'
-#' @param kmeans.obj
-#' @param methods.kmeans
-#' @param clr
-#' @param display.cols
-#' @param display.line
-#' @param display.points
-#'
-#' @return
 #' @export
 #'
 plot_screeplot <- function(kmeans.obj,
@@ -568,11 +502,6 @@ plot_screeplot <- function(kmeans.obj,
 
 # miscellaneous -----------------------------------------------------------
 
-#' Title
-#'
-#' @param kmeans.obj
-#'
-#' @return
 #' @export
 #'
 assign_kmeans_default <- function(kmeans.obj){
