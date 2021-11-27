@@ -112,6 +112,47 @@ valid_methods_dimred <- c("pca", "tsne", "umap")
 
 # functions ---------------------------------------------------------------
 
+#' @rdname initiateAnalysisAspect
+#' @export
+initiateDimRed <- function(data,
+                           key_name,
+                           key_prefix = NULL,
+                           lgl_to_group = TRUE,
+                           meta_names = character(0),
+                           verbose = TRUE){
+
+  object <-
+    initiateAnalysisAspect(
+      data = data,
+      key_name = key_name,
+      key_prefix = key_prefix,
+      meta_names = meta_names,
+      lgl_to_group = lgl_to_group,
+      verbose = verbose,
+      analysis_aspect = "DimRed"
+    )
+
+  object <- scaleData(object, na_rm = TRUE)
+
+  return(object)
+
+}
+
+
+#' @rdname validInput
+#' @export
+validMethodsDimRed <- function(){
+
+  return(valid_methods_dimred)
+
+}
+
+# -----
+
+
+
+# methods for external generics -------------------------------------------
+
 #' @rdname computePCA
 #' @export
 setMethod(
@@ -257,48 +298,6 @@ setMethod(f = "computeTSNE", signature = "DimRed", definition = function(object,
   return(object)
 
 })
-
-
-#' @rdname initiateAnalysisAspect
-#' @export
-initiateDimRed <- function(data,
-                           key_name,
-                           key_prefix = NULL,
-                           lgl_to_group = TRUE,
-                           meta_names = character(0),
-                           verbose = TRUE){
-
-  object <-
-    initiateAnalysisAspect(
-      data = data,
-      key_name = key_name,
-      key_prefix = key_prefix,
-      meta_names = meta_names,
-      lgl_to_group = lgl_to_group,
-      verbose = verbose,
-      analysis_aspect = "DimRed"
-    )
-
-  object <- scaleData(object, na_rm = TRUE)
-
-  return(object)
-
-}
-
-
-#' @rdname validInput
-#' @export
-validMethodsDimRed <- function(){
-
-  return(valid_methods_dimred)
-
-}
-
-# -----
-
-
-
-# methods for external generics -------------------------------------------
 
 
 #' @rdname getEmbeddingDf

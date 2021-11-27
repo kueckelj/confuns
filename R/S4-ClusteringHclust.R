@@ -213,11 +213,6 @@ validMethodsDist <- function(){
 
 # -----
 
-
-
-
-
-
 # methods for external generics -------------------------------------------
 
 #' @rdname getDistMtr

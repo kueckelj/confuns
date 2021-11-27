@@ -853,7 +853,7 @@ setGeneric(name = "scaleData", def = function(object, ...){
 #' or contain \emph{""} the rownumbers are used instead. The newly constructed
 #' key variable is named \emph{data_ids}.
 #'
-#' @return A data.frame with subclass \code{tibble}.
+#' @return The input object.
 #' @export
 #'
 setGeneric(name = "setData", def = function(object, ...){

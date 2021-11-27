@@ -32,7 +32,7 @@ the computational progress will be printed.
 (Warning messages will always be printed.)}
 }
 \value{
-A data.frame with subclass \code{tibble}.
+The input object.
 }
 \description{
 Sets the objects slot @data and slot @key_name and makes
