@@ -478,7 +478,7 @@ setMethod(
           method_corr = method_corr,
           across = across,
           across_subset = across_subset,
-          as_list = as_list
+          as_list = TRUE
         ) %>%
         purrr::map(
           .f = ~ adjust_corr_mtr(mtr = .x[["r"]], type = type, diagonal = diagonal)
