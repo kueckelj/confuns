@@ -47,6 +47,11 @@ indicate the colors with which specific groups are supposed to be displayed.}
 aesthetic that is used to visualize the variable that is specified in \code{color_by}.
 Ignored if \code{color_by} is NULL.}
 
+\item{display_labels}{Lgoical value. Indicates if labels are displayed.}
+
+\item{display_legend, display_title}{Logical values. Indicate if legend or
+title is displayed.}
+
 \item{display.points}{Logical value. If set to TRUE points are used additionally
 to display the results.}
 
@@ -54,6 +59,11 @@ to display the results.}
 \code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.}
 
 \item{display.grid, display_grid}{Logical value. If TRUE, a grid is displayed.}
+
+\item{facet_with}{Character value. Either \emph{'grid'} or \emph{'wrap'}.
+Specifies the function with which the plot-facetting is created. If \code{across}
+is of length 2 and \code{facet_with} = \emph{'wrap'} \code{ggplot2::facet_wrap()}
+is used. Else \code{ggplot2::facet_grid()} is used.}
 
 \item{force}{Logical value. Must be set to TRUE to allow overwriting.}
 
@@ -78,6 +88,12 @@ not be bigger than the number of observations of the data set.}
 
 \item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 Is converted into an integer vector.}
+
+\item{labels_angle}{Numeric value. The angle with which labels are displayed.}
+
+\item{labels_size}{Numeric value. The size with which labels are displayed.}
+
+\item{labels_hjust, labels_vjust}{Numeric values. Adjust labels positioning.}
 
 \item{method.aggl, method_aggl}{Character value. Specifies the agglomerative method
 of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}

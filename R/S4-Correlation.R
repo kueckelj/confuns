@@ -677,12 +677,12 @@ setMethod(
         check_across_subset(
           df = corr_df,
           across = "var1",
-          across_subset = variables_subset
+          across.subset = variables_subset
         ) %>%
         check_across_subset(
           df = .,
           across = "var2",
-          across_subset = variables_subset
+          across.subset = variables_subset
         )
 
     }

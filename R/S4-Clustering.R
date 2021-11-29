@@ -867,6 +867,13 @@ setMethod(
 )
 
 #' @rdname plotDendrogram
+#' @param facet_with Character value. Either 'grid' or 'wrap'. Specifies the function
+#' with which the plot-facetting is created. If the number of input combinations for
+#' \code{methods_dist} and \code{methods_aggl} length 2 or bigger and \code{facet_with} = \emph{'wrap'}
+#' \code{ggplot2::facet_wrap()} is used. Else \code{ggplot2::facet_grid()} is used.
+#' @param simple Logical value. If TRUE, the dendrogram is plotted with \code{base::plot()}.
+#' This is way quicker but does not allow for ggplot2 specific adjustments.
+#'
 #' @export
 setMethod(
   f = "plotDendrogram",
