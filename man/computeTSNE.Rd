@@ -7,7 +7,7 @@
 \usage{
 computeTSNE(object, ...)
 
-\S4method{computeTSNE}{DimRed}(object, n_dims = 2, ...)
+\S4method{computeTSNE}{DimRed}(object, n_dims = 2, verbose = TRUE, ...)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
@@ -18,6 +18,11 @@ computeTSNE(object, ...)
 dimensions of the resulting embedding. Must be lower than the number
 of numeric variables based on which principal components are
 computed. Given to argument \code{k} of function \code{tsne::tsne()}.}
+
+\item{verbose}{Logical. If set to TRUE informative messages regarding
+the computational progress will be printed.
+
+(Warning messages will always be printed.)}
 }
 \description{
 Computes t stochastic neighbour embedding stores the embedding

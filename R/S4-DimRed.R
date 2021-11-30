@@ -162,13 +162,13 @@ setMethod(
 
     mtr <- getScaledMtr(object)
 
-    dimred_obj <- object@methods[["pca"]]
+    dimred_method <- object@methods[["pca"]]
 
-    if(base::is.null(dimred_obj)){
+    if(base::is.null(dimred_method)){
 
       give_feedback(msg = "Creating new object of class 'DimRedPCA'", verbose = verbose)
 
-      dimred_obj <- DimRedPCA(n_dims = n_dims, key_name = object@key_name, method = "pca")
+      dimred_method <- DimRedPCA(n_dims = n_dims, key_name = object@key_name, method = "pca")
 
     }
 
@@ -178,7 +178,7 @@ setMethod(
 
     key <- object@key_name
 
-    dimred_obj@embedding <-
+    dimred_method@embedding <-
       base::as.data.frame(out$x) %>%
       magrittr::set_colnames(
         x = .,
@@ -192,11 +192,11 @@ setMethod(
       ) %>%
       tibble::as_tibble()
 
-    dimred_obj@results <-
+    dimred_method@results <-
       purrr::map(.x = base::names(out), .f = ~ out[[.x]]) %>%
       purrr::set_names(nm = base::names(out))
 
-    object@methods[["pca"]] <- dimred_obj
+    object@methods[["pca"]] <- dimred_method
 
     give_feedback(msg = "Done.", verbose = verbose)
 
@@ -207,17 +207,17 @@ setMethod(
 
 #' @rdname computeUMAP
 #' @export
-setMethod(f = "computeUMAP", signature = "DimRed", definition = function(object, ...){
+setMethod(f = "computeUMAP", signature = "DimRed", definition = function(object, verbose = TRUE, ...){
 
   mtr <- getScaledMtr(object)
 
-  dimred_obj <- object@methods[["umap"]]
+  dimred_method <- object@methods[["umap"]]
 
-  if(base::is.null(dimred_obj)){
+  if(base::is.null(dimred_method)){
 
     give_feedback(msg = "Creating new object of class 'DimRedUMAP'", verbose = verbose)
 
-    dimred_obj <- DimRedUMAP(key_name = object@key_name, method = "umap")
+    dimred_method <- DimRedUMAP(key_name = object@key_name, method = "umap")
 
   }
 
@@ -229,7 +229,7 @@ setMethod(f = "computeUMAP", signature = "DimRed", definition = function(object,
 
   key <- object@key_name
 
-  dimred_obj@embedding <-
+  dimred_method@embedding <-
     base::as.data.frame(out$layout) %>%
     magrittr::set_colnames(
       x = .,
@@ -243,11 +243,11 @@ setMethod(f = "computeUMAP", signature = "DimRed", definition = function(object,
     ) %>%
     tibble::as_tibble()
 
-  dimred_obj@results <-
+  dimred_method@results <-
     purrr::map(.x = base::names(out), .f = ~ out[[.x]]) %>%
     purrr::set_names(nm = base::names(out))
 
-  object@methods[["umap"]] <- dimred_obj
+  object@methods[["umap"]] <- dimred_method
 
   give_feedback(msg = "Done.", verbose = verbose)
 
@@ -257,17 +257,17 @@ setMethod(f = "computeUMAP", signature = "DimRed", definition = function(object,
 
 #' @rdname computeTSNE
 #' @export
-setMethod(f = "computeTSNE", signature = "DimRed", definition = function(object, n_dims = 2, ...){
+setMethod(f = "computeTSNE", signature = "DimRed", definition = function(object, n_dims = 2, verbose = TRUE, ...){
 
   mtr <- getScaledMtr(object)
 
-  dimred_obj <- object@methods[["tsne"]]
+  dimred_method <- object@methods[["tsne"]]
 
-  if(base::is.null(dimred_obj)){
+  if(base::is.null(dimred_method)){
 
     give_feedback(msg = "Creating new object of class 'DimRedTSNE'", verbose = verbose)
 
-    dimred_obj <- DimRedTSNE(n_dims = n_dims, key_name = object@key_name, method = "tsne")
+    dimred_method <- DimRedTSNE(n_dims = n_dims, key_name = object@key_name, method = "tsne")
 
   }
 
@@ -277,7 +277,7 @@ setMethod(f = "computeTSNE", signature = "DimRed", definition = function(object,
 
   key <- object@key_name
 
-  dimred_obj@embedding <-
+  dimred_method@embedding <-
     base::as.data.frame(out) %>%
     magrittr::set_colnames(
       x = .,
@@ -291,7 +291,7 @@ setMethod(f = "computeTSNE", signature = "DimRed", definition = function(object,
     ) %>%
     tibble::as_tibble()
 
-  object@methods[["tsne"]] <- dimred_obj
+  object@methods[["tsne"]] <- dimred_method
 
   give_feedback(msg = "Done.", verbose = verbose)
 
@@ -314,7 +314,7 @@ setMethod(
                         complete = FALSE,
                         shift = FALSE){
 
-    dimred_obj <- getResults(object, method = method_dimred)
+    dimred_method <- getResults(object, method = method_dimred)
 
     key <- object@key_name
 
@@ -331,7 +331,7 @@ setMethod(
 
     if(base::isTRUE(shift)){
 
-      n_dims <- dimred_obj@n_dims
+      n_dims <- dimred_method@n_dims
 
       if(n_dims %% 2 != 0){
 
@@ -353,7 +353,7 @@ setMethod(
           dim1 <- dims[1]
           dim2 <- dims[2]
 
-          dplyr::select(.data = dimred_obj@embedding, {{key}}, dplyr::all_of(dims)) %>%
+          dplyr::select(.data = dimred_method@embedding, {{key}}, dplyr::all_of(dims)) %>%
             dplyr::mutate(
               nth_dims = {{dim}},
               dims = base::toupper(dims) %>% stringr::str_c(collapse = " & ") %>% stringr::str_remove_all(pattern = "_")
@@ -365,7 +365,7 @@ setMethod(
 
     } else {
 
-      edf <- dimred_obj@embedding
+      edf <- dimred_method@embedding
 
     }
 

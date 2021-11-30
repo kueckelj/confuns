@@ -4,6 +4,65 @@
 
 # a -----------------------------------------------------------------------
 
+#' @title Add hierarchical cluster variables
+#'
+#' @description Adds hierarchical cluster results in form of grouping variables
+#' to the data of the input object.
+#'
+#' @inherit getClusterVarsHclust params
+#'
+#' @details Iterates over all possible combinations of the arguments \code{ks}, \code{hs},
+#' \code{methods_dist} and \code{methods_aggl} and adds the corresponding grouping
+#' variables to the objects data. Cluster variables are named corresponding to the input
+#' of arguments \code{naming_k} and \code{naming_h}.
+#'
+#' @export
+setGeneric(name = "addClusterVarsHclust", def = function(object, ...){
+
+  standardGeneric(f = "addClusterVarsHclust")
+
+})
+
+#' @title Add kmeans cluster variables
+#'
+#' @description Adds kmeans cluster results in form of grouping variables
+#' to the data of the input object.
+#'
+#' @inherit getClusterVarsKmeans params
+#'
+#' @details Iterates over all possible combinations of the arguments \code{ks}
+#' and \code{methods_kmeans} and adds the corresponding grouping
+#' variables to the objects data. Cluster variables are named corresponding to the input
+#' of argument \code{naming}.
+#'
+#' @export
+setGeneric(name = "addClusterVarsKmeans", def = function(object, ...){
+
+  standardGeneric(f = "addClusterVarsKmeans")
+
+})
+
+#' @title Add PAM cluster variables
+#'
+#' @description Adds PAM cluster results in form of grouping variables
+#' to the data of the input object.
+#'
+#' @inherit getClusterVarsPam params
+#'
+#' @details Iterates over all possible combinations of the arguments \code{ks} and
+#' \code{methods_pam} and adds the corresponding grouping
+#' variables to the objects data. Cluster variables are named corresponding to the input
+#' of arguments \code{naming}.
+#'
+#' @export
+#'
+setGeneric(name = "addClusterVarsPam", def = function(object, ...){
+
+  standardGeneric(f = "addClusterVarsPam")
+
+})
+
+
 #' @title Agglomerate hierarchical trees
 #'
 #' @description Agglomerates hierarchical trees from a list

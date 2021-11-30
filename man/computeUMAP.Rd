@@ -7,12 +7,17 @@
 \usage{
 computeUMAP(object, ...)
 
-\S4method{computeUMAP}{DimRed}(object, ...)
+\S4method{computeUMAP}{DimRed}(object, verbose = TRUE, ...)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
 \item{...}{Additional arguments given to \code{umap::umap()}.}
+
+\item{verbose}{Logical. If set to TRUE informative messages regarding
+the computational progress will be printed.
+
+(Warning messages will always be printed.)}
 }
 \value{
 The input object.
