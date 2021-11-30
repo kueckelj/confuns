@@ -543,7 +543,7 @@ setMethod(
 
         name <- glue::glue(naming)
 
-        df <- cluster_vec_to_df(vec = custer_vec, name = name, prefix = prefix, key = key)
+        df <- cluster_vec_to_df(vec = cluster_vec, name = name, prefix = prefix, key = key)
 
         out_df <- dplyr::left_join(out_df, y = df, by = key)
 
