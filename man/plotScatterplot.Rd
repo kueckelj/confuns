@@ -48,10 +48,11 @@ plotScatterplot(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{x, y}{Character values. The variables to plotted on the x- and y-axis.}
+\item{x, y}{Character value. The variable to plot on the respective axis.}
 
-\item{across}{Character vector. The names of the grouping variables
-that contain the group assignments across which results are displayed.}
+\item{across}{Character vector or NULL. If character, the names of the grouping variables
+that contain the group assignments across which results are displayed. If NULL, no grouping
+is done.}
 
 \item{across_subset}{List of character vectors. Must be named according
 to the input of argument \code{across}. Named slots of the list should be character

@@ -143,7 +143,7 @@ setMethod(
 
     stop(
       glue::glue(
-        "No kmeans object for method {method_kmeans} and {center} centers."
+        "No kmeans object for method {method_kmeans} and {k} centers."
       )
     )
 

@@ -107,8 +107,9 @@ across_vis1 <- function(across, across_subset){}
 
 #' @title across vis2 dummy
 #'
-#' @param across Character vector. The names of the grouping variables
-#' that contain the group assignments across which results are displayed.
+#' @param across Character vector or NULL. If character, the names of the grouping variables
+#' that contain the group assignments across which results are displayed. If NULL, no grouping
+#' is done.
 #'
 #' @param across_subset List of character vectors. Must be named according
 #' to the input of argument \code{across}. Named slots of the list should be character
@@ -271,7 +272,7 @@ across_vis2 <- function(across, across_subset){}
 #' @inherit normalize params
 #' @inherit verbose params
 #'
-#'
+#' @export
 
 argument_dummy <- function(df, normalize, verbose){}
 

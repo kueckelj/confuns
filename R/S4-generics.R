@@ -848,7 +848,7 @@ setGeneric(name = "plotPCA", def = function(object, ...){
 #'
 #' @description Plots two numeric variables on the x- and y-axis.
 #'
-#' @param x,y Character values. The variables to plotted on the x- and y-axis.
+#' @param x,y Character value. The variable to plot on the respective axis.
 #' @param display_smooth Logical value. Indicates if a smoothed line is displayed.
 #' @param display_corr Logical value. Indicates if correlation values of the x-
 #' and y-variable are computed and displayed as text in the plot.
