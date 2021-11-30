@@ -83,6 +83,17 @@ setGeneric(name = "computeClusteringPam", def = function(object, ...){
 #'
 #' @inherit argument_dummy params
 #'
+#' @details If \code{methods_dist} is of length 2 or more a distance matrix
+#' for every distance method is computed and stored in the object. Note that
+#' distance matrices can become quite big in size. If you are only interested
+#' in the subsequent hierarchical clustering results and not in the distance
+#' matrices use \code{computeClusteringHclust()}. It is a wrapper around
+#' \code{computeDistanceMatrices()} and the subsequent \code{agglomerateHierarchicalTrees()}.
+#' However, only the cluster results of \code{agglomerateHierarchicalTrees()} are
+#' stored in form of \code{hclust} objects.
+#'
+#' @seealso \code{getDistMtr()}, \code{agglomerateHierarchicalTrees()}, \code{computeHierarchicalClustering()}
+#'
 #' @return The input object.
 #' @export
 #'
@@ -204,6 +215,23 @@ setGeneric(name = "getAvgSilWidthsDf", def = function(object, ...){
 
 })
 
+#' @title Obtain \code{Clustering} object
+#'
+#' @description Extracts an object of class \code{Clustering} containing
+#' clustering results for all used methods so far.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return S4-object of class \code{Clustering}.
+#'
+#' @export
+
+setGeneric(name = "getClustering", def = function(object, ...){
+
+  standardGeneric(f = "getClustering")
+
+})
+
 #' @title Obtain object of class \code{ClusteringHclust}
 #'
 #' @description Extracts an object of class \code{ClusteringHclust}.
@@ -304,6 +332,23 @@ setGeneric(name = "getClusterVarsPam", def = function(object, ...){
 
 })
 
+
+#' @title Obtain \code{Correlation} object
+#'
+#' @description Extracts \code{Correlation} object that contains all correlation
+#' results computed so far.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return S4-bject of class \code{Correlation}.
+#'
+#' @export
+#'
+setGeneric(name = "getCorrelation", def = function(object, ...){
+
+  standardGeneric(f = "getCorrelation")
+
+})
 
 #' @title Obtain correlation data.frame
 #'
@@ -415,6 +460,22 @@ setGeneric(name = "getDf", def = function(object, ...){
 
 })
 
+
+#' @title Obtain \code{DimRed} object
+#'
+#' @description Extracts an object of class \code{DimRed} that
+#' contains dimensional reductions computed so far.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return S4-bject of class \code{DimRed}.
+#'
+#' @export
+setGeneric(name = "getDimRed", def = function(object, ...){
+
+  standardGeneric(f = "getDimRed")
+
+})
 
 #' @title Obtain distance matrix
 #'

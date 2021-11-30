@@ -112,7 +112,7 @@ input options.}
 \item{method.dist, method_dist}{Character value. Specifies the distance method
 of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
 
-\item{methods.dist, methods_dist}{Character value. Specifies the distance methods
+\item{methods.dist, methods_dist}{Character vector. Specifies the distance methods
 of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
 
 \item{method.kmeans, method_kmeans}{Character value. Specifies the kmeans method

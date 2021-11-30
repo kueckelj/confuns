@@ -18,7 +18,7 @@ computeDistanceMatrices(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{methods_dist}{Character value. Specifies the distance methods
+\item{methods_dist}{Character vector. Specifies the distance methods
 of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
 
 \item{force}{Logical value. Must be set to TRUE to allow overwriting.}
@@ -33,4 +33,17 @@ The input object.
 }
 \description{
 Computes distance matrices of the input data.
+}
+\details{
+If \code{methods_dist} is of length 2 or more a distance matrix
+for every distance method is computed and stored in the object. Note that
+distance matrices can become quite big in size. If you are only interested
+in the subsequent hierarchical clustering results and not in the distance
+matrices use \code{computeClusteringHclust()}. It is a wrapper around
+\code{computeDistanceMatrices()} and the subsequent \code{agglomerateHierarchicalTrees()}.
+However, only the cluster results of \code{agglomerateHierarchicalTrees()} are
+stored in form of \code{hclust} objects.
+}
+\seealso{
+\code{getDistMtr()}, \code{agglomerateHierarchicalTrees()}, \code{computeHierarchicalClustering()}
 }

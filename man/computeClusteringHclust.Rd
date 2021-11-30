@@ -17,7 +17,7 @@ computeClusteringHclust(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{methods_dist}{Character value. Specifies the distance methods
+\item{methods_dist}{Character vector. Specifies the distance methods
 of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
 
 \item{methods_aggl}{Character vector. Specifies the agglomerative

@@ -20,7 +20,7 @@ agglomerateHierarchicalTrees(object, ...)
 
 \item{...}{Additional arguments given to \code{stats::hclust()}.}
 
-\item{methods_dist}{Character value. Specifies the distance methods
+\item{methods_dist}{Character vector. Specifies the distance methods
 of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
 
 \item{methods_aggl}{Character vector. Specifies the agglomerative
