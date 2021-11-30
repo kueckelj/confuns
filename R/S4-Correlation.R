@@ -628,6 +628,7 @@ setMethod(
                         across = NULL,
                         across_subset = NULL,
                         variables_subset = NULL,
+                        relevel = FALSE,
                         pval_threshold = NULL,
                         type = "lower",
                         diagonal = TRUE,
@@ -659,6 +660,12 @@ setMethod(
       against = validTypesCorrelation()
     )
 
+    if(base::length(relevel) == 1){
+
+      relevel <- c(relevel, relevel)
+
+    }
+
     corr_df <-
       getCorrDf(
         object = object,
@@ -669,6 +676,11 @@ setMethod(
         digits = values_digits,
         pval_threshold = base::ifelse(test = base::is.null(pval_threshold), 0.5, pval_threshold),
         verbose = verbose
+      ) %>%
+      check_across_subset(
+        across = across,
+        across.subset = across_subset,
+        relevel = relevel[1]
       )
 
     if(base::is.character(variables_subset)){
@@ -677,12 +689,14 @@ setMethod(
         check_across_subset(
           df = corr_df,
           across = "var1",
-          across.subset = variables_subset
+          across.subset = variables_subset,
+          relevel = relevel[1],
         ) %>%
         check_across_subset(
           df = .,
           across = "var2",
-          across.subset = variables_subset
+          across.subset = variables_subset,
+          relevel = relevel[1]
         )
 
     }

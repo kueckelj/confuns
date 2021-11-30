@@ -13,6 +13,7 @@ plotCorrplot(object, ...)
   across = NULL,
   across_subset = NULL,
   variables_subset = NULL,
+  relevel = FALSE,
   pval_threshold = NULL,
   type = "lower",
   diagonal = TRUE,
@@ -52,6 +53,9 @@ If NULL, all groups are considered.}
 \item{variables_subset}{Character vector or NULL. If character, specifies
 the subset of variable names that is included in the plot. To exclude single
 variables the variable name can be provided prefixed with a \emph{'-'}.}
+
+\item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
+\code{variables} determines the order in which the groups of interest are displayed.}
 
 \item{pval_threshold}{Numeric value or NULL. If numeric, denotes the maximum p-value to be considered as
 significant. Must no be higher than 0.05.}
