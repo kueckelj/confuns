@@ -40,10 +40,7 @@ plot_gsea_dot(object, ...)
 )
 
 \method{plot_gsea_dot}{data.frame}(
-  df,
-  across = NULL,
-  across_subset = NULL,
-  relevel = TRUE,
+  object,
   n.gsets = 20,
   signif.val = "fdr",
   signif.threshold = 0.05,
@@ -52,8 +49,10 @@ plot_gsea_dot(object, ...)
   pt.size = 2,
   pt.color = "blue4",
   pt.clrsp = "plasma",
-  remove = NULL,
-  replace = NULL,
+  remove = "^.*_",
+  replace = c("_", " "),
+  nrow = NULL,
+  ncol = NULL,
   ...
 )
 }
@@ -95,17 +94,11 @@ to \code{pattern} of \code{stringr::str_remove_all()}. If character, regular exp
 First is given to argument \code{pattern} and second is given to argument \code{replacement}
 of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
 
-\item{df}{A data.frame.}
+\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
 
-\item{across}{Character value. Specifies the discrete variable in the data.frame
-across which the variables of interest are to be analyzed or displayed.}
-
-\item{across_subset}{Character vector or NULL. If character, specifies groups of the
-grouping variable that are of interest. Prefixing group names with \emph{'-'} excludes them.
-If NULL, all groups are considered.}
-
-\item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
-\code{variables} determines the order in which the groups of interest are displayed.}
+\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
 }
 \value{
 A ggplot.

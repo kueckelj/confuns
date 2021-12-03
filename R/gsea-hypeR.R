@@ -23,7 +23,6 @@
 #' First is given to argument \code{pattern} and second is given to argument \code{replacement}
 #' of \code{stringr::str_replace_all()}. Used to adjust gene set names.
 #' @inherit argument_dummy params
-#' @inherit across_vis1 params
 #' @param ... Additional arguments given to \code{scale_color_add_on()}.
 #'
 #' @return A ggplot.
@@ -46,8 +45,8 @@ plot_gsea_dot.hyp <- function(object,
                               pt.size = 2,
                               pt.color = "blue4",
                               pt.clrsp = "plasma",
-                              remove = NULL,
-                              replace = NULL,
+                              remove = "MF.GO|RCTM|CC.GO|HM",
+                              replace = c("_", " "),
                               ...){
 
   df <- tibble::as_tibble(object$data)
@@ -77,9 +76,6 @@ plot_gsea_dot.list <- plot_gsea_dot.hyp
 #' @rdname plot_gsea_dot
 #' @export
 plot_gsea_dot.data.frame <- function(object,
-                                     across = NULL,
-                                     across_subset = NULL,
-                                     relevel = TRUE,
                                      n.gsets = 20,
                                      signif.val = "fdr",
                                      signif.threshold = 0.05,
@@ -88,8 +84,10 @@ plot_gsea_dot.data.frame <- function(object,
                                      pt.size = 2,
                                      pt.color = "blue4",
                                      pt.clrsp = "plasma",
-                                     remove = NULL,
-                                     replace = NULL,
+                                     remove = "^.*_",
+                                     replace = c("_", " "),
+                                     nrow = NULL,
+                                     ncol = NULL,
                                      ...){
 
   df <- object
@@ -118,40 +116,15 @@ plot_gsea_dot.data.frame <- function(object,
   }
 
   df <-
-    check_across_subset(
-      df = df,
-      across = across,
-      across.subset = across.subset,
-      relevel = relevel
-    ) %>%
-    dplyr::filter(!!rlang::sym(signif.val) < {{signif.threshold}})
-
-  if(base::is.character(across)){
-
-    df <- dplyr::group_by(df, !!rlang::sym(across))
-
-    facet_add_on <-
-      ggplot2::facet_wrap(
-        facets = stats::as.formula(stringr::str_c(". ~ ", across)),
-        nrow = nrow,
-        ncol = ncol
-        )
-
-  } else {
-
-    facet_add_on <- NULL
-
-  }
-
-  df <-
-    dplyr::arrange(!!rlang::sym(signif.val), .by_group = TRUE) %>%
-    dplyr::slice_head(df, n = n.gsets)
+    dplyr::filter(df, !!rlang::sym(signif.val) < {{signif.threshold}}) %>%
+    dplyr::arrange({{signif.val}}, .by_group = TRUE) %>%
+    dplyr::slice_head(n = n.gsets)
 
   if(base::is.character(remove)){
 
     is_value(remove, mode = "character")
 
-    df[["label"]] <- stringr::str_remove_all(string = df[["label"]], pattern = remove)
+    df[["label"]] <- stringr::str_remove(string = df[["label"]], pattern = remove)
 
   }
 
@@ -181,8 +154,8 @@ plot_gsea_dot.data.frame <- function(object,
       size = make_capital_letters(string = size.by),
       color = base::toupper(x = signif.val)
     ) +
-    ggplot2::scale_x_continuous(labels = function(x){ base::format(x, scientific = TRUE) }) +
-    facet_add_on
+    ggplot2::scale_x_continuous(labels = function(x){ base::format(x, scientific = TRUE) })
+
 
 }
 
