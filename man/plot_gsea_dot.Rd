@@ -4,6 +4,7 @@
 \alias{plot_gsea_dot}
 \alias{plot_gsea_dot.hyp}
 \alias{plot_gsea_dot.list}
+\alias{plot_gsea_dot.data.frame}
 \title{Plot GSEA hypergeometric test}
 \usage{
 plot_gsea_dot(object, ...)
@@ -19,6 +20,7 @@ plot_gsea_dot(object, ...)
   pt.color = "blue4",
   pt.clrsp = "plasma",
   remove = NULL,
+  replace = NULL,
   ...
 )
 
@@ -33,6 +35,25 @@ plot_gsea_dot(object, ...)
   pt.color = "blue4",
   pt.clrsp = "plasma",
   remove = NULL,
+  replace = NULL,
+  ...
+)
+
+\method{plot_gsea_dot}{data.frame}(
+  df,
+  across = NULL,
+  across_subset = NULL,
+  relevel = TRUE,
+  n.gsets = 20,
+  signif.val = "fdr",
+  signif.threshold = 0.05,
+  color.by = "fdr",
+  size.by = "geneset",
+  pt.size = 2,
+  pt.color = "blue4",
+  pt.clrsp = "plasma",
+  remove = NULL,
+  replace = NULL,
   ...
 )
 }
@@ -66,13 +87,29 @@ the provided gene signature and the gene set.}
 continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
 
-\item{remove}{character value or NULL. If character, regular expression given
-to \code{pattern} of \code{stringr::str_remove_all()}. Useful to adjust gene set
-names in the plot for aesthetic purposes.}
+\item{remove}{Character value or NULL. If character, regular expression given
+to \code{pattern} of \code{stringr::str_remove_all()}. If character, regular expression given to
+\code{pattern} of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
+
+\item{replace}{Character vector of length 2 or NULL. If character vector, two regular expressions.
+First is given to argument \code{pattern} and second is given to argument \code{replacement}
+of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
+
+\item{df}{A data.frame.}
+
+\item{across}{Character value. Specifies the discrete variable in the data.frame
+across which the variables of interest are to be analyzed or displayed.}
+
+\item{across_subset}{Character vector or NULL. If character, specifies groups of the
+grouping variable that are of interest. Prefixing group names with \emph{'-'} excludes them.
+If NULL, all groups are considered.}
+
+\item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
+\code{variables} determines the order in which the groups of interest are displayed.}
 }
 \value{
 A ggplot.
 }
 \description{
-Plots p-value or FDR results of hypergeometrics tests.
+Plots p-value or FDR results of hyper geometrics tests.
 }

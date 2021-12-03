@@ -16,10 +16,14 @@
 #' are displayed by size. Either \emph{'geneset'}, the number of genes the gene set
 #' contains, or \emph{'overlap'}, the number of genes that overlapped between
 #' the provided gene signature and the gene set.
-#' @param remove character value or NULL. If character, regular expression given
-#' to \code{pattern} of \code{stringr::str_remove_all()}. Useful to adjust gene set
-#' names in the plot for aesthetic purposes.
+#' @param remove Character value or NULL. If character, regular expression given
+#' to \code{pattern} of \code{stringr::str_remove_all()}. If character, regular expression given to
+#' \code{pattern} of \code{stringr::str_replace_all()}. Used to adjust gene set names.
+#' @param replace Character vector of length 2 or NULL. If character vector, two regular expressions.
+#' First is given to argument \code{pattern} and second is given to argument \code{replacement}
+#' of \code{stringr::str_replace_all()}. Used to adjust gene set names.
 #' @inherit argument_dummy params
+#' @inherit across_vis1 params
 #' @param ... Additional arguments given to \code{scale_color_add_on()}.
 #'
 #' @return A ggplot.
@@ -43,17 +47,64 @@ plot_gsea_dot.hyp <- function(object,
                               pt.color = "blue4",
                               pt.clrsp = "plasma",
                               remove = NULL,
+                              replace = NULL,
                               ...){
+
+  df <- tibble::as_tibble(object$data)
+
+  plot_gsea_dot(
+    object = df,
+    n.gsets = n.gsets,
+    signif.val = signif.val,
+    signif.threshold = signif.threshold,
+    color.by = color.by,
+    size.by = size.by,
+    pt.size = pt.size,
+    pt.color = pt.color,
+    pt.clrsp = pt.clrsp,
+    remove = remove,
+    replace = replace,
+    ...
+  )
+
+
+}
+
+#' @rdname plot_gsea_dot
+#' @export
+plot_gsea_dot.list <- plot_gsea_dot.hyp
+
+#' @rdname plot_gsea_dot
+#' @export
+plot_gsea_dot.data.frame <- function(df,
+                                     across = NULL,
+                                     across_subset = NULL,
+                                     relevel = TRUE,
+                                     n.gsets = 20,
+                                     signif.val = "fdr",
+                                     signif.threshold = 0.05,
+                                     color.by = "fdr",
+                                     size.by = "geneset",
+                                     pt.size = 2,
+                                     pt.color = "blue4",
+                                     pt.clrsp = "plasma",
+                                     remove = NULL,
+                                     replace = NULL,
+                                     ...){
 
   check_one_of(
     input = signif.val,
     against = c("pval", "fdr")
   )
 
-  check_one_of(
-    input = color.by,
-    against = c("pval", "fdr")
-  )
+  if(!base::is.null(color.by)){
+
+    check_one_of(
+      input = color.by,
+      against = c("pval", "fdr")
+    )
+
+  }
 
   if(!base::is.null(size.by)){
 
@@ -65,16 +116,46 @@ plot_gsea_dot.hyp <- function(object,
   }
 
   df <-
-    tibble::as_tibble(object$data) %>%
-    dplyr::filter(!!rlang::sym(signif.val) < {{signif.threshold}}) %>%
-    dplyr::slice_head(n = n.gsets) %>%
-    dplyr::arrange(pval)
+    check_across_subset(
+      df = df,
+      across = across,
+      across.subset = across.subset,
+      relevel = relevel
+    ) %>%
+    dplyr::filter(!!rlang::sym(signif.val) < {{signif.threshold}})
+
+  if(base::is.character(across)){
+
+    df <- dplyr::group_by(df, !!rlang::sym(across))
+
+    facet_add_on <-
+      ggplot2::facet_wrap(
+        facets = stats::as.formula(stringr::str_c(". ~ ", across)),
+        nrow = nrow,
+        ncol = ncol
+        )
+
+  } else {
+
+    facet_add_on <- NULL
+
+  }
+
+  df <-
+    dplyr::arrange(!!rlang::sym(signif.val), .by_group = TRUE) %>%
+    dplyr::slice_head(df, n = n.gsets)
 
   if(base::is.character(remove)){
 
     is_value(remove, mode = "character")
 
     df[["label"]] <- stringr::str_remove_all(string = df[["label"]], pattern = remove)
+
+  }
+
+  if(confuns::is_vec(x = replace, mode = "character", of.length = 2, fdb.fn = "message", verbose = FALSE)){
+
+    df[["label"]] <- stringr::str_replace_all(string = df[["label"]], pattern = replace[1], replacement = replace[2])
 
   }
 
@@ -89,7 +170,7 @@ plot_gsea_dot.hyp <- function(object,
       position = "identity",
       mapping = ggplot2::aes_string(color = color.by, size = size.by),
       params = params
-      ) +
+    ) +
     scale_color_add_on(aes = "color", variable = df[["fdr"]], clrsp = pt.clrsp, ...) +
     ggplot2::theme_bw() +
     ggplot2::labs(
@@ -98,13 +179,10 @@ plot_gsea_dot.hyp <- function(object,
       size = make_capital_letters(string = size.by),
       color = base::toupper(x = signif.val)
     ) +
-    ggplot2::scale_x_continuous(labels = function(x){ base::format(x, scientific = TRUE) })
+    ggplot2::scale_x_continuous(labels = function(x){ base::format(x, scientific = TRUE) }) +
+    facet_add_on
 
 }
-
-#' @rdname plot_gsea_dot
-#' @export
-plot_gsea_dot.list <- plot_gsea_dot.hyp
 
 
 
