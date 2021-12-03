@@ -76,7 +76,7 @@ plot_gsea_dot.list <- plot_gsea_dot.hyp
 
 #' @rdname plot_gsea_dot
 #' @export
-plot_gsea_dot.data.frame <- function(df,
+plot_gsea_dot.data.frame <- function(object,
                                      across = NULL,
                                      across_subset = NULL,
                                      relevel = TRUE,
@@ -91,6 +91,8 @@ plot_gsea_dot.data.frame <- function(df,
                                      remove = NULL,
                                      replace = NULL,
                                      ...){
+
+  df <- object
 
   check_one_of(
     input = signif.val,
