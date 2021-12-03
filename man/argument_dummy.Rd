@@ -35,7 +35,7 @@ variable that is displayed by color.}
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
-\item{clrsp}{Character value. Specfies the color spectrum to be used to represent
+\item{clrsp, pt.clrsp, pt_clrsp}{Character value. Specfies the color spectrum to be used to represent
 continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
 

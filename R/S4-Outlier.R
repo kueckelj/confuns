@@ -146,10 +146,8 @@ initiateOutlierDetection <- function(data,
 #' @description Uses IQR to detect outliers in a data.frame
 #'
 #' @param df A data.frame.
-#' @param key.name Character value. The variable that identifies each observation uniquely
-#' with its value.
-#' @param var.name Character value. The numeric variable according to which
-#' outliers are detected.
+#' @param key.name Character value. The variable that identifies each observation uniquely.
+#' @param var.name Character value. The numeric variable based on which outliers are detected.
 #'
 #' @return Character vector. The values from variable \code{key.name} that
 #' were identified as outliers. If not outliers exist the function returns

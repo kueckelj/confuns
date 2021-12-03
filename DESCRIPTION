@@ -41,6 +41,7 @@ Collate:
     'documentation-dummies.R'
     'feedback-list.R'
     'ggplot2-themes-and-small-add-ons.R'
+    'gsea-hypeR.R'
     'hclust-wrapper.R'
     'input-check.R'
     'join-lists.R'

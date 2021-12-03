@@ -11,7 +11,8 @@ computeClusteringHclust(object, ...)
   object,
   methods_dist = "euclidean",
   methods_aggl = "ward.D",
-  verbose = TRUE
+  verbose = TRUE,
+  ...
 )
 }
 \arguments{

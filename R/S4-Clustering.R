@@ -173,7 +173,8 @@ setMethod(
   definition = function(object,
                         methods_dist = "euclidean",
                         methods_aggl = "ward.D",
-                        verbose = TRUE){
+                        verbose = TRUE,
+                        ...){
 
     hclust_obj <- object@methods[["hclust"]]
 
@@ -224,8 +225,9 @@ setMethod(
   signature = "Clustering",
   definition = function(object,
                         ks,
-                        methods_kmeans,
-                        verbose = TRUE){
+                        methods_kmeans = "Hartigan-Wong",
+                        verbose = TRUE,
+                        ...){
 
     # input check
     check_one_of(
@@ -255,7 +257,8 @@ setMethod(
         data = data,
         ks = ks,
         methods.kmeans = methods_kmeans,
-        verbose = verbose
+        verbose = verbose,
+        ...
       )
 
     for(method in base::names(results)){
@@ -283,8 +286,9 @@ setMethod(
   signature = "Clustering",
   definition = function(object,
                         ks,
-                        methods_pam,
-                        verbose = TRUE){
+                        methods_pam = "euclidean",
+                        verbose = TRUE,
+                        ...){
 
     # input check
     check_one_of(
@@ -314,7 +318,8 @@ setMethod(
         data = data,
         ks = ks,
         methods.pam = methods_pam,
-        verbose = verbose
+        verbose = verbose,
+        ...
       )
 
     for(method in base::names(results)){
@@ -647,7 +652,6 @@ setMethod(
       hcdata$labels$clust <- labclust %>% base::as.factor()
 
     }
-
 
     return(hcdata)
 

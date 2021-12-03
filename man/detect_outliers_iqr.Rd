@@ -9,11 +9,9 @@ detect_outliers_iqr(df, key.name, var.name)
 \arguments{
 \item{df}{A data.frame.}
 
-\item{key.name}{Character value. The variable that identifies each observation uniquely
-with its value.}
+\item{key.name}{Character value. The variable that identifies each observation uniquely.}
 
-\item{var.name}{Character value. The numeric variable according to which
-outliers are detected.}
+\item{var.name}{Character value. The numeric variable based on which outliers are detected.}
 }
 \value{
 Character vector. The values from variable \code{key.name} that

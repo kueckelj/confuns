@@ -18,6 +18,8 @@ computeDistanceMatrices(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
+\item{...}{Additional arguments given to \code{stats::dist()}.}
+
 \item{methods_dist}{Character vector. Specifies the distance methods
 of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
 

@@ -68,8 +68,8 @@ setGeneric(name = "addClusterVarsPam", def = function(object, ...){
 #' @description Agglomerates hierarchical trees from a list
 #' of distance matrices.
 #'
-#' @inherit argument_dummy params
 #' @param ... Additional arguments given to \code{stats::hclust()}.
+#' @inherit argument_dummy params
 #'
 #' @return The input object.
 #' @export
@@ -109,6 +109,7 @@ setGeneric(name = "computeClusteringHclust", def = function(object, ...){
 #' @description Computes cluster with method \emph{kmeans}.
 #'
 #' @inherit argument_dummy params
+#' @param ... Additional arguments given to \code{stats::kmeans()}.
 #'
 #' @return The input object.
 #' @export
@@ -124,6 +125,7 @@ setGeneric(name = "computeClusteringKmeans", def = function(object, ...){
 #'
 #' @description Computes cluster with method \emph{pam}.
 #'
+#' @param ... Additional arguments given to \code{cluster::pam()}.
 #' @inherit argument_dummy params
 #'
 #' @return The input object.
@@ -140,6 +142,7 @@ setGeneric(name = "computeClusteringPam", def = function(object, ...){
 #'
 #' @description Computes distance matrices of the input data.
 #'
+#' @param ... Additional arguments given to \code{stats::dist()}.
 #' @inherit argument_dummy params
 #'
 #' @details If \code{methods_dist} is of length 2 or more a distance matrix

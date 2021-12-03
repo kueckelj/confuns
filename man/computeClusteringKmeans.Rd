@@ -7,10 +7,18 @@
 \usage{
 computeClusteringKmeans(object, ...)
 
-\S4method{computeClusteringKmeans}{Clustering}(object, ks, methods_kmeans, verbose = TRUE)
+\S4method{computeClusteringKmeans}{Clustering}(
+  object,
+  ks,
+  methods_kmeans = "Hartigan-Wong",
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
+
+\item{...}{Additional arguments given to \code{stats::kmeans()}.}
 
 \item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 Is converted into an integer vector.}

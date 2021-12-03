@@ -7,10 +7,18 @@
 \usage{
 computeClusteringPam(object, ...)
 
-\S4method{computeClusteringPam}{Clustering}(object, ks, methods_pam, verbose = TRUE)
+\S4method{computeClusteringPam}{Clustering}(
+  object,
+  ks,
+  methods_pam = "euclidean",
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
+
+\item{...}{Additional arguments given to \code{cluster::pam()}.}
 
 \item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 Is converted into an integer vector.}
