@@ -19,8 +19,8 @@ plot_gsea_dot(object, ...)
   pt.size = 2,
   pt.color = "blue4",
   pt.clrsp = "plasma",
-  remove = NULL,
-  replace = NULL,
+  remove = "MF.GO|RCTM|CC.GO|HM",
+  replace = c("_", " "),
   ...
 )
 
@@ -34,8 +34,8 @@ plot_gsea_dot(object, ...)
   pt.size = 2,
   pt.color = "blue4",
   pt.clrsp = "plasma",
-  remove = NULL,
-  replace = NULL,
+  remove = "MF.GO|RCTM|CC.GO|HM",
+  replace = c("_", " "),
   ...
 )
 
@@ -51,8 +51,6 @@ plot_gsea_dot(object, ...)
   pt.clrsp = "plasma",
   remove = "^.*_",
   replace = c("_", " "),
-  nrow = NULL,
-  ncol = NULL,
   ...
 )
 }
@@ -93,12 +91,6 @@ to \code{pattern} of \code{stringr::str_remove_all()}. If character, regular exp
 \item{replace}{Character vector of length 2 or NULL. If character vector, two regular expressions.
 First is given to argument \code{pattern} and second is given to argument \code{replacement}
 of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
-
-\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
 }
 \value{
 A ggplot.

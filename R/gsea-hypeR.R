@@ -84,10 +84,8 @@ plot_gsea_dot.data.frame <- function(object,
                                      pt.size = 2,
                                      pt.color = "blue4",
                                      pt.clrsp = "plasma",
-                                     remove = "^.*_",
+                                     remove = "^.+?(?=_)",
                                      replace = c("_", " "),
-                                     nrow = NULL,
-                                     ncol = NULL,
                                      ...){
 
   df <- object
@@ -146,7 +144,7 @@ plot_gsea_dot.data.frame <- function(object,
       mapping = ggplot2::aes_string(color = color.by, size = size.by),
       params = params
     ) +
-    scale_color_add_on(aes = "color", variable = df[["fdr"]], clrsp = pt.clrsp, ...) +
+    scale_color_add_on(aes = "color", variable = df[[signif.val]], clrsp = pt.clrsp, ...) +
     ggplot2::theme_bw() +
     ggplot2::labs(
       x = base::toupper(x = signif.val),
