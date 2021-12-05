@@ -109,15 +109,6 @@ plot_gsea_dot.data.frame <- function(object,
 
   }
 
-  if(!base::is.null(size.by)){
-
-    check_one_of(
-      input = size.by,
-      against = c("overlap", "geneset"),
-    )
-
-  }
-
   df <-
     dplyr::filter(df, !!rlang::sym(signif.val) < {{signif.threshold}}) %>%
     dplyr::arrange({{signif.val}}, .by_group = TRUE) %>%
