@@ -42,7 +42,8 @@ plot_dot_plot_1d <- function(df,
     check_across_subset2(
       df = df,
       across = across,
-      across.subset = across.subset
+      across.subset = across.subset,
+      relevel = relevel
     )
 
   facet_add_on <-
