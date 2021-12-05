@@ -11,6 +11,7 @@ plot_dot_plot_1d(
   across = NULL,
   across.subset = NULL,
   relevel = TRUE,
+  reorder = TRUE,
   alpha.by = NULL,
   alpha.trans = "identity",
   color.by = NULL,
@@ -23,7 +24,7 @@ plot_dot_plot_1d(
   pt.clrsp = "plasma",
   pt.shape = 19,
   pt.size = 3,
-  scales = "free",
+  scales = "free_y",
   nrow = NULL,
   ncol = NULL,
   ...
