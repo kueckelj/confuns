@@ -51,6 +51,10 @@ plot_scatterplot(
 \arguments{
 \item{df}{A data.frame.}
 
+\item{x}{Character value. Variable to be plotted on the respective axis.}
+
+\item{y}{Character value. Variable to be plotted on the respective axis.}
+
 \item{across}{Character value. Specifies the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed.}
 

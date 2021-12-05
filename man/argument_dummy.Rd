@@ -195,6 +195,8 @@ considered (as long as the total number does not exceeds the limit).
 If there are more variables you are interested in than they are variables
 you are not interested in specify those that you are not interested in prefixed
 with an \emph{'-'}. Variables prefixed that way are discarded and the remaining are kept.}
+
+\item{x, y}{Character value. Variable to be plotted on the respective axis.}
 }
 \value{
 Returns a ggplot-object that can be additionally customized according

@@ -268,6 +268,7 @@ across_vis2 <- function(across, across_subset){}
 #' If there are more variables you are interested in than they are variables
 #' you are not interested in specify those that you are not interested in prefixed
 #' with an \emph{'-'}. Variables prefixed that way are discarded and the remaining are kept.
+#' @param x,y Character value. Variable to be plotted on the respective axis.
 #'
 #'
 #' @inherit df params
