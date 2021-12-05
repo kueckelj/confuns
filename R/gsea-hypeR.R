@@ -79,8 +79,12 @@ plot_gsea_dot.data.frame <- function(object,
                                      n.gsets = 20,
                                      signif.val = "fdr",
                                      signif.threshold = 0.05,
+                                     alpha.by = NULL,
+                                     alpha.trans = "identity",
                                      color.by = "fdr",
-                                     size.by = "geneset",
+                                     color.trans = "identity",
+                                     size.by = NULL,
+                                     size.trans = "identity",
                                      pt.alpha = 0.9,
                                      pt.size = 2,
                                      pt.color = "blue4",
@@ -137,16 +141,23 @@ plot_gsea_dot.data.frame <- function(object,
 
   params <- adjust_ggplot_params(params = list(size = pt.size, color = pt.color, alpha = pt.alpha), sep = ".")
 
-  ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = .data[[signif.val]], y = label)) +
-    ggplot2::layer(
-      geom = "point",
-      stat = "identity",
-      position = "identity",
-      mapping = ggplot2::aes_string(color = color.by, size = size.by),
-      params = params
-    ) +
-    scale_color_add_on(aes = "color", variable = df[[signif.val]], clrsp = pt.clrsp, ...) +
-    ggplot2::theme_bw() +
+  plot_dot_plot_1d(
+    df = df,
+    x = signif.val,
+    y = "label",
+    alpha.by = alpha.by,
+    alpha.trans = alpha.trans,
+    color.by = signif.val,
+    color.trans = color.trans,
+    shape.by = shape.by,
+    size.by = size.by,
+    size.trans = size.trans,
+    pt.alpha = pt.alpha,
+    pt.color = pt.color,
+    pt.shape = pt.shape,
+    pt.size = pt.size,
+    ...
+  ) +
     ggplot2::labs(
       x = base::toupper(x = signif.val),
       y = NULL,
@@ -154,7 +165,6 @@ plot_gsea_dot.data.frame <- function(object,
       color = base::toupper(x = signif.val)
     ) +
     ggplot2::scale_x_continuous(labels = function(x){ base::format(x, scientific = TRUE) })
-
 
 }
 
