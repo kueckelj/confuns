@@ -46,10 +46,11 @@ plot_gsea_dot(object, ...)
   signif.threshold = 0.05,
   color.by = "fdr",
   size.by = "geneset",
+  pt.alpha = 0.9,
   pt.size = 2,
   pt.color = "blue4",
   pt.clrsp = "plasma",
-  remove = "^.*_",
+  remove = "^.+?(?=_)",
   replace = c("_", " "),
   ...
 )
@@ -91,6 +92,8 @@ to \code{pattern} of \code{stringr::str_remove_all()}. If character, regular exp
 \item{replace}{Character vector of length 2 or NULL. If character vector, two regular expressions.
 First is given to argument \code{pattern} and second is given to argument \code{replacement}
 of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
+
+\item{pt.alpha}{Numeric value. Specifies the transparency of points.}
 }
 \value{
 A ggplot.

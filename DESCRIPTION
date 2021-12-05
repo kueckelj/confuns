@@ -58,6 +58,7 @@ Collate:
     'pkg-wrapper-shiny.R'
     'pkg-wrapper-shinyWidgets.R'
     'pkg-wrapper-shinyjqui.R'
+    'plot-dot-plot.R'
     'plot-scatter.R'
     'plot-statistics-add-ons.R'
     'plot-statistics-interactive.R'

@@ -72,7 +72,7 @@ scale_color_add_on <- function(aes = "color",
 
     if(!var_class %in% c("character", "numeric")){
 
-      stop("Invalid input for argument 'variable'.")
+      return(NULL)
 
     } else {
 

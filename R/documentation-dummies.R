@@ -133,6 +133,10 @@ across_vis2 <- function(across, across_subset){}
 #' @param alpha.by,alpha_by,shape.by,shape_by,size.by,size_by Character
 #' value or NULL. If character, specifies the variable that is mapped to the respective
 #' aesthetic of the plot.
+#' @param alpha.trans,alpha_trans,color.trans,color_trans,shape.trans,shape_trans,size.trans,size_trans
+#' Character value. Name of the transformation method applied to the continuous scale. Use
+#' \code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
+#' for no transformation.
 #'
 #' @param color.by,color_by Character value or NULL. If character, specifies the
 #' variable that is displayed by color.

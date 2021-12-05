@@ -81,6 +81,7 @@ plot_gsea_dot.data.frame <- function(object,
                                      signif.threshold = 0.05,
                                      color.by = "fdr",
                                      size.by = "geneset",
+                                     pt.alpha = 0.9,
                                      pt.size = 2,
                                      pt.color = "blue4",
                                      pt.clrsp = "plasma",
@@ -134,7 +135,7 @@ plot_gsea_dot.data.frame <- function(object,
 
   df[["label"]] <- base::factor(x = df[["label"]], levels = base::unique(df[["label"]]))
 
-  params <- adjust_ggplot_params(params = list(size = pt.size, color = pt.color), sep = ".")
+  params <- adjust_ggplot_params(params = list(size = pt.size, color = pt.color, alpha = pt.alpha), sep = ".")
 
   ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = .data[[signif.val]], y = label)) +
     ggplot2::layer(
