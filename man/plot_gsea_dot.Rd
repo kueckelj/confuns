@@ -44,8 +44,12 @@ plot_gsea_dot(object, ...)
   n.gsets = 20,
   signif.val = "fdr",
   signif.threshold = 0.05,
+  alpha.by = NULL,
+  alpha.trans = "identity",
   color.by = "fdr",
-  size.by = "geneset",
+  color.trans = "identity",
+  size.by = NULL,
+  size.trans = "identity",
   pt.alpha = 0.9,
   pt.size = 2,
   pt.color = "blue4",
@@ -92,6 +96,22 @@ to \code{pattern} of \code{stringr::str_remove_all()}. If character, regular exp
 \item{replace}{Character vector of length 2 or NULL. If character vector, two regular expressions.
 First is given to argument \code{pattern} and second is given to argument \code{replacement}
 of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
+
+\item{alpha.by}{Character
+value or NULL. If character, specifies the variable that is mapped to the respective
+aesthetic of the plot.}
+
+\item{alpha.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
+\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
+for no transformation.}
+
+\item{color.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
+\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
+for no transformation.}
+
+\item{size.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
+\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
+for no transformation.}
 
 \item{pt.alpha}{Numeric value. Specifies the transparency of points.}
 }

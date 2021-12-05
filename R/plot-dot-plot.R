@@ -20,10 +20,9 @@ plot_dot_plot_1d <- function(df,
                              relevel = TRUE,
                              alpha.by = NULL,
                              alpha.trans = "identity",
-                             color.by = "overlap",
-                             color.trans = "identity",
+                             color.by = NULL,
                              shape.by = NULL,
-                             size.by = "fdr",
+                             size.by = NULL,
                              size.trans = "reverse",
                              pt.alpha = 0.9,
                              pt.color = "black",
@@ -31,15 +30,23 @@ plot_dot_plot_1d <- function(df,
                              pt.clrsp = "plasma",
                              pt.shape = 19,
                              pt.size = 3,
+                             scales = "free",
+                             nrow = NULL,
+                             ncol = NULL,
                              ...){
 
+
+
+
   df <-
-    check_across_subset(
+    check_across_subset2(
       df = df,
       across = across,
-      across.subset = across.subset,
-      relevel = relevel
+      across.subset = across.subset
     )
+
+  facet_add_on <-
+    make_facet_add_on(across = across, scales = scales, nrow = nrow, ncol = ncol)
 
   params <- adjust_ggplot_params(params = list(size = pt.size, color = pt.color, alpha = pt.alpha), sep = ".")
 
@@ -55,12 +62,13 @@ plot_dot_plot_1d <- function(df,
     ggplot2::scale_size(trans = size.trans) +
     scale_color_add_on(
       aes = "color",
-      variable = df[[color.by]],
+      variable = pull_var(df, color.by),
       clrp = pt.clrp,
       clrsp = pt.clrsp,
-      trans = color.trans,
       ...) +
-    ggplot2::theme_bw()
+    ggplot2::theme_bw() +
+    ggplot2::labs(x = NULL, y = NULL) +
+    facet_add_on
 
 }
 
@@ -82,7 +90,6 @@ plot_dot_plot_2d <- function(df,
                              alpha.by = NULL,
                              alpha.trans = "identity",
                              color.by = "overlap",
-                             color.trans = "identity",
                              shape.by = NULL,
                              size.by = "fdr",
                              size.trans = "reverse",
@@ -96,7 +103,7 @@ plot_dot_plot_2d <- function(df,
 
   check_data_frame(
     df = df,
-    var.class = purrr::set_names(list(), nm = c(x, y))
+    var.class = purrr::set_names(list("factor", "factor"), nm = c(x, y))
   )
 
   params <-
@@ -120,7 +127,6 @@ plot_dot_plot_2d <- function(df,
       clrp = pt.clrp,
       clrsp = pt.clrsp,
       variable = df[[color.by]],
-      trans = color.trans,
       ...
     ) +
     ggplot2::theme_bw() +

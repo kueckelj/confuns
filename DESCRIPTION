@@ -48,6 +48,7 @@ Collate:
     'join-safely.R'
     'kmeans-wrapper.R'
     'logical-tests.R'
+    'make-ggplot2-add-ons.R'
     'math-related-functions.R'
     'miscellaneous-data-frame.R'
     'miscellaneous.R'

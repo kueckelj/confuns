@@ -139,6 +139,24 @@ glue_list_report <- function(lst, prefix = "", separator = " = ", combine_via = 
 
 }
 
+#' @title Pull var safely
+#' @export
+pull_var <- function(df, var){
+
+  if(base::is.null(var)){
+
+    out <- NULL
+
+  } else {
+
+    out <- df[[var]]
+
+  }
+
+  return(out)
+
+}
+
 
 #' @title Wrapper around unfactor()
 #'

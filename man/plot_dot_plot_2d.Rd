@@ -11,7 +11,6 @@ plot_dot_plot_2d(
   alpha.by = NULL,
   alpha.trans = "identity",
   color.by = "overlap",
-  color.trans = "identity",
   shape.by = NULL,
   size.by = "fdr",
   size.trans = "reverse",
@@ -41,10 +40,6 @@ for no transformation.}
 
 \item{color.by}{Character value or NULL. If character, specifies the
 variable that is displayed by color.}
-
-\item{color.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
-\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
-for no transformation.}
 
 \item{shape.by}{Character
 value or NULL. If character, specifies the variable that is mapped to the respective

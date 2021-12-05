@@ -168,35 +168,16 @@ plot_scatterplot <- function(df,
 
   # add facets --------------------------------------------------------------
 
-  if(!base::is.null(across)){
+  facet_add_on <-
+    make_facet_add_on(
+      across = across,
+      scales = scales,
+      nrow = nrow,
+      ncol = ncol,
+      space = space
+    )
 
-    if(base::length(across) == 1){
-
-      p <-
-        p +
-        ggplot2::facet_wrap(
-          facets = stats::as.formula(stringr::str_c(". ~ ", across)),
-          scales = scales,
-          nrow = nrow,
-          ncol = ncol
-          )
-
-    } else {
-
-      across1 <- across[1]
-      across2 <- across[2]
-
-      p <-
-        p +
-        ggplot2::facet_grid(
-          rows = ggplot2::vars(!!rlang::sym(across1)),
-          cols = ggplot2::vars(!!rlang::sym(across2)),
-          scales = scales,
-          space = space)
-
-    }
-
-  }
+  p <- p + facet_add_on
 
 
   # add model ---------------------------------------------------------------

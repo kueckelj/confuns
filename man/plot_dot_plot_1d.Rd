@@ -13,10 +13,9 @@ plot_dot_plot_1d(
   relevel = TRUE,
   alpha.by = NULL,
   alpha.trans = "identity",
-  color.by = "overlap",
-  color.trans = "identity",
+  color.by = NULL,
   shape.by = NULL,
-  size.by = "fdr",
+  size.by = NULL,
   size.trans = "reverse",
   pt.alpha = 0.9,
   pt.color = "black",
@@ -24,6 +23,9 @@ plot_dot_plot_1d(
   pt.clrsp = "plasma",
   pt.shape = 19,
   pt.size = 3,
+  scales = "free",
+  nrow = NULL,
+  ncol = NULL,
   ...
 )
 }
@@ -58,10 +60,6 @@ for no transformation.}
 \item{color.by}{Character value or NULL. If character, specifies the
 variable that is displayed by color.}
 
-\item{color.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
-\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
-for no transformation.}
-
 \item{shape.by}{Character
 value or NULL. If character, specifies the variable that is mapped to the respective
 aesthetic of the plot.}
@@ -87,6 +85,15 @@ shape is taken for all points. If character, the respective variable is
 mapped to the shape-aesthetic.}
 
 \item{pt.size}{Numeric values. Specifies size of points.}
+
+\item{scales}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
+
+\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
+
+\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
 }
 \description{
 Plots a dot plot of one categorical variables. Numeric
