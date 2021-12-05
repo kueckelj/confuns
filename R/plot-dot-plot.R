@@ -18,6 +18,7 @@ plot_dot_plot_1d <- function(df,
                              across = NULL,
                              across.subset = NULL,
                              relevel = TRUE,
+                             reorder = TRUE,
                              alpha.by = NULL,
                              alpha.trans = "identity",
                              color.by = NULL,
@@ -30,13 +31,10 @@ plot_dot_plot_1d <- function(df,
                              pt.clrsp = "plasma",
                              pt.shape = 19,
                              pt.size = 3,
-                             scales = "free",
+                             scales = "free_y",
                              nrow = NULL,
                              ncol = NULL,
                              ...){
-
-
-
 
   df <-
     check_across_subset2(
@@ -45,6 +43,26 @@ plot_dot_plot_1d <- function(df,
       across.subset = across.subset,
       relevel = relevel
     )
+
+  if(base::isTRUE(reorder)){
+
+    df <-
+      dplyr::group_by(df, !!rlang::sym(across)) %>%
+      dplyr::mutate(
+        {{y}} := tidytext::reorder_within(
+          x = !!rlang::sym(y),
+          by = !!rlang::sym(x),
+          within = !!rlang::sym(across)
+        )
+      )
+
+    reorder_add_on <- tidytext::scale_y_reordered()
+
+  } else {
+
+    reorder_add_on <- NULL
+
+  }
 
   facet_add_on <-
     make_facet_add_on(across = across, scales = scales, nrow = nrow, ncol = ncol)
@@ -69,7 +87,8 @@ plot_dot_plot_1d <- function(df,
       ...) +
     ggplot2::theme_bw() +
     ggplot2::labs(x = NULL, y = NULL) +
-    facet_add_on
+    facet_add_on +
+    reorder_add_on
 
 }
 
