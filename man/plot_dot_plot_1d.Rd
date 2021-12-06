@@ -28,6 +28,7 @@ plot_dot_plot_1d(
   scales = "free_y",
   nrow = NULL,
   ncol = NULL,
+  .transform.with = NULL,
   ...
 )
 }

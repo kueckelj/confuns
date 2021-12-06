@@ -35,7 +35,15 @@ plot_dot_plot_1d <- function(df,
                              scales = "free_y",
                              nrow = NULL,
                              ncol = NULL,
+                             .transform.with = NULL,
                              ...){
+
+  df <-
+    transform_df(
+      df = df,
+      transform.with = .transform.with,
+      sep = "."
+    )
 
   df <-
     check_across_subset2(
@@ -130,12 +138,20 @@ plot_dot_plot_2d <- function(df,
                              pt.clrsp = "plasma",
                              pt.shape = 19,
                              pt.size = 3,
+                             .transform.with = NULL,
                              ...){
 
   check_data_frame(
     df = df,
     var.class = purrr::set_names(list("factor", "factor"), nm = c(x, y))
   )
+
+  df <-
+    transform_df(
+      df = df,
+      transform.with = .transform.with,
+      sep = "."
+    )
 
   params <-
     adjust_ggplot_params(

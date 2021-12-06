@@ -20,6 +20,7 @@ plot_dot_plot_2d(
   pt.clrsp = "plasma",
   pt.shape = 19,
   pt.size = 3,
+  .transform.with = NULL,
   ...
 )
 }
