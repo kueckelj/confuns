@@ -248,6 +248,10 @@ across_vis2 <- function(across, across_subset){}
 #' displayed.
 #' @param stop_if_null Logical value. If TRUE and the function does not find the object to
 #' extract an informative error is raised. Else the empty value - usually NULL - is returned.
+#' @param transform.with,transform_with List or NULL. If list, can be used to transform continuous variables before plotting.
+#' Names of the list slots refer to the variable. The content of the slot refers to the transforming functions.
+#' Slot content can either be a character vector of function names. Use \code{validScaleTransformations()} to obtain all valid character value inputs.
+#' Or it can be a list of functions (and function names).
 #'
 #' @param test.pairwise Character value or NULL. If character, one of \emph{'t.test', 'wilcox.test'}.
 #' @param test.groupwise Character value or NULL. If character, one of \emph{'anova', 'kruskal.test'}.

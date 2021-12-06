@@ -16,6 +16,7 @@ plot_dot_plot_1d(
   alpha.by = NULL,
   alpha.trans = "identity",
   color.by = NULL,
+  color.trans = "identity",
   shape.by = NULL,
   size.by = NULL,
   size.trans = "reverse",
@@ -28,7 +29,7 @@ plot_dot_plot_1d(
   scales = "free_y",
   nrow = NULL,
   ncol = NULL,
-  .transform.with = NULL,
+  transform.with = NULL,
   ...
 )
 }
@@ -62,6 +63,10 @@ for no transformation.}
 
 \item{color.by}{Character value or NULL. If character, specifies the
 variable that is displayed by color.}
+
+\item{color.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
+\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
+for no transformation.}
 
 \item{shape.by}{Character
 value or NULL. If character, specifies the variable that is mapped to the respective
@@ -97,6 +102,11 @@ are displayed.}
 
 \item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}
+
+\item{transform.with}{List or NULL. If list, can be used to transform continuous variables before plotting.
+Names of the list slots refer to the variable. The content of the slot refers to the transforming functions.
+Slot content can either be a character vector of function names. Use \code{validScaleTransformations()} to obtain all valid character value inputs.
+Or it can be a list of functions (and function names).}
 }
 \description{
 Plots a dot plot of one categorical variables. Numeric

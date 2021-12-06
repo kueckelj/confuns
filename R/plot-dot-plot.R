@@ -23,6 +23,7 @@ plot_dot_plot_1d <- function(df,
                              alpha.by = NULL,
                              alpha.trans = "identity",
                              color.by = NULL,
+                             color.trans = "identity",
                              shape.by = NULL,
                              size.by = NULL,
                              size.trans = "reverse",
@@ -35,13 +36,13 @@ plot_dot_plot_1d <- function(df,
                              scales = "free_y",
                              nrow = NULL,
                              ncol = NULL,
-                             .transform.with = NULL,
+                             transform.with = NULL,
                              ...){
 
   df <-
     transform_df(
       df = df,
-      transform.with = .transform.with,
+      transform.with = transform.with,
       sep = "."
     )
 
@@ -103,6 +104,7 @@ plot_dot_plot_1d <- function(df,
       variable = pull_var(df, color.by),
       clrp = pt.clrp,
       clrsp = pt.clrsp,
+      color.trans = color.trans,
       ...) +
     ggplot2::theme_bw() +
     ggplot2::labs(x = NULL, y = NULL) +
@@ -128,9 +130,10 @@ plot_dot_plot_2d <- function(df,
                              y,
                              alpha.by = NULL,
                              alpha.trans = "identity",
-                             color.by = "overlap",
+                             color.by = NULL,
+                             color.trans = "identity",
                              shape.by = NULL,
-                             size.by = "fdr",
+                             size.by = NULL,
                              size.trans = "reverse",
                              pt.alpha = 0.9,
                              pt.color = "black",
@@ -138,7 +141,7 @@ plot_dot_plot_2d <- function(df,
                              pt.clrsp = "plasma",
                              pt.shape = 19,
                              pt.size = 3,
-                             .transform.with = NULL,
+                             transform.with = NULL,
                              ...){
 
   check_data_frame(
@@ -149,7 +152,7 @@ plot_dot_plot_2d <- function(df,
   df <-
     transform_df(
       df = df,
-      transform.with = .transform.with,
+      transform.with = transform.with,
       sep = "."
     )
 
@@ -174,6 +177,7 @@ plot_dot_plot_2d <- function(df,
       clrp = pt.clrp,
       clrsp = pt.clrsp,
       variable = df[[color.by]],
+      color.trans = color.trans,
       ...
     ) +
     ggplot2::theme_bw() +

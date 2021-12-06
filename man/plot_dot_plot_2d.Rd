@@ -10,9 +10,10 @@ plot_dot_plot_2d(
   y,
   alpha.by = NULL,
   alpha.trans = "identity",
-  color.by = "overlap",
+  color.by = NULL,
+  color.trans = "identity",
   shape.by = NULL,
-  size.by = "fdr",
+  size.by = NULL,
   size.trans = "reverse",
   pt.alpha = 0.9,
   pt.color = "black",
@@ -20,7 +21,7 @@ plot_dot_plot_2d(
   pt.clrsp = "plasma",
   pt.shape = 19,
   pt.size = 3,
-  .transform.with = NULL,
+  transform.with = NULL,
   ...
 )
 }
@@ -41,6 +42,10 @@ for no transformation.}
 
 \item{color.by}{Character value or NULL. If character, specifies the
 variable that is displayed by color.}
+
+\item{color.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
+\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
+for no transformation.}
 
 \item{shape.by}{Character
 value or NULL. If character, specifies the variable that is mapped to the respective
@@ -67,6 +72,11 @@ shape is taken for all points. If character, the respective variable is
 mapped to the shape-aesthetic.}
 
 \item{pt.size}{Numeric values. Specifies size of points.}
+
+\item{transform.with}{List or NULL. If list, can be used to transform continuous variables before plotting.
+Names of the list slots refer to the variable. The content of the slot refers to the transforming functions.
+Slot content can either be a character vector of function names. Use \code{validScaleTransformations()} to obtain all valid character value inputs.
+Or it can be a list of functions (and function names).}
 }
 \value{
 A ggplot.
