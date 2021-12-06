@@ -19,6 +19,7 @@ plot_dot_plot_1d <- function(df,
                              across.subset = NULL,
                              relevel = TRUE,
                              reorder = TRUE,
+                             reorder.rev = FALSE,
                              alpha.by = NULL,
                              alpha.trans = "identity",
                              color.by = NULL,
@@ -46,12 +47,22 @@ plot_dot_plot_1d <- function(df,
 
   if(base::isTRUE(reorder)){
 
+    if(base::isTRUE(reorder.rev)){
+
+      df <- dplyr::mutate(df, reorder_var = -!!rlang::sym(x))
+
+    } else {
+
+      df <- dplyr::mutate(df, reorder_var = !!rlang::sym(x))
+
+    }
+
     df <-
       dplyr::group_by(df, !!rlang::sym(across)) %>%
       dplyr::mutate(
         {{y}} := tidytext::reorder_within(
           x = !!rlang::sym(y),
-          by = !!rlang::sym(x),
+          by = reorder_var,
           within = !!rlang::sym(across)
         )
       )

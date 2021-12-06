@@ -12,6 +12,7 @@ plot_dot_plot_1d(
   across.subset = NULL,
   relevel = TRUE,
   reorder = TRUE,
+  reorder.rev = FALSE,
   alpha.by = NULL,
   alpha.trans = "identity",
   color.by = NULL,
