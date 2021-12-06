@@ -17,10 +17,9 @@
 #' contains, or \emph{'overlap'}, the number of genes that overlapped between
 #' the provided gene signature and the gene set.
 #' @param remove Character value or NULL. If character, regular expression given
-#' to \code{pattern} of \code{stringr::str_remove_all()}. If character, regular expression given to
-#' \code{pattern} of \code{stringr::str_replace_all()}. Used to adjust gene set names.
+#' to \code{pattern} of \code{stringr::str_remove_all()}. Used to adjust gene set names.
 #' @param replace Character vector of length 2 or NULL. If character vector, two regular expressions.
-#' First is given to argument \code{pattern} and second is given to argument \code{replacement}
+#' First value is given to argument \code{pattern} and second is given to argument \code{replacement}
 #' of \code{stringr::str_replace_all()}. Used to adjust gene set names.
 #' @inherit argument_dummy params
 #' @param ... Additional arguments given to \code{scale_color_add_on()}.

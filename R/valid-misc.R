@@ -22,11 +22,11 @@ validColorSpectra <- function(){
 
 }
 
-
+#' @export
 validScaleTransformations <- function(){
 
-  c("asn", "atanh", "boxcox", "date", "exp", "hms", "identity", "log",
-    "log10", "log1p", "log2", "logit", "modulus", "probability", "probit",
-    "pseudo_log", "reciprocal", "reverse", "sqrt", "time")
+  base::names(transformation_fns)
 
 }
+
+

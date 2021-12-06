@@ -90,11 +90,10 @@ continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
 
 \item{remove}{Character value or NULL. If character, regular expression given
-to \code{pattern} of \code{stringr::str_remove_all()}. If character, regular expression given to
-\code{pattern} of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
+to \code{pattern} of \code{stringr::str_remove_all()}. Used to adjust gene set names.}
 
 \item{replace}{Character vector of length 2 or NULL. If character vector, two regular expressions.
-First is given to argument \code{pattern} and second is given to argument \code{replacement}
+First value is given to argument \code{pattern} and second is given to argument \code{replacement}
 of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
 
 \item{alpha.by}{Character
