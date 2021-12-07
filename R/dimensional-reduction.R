@@ -24,13 +24,6 @@ dim_red_conv <- methods::setClass(Class = "dim_red_conv",
 )
 
 
-#' Title
-#'
-#' @param data
-#' @param key.name
-#' @param scale
-#'
-#' @return
 #' @export
 
 compute_dim_red <- function(data,
@@ -185,13 +178,6 @@ compute_dim_red <- function(data,
 
 
 
-#' Title
-#'
-#' @param dimred.obj
-#' @param with.data
-#' @param with.meta
-#'
-#' @return
 #' @export
 #'
 get_dim_red_df <- function(dimred.obj, with.data = TRUE, with.meta = TRUE){
@@ -229,24 +215,6 @@ get_dim_red_df <- function(dimred.obj, with.data = TRUE, with.meta = TRUE){
 
 
 
-#' Title
-#'
-#' @param dimred.obj
-#' @param dims
-#' @param clr.aes
-#' @param clr.by
-#' @param clrp
-#' @param clrp.adjust
-#' @param clrsp
-#' @param pt.alpha
-#' @param pt.clr
-#' @param pt.fill
-#' @param pt.shape
-#' @param pt.size
-#' @param add.df
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 plot_dim_red <- function(dimred.obj,

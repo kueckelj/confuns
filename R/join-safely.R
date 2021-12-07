@@ -13,8 +13,14 @@
 #' @return Joined data.frame.
 #' @export
 #'
-#' @examples
-join_safely <- function(old.df, new.df, ref.new.df, variable.names, by,  valid.classes = "any", overwrite = FALSE, verbose = TRUE){
+join_safely <- function(old.df,
+                        new.df,
+                        ref.new.df,
+                        variable.names,
+                        by,
+                        valid.classes = "any",
+                        overwrite = FALSE,
+                        verbose = TRUE){
 
   check_data_frame(
     df = new.df,

@@ -4,7 +4,7 @@
 \alias{adjust_ggplot_params}
 \title{Adjust ggplot parameters}
 \usage{
-adjust_ggplot_params(params)
+adjust_ggplot_params(params, sep = "_")
 }
 \description{
 Adjust ggplot parameters

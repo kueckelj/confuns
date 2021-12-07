@@ -29,9 +29,6 @@ valid_shapes_corr <- c("circle","rect", "tile")
 
 #' Title
 #'
-#' @param method.corr
-#'
-#' @return
 #' @export
 #'
 check_method_corr <- function(method.corr){
@@ -42,14 +39,6 @@ check_method_corr <- function(method.corr){
 
 
 
-#' Title
-#'
-#' @param input
-#' @param method.corr
-#' @param across
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 check_corr_availability <- function(input, method.corr, across = NULL, fdb.fn = "stop"){
@@ -80,13 +69,6 @@ check_corr_availability <- function(input, method.corr, across = NULL, fdb.fn = 
 
 # initiation  -------------------------------------------------------------
 
-#' Title
-#'
-#' @param corr.data
-#' @param default.method
-#' @param default.dir
-#'
-#' @return
 #' @export
 initiate_corr_object <- function(corr.data,
                                  key.name = NULL,
@@ -151,13 +133,6 @@ initiate_corr_object <- function(corr.data,
 
 # set ---------------------------------------------------------------------
 
-#' Title
-#'
-#' @param corr.obj
-#' @param method.corr
-#' @param directory
-#'
-#' @return
 #' @export
 #'
 set_corr_default <- function(corr.obj, method.corr = NA, directory = NA){
@@ -184,13 +159,6 @@ set_corr_default <- function(corr.obj, method.corr = NA, directory = NA){
 
 
 # computation -------------------------------------------------------------
-
-#' Title
-#'
-#' @param corr.obj
-#' @param methods.corr
-#'
-#' @return
 #' @export
 #'
 correlate_all <- function(corr.obj, methods.corr = NULL){
@@ -206,14 +174,6 @@ correlate_all <- function(corr.obj, methods.corr = NULL){
 }
 
 
-#' Title
-#'
-#' @param corr.obj
-#' @param across
-#' @param methods.corr
-#' @param verbose
-#'
-#' @return
 #' @export
 #'
 correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, print.errors = FALSE, verbose = TRUE){
@@ -345,13 +305,6 @@ correlate_across <- function(corr.obj, across = NULL, methods.corr = NULL, print
 # extraction --------------------------------------------------------------
 
 
-#' Title
-#'
-#' @param corr.obj
-#' @param keep.key
-#' @param return
-#'
-#' @return
 #' @export
 #'
 get_corr_data <- function(corr.obj, keep.key = FALSE, return = "tibble"){
@@ -382,14 +335,6 @@ get_corr_data <- function(corr.obj, keep.key = FALSE, return = "tibble"){
 }
 
 
-#' Title
-#'
-#' @param corr.obj
-#' @param method.corr
-#' @param across
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 get_corr_results <- function(corr.obj, method.corr = NULL, across = NULL, across.subset = NULL, fdb.fn = "stop"){
@@ -423,29 +368,6 @@ get_corr_results <- function(corr.obj, method.corr = NULL, across = NULL, across
 
 # plotting ----------------------------------------------------------------
 
-#' Title
-#'
-#' @param corr.input
-#' @param method.corr
-#' @param plot.type
-#' @param display.diagonal
-#' @param p.mtr
-#' @param signif.level
-#' @param clr.low
-#' @param clr.high
-#' @param shape
-#' @param display.with.size
-#' @param size.max
-#' @param display.values
-#' @param values.alpha
-#' @param values.clr
-#' @param values.digits
-#' @param values.size
-#' @param draw.grid
-#' @param grid.clr
-#' @param grid.size
-#'
-#' @return
 #' @export
 #'
 plot_corrplot <- function(corr.input,
@@ -500,9 +422,6 @@ plot_corrplot <- function(corr.input,
   corr.mtr <- subset_mtr(mtr = corr.mtr, dims = c(1,2), variables.subset = variables.subset)
 
   p.mtr <- subset_mtr(mtr = p.mtr, dims = c(1,2), variables.subset = variables.subset)
-
-
-
 
   # reshape correlation input
   df_corr <-
@@ -663,34 +582,6 @@ plot_corrplot <- function(corr.input,
 }
 
 
-#' Title
-#'
-#' @param corr.obj
-#' @param across
-#' @param across.subset
-#' @param relevel
-#' @param method.corr
-#' @param signif.level
-#' @param clr.low
-#' @param clr.high
-#' @param shape
-#' @param display.with.size
-#' @param size.max
-#' @param display.values
-#' @param values.alpha
-#' @param values.clr
-#' @param values.digits
-#' @param values.size
-#' @param draw.grid
-#' @param grid.clr
-#' @param grid.size
-#' @param nrow
-#' @param ncol
-#' @param variables.subset
-#' @param plot.type
-#' @param display.diagonal
-#'
-#' @return
 #' @export
 #'
 plot_corrplots <- function(corr.obj,
@@ -980,16 +871,7 @@ plot_corrplots <- function(corr.obj,
 }
 
 
-#' Title
-#'
-#' @param corr.obj
-#' @param method.corr
-#' @param across
-#' @param aes.fill
-#'
-#' @return
 #' @export
-#'
 plot_correlation_sd <- function(corr.obj, method.corr = NULL,  across = NULL, aes.fill = "sd", signif.level = NULL){
 
   assign_corr_default(corr.obj)
@@ -1108,14 +990,6 @@ plot_correlation_variance <- plot_correlation_sd
 
 # object manipulation -----------------------------------------------------
 
-#' @title Discard numeric variables of corr_conv objects
-#'
-#' @param corr.obj
-#' @param vars
-#' @param discard.data
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 discard_numeric_vars <- function(corr.obj, vars, discard.data = TRUE, ...){
@@ -1193,12 +1067,6 @@ discard_numeric_vars <- function(corr.obj, vars, discard.data = TRUE, ...){
 }
 
 
-#' @title Rename numeric variables of corr_conv objects
-#'
-#' @param corr.obj
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 rename_numeric_vars <- function(corr.obj, ..., rename.data = TRUE){
@@ -1273,7 +1141,6 @@ rename_numeric_vars <- function(corr.obj, ..., rename.data = TRUE){
 
 }
 
-#' @rdname rename_numeric_vars
 #' @export
 rename_numeric_vars_with <- function(corr.obj, ..., rename.data = TRUE){
 
@@ -1344,13 +1211,7 @@ rename_numeric_vars_with <- function(corr.obj, ..., rename.data = TRUE){
 
 # miscellaneous -----------------------------------------------------------
 
-#' Title
-#'
-#' @param corr.obj
-#'
-#' @return
 #' @export
-#'
 assign_corr_default <- function(corr.obj){
 
   ce <- rlang::caller_env()

@@ -19,7 +19,7 @@ assemble_list <- function(obj_names, env){
 
 #' @title Adjust ggplot parameters
 #' @export
-adjust_ggplot_params <- function(params){
+adjust_ggplot_params <- function(params, sep = "_"){
 
   # get environment of plotting function
   cenv <- rlang::caller_env()
@@ -28,7 +28,9 @@ adjust_ggplot_params <- function(params){
   cfn <- rlang::caller_fn()
 
   # get names of the arguments of the plotting function
-  args_names <- rlang::fn_fmls_names(fn = cfn)
+  args_names <-
+    rlang::fn_fmls_names(fn = cfn) %>%
+    vselect(-matches("\\.\\.\\."))
 
   # assemble list that contains the input of the arguments
   # of the plotting function
@@ -40,7 +42,7 @@ adjust_ggplot_params <- function(params){
   # to an aesthetic that could otherwise be defined as a set parameter
   aes_names <-
     base::names(params) %>%
-    stringr::str_c(., "by", sep = "_")
+    stringr::str_c(., "by", sep = sep)
 
   # list of argument input of only the aesthetic assignment
   # arguments
@@ -51,7 +53,7 @@ adjust_ggplot_params <- function(params){
   assigned_aes <-
     purrr::discard(.x = aes_input, .p = base::is.null) %>%
     base::names() %>%
-    stringr::str_remove(pattern = "_by")
+    stringr::str_remove(pattern = stringr::str_c(sep, "by"))
 
   # remove the parameter arguments for which a variable has
   # been assigned

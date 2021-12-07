@@ -18,60 +18,10 @@ hclust_conv <- methods::setClass(Class = "hclust_conv",
 
 # r-objects ---------------------------------------------------------------
 
-#' @export
-valid_methods_dist <- c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski")
-
-#' @export
-valid_methods_aggl <- c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
-
-
 
 # input check -------------------------------------------------------------
 
-#' Title
-#'
-#' @param h
-#' @param k
-#' @param only.one
-#'
-#' @return
-#' @export
-#'
 
-check_h_k <- function(h = NULL, k = NULL, only.one = FALSE, skip.allow = TRUE){
-
-  are_vectors(c("k", "h"), mode = "numeric", skip.allow = TRUE, skip.val = NULL)
-
-  if(base::all(base::is.null(k), base::is.null(h)) & base::isFALSE(skip.allow)){
-
-    msg <- "Please specify either argument 'k' or argument 'h'."
-
-    give_feedback(msg = msg, fdb.fn = "stop")
-
-  }
-
-  if(base::isTRUE(only.one)){
-
-    if(base::all(base::is.numeric(k), base::is.numeric(h))){
-
-      msg <- "Please specify only one of argument 'k' or argument 'h'. Not both."
-
-      give_feedback(msg = msg, fdb.fn = "stop")
-
-    }
-
-  }
-
-}
-
-#' Title
-#'
-#' @param input
-#' @param method.dist
-#' @param method.aggl
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 
@@ -90,14 +40,6 @@ check_hclust_availability <- function(input, method.dist, method.aggl, fdb.fn = 
 }
 
 
-#' Title
-#'
-#' @param method.dist
-#' @param method.aggl
-#' @param methods.dist
-#' @param methods.aggl
-#'
-#' @return
 #' @export
 #'
 
@@ -148,12 +90,6 @@ check_hclust_methods <- function(method.dist = NULL, method.aggl = NULL, methods
 
 # initiation  -------------------------------------------------------------
 
-
-#' Title
-#'
-#' @param hclust_data
-#'
-#' @return
 #' @export
 #'
 
@@ -265,13 +201,6 @@ initiate_hclust_object <- function(hclust_data = NULL,
 
 # set ---------------------------------------------------------------------
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param method.aggl
-#' @param method.dist
-#'
-#' @return
 #' @export
 #'
 
@@ -314,14 +243,6 @@ set_hclust_default <- function(hcl.obj, method.aggl = NA, method.dist = NA, dire
 
 # computation  ------------------------------------------------------------
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param methods.dist
-#' @param p
-#' @param verbose
-#'
-#' @return
 #' @export
 #'
 
@@ -411,17 +332,13 @@ compute_distance_matrices <- function(hcl.obj, methods.dist, p = 2, verbose = TR
 }
 
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param methods.aggl
-#' @param methods.dist
-#'
-#' @return
 #' @export
 #'
 
-compute_hierarchical_cluster <- function(hcl.obj, methods.aggl = NULL, methods.dist = NULL, verbose = TRUE){
+compute_hierarchical_cluster <- function(hcl.obj,
+                                         methods.aggl = NULL,
+                                         methods.dist = NULL,
+                                         verbose = TRUE){
 
 
   assign_hclust_default(hcl.obj)
@@ -540,11 +457,6 @@ compute_hierarchical_cluster <- function(hcl.obj, methods.aggl = NULL, methods.d
 # extraction --------------------------------------------------------------
 
 
-#' Title
-#'
-#' @param hcl.obj
-#'
-#' @return
 #' @export
 #'
 
@@ -567,14 +479,6 @@ get_hclust_data <- function(hcl.obj, return.tibble = TRUE){
 
 }
 
-
-#' Title
-#'
-#' @param hcl.obj
-#' @param method.dist
-#' @param method.aggl
-#'
-#' @return
 #' @export
 #'
 
@@ -601,15 +505,6 @@ get_hclust_obj <- function(hcl.obj,
 }
 
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param methods.dist
-#' @param methods.aggl
-#' @param k
-#' @param h
-#'
-#' @return
 #' @export
 #'
 
@@ -724,14 +619,6 @@ get_hclust_df <- function(hcl.obj,
 
 }
 
-
-#' Title
-#'
-#' @param hc
-#' @param k
-#' @param h
-#'
-#' @return
 #' @export
 #'
 
@@ -792,52 +679,11 @@ get_dendro_data <- function(hcl.obj,
 
 # plotting ----------------------------------------------------------------
 
-#' Title
-#'
-#' @param nbLabels
-#' @param direction
-#' @param fan
-#'
-#' @return
 #' @export
 #'
 
-define_label_params <- function(nbLabels,
-                                labels.angle = 0,
-                                labels.hjust = 0,
-                                direction = c("tb", "bt", "lr", "rl"),
-                                fan       = FALSE) {
-  if (base::isTRUE(fan)){
-
-    angle       <-  360 / nbLabels * 1:nbLabels + 90
-    idx         <-  angle >= 90 & angle <= 270
-    angle[idx]  <-  angle[idx] + 180
-    hjust       <-  base::rep(0, nbLabels)
-    hjust[idx]  <-  1
-
-  } else {
-
-    angle       <-  base::rep(labels.angle, nbLabels)
-    hjust       <-  labels.hjust
-    if (direction %in% c("tb", "rl")) { hjust <- 1 }
-  }
-
-  res_list <- list(angle = angle, hjust = hjust)
-
-  base::return(res_list)
-
-}
 
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param method.dist
-#' @param method.aggl
-#' @param display.title
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 
@@ -975,7 +821,6 @@ plot_dendrogram <- function(hcl.obj,
 }
 
 
-#' @rdname plot_dendrogram
 #' @export
 plot_dendrograms <- function(hcl.obj,
                              methods.dist = NULL,
@@ -1062,11 +907,6 @@ plot_dendrograms <- function(hcl.obj,
 # miscellaneous -----------------------------------------------------------
 
 
-#' Title
-#'
-#' @param hcl.obj
-#'
-#' @return
 #' @export
 #'
 assign_hclust_default <- function(hcl.obj){
@@ -1116,12 +956,6 @@ assign_hclust_default <- function(hcl.obj){
 
 # printing
 
-#' Title
-#'
-#' @param hcl.obj
-#' @param key_name
-#'
-#' @return
 #' @export
 #'
 print_hclust_overview <- function(hcl.obj, key_name = TRUE){

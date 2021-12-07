@@ -1,13 +1,5 @@
 
 
-#' Title
-#'
-#' @param df
-#' @param to
-#' @param verbose
-#' @param with.time
-#'
-#' @return
 #' @export
 #'
 rescale_df <- function(df, to = c(0.01, 1), verbose = TRUE, with.time = TRUE){

@@ -1,3 +1,40 @@
+#' @title Adapt glue reference
+#'
+#' @description Switch between plural or singular reference.
+#'
+#' @param input Vector to be checked.
+#' @param sg Character value to return if length of \code{input} is 1.
+#' @param pl Character value to return if length of \code{input} is > 1.
+#' If set to NULL an \emph{'s'} is attached to in put of \code{sg}.
+#' @param zero Character value to treturn if lengt of \code{input} is 0.
+#'
+#' @return Either sg or pl.
+#' @export
+
+adapt_reference <- function(input, sg, pl = NULL, zero = ""){
+
+  if(base::length(input) == 1){
+
+    base::return(sg)
+
+  } else if(base::length(input) >= 1){
+
+    if(base::is.null(pl)){
+
+      pl <- stringr::str_c(sg, "s", sep = "")
+
+    }
+
+    base::return(pl)
+
+  } else {
+
+    base::return(zero)
+
+  }
+
+}
+
 #' @title Assign objects into the global environment
 #'
 #' @param assign Logical.
@@ -102,41 +139,21 @@ glue_list_report <- function(lst, prefix = "", separator = " = ", combine_via = 
 
 }
 
-
-#' @title Adapt glue reference
-#'
-#' @description Switch between plural or singular reference.
-#'
-#' @param input Vector to be checked.
-#' @param sg Character value to return if length of \code{input} is 1.
-#' @param pl Character value to return if length of \code{input} is > 1.
-#' If set to NULL an \emph{'s'} is attached to in put of \code{sg}.
-#' @param zero Character value to treturn if lengt of \code{input} is 0.
-#'
-#' @return Either sg or pl.
+#' @title Pull var safely
 #' @export
+pull_var <- function(df, var){
 
-adapt_reference <- function(input, sg, pl = NULL, zero = ""){
+  if(base::is.null(var)){
 
-  if(base::length(input) == 1){
-
-    base::return(sg)
-
-  } else if(base::length(input) >= 1){
-
-    if(base::is.null(pl)){
-
-      pl <- stringr::str_c(sg, "s", sep = "")
-
-    }
-
-    base::return(pl)
+    out <- NULL
 
   } else {
 
-    base::return(zero)
+    out <- df[[var]]
 
   }
+
+  return(out)
 
 }
 
@@ -165,3 +182,24 @@ unfactor <- function(input, ...){
   base::return(input)
 
 }
+
+
+
+# v -----------------------------------------------------------------------
+
+
+#' @title Obtain valid input options
+#'
+#' @description These functions return all valid input options for
+#' specific arguments.
+#'
+#' @return Character vector.
+#' @export
+#'
+validInput <- function(){
+
+  NULL
+
+}
+
+

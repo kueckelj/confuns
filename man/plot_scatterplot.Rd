@@ -16,17 +16,22 @@ plot_scatterplot(
   scales = "fixed",
   space = "fixed",
   pt.alpha = 0.9,
-  pt.clr = "black",
-  pt.clrp = "milo",
+  pt.clr = NA,
+  pt.color = "black",
   pt.fill = "black",
   pt.shape = 19,
   pt.size = 1.5,
-  clr.aes = "color",
-  clr.by = NULL,
+  alpha.by = NULL,
+  color.aes = "color",
+  color.by = NULL,
+  shape.by = NULL,
+  size.by = NULL,
+  clrp = "milo",
   clrp.adjust = NULL,
+  clrsp = "inferno",
   display.smooth = FALSE,
   smooth.alpha = 0.9,
-  smooth.clr = "blue",
+  smooth.color = "blue",
   smooth.method = "lm",
   smooth.se = FALSE,
   smooth.size = 1,
@@ -37,14 +42,94 @@ plot_scatterplot(
   corr.pos.y = NULL,
   corr.text.sep = "\\n",
   corr.text.size = 1,
+  clr.aes = NA,
+  clr.by = NA,
+  pt.clrp = NA,
   ...
 )
 }
 \arguments{
-\item{...}{}
+\item{df}{A data.frame.}
+
+\item{x}{Character value. Variable to be plotted on the respective axis.}
+
+\item{y}{Character value. Variable to be plotted on the respective axis.}
+
+\item{across}{Character value. Specifies the discrete variable in the data.frame
+across which the variables of interest are to be analyzed or displayed.}
+
+\item{across.subset}{Character vector. The groups of interest that the grouping variable
+denoted in \code{across} contains.
+
+If there are more groups you are interested in than they are groups you are not interested
+in specify those that you are not interested in prefixed with an \emph{'-'}.
+Variables prefixed that way are discarded and the remaining are kept.}
+
+\item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
+\code{variables} determines the order in which the groups of interest are displayed.}
+
+\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
+
+\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
+
+\item{scales}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+are displayed.}
+
+\item{pt.alpha}{Numeric value. Specifies the transparency of points.}
+
+\item{pt.color}{Character value. Specifies the color with which all points are displayed .}
+
+\item{pt.shape}{Numeric or character value. If numeric, the respective
+shape is taken for all points. If character, the respective variable is
+mapped to the shape-aesthetic.}
+
+\item{pt.size}{Numeric values. Specifies size of points.}
+
+\item{alpha.by}{Character
+value or NULL. If character, specifies the variable that is mapped to the respective
+aesthetic of the plot.}
+
+\item{color.aes}{Either \emph{'color'} or \emph{'fill'}. Specifies the
+aesthetic that is used to visualize the variable that is specified in \code{color_by}.
+Ignored if \code{color_by} is NULL.}
+
+\item{color.by}{Character value or NULL. If character, specifies the
+variable that is displayed by color.}
+
+\item{shape.by}{Character
+value or NULL. If character, specifies the variable that is mapped to the respective
+aesthetic of the plot.}
+
+\item{size.by}{Character
+value or NULL. If character, specifies the variable that is mapped to the respective
+aesthetic of the plot.}
+
+\item{clrp}{Character value. Specifies the color palette to be used to represent
+groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
+input options.}
+
+\item{clrp.adjust}{Named character vector. Can be used to adjust colors
+with which groups are displayed. Names indicate groups, values
+indicate the colors with which specific groups are supposed to be displayed.}
+
+\item{clrsp}{Character value. Specfies the color spectrum to be used to represent
+continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
+valid input options.}
+
+\item{smooth.alpha}{Numeric value. The transparency of the smoothed line.}
+
+\item{smooth.color}{Character value. The color of the smoothed line.}
+
+\item{smooth.method}{Character value. The smoothing method. Given to argument
+\code{method} of \code{ggplot2::geom_smooth()}.}
+
+\item{smooth.se}{Logical value. Indicates if the confidence intervals are
+displayed.}
 }
 \value{
-
+A ggplot.
 }
 \description{
 Title

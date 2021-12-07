@@ -109,7 +109,31 @@ across_subset_options <- function(df, across){
 
 }
 
+#' @title Convert lgl vars to factors
+#' @export
+#'
+logical_to_group <- function(df, suffix = "_group", skip = character(0)){
 
+  lgl_names <-
+    dplyr::select(df, -dplyr::any_of(x = skip)) %>%
+    dplyr::select_if(.predicate = base::is.logical) %>%
+    base::colnames()
+
+  for(lgl_name in lgl_names){
+
+    df[[stringr::str_c(lgl_name, suffix)]] <-
+      base::as.character(df[[lgl_name]]) %>%
+      dplyr::recode(
+        "TRUE" = lgl_name,
+        "FALSE" = "Other",
+      ) %>%
+      base::as.factor()
+
+  }
+
+  return(df)
+
+}
 
 #' @title Wrapper around dplyr::select()
 #'

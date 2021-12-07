@@ -1,14 +1,6 @@
 
 
-#' @title Rename vector in tidyverse style
-#'
-#' @param input
-#' @param ...
-#'
-#' @return
 #' @export
-#'
-
 vredefine <- function(input, ..., safely = TRUE){
 
   if(base::isTRUE(safely)){
@@ -44,11 +36,10 @@ vredefine <- function(input, ..., safely = TRUE){
       base::colnames()
   }
 
-  base::return(redefined_input)
+  return(redefined_input)
 
 }
 
-#' @rdname vredefine
 #' @export
 vredefine_with <- function(input, ...){
 
@@ -60,7 +51,6 @@ vredefine_with <- function(input, ...){
 
 }
 
-#' @rdname vredefine
 #' @export
 vrename <- function(input, ..., safely = TRUE){
 
@@ -99,12 +89,11 @@ vrename <- function(input, ..., safely = TRUE){
       base::colnames()
   }
 
-  base::return(renamed_input)
+  return(renamed_input)
 
 
 }
 
-#' @rdname vredefine
 #' @export
 vrename_with <- function(input, ...){
 
@@ -119,13 +108,6 @@ vrename_with <- function(input, ...){
 }
 
 
-#' Title
-#'
-#' @param lst
-#' @param ...
-#' @param safely
-#'
-#' @return
 #' @export
 #'
 lrename <- function(lst, ..., safely = TRUE){
@@ -167,11 +149,10 @@ lrename <- function(lst, ..., safely = TRUE){
 
   renamed_lst <- purrr::set_names(lst, renamed_input)
 
-  base::return(renamed_lst)
+  return(renamed_lst)
 
 }
 
-#' @rdname
 #' @export
 lrename_with <- function(lst, ...){
 
@@ -192,12 +173,6 @@ lrename_with <- function(lst, ...){
 
 
 #' @title Rename matrix in tidyverse style
-#'
-#' @param mtr
-#' @param dims
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 mrename <- function(mtr, dims = c(1,2), ...){
@@ -216,12 +191,11 @@ mrename <- function(mtr, dims = c(1,2), ...){
 
   }
 
-  base::return(mtr)
+  return(mtr)
 
 
 }
 
-#' @rdname mrename
 #' @export
 mrename_with <- function(mtr, dims = c(1,2), ...){
 
@@ -239,17 +213,13 @@ mrename_with <- function(mtr, dims = c(1,2), ...){
 
   }
 
-  base::return(mtr)
+  return(mtr)
 
 }
 
 
 #' @title Save wrapper around dplyr::rename()
 #'
-#' @param df
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 rename_safely <- function(df, ...){
@@ -267,11 +237,11 @@ rename_safely <- function(df, ...){
 
   if(!base::is.data.frame(df_renamed)){
 
-    base::return(df)
+    return(df)
 
   } else {
 
-    base::return(df_renamed)
+    return(df_renamed)
 
   }
 

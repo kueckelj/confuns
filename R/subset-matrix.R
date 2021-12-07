@@ -1,14 +1,6 @@
 
 
 
-#' Title
-#'
-#' @param mtr
-#' @param identical.dims
-#' @param dim
-#' @param variables.subset
-#'
-#' @return
 #' @export
 #'
 subset_mtr <- function(mtr = NULL, dims = NULL, variables.subset = NULL){

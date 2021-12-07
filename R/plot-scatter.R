@@ -1,41 +1,9 @@
 
 #' Title
 #'
-#' @param df
-#' @param x
-#' @param y
-#' @param across
-#' @param across.subset
-#' @param relevel
-#' @param ncol
-#' @param nrow
-#' @param scales
-#' @param space
-#' @param pt.alpha
-#' @param pt.clr
-#' @param pt.clrp
-#' @param pt.fill
-#' @param pt.shape
-#' @param pt.size
-#' @param clr.aes
-#' @param clr.by
-#' @param clrp.adjust
-#' @param display.smooth
-#' @param smooth.alpha
-#' @param smooth.clr
-#' @param smooth.method
-#' @param smooth.se
-#' @param smooth.size
-#' @param display.corr
-#' @param corr.method
-#' @param corr.p.min
-#' @param corr.pos.x
-#' @param corr.pos.y
-#' @param corr.text.sep
-#' @param corr.text.size
-#' @param ...
+#' @inherit argument_dummy params
 #'
-#' @return
+#' @return A ggplot.
 #' @export
 #'
 plot_scatterplot <- function(df,
@@ -49,17 +17,22 @@ plot_scatterplot <- function(df,
                              scales = "fixed",
                              space = "fixed",
                              pt.alpha = 0.9,
-                             pt.clr = "black",
-                             pt.clrp = "milo",
+                             pt.clr = NA,
+                             pt.color = "black",
                              pt.fill = "black",
                              pt.shape = 19,
                              pt.size = 1.5,
-                             clr.aes = "color",
-                             clr.by = NULL,
+                             alpha.by = NULL,
+                             color.aes = "color",
+                             color.by = NULL,
+                             shape.by = NULL,
+                             size.by = NULL,
+                             clrp = "milo",
                              clrp.adjust = NULL,
+                             clrsp = "inferno",
                              display.smooth = FALSE,
                              smooth.alpha = 0.9,
-                             smooth.clr = "blue",
+                             smooth.color = "blue",
                              smooth.method = "lm",
                              smooth.se = FALSE,
                              smooth.size = 1,
@@ -70,9 +43,32 @@ plot_scatterplot <- function(df,
                              corr.pos.y = NULL,
                              corr.text.sep = "\n",
                              corr.text.size = 1,
+                             clr.aes = NA,
+                             clr.by = NA,
+                             pt.clrp = NA,
                              ...
                              ){
 
+  if(!base::is.na(pt.clr)){
+
+    warning("pt.clr is deprecated")
+    pt.color <- pt.clr
+
+  }
+
+  if(!base::is.na(clr.aes)){
+
+    warning("clr.aes is deprecated")
+    color.aes <- clr.aes
+
+  }
+
+  if(!base::is.na(clr.by)){
+
+    warning("clr.by is deprecated")
+    color.by <- clr.by
+
+  }
 
   check_data_frame(
     df = df,
@@ -83,47 +79,7 @@ plot_scatterplot <- function(df,
 
   # subsetting according to across input ------------------------------------
 
-  if(base::length(across) == 2){
-
-    if(base::length(relevel == 1)){
-
-      relevel <- base::rep(relevel, 2)
-
-    }
-
-    if(!base::is.null(across.subset) & !is_list(input = across.subset)){
-
-      msg <- "If input for argument 'across' is of length two the input for argument 'across.subset' must be a named list or NULL."
-
-      give_feedback(msg = msg, fdb.fn = "stop", with.time = FALSE)
-
-    }
-
-    df <- check_across_subset(
-      df = df, across = across[1],
-      across.subset = across.subset[[across[1]]],
-      relevel = relevel[1]
-      )
-
-    df <-
-      check_across_subset(
-        df = df,
-        across = across[2],
-        across.subset = across.subset[[across[2]]],
-        relevel = relevel[2]
-        )
-
-  } else {
-
-    df <-
-      check_across_subset(
-        df = df,
-        across = across,
-        across.subset = across.subset,
-        relevel = relevel[1]
-        )
-
-  }
+  df <- check_across_subset2(df = df, across = across, across.subset = across.subset, relevel = relevel)
 
   p <-
     ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = .data[[x]], y = .data[[y]])) +
@@ -132,84 +88,96 @@ plot_scatterplot <- function(df,
       strip.background = ggplot2::element_blank()
     )
 
-
-  if(base::is.character(clr.by)){
+  if(base::is.character(color.by)){
 
     check_one_of(
-      input = clr.by,
-      against = dplyr::select(df, where(is.factor), where(is.character)) %>% base::colnames()
+      input = color.by,
+      against = base::colnames(df)
     )
 
-      if(pt.shape %in% color_shapes){
+  }
 
-        p_mapping <- ggplot2::aes(color = .data[[clr.by]])
 
-      } else if(pt.shape %in% fill_shapes){
+  # add points --------------------------------------------------------------
 
-        p_mapping <- ggplot2::aes(fill = .data[[clr.by]])
+  if(color.aes == "color" & base::is.character(color.by)){
 
-      } else {
-
-        base::stop("Input for argument pt.shape/pt_shape must be an integer between 1 and 25.")
-
-      }
-
-    p <-
-      p +
-      ggplot2::geom_point(
-        mapping = p_mapping,
-        alpha = pt.alpha,
-        shape = pt.shape,
-        size = pt.size) +
-      scale_color_add_on(
-        aes = clr.aes,
-        variable = df[[clr.by]],
-        clrp = pt.clrp,
-        clrp.adjust = clrp.adjust,
-        ...
+    p_mapping <-
+      ggplot2::aes_string(
+        alpha = alpha.by,
+        color = color.by,
+        shape = shape.by,
+        size = size.by
       )
+
+    var <- df[[color.by]]
+    fill.by <- NULL
+
+  } else if(color.aes == "fill" & base::is.character(color.by)){
+
+    p_mapping <-
+      ggplot2::aes_string_(
+        alpha = alpha.by,
+        fill = color.by,
+        shape = shape.by,
+        size = size.by
+      )
+
+    var <- df[[color.by]]
+    fill.by <- color.by
+    color.by <- NULL
 
   } else {
 
-    p <-
-      p +
-      ggplot2::geom_point(
+    p_mapping <- ggplot2::aes_string(alpha = alpha.by, shape = shape.by, size = size.by)
+    var <- "numeric"
+
+  }
+
+  params <-
+    adjust_ggplot_params(
+      params = list(
         alpha = pt.alpha,
-        color = pt.clr,
+        color = pt.color,
         fill = pt.fill,
         shape = pt.shape,
-        size = pt.size)
+        size = pt.size
+      ),
+      sep = "."
+    )
 
-  }
+  p <-
+    p +
+    ggplot2::layer(
+      geom = "point",
+      stat = "identity",
+      position = "identity",
+      mapping = p_mapping,
+      params = params,
+      data = df
+      ) +
+    scale_color_add_on(
+      aes = color.aes,
+      variable = var,
+      clrsp = clrsp,
+      clrp = clrp,
+      clrp.adjust = clrp.adjust,
+      ...
+    )
 
 
-  if(!base::is.null(across)){
+  # add facets --------------------------------------------------------------
 
-    if(base::length(across) == 1){
+  facet_add_on <-
+    make_facet_add_on(
+      across = across,
+      scales = scales,
+      nrow = nrow,
+      ncol = ncol,
+      space = space
+    )
 
-      p <-
-        p +
-        ggplot2::facet_wrap(facets = stats::as.formula(stringr::str_c(". ~ ", across)),
-                            scales = scales,
-                            nrow = nrow,
-                            ncol = ncol)
-
-    } else {
-
-      across1 <- across[1]
-      across2 <- across[2]
-
-      p <-
-        p +
-        ggplot2::facet_grid(
-          rows = ggplot2::vars(!!rlang::sym(across1)),
-          cols = ggplot2::vars(!!rlang::sym(across2)),
-          scales = scales,
-          space = space)
-
-    }
-
-  }
+  p <- p + facet_add_on
 
 
   # add model ---------------------------------------------------------------
@@ -220,15 +188,13 @@ plot_scatterplot <- function(df,
       ggplot2::geom_smooth(
         formula = y ~ x,
         alpha = smooth.alpha,
-        color = smooth.clr,
+        color = smooth.color,
         method = smooth.method,
         se = smooth.se,
         size = smooth.size
         )
 
   }
-
-
 
   # add correlation results -------------------------------------------------
 
@@ -248,8 +214,11 @@ plot_scatterplot <- function(df,
         )
 
       p <-
-        p + ggplot2::geom_text(mapping = ggplot2::aes(x = x, y = y, label = label),
-                               data = df_corr, size = corr.text.size)
+        p +
+        ggplot2::geom_text(
+          mapping = ggplot2::aes(x = x, y = y, label = label),
+          data = df_corr, size = corr.text.size
+        )
 
     } else if(base::length(across) == 1){
 
@@ -292,8 +261,11 @@ plot_scatterplot <- function(df,
                       })
 
       p <-
-        p + ggplot2::geom_text(mapping = ggplot2::aes(x = x, y = y, label = label),
-                               data = df_corr, size = corr.text.size)
+        p +
+        ggplot2::geom_text(
+          mapping = ggplot2::aes(x = x, y = y, label = label),
+          data = df_corr, size = corr.text.size
+        )
 
     } else if(base::length(across) == 2){
 
@@ -385,7 +357,7 @@ plot_scatterplot <- function(df,
 
   # return plot -------------------------------------------------------------
 
-  base::return(p)
+  return(p)
 
 }
 

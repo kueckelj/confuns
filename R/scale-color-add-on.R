@@ -18,6 +18,9 @@
 #' (Ignored if \code{variable} is numeric)
 #'
 #' @inherit color_vector params
+#' @param color.trans Character value. If the variable displayed by color is continuous (numeric)
+#' \code{color.trans} is given to argument \code{trans} of the respective \code{scale_<aes>_*()}
+#' function.
 #'
 #' @param ... Additional arguments given to the respective function.
 #'
@@ -58,6 +61,7 @@ scale_color_add_on <- function(aes = "color",
                                clrsp = NULL,
                                clrp = NULL,
                                clrp.adjust = NULL,
+                               color.trans = "identity",
                                ...){
 
   is_value(aes, "character", "aes")
@@ -72,7 +76,7 @@ scale_color_add_on <- function(aes = "color",
 
     if(!var_class %in% c("character", "numeric")){
 
-      stop("Invalid input for argument 'variable'.")
+      return(NULL)
 
     } else {
 
@@ -93,11 +97,11 @@ scale_color_add_on <- function(aes = "color",
 
         if(clrsp %in% viridis_options){
 
-          add_on <- ggplot2::scale_fill_viridis_c(option = clrsp, ...)
+          add_on <- ggplot2::scale_fill_viridis_c(option = clrsp, trans = color.trans, ...)
 
         } else {
 
-          add_on <- colorspace::scale_fill_continuous_sequential(clrsp, ...)
+          add_on <- colorspace::scale_fill_continuous_sequential(clrsp, trans = color.trans, ...)
 
         }
 
@@ -105,11 +109,11 @@ scale_color_add_on <- function(aes = "color",
 
         if(clrsp %in% viridis_options){
 
-          add_on <- ggplot2::scale_color_viridis_c(option = clrsp, ...)
+          add_on <- ggplot2::scale_color_viridis_c(option = clrsp, trans = color.trans, ...)
 
         } else {
 
-          add_on <- colorspace::scale_color_continuous_sequential(clrsp, ...)
+          add_on <- colorspace::scale_color_continuous_sequential(clrsp, trans = color.trans, ...)
 
         }
 
@@ -119,17 +123,17 @@ scale_color_add_on <- function(aes = "color",
 
       if(aes == "fill"){
 
-        add_on <- colorspace::scale_fill_continuous_diverging(clrsp, ...)
+        add_on <- colorspace::scale_fill_continuous_diverging(clrsp, trans = color.trans, ...)
 
       } else {
 
-        add_on <- colorspace::scale_color_continuous_diverging(clrsp, ...)
+        add_on <- colorspace::scale_color_continuous_diverging(clrsp, trans = color.trans, ...)
 
       }
 
     } else {
 
-      base::stop("Invalid input for argument 'clrsp'.")
+      stop("Invalid input for argument 'clrsp'.")
 
     }
 

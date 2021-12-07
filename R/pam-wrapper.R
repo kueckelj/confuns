@@ -26,14 +26,6 @@ valid_metrics_pam <- c("euclidean", "manhattan")
 # input check -------------------------------------------------------------
 
 
-#' Title
-#'
-#' @param input
-#' @param method.dist
-#' @param method.aggl
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 check_pam_availability <- function(input, metric.pam, k, fdb.fn = "stop"){
@@ -52,13 +44,6 @@ check_pam_availability <- function(input, metric.pam, k, fdb.fn = "stop"){
 
 }
 
-#' Title
-#'
-#' @param k
-#' @param metric.pam
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 
@@ -84,16 +69,6 @@ check_pam_input <- function(k, metric.pam, k.length = NULL, m.length = NULL){
 # initiation --------------------------------------------------------------
 
 
-#' Title
-#'
-#' @param pam.data
-#' @param key.name
-#' @param default.as.dist
-#' @param default.metric.pam
-#' @param default.k
-#' @param default.dir
-#'
-#' @return
 #' @export
 #'
 initiate_pam_object <- function(pam.data,
@@ -198,15 +173,6 @@ initiate_pam_object <- function(pam.data,
 
 # set  --------------------------------------------------------------------
 
-#' Title
-#'
-#' @param pam.obj
-#' @param metric.pam
-#' @param k
-#' @param as.dist
-#' @param verbose
-#'
-#' @return
 #' @export
 #'
 set_pam_default <- function(pam.obj,
@@ -278,16 +244,6 @@ set_pam_default <- function(pam.obj,
 
 # computation -------------------------------------------------------------
 
-#' Title
-#'
-#' @param pam.obj
-#' @param k
-#' @param metric.pam
-#' @param verbose
-#' @param verbose.pb
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 perform_pam_clustering <- function(pam.obj,
@@ -377,16 +333,6 @@ perform_pam_clustering <- function(pam.obj,
 # extraction --------------------------------------------------------------
 
 
-#' Title
-#'
-#' @param pam.obj
-#' @param k
-#' @param metric.pam
-#' @param verbose
-#' @param sep
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 get_medoids_df <- function(pam.obj,
@@ -433,13 +379,6 @@ get_medoids_df <- function(pam.obj,
 
 }
 
-#' Title
-#'
-#' @param pam.obj
-#' @param return.tibble
-#' @param as.dist
-#'
-#' @return
 #' @export
 #'
 get_pam_data <- function(pam.obj, return.tibble = FALSE, as.dist = NULL){
@@ -468,14 +407,6 @@ get_pam_data <- function(pam.obj, return.tibble = FALSE, as.dist = NULL){
 
 
 
-#' Title
-#'
-#' @param pam.obj
-#' @param metric.pam
-#' @param k
-#' @param with.data
-#'
-#' @return
 #' @export
 #'
 get_pam_df <- function(pam.obj,
@@ -555,14 +486,6 @@ get_pam_df <- function(pam.obj,
 }
 
 
-#' Title
-#'
-#' @param pam.obj
-#' @param k
-#' @param metric.pam
-#' @param fdb.fn
-#'
-#' @return
 #' @export
 #'
 get_pam_obj <- function(pam.obj, k = NULL, metric.pam = NULL, fdb.fn = "stop"){
@@ -582,14 +505,6 @@ get_pam_obj <- function(pam.obj, k = NULL, metric.pam = NULL, fdb.fn = "stop"){
 }
 
 
-#' Title
-#'
-#' @param pam.obj
-#' @param k
-#' @param metric.pam
-#' @param m.length
-#'
-#' @return
 #' @export
 #'
 get_pam_sil_df <- function(pam.obj, k = NULL, metric.pam = NULL, m.length = 1){
@@ -639,16 +554,6 @@ get_pam_sil_df <- function(pam.obj, k = NULL, metric.pam = NULL, m.length = 1){
 
 # plotting ----------------------------------------------------------------
 
-#' Title
-#'
-#' @param pam.obj
-#' @param k
-#' @param clr
-#' @param display.cols
-#' @param display.line
-#' @param display.points
-#'
-#' @return
 #' @export
 #'
 plot_avg_silhouette_widths <- function(pam.obj,
@@ -703,26 +608,6 @@ plot_avg_silhouette_widths <- function(pam.obj,
 }
 
 
-#' Title
-#'
-#' @param pam.obj
-#' @param k
-#' @param metric.pam
-#' @param facet.by Character value. Either \emph{'cluster'} or \emph{'variables'}.
-#' @param clr.by Character value. Either \emph{'cluster'} or \emph{'variables'}.
-#' @param cluster.prefix
-#' @param cluster.subset
-#' @param cluster.relevel
-#' @param variables.subset
-#' @param variables.relevel
-#' @param display.medoid.name
-#' @param sep
-#' @param clr
-#' @param clrp
-#' @param verbose
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 plot_medoid_barchart <- function(pam.obj,
@@ -804,19 +689,6 @@ plot_medoid_barchart <- function(pam.obj,
 }
 
 
-#' Title
-#'
-#' @param pam.obj
-#' @param k
-#' @param metric.pam
-#' @param cluster.subset
-#' @param cluster.relevel
-#' @param cluster.prefix
-#' @param clr
-#' @param clrp
-#' @param ...
-#'
-#' @return
 #' @export
 #'
 plot_pam_cluster_count <- function(pam.obj,
@@ -863,17 +735,6 @@ plot_pam_cluster_count <- function(pam.obj,
 
 }
 
-#' Title
-#'
-#' @param pam.obj
-#' @param metric.pam
-#' @param k
-#' @param clrp
-#' @param ncol
-#' @param nrow
-#' @param verbose
-#'
-#' @return
 #' @export
 #'
 plot_silhouette_widths <- function(pam.obj,

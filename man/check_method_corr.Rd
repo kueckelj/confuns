@@ -6,12 +6,6 @@
 \usage{
 check_method_corr(method.corr)
 }
-\arguments{
-\item{method.corr}{}
-}
-\value{
-
-}
 \description{
 Title
 }
