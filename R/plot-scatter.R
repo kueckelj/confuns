@@ -83,27 +83,6 @@ plot_scatterplot <- function(df,
 
   df <- transform_df(df = df, transform.with = transform.with, sep = ".")
 
-  if(base::is.character(order.by)){
-
-    check_one_of(
-      input = order.by,
-      against = get_numeric_names(df),
-      fdb.opt = 2,
-      ref.opt.2 = "numeric variables"
-    )
-
-    if(base::isTRUE(order.desc)){
-
-      df <- dplyr::arrange(df, dplyr::desc(x = !!rlang::sym(order.by)), .by_group = TRUE)
-
-    } else {
-
-      df <- dplyr::arrange(df, !!rlang::sym(order.by), .by_group = TRUE)
-
-    }
-
-  }
-
   # subsetting according to across input ------------------------------------
 
   df <- check_across_subset2(df = df, across = across, across.subset = across.subset, relevel = relevel)
@@ -121,6 +100,33 @@ plot_scatterplot <- function(df,
       input = color.by,
       against = base::colnames(df)
     )
+
+  }
+
+  if(base::is.character(order.by)){
+
+    check_one_of(
+      input = order.by,
+      against = get_numeric_names(df),
+      fdb.opt = 2,
+      ref.opt.2 = "numeric variables"
+    )
+
+    if(base::is.character(across)){
+
+      df <- dplyr::group_by(df, !!rlang::sym(across))
+
+    }
+
+    if(base::isTRUE(order.desc)){
+
+      df <- dplyr::arrange(df, dplyr::desc(x = !!rlang::sym(order.by)), .by_group = TRUE)
+
+    } else {
+
+      df <- dplyr::arrange(df, !!rlang::sym(order.by), .by_group = TRUE)
+
+    }
 
   }
 
