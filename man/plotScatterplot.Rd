@@ -32,6 +32,8 @@ plotScatterplot(object, ...)
   clrsp = "inferno",
   order_by = NULL,
   order_desc = FALSE,
+  shape_by = NULL,
+  size_by = NULL,
   display_smooth = FALSE,
   smooth_alpha = 0.9,
   smooth_color = "blue",
@@ -108,6 +110,14 @@ valid input options.}
 
 \item{order_by}{Character value or NULL. If character, specifies the
 numeric variable by which the points are arranged before plotting.}
+
+\item{shape_by}{Character
+value or NULL. If character, specifies the variable that is mapped to the respective
+aesthetic of the plot.}
+
+\item{size_by}{Character
+value or NULL. If character, specifies the variable that is mapped to the respective
+aesthetic of the plot.}
 
 \item{display_smooth}{Logical value. Indicates if a smoothed line is displayed.}
 
