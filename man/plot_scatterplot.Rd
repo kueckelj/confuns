@@ -24,6 +24,9 @@ plot_scatterplot(
   alpha.by = NULL,
   color.aes = "color",
   color.by = NULL,
+  color.trans = "identity",
+  order.by = NULL,
+  order.desc = FALSE,
   shape.by = NULL,
   size.by = NULL,
   clrp = "milo",
@@ -42,6 +45,7 @@ plot_scatterplot(
   corr.pos.y = NULL,
   corr.text.sep = "\\n",
   corr.text.size = 1,
+  transform.with = NULL,
   clr.aes = NA,
   clr.by = NA,
   pt.clrp = NA,
@@ -98,6 +102,16 @@ Ignored if \code{color_by} is NULL.}
 \item{color.by}{Character value or NULL. If character, specifies the
 variable that is displayed by color.}
 
+\item{color.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
+\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
+for no transformation.}
+
+\item{order.by}{Character value or NULL. If character, specifies the
+numeric variable by which the points are arranged before plotting.}
+
+\item{order.desc}{Logical value. If set to TRUE the way the points are ordered
+is reversed.}
+
 \item{shape.by}{Character
 value or NULL. If character, specifies the variable that is mapped to the respective
 aesthetic of the plot.}
@@ -127,6 +141,11 @@ valid input options.}
 
 \item{smooth.se}{Logical value. Indicates if the confidence intervals are
 displayed.}
+
+\item{transform.with}{List or NULL. If list, can be used to transform continuous variables before plotting.
+Names of the slots of the provided list refer to the variables. The content of the slot refers to the transforming functions.
+Slot content can either be a character vector of function names. Use \code{validVarTransformations()} to obtain all valid character value inputs.
+Or it can be a list of functions (and function names).}
 }
 \value{
 A ggplot.

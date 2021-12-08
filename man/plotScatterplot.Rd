@@ -26,9 +26,12 @@ plotScatterplot(object, ...)
   pt_size = 1.5,
   color_aes = "color",
   color_by = NULL,
+  color_trans = "identity",
   clrp = "milo",
   clrp_adjust = NULL,
   clrsp = "inferno",
+  order_by = NULL,
+  order_desc = FALSE,
   display_smooth = FALSE,
   smooth_alpha = 0.9,
   smooth_color = "blue",
@@ -42,6 +45,7 @@ plotScatterplot(object, ...)
   corr_pos_y = NULL,
   corr_text_sep = "\\n",
   corr_text_size = 1,
+  transform_with = NULL,
   ...
 )
 }
@@ -86,6 +90,10 @@ Ignored if \code{color_by} is NULL.}
 \item{color_by}{Character value or NULL. If character, specifies the
 variable that is displayed by color.}
 
+\item{color_trans}{Character value. Name of the transformation method applied to the continuous scale. Use
+\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
+for no transformation.}
+
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
@@ -97,6 +105,9 @@ indicate the colors with which specific groups are supposed to be displayed.}
 \item{clrsp}{Character value. Specfies the color spectrum to be used to represent
 continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
+
+\item{order_by}{Character value or NULL. If character, specifies the
+numeric variable by which the points are arranged before plotting.}
 
 \item{display_smooth}{Logical value. Indicates if a smoothed line is displayed.}
 
@@ -125,6 +136,11 @@ value are separated.}
 
 \item{corr_text_size, pt_size, smooth_size}{Numeric value. The size with which
 results are displayed.}
+
+\item{transform_with}{List or NULL. If list, can be used to transform continuous variables before plotting.
+Names of the slots of the provided list refer to the variables. The content of the slot refers to the transforming functions.
+Slot content can either be a character vector of function names. Use \code{validVarTransformations()} to obtain all valid character value inputs.
+Or it can be a list of functions (and function names).}
 }
 \value{
 A ggplot.

@@ -219,6 +219,12 @@ across_vis2 <- function(across, across_subset){}
 #'
 #' @param object Any object for whose class a method has been defined.
 #'
+#' @param order.by,order_by Character value or NULL. If character, specifies the
+#' numeric variable by which the points are arranged before plotting.
+#'
+#' @param order.desc Logical value. If set to TRUE the way the points are ordered
+#' is reversed.
+#'
 #' @param pt.alpha,pt_alpha Numeric value. Specifies the transparency of points.
 #' @param pt.color,pt_color Character value. Specifies the color with which all points are displayed .
 #' @param pt.num,pt_num Numeric value. Species the number of points (sample size)

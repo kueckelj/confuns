@@ -384,9 +384,12 @@ setMethod(
                         pt_size = 1.5,
                         color_aes = "color",
                         color_by = NULL,
+                        color_trans = "identity",
                         clrp = "milo",
                         clrp_adjust = NULL,
                         clrsp = "inferno",
+                        order_by = NULL,
+                        order_desc = FALSE,
                         display_smooth = FALSE,
                         smooth_alpha = 0.9,
                         smooth_color = "blue",
@@ -400,6 +403,7 @@ setMethod(
                         corr_pos_y = NULL,
                         corr_text_sep = "\n",
                         corr_text_size = 1,
+                        transform_with = NULL,
                         ...){
 
     df <-
@@ -424,9 +428,12 @@ setMethod(
       pt.size = pt_size,
       color.aes = color_aes,
       color.by = color_by,
+      color.trans = color_trans,
       clrp = clrp,
       clrp.adjust = clrp_adjust,
       clrsp = clrsp,
+      order.by = order_by,
+      order.desc = order_desc,
       display.smooth = display_smooth,
       smooth.alpha = smooth_alpha,
       smooth.color = smooth_color,
@@ -440,6 +447,8 @@ setMethod(
       corr.pos.y = corr_pos_y,
       corr.text.sep = "\n",
       corr.text.size = corr_text_size,
+      transform.with = transform_with,
+      ...
     )
 
   }

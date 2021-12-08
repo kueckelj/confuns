@@ -133,6 +133,12 @@ Use \code{validMethodsPam()} to obtain all valid input options.}
 
 \item{object}{Any object for whose class a method has been defined.}
 
+\item{order.by, order_by}{Character value or NULL. If character, specifies the
+numeric variable by which the points are arranged before plotting.}
+
+\item{order.desc}{Logical value. If set to TRUE the way the points are ordered
+is reversed.}
+
 \item{pt.alpha, pt_alpha}{Numeric value. Specifies the transparency of points.}
 
 \item{pt.color, pt_color}{Character value. Specifies the color with which all points are displayed .}
