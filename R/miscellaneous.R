@@ -57,6 +57,27 @@ assign_obj <- function(assign, object, name){
 }
 
 
+#' @export
+info_deprecated <- function(x, alternative, test.val = NA){
+
+  ref <- base::substitute(expr = x)
+
+  if(!base::identical(x, test.val)){
+
+    msg <-
+      glue::glue(
+        "Argument '{ref}' is deprecated. Please use argument '{alternative}' instead."
+      )
+
+    give_feedback(msg = msg, fdb.fn = "warning", with.time = FALSE)
+
+  }
+
+  invisible(TRUE)
+
+}
+
+
 #' @title Return function
 #'
 #' @param fun Character value. One of \emph{'message', 'warning', 'stop'}.

@@ -25,6 +25,9 @@ plot_scatterplot <- function(df,
                              alpha.by = NULL,
                              color.aes = "color",
                              color.by = NULL,
+                             color.trans = "identity",
+                             order.by = NULL,
+                             order.desc = FALSE,
                              shape.by = NULL,
                              size.by = NULL,
                              clrp = "milo",
@@ -43,6 +46,7 @@ plot_scatterplot <- function(df,
                              corr.pos.y = NULL,
                              corr.text.sep = "\n",
                              corr.text.size = 1,
+                             transform.with = NULL,
                              clr.aes = NA,
                              clr.by = NA,
                              pt.clrp = NA,
@@ -77,6 +81,8 @@ plot_scatterplot <- function(df,
     with.time = FALSE
   )
 
+  df <- transform_df(df = df, transform.with = transform.with, sep = ".")
+
   # subsetting according to across input ------------------------------------
 
   df <- check_across_subset2(df = df, across = across, across.subset = across.subset, relevel = relevel)
@@ -94,6 +100,33 @@ plot_scatterplot <- function(df,
       input = color.by,
       against = base::colnames(df)
     )
+
+  }
+
+  if(base::is.character(order.by)){
+
+    check_one_of(
+      input = order.by,
+      against = get_numeric_names(df),
+      fdb.opt = 2,
+      ref.opt.2 = "numeric variables"
+    )
+
+    if(base::is.character(across)){
+
+      df <- dplyr::group_by(df, !!rlang::sym(across))
+
+    }
+
+    if(base::isTRUE(order.desc)){
+
+      df <- dplyr::arrange(df, dplyr::desc(x = !!rlang::sym(order.by)), .by_group = TRUE)
+
+    } else {
+
+      df <- dplyr::arrange(df, !!rlang::sym(order.by), .by_group = TRUE)
+
+    }
 
   }
 
@@ -162,9 +195,9 @@ plot_scatterplot <- function(df,
       clrsp = clrsp,
       clrp = clrp,
       clrp.adjust = clrp.adjust,
+      color.trans = color.trans,
       ...
     )
-
 
   # add facets --------------------------------------------------------------
 
@@ -178,7 +211,6 @@ plot_scatterplot <- function(df,
     )
 
   p <- p + facet_add_on
-
 
   # add model ---------------------------------------------------------------
 
@@ -353,7 +385,6 @@ plot_scatterplot <- function(df,
     }
 
   }
-
 
   # return plot -------------------------------------------------------------
 

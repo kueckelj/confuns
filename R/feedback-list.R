@@ -6,7 +6,4 @@ feedback_list <- list(
   "no_features_selected" = "Please selecte at least one feature."
 
 
-
-
-
 )

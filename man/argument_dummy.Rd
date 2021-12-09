@@ -133,6 +133,12 @@ Use \code{validMethodsPam()} to obtain all valid input options.}
 
 \item{object}{Any object for whose class a method has been defined.}
 
+\item{order.by, order_by}{Character value or NULL. If character, specifies the
+numeric variable by which the points are arranged before plotting.}
+
+\item{order.desc}{Logical value. If set to TRUE the way the points are ordered
+is reversed.}
+
 \item{pt.alpha, pt_alpha}{Numeric value. Specifies the transparency of points.}
 
 \item{pt.color, pt_color}{Character value. Specifies the color with which all points are displayed .}
@@ -173,8 +179,8 @@ displayed.}
 extract an informative error is raised. Else the empty value - usually NULL - is returned.}
 
 \item{transform.with, transform_with}{List or NULL. If list, can be used to transform continuous variables before plotting.
-Names of the list slots refer to the variable. The content of the slot refers to the transforming functions.
-Slot content can either be a character vector of function names. Use \code{validScaleTransformations()} to obtain all valid character value inputs.
+Names of the slots of the provided list refer to the variables. The content of the slot refers to the transforming functions.
+Slot content can either be a character vector of function names. Use \code{validVarTransformations()} to obtain all valid character value inputs.
 Or it can be a list of functions (and function names).}
 
 \item{test.pairwise}{Character value or NULL. If character, one of \emph{'t.test', 'wilcox.test'}.}

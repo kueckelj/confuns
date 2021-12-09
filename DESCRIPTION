@@ -41,6 +41,7 @@ Collate:
     'dimensional-reduction.R'
     'documentation-dummies.R'
     'feedback-list.R'
+    'get_names.R'
     'ggplot2-themes-and-small-add-ons.R'
     'gsea-hypeR.R'
     'hclust-wrapper.R'
