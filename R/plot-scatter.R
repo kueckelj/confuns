@@ -149,7 +149,7 @@ plot_scatterplot <- function(df,
   } else if(color.aes == "fill" & base::is.character(color.by)){
 
     p_mapping <-
-      ggplot2::aes_string_(
+      ggplot2::aes_string(
         alpha = alpha.by,
         fill = color.by,
         shape = shape.by,
