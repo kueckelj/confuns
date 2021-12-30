@@ -204,7 +204,7 @@ fit_immediate_descending <- function(input, normalize = TRUE){
 
 }
 
-valid_curves <- c("early_peak", "gradient", "late_peak", "linear", "log", "log", "sinus", "two_peaks")
+valid_curves <- c("early_peak", "gradient", "late_peak", "linear", "log", "log", "one_peak", "sinus", "two_peaks")
 
 #' @title Fit a curve
 #'
