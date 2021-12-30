@@ -82,7 +82,7 @@ normalize_zscore <- function(x, na.rm = TRUE){
 fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
   is_value(x = fn, mode = "character", ref = "fn")
-  base::stopifnot(fn %in% c("one_peak", "two_peaks", "gradient", "log", "sinus", "linear", "early_peak", "late_peak"))
+  base::stopifnot(fn %in% valid_curves)
 
   out <-
     base::call(name = fn, input = input) %>%
@@ -90,7 +90,7 @@ fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
   if(base::isTRUE(rev)){
 
-    out <- (out * -1)
+    out <- base::rev(out)
 
   }
 
@@ -100,11 +100,13 @@ fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
   }
 
-  base::return(out)
+  return(out)
 
 }
 
-
+valid_curves <- c("abrupt_ascending", "abrupt_descending", "early_peak", "gradient",
+                  "immediate_ascending", "immediate_descending",
+                  "late_peak", "linear", "log", "log", "sinus", "two_peaks")
 
 #' @title Fit a curve
 #'
@@ -116,6 +118,106 @@ fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 #'
 #' @export
 
+abrupt_ascending <- function(input, normalize = TRUE){
+
+  if(base::isTRUE(normalize)){
+
+    input <- normalize(x = input)
+
+  }
+
+  min_input <- base::min(input)
+  max_input <- base::max(input)
+
+  len <- base::length(input)
+
+  len_by_part <- base::floor(len / 3)
+
+  seq1 <- 1:len_by_part
+  seq3 <- (len-len_by_part):len
+
+  seq2 <- (base::max(seq1)+1):(base::min(seq3)-1)
+
+  input2 <- base::seq(min_input, max_input, len = base::length(seq_2))
+
+  curve1 <- base::rep(x = min_input, base::length(seq1))
+  curve3 <- base::rep(x = max_input, base::length(seq3))
+
+  curve2 <- fit_curve(input = input2, fn = "gradient", rev = TRUE, normalize = normalize)
+
+  out <- c(curve1, curve2, curve3)
+
+  return(out)
+
+}
+
+#' @rdname abrupt_ascending
+#' @export
+abrupt_descending <- function(input, normalize = TRUE){
+
+  out <-
+    abrupt_ascending(input = input, normalize = normalize) %>%
+    base::rev()
+
+  return(out)
+
+}
+
+#' @rdname abrupt_ascending
+#' @export
+immediate_ascending <- function(input, normalize = TRUE){
+
+  if(base::isTRUE(normalize)){
+
+    input <- normalize(x = input)
+
+  }
+
+  min_input <- base::min(input)
+  max_input <- base::max(input)
+
+  len <- base::length(input)
+
+  len_by_part <- base::floor(len / 5)
+
+  seq1 <- 1:len_by_part
+  seq2 <- (len_by_part+1):(len_by_part*2)
+
+  seq4 <- (len_by_part*3+1):(len_by_part*4)
+  seq5 <- (len_by_part*4+1):(len_by_part*5)
+
+  seq3 <- (base::max(seq2)+1):(base::min(seq4)-1)
+
+  curve1 <- base::rep(x = min_input, base::length(seq1))
+  curve2 <- base::rep(x = min_input, base::length(seq2))
+  curve4 <- base::rep(x = max_input, base::length(seq4))
+  curve5 <- base::rep(x = max_input, base::length(seq5))
+
+  curve3 <-
+    fit_curve(
+      input = base::seq(min_input, max_input, len = base::length(seq3)),
+      fn = "gradient",
+      normalize = normalize
+      ) %>%
+    base::rev()
+
+  out <- c(curve1, curve2, curve3, curve4, curve5)
+
+  return(out)
+
+}
+
+#' @rdname abrupt_ascending
+#' @export
+immediate_descending <- function(input, normalize = TRUE){
+
+  immediate_ascending(input = input, normalize = normalize) %>%
+    base::rev
+
+}
+
+#' @rdname abrupt_ascending
+#' @export
 one_peak <- function(input){
 
   base::stopifnot(base::is.numeric(input))
@@ -125,7 +227,7 @@ one_peak <- function(input){
 
 }
 
-#' @rdname one_peak
+#' @rdname abrupt_ascending
 #' @export
 two_peaks <- function(input){
 
@@ -136,7 +238,7 @@ two_peaks <- function(input){
 
 }
 
-#' @rdname one_peak
+#' @rdname abrupt_ascending
 #' @export
 linear <- function(input){
 
@@ -147,28 +249,28 @@ linear <- function(input){
 
 }
 
-#' @rdname one_peak
+#' @rdname abrupt_ascending
 #' @export
 sinus <- function(input){
 
   base::stopifnot(base::is.numeric(input))
 
   base::seq(0, 2 * pi, length.out = base::length(input)) %>%
-  base::sin()  %>% scales::rescale(to = c(min(input), max(input)))
+    base::sin()  %>% scales::rescale(to = c(min(input), max(input)))
 
 }
 
-#' @rdname one_peak
+#' @rdname abrupt_ascending
 #' @export
 gradient <- function(input){
 
   base::stopifnot(base::is.numeric(input))
 
   base::seq(0, 1 * pi, length.out = base::length(input)) %>%
-    base::cos()  %>% scales::rescale(to = c(min(input), max(input)))
+    base::cos() %>% scales::rescale(to = c(min(input), max(input)))
 }
 
-#' @rdname one_peak
+#' @rdname abrupt_ascending
 #' @export
 log <- function(input){
 
@@ -179,7 +281,7 @@ log <- function(input){
 
 }
 
-#' @rdname one_peak
+#' @rdname abrupt_ascending
 #' @export
 early_peak <- function(input){
 
@@ -191,11 +293,11 @@ early_peak <- function(input){
 
   res <- c(prel_res, base::rep(base::min(prel_res), half_length))
 
-  base::return(res)
+  return(res)
 
 }
 
-#' @rdname one_peak
+#' @rdname abrupt_ascending
 #' @export
 late_peak <- function(input){
 
@@ -207,7 +309,7 @@ late_peak <- function(input){
 
   res <- c(base::rep(base::min(prel_res), half_length), prel_res)
 
-  base::return(res)
+  return(res)
 
 }
 
