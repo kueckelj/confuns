@@ -104,21 +104,9 @@ fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
 }
 
-valid_curves <- c("abrupt_ascending", "abrupt_descending", "early_peak", "gradient",
-                  "immediate_ascending", "immediate_descending",
-                  "late_peak", "linear", "log", "log", "sinus", "two_peaks")
-
-#' @title Fit a curve
-#'
-#' @description Functions that return the numeric values of the respective
-#' mathematic function they are constructed of. Length and range of the
-#' return vector are equal to those of the input vector.
-#'
-#' @param input Numeric vector.
-#'
+#' @rdname fit_curve
 #' @export
-
-abrupt_ascending <- function(input, normalize = TRUE){
+fit_abrupt_ascending <- function(input, normalize = TRUE){
 
   if(base::isTRUE(normalize)){
 
@@ -151,9 +139,9 @@ abrupt_ascending <- function(input, normalize = TRUE){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname fit_curve
 #' @export
-abrupt_descending <- function(input, normalize = TRUE){
+fit_abrupt_descending <- function(input, normalize = TRUE){
 
   out <-
     abrupt_ascending(input = input, normalize = normalize) %>%
@@ -163,9 +151,9 @@ abrupt_descending <- function(input, normalize = TRUE){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname fit_curve
 #' @export
-immediate_ascending <- function(input, normalize = TRUE){
+fit_immediate_ascending <- function(input, normalize = TRUE){
 
   if(base::isTRUE(normalize)){
 
@@ -198,7 +186,7 @@ immediate_ascending <- function(input, normalize = TRUE){
       input = base::seq(min_input, max_input, len = base::length(seq3)),
       fn = "gradient",
       normalize = normalize
-      ) %>%
+    ) %>%
     base::rev()
 
   out <- c(curve1, curve2, curve3, curve4, curve5)
@@ -207,17 +195,27 @@ immediate_ascending <- function(input, normalize = TRUE){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname fit_curve
 #' @export
-immediate_descending <- function(input, normalize = TRUE){
+fit_immediate_descending <- function(input, normalize = TRUE){
 
   immediate_ascending(input = input, normalize = normalize) %>%
     base::rev
 
 }
 
-#' @rdname abrupt_ascending
+valid_curves <- c("early_peak", "gradient", "late_peak", "linear", "log", "log", "sinus", "two_peaks")
+
+#' @title Fit a curve
+#'
+#' @description Functions that return the numeric values of the respective
+#' mathematic function they are constructed of. Length and range of the
+#' return vector are equal to those of the input vector.
+#'
+#' @param input Numeric vector.
+#'
 #' @export
+
 one_peak <- function(input){
 
   base::stopifnot(base::is.numeric(input))
@@ -227,7 +225,7 @@ one_peak <- function(input){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname one_peak
 #' @export
 two_peaks <- function(input){
 
@@ -238,7 +236,7 @@ two_peaks <- function(input){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname one_peak
 #' @export
 linear <- function(input){
 
@@ -249,7 +247,7 @@ linear <- function(input){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname one_peak
 #' @export
 sinus <- function(input){
 
@@ -260,7 +258,7 @@ sinus <- function(input){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname one_peak
 #' @export
 gradient <- function(input){
 
@@ -270,7 +268,7 @@ gradient <- function(input){
     base::cos() %>% scales::rescale(to = c(min(input), max(input)))
 }
 
-#' @rdname abrupt_ascending
+#' @rdname one_peak
 #' @export
 log <- function(input){
 
@@ -281,7 +279,7 @@ log <- function(input){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname one_peak
 #' @export
 early_peak <- function(input){
 
@@ -297,7 +295,7 @@ early_peak <- function(input){
 
 }
 
-#' @rdname abrupt_ascending
+#' @rdname one_peak
 #' @export
 late_peak <- function(input){
 

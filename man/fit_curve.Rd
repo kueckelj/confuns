@@ -2,9 +2,21 @@
 % Please edit documentation in R/math-related-functions.R
 \name{fit_curve}
 \alias{fit_curve}
+\alias{fit_abrupt_ascending}
+\alias{fit_abrupt_descending}
+\alias{fit_immediate_ascending}
+\alias{fit_immediate_descending}
 \title{Curve fitting}
 \usage{
 fit_curve(input, fn, rev = FALSE, normalize = TRUE)
+
+fit_abrupt_ascending(input, normalize = TRUE)
+
+fit_abrupt_descending(input, normalize = TRUE)
+
+fit_immediate_ascending(input, normalize = TRUE)
+
+fit_immediate_descending(input, normalize = TRUE)
 }
 \arguments{
 \item{input}{Numeric vector.}
