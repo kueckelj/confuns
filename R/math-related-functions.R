@@ -144,7 +144,7 @@ fit_abrupt_ascending <- function(input, normalize = TRUE){
 fit_abrupt_descending <- function(input, normalize = TRUE){
 
   out <-
-    abrupt_ascending(input = input, normalize = normalize) %>%
+    fit_abrupt_ascending(input = input, normalize = normalize) %>%
     base::rev()
 
   return(out)
@@ -199,7 +199,7 @@ fit_immediate_ascending <- function(input, normalize = TRUE){
 #' @export
 fit_immediate_descending <- function(input, normalize = TRUE){
 
-  immediate_ascending(input = input, normalize = normalize) %>%
+  fit_immediate_ascending(input = input, normalize = normalize) %>%
     base::rev
 
 }
