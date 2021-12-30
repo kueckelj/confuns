@@ -126,7 +126,7 @@ fit_abrupt_ascending <- function(input, normalize = TRUE){
 
   seq2 <- (base::max(seq1)+1):(base::min(seq3)-1)
 
-  input2 <- base::seq(min_input, max_input, len = base::length(seq_2))
+  input2 <- base::seq(min_input, max_input, len = base::length(seq2))
 
   curve1 <- base::rep(x = min_input, base::length(seq1))
   curve3 <- base::rep(x = max_input, base::length(seq3))
