@@ -223,4 +223,10 @@ validInput <- function(){
 
 }
 
+#' @rdname validInput
+#' @export
+#'
+validCurves <- function(){ return(valid_curves) }
+
+
 

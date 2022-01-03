@@ -2,29 +2,19 @@
 % Please edit documentation in R/math-related-functions.R
 \name{fit_curve}
 \alias{fit_curve}
-\alias{fit_abrupt_ascending}
-\alias{fit_abrupt_descending}
-\alias{fit_immediate_ascending}
-\alias{fit_immediate_descending}
 \title{Curve fitting}
 \usage{
 fit_curve(input, fn, rev = FALSE, normalize = TRUE)
-
-fit_abrupt_ascending(input, normalize = TRUE)
-
-fit_abrupt_descending(input, normalize = TRUE)
-
-fit_immediate_ascending(input, normalize = TRUE)
-
-fit_immediate_descending(input, normalize = TRUE)
 }
 \arguments{
 \item{input}{Numeric vector.}
 
 \item{fn}{Character value. The function to call specified as a string.
-Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sinus', 'log', 'early_peak', 'late_peak'}.}
+Must be in output of \code{validCurves()}.}
 
-\item{rev}{Logical. If set to TRUE the fitted curve is returned upside-down.}
+\item{rev}{If set to 1 or \emph{'x'} the fitted curve is returned reverted along the x-axis. If set to
+2 or \emph{'y'} the fitted curve is returned reverted along the y-axis. (Depending on the curve 1 or
+2 might not differ in the output. Compare \code{fn} = \emph{'sinus'} and \code{fn} = \emph{'one_peak'}).}
 
 \item{normalize}{Logical. If set to TRUE numeric values will be scaled to
 values between one and zero.}

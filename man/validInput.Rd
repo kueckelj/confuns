@@ -15,6 +15,7 @@
 \alias{validMethodsDimRed}
 \alias{validMethodsOutlierDetection}
 \alias{validInput}
+\alias{validCurves}
 \title{Obtain valid input options}
 \usage{
 validAnalysisAspects()
@@ -40,6 +41,8 @@ validMethodsDimRed()
 validMethodsOutlierDetection()
 
 validInput()
+
+validCurves()
 }
 \value{
 Character vector.
