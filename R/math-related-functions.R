@@ -117,7 +117,7 @@ fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
 #' @export
 valid_curves <- c("early_peak", "gradient", "late_peak", "linear", "log", "log", "one_peak", "sinus", "two_peaks",
-                  "abrupt_ascending", "abrupt_descending", "immediate_ascending", "immediate_descending")
+                  "abrupt_ascending", "abrupt_descending", "immediate_ascending", "immediate_descending", "sharp_peak")
 
 #' @title Fit a curve
 #'
@@ -137,6 +137,38 @@ one_peak <- function(input){
     base::sin() %>% scales::rescale(to = c(min(input), max(input)))
 
 }
+
+#' @rdname one_peak
+#' @export
+sharp_peak <- function(input){
+
+  min_input <- base::min(input)
+  max_input <- base::max(input)
+
+  len <- base::length(input)
+
+  len_by_part <- base::floor(len / 3)
+
+  seq1 <- 1:len_by_part
+  seq3 <- (len-len_by_part):len
+
+  # create sequence of length that fits in between seq1 and seq2
+  # to ensure appropriate output length if input cant be divided by 3
+  seq2 <-
+    (base::max(seq1)+1):(base::min(seq3)-1) %>%
+    scales::rescale(to = c(min_input, max_input))
+
+  curve1 <- base::rep(x = min_input, base::length(seq1))
+  curve3 <- base::rep(x = min_input, base::length(seq3))
+
+  curve2 <- one_peak(seq2)
+
+  out <- c(curve1, curve2, curve3)
+
+  return(out)
+
+}
+
 
 #' @rdname one_peak
 #' @export

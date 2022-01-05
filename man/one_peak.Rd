@@ -2,6 +2,7 @@
 % Please edit documentation in R/math-related-functions.R
 \name{one_peak}
 \alias{one_peak}
+\alias{sharp_peak}
 \alias{two_peaks}
 \alias{linear}
 \alias{sinus}
@@ -16,6 +17,8 @@
 \title{Fit a curve}
 \usage{
 one_peak(input)
+
+sharp_peak(input)
 
 two_peaks(input)
 
