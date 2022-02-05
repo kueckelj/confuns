@@ -36,7 +36,7 @@ adapt_reference <- function(input, sg, pl = NULL, zero = ""){
 }
 
 # helper within plot_dotplot_2d
-arrange_axis <- function(df, grouping.var, arrange.var){
+arrange_axis <- function(df, grouping.var, arrange.var, reverse){
 
   groups <- base::levels(df[[grouping.var]])
 
@@ -55,6 +55,12 @@ arrange_axis <- function(df, grouping.var, arrange.var){
   }
 
   order_labels <- base::unique(order_labels)
+
+  if(base::isTRUE(reverse)){
+
+    order_labels <- base::rev(order_labels)
+
+  }
 
   df[[arrange.var]] <- base::factor(x = df[[arrange.var]], levels = order_labels)
 

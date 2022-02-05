@@ -144,6 +144,8 @@ plot_dot_plot_2d <- function(df,
                              transform.with = NULL,
                              arrange.x = FALSE,
                              arrange.y = FALSE,
+                             reverse.x = FALSE,
+                             reverse.y = FALSE,
                              ...){
 
   check_data_frame(
@@ -166,11 +168,11 @@ plot_dot_plot_2d <- function(df,
 
   if(base::isTRUE(arrange.x)){
 
-    df <- arrange_axis(df = df, grouping.var = y, arrange.var = x)
+    df <- arrange_axis(df = df, grouping.var = y, arrange.var = x, reverse = reverse.x)
 
   } else if(base::isTRUE(arrange.y)){
 
-    df <- arrange_axis(df = df, grouping.var = x, arrange.var = y)
+    df <- arrange_axis(df = df, grouping.var = x, arrange.var = y, reverse = reverse.y)
 
   }
 
