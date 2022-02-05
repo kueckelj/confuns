@@ -142,6 +142,8 @@ plot_dot_plot_2d <- function(df,
                              pt.shape = 19,
                              pt.size = 3,
                              transform.with = NULL,
+                             arrange.x = FALSE,
+                             arrange.y = FALSE,
                              ...){
 
   check_data_frame(
@@ -162,6 +164,16 @@ plot_dot_plot_2d <- function(df,
       sep = "."
     )
 
+  if(base::isTRUE(arrange.x)){
+
+    df <- arrange_axis(df = df, grouping.var = y, arrange.var = x)
+
+  } else if(base::isTRUE(arrange.y)){
+
+    df <- arrange_axis(df = df, grouping.var = x, arrange.var = y)
+
+  }
+
   ggplot2::ggplot(data = df, mapping = ggplot2::aes_string(x = x, y = y)) +
     ggplot2::layer(
       geom = "point",
@@ -177,8 +189,7 @@ plot_dot_plot_2d <- function(df,
       clrp = pt.clrp,
       clrsp = pt.clrsp,
       variable = df[[color.by]],
-      color.trans = color.trans,
-      ...
+      color.trans = color.trans#, ...
     ) +
     ggplot2::theme_bw() +
     ggplot2::labs(y = NULL)

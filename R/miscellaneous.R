@@ -35,6 +35,33 @@ adapt_reference <- function(input, sg, pl = NULL, zero = ""){
 
 }
 
+# helper within plot_dotplot_2d
+arrange_axis <- function(df, grouping.var, arrange.var){
+
+  groups <- base::levels(df[[grouping.var]])
+
+  order_labels <- base::character()
+
+  for(g in groups){
+
+    labels <-
+      dplyr::filter(df, !!rlang::sym(grouping.var) == {{g}}) %>%
+      dplyr::pull({{arrange.var}}) %>%
+      base::as.character() %>%
+      vselect(-any_of(order_labels))
+
+    order_labels <- c(order_labels, labels)
+
+  }
+
+  order_labels <- base::unique(order_labels)
+
+  df[[arrange.var]] <- base::factor(x = df[[arrange.var]], levels = order_labels)
+
+  return(df)
+
+}
+
 #' @title Assign objects into the global environment
 #'
 #' @param assign Logical.
