@@ -36,7 +36,7 @@ adapt_reference <- function(input, sg, pl = NULL, zero = ""){
 }
 
 # helper within plot_dotplot_2d
-arrange_axis <- function(df, grouping.var, arrange.var, reverse){
+arrange_axis <- function(df, grouping.var, arrange.var, arrange.by, reverse.within, reverse.all){
 
   groups <- base::levels(df[[grouping.var]])
 
@@ -44,11 +44,32 @@ arrange_axis <- function(df, grouping.var, arrange.var, reverse){
 
   for(g in groups){
 
+    labels_df <-
+      dplyr::filter(df, !!rlang::sym(grouping.var) == {{g}})
+
+    if(base::is.character(arrange.by)){
+
+      if(base::isTRUE(reverse.within)){
+
+        labels_df <-
+          dplyr::arrange(labels_df, dplyr::desc(!!rlang::sym(arrange.by)))
+
+
+      } else {
+
+        labels_df <-
+          dplyr::arrange(labels_df, !!rlang::sym(arrange.by))
+
+      }
+
+    }
+
     labels <-
-      dplyr::filter(df, !!rlang::sym(grouping.var) == {{g}}) %>%
-      dplyr::pull({{arrange.var}}) %>%
-      base::as.character() %>%
-      vselect(-any_of(order_labels))
+      dplyr::pull(labels_df, {{arrange.var}}) %>%
+      base::as.character()
+
+    # prevent duplicates
+    labels <- labels[!labels %in% order_labels]
 
     order_labels <- c(order_labels, labels)
 
@@ -56,7 +77,7 @@ arrange_axis <- function(df, grouping.var, arrange.var, reverse){
 
   order_labels <- base::unique(order_labels)
 
-  if(base::isTRUE(reverse)){
+  if(base::isTRUE(reverse.all)){
 
     order_labels <- base::rev(order_labels)
 

@@ -119,6 +119,17 @@ plot_dot_plot_1d <- function(df,
 #' @description Plots a dot plot of two categorical variables. Numeric
 #' values can be displayed via alpha, color and size.
 #'
+#' @param arrange.y Logical. If TRUE the labels of \code{y} are arranged by
+#' their appearances in the groups of \code{x}.
+#' @param arrange.by Character value or NULL. If character, denotes the
+#' numeric variable by which the labels of \code{y} are arranged within the
+#' groups of \code{x}.
+#' @param reverse.all Logical. If TRUE labels are displayed from bottom to top.
+#' If FALSE, labels are displayed from top to bottom.
+#' @param reverse.within Logical. If TRUE, labels are arranged within the
+#' groups in a descending manner. If FALSE, labels are arranged within the
+#' groups in an ascending manner. (regarding the numeric variables of \code{arrange.by}).
+#'
 #' @inherit argument_dummy params
 #'
 #' @return A ggplot.
@@ -142,10 +153,10 @@ plot_dot_plot_2d <- function(df,
                              pt.shape = 19,
                              pt.size = 3,
                              transform.with = NULL,
-                             arrange.x = FALSE,
                              arrange.y = FALSE,
-                             reverse.x = FALSE,
-                             reverse.y = FALSE,
+                             arrange.by = NULL,
+                             reverse.all = FALSE,
+                             reverse.within = FALSE,
                              ...){
 
   check_data_frame(
@@ -166,13 +177,17 @@ plot_dot_plot_2d <- function(df,
       sep = "."
     )
 
-  if(base::isTRUE(arrange.x)){
+  if(base::isTRUE(arrange.y)){
 
-    df <- arrange_axis(df = df, grouping.var = y, arrange.var = x, reverse = reverse.x)
-
-  } else if(base::isTRUE(arrange.y)){
-
-    df <- arrange_axis(df = df, grouping.var = x, arrange.var = y, reverse = reverse.y)
+    df <-
+      arrange_axis(
+        df = df,
+        grouping.var = x,
+        arrange.var = y,
+        arrange.by = arrange.by,
+        reverse.all = reverse.all,
+        reverse.within = reverse.within
+        )
 
   }
 

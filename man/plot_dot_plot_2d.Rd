@@ -22,6 +22,10 @@ plot_dot_plot_2d(
   pt.shape = 19,
   pt.size = 3,
   transform.with = NULL,
+  arrange.y = FALSE,
+  arrange.by = NULL,
+  reverse.all = FALSE,
+  reverse.within = FALSE,
   ...
 )
 }
@@ -77,6 +81,20 @@ mapped to the shape-aesthetic.}
 Names of the slots of the provided list refer to the variables. The content of the slot refers to the transforming functions.
 Slot content can either be a character vector of function names. Use \code{validVarTransformations()} to obtain all valid character value inputs.
 Or it can be a list of functions (and function names).}
+
+\item{arrange.y}{Logical. If TRUE the labels of \code{y} are arranged by
+their appearances in the groups of \code{x}.}
+
+\item{arrange.by}{Character value or NULL. If character, denotes the
+numeric variable by which the labels of \code{y} are arranged within the
+groups of \code{x}.}
+
+\item{reverse.all}{Logical. If TRUE labels are displayed from bottom to top.
+If FALSE, labels are displayed from top to bottom.}
+
+\item{reverse.within}{Logical. If TRUE, labels are arranged within the
+groups in a descending manner. If FALSE, labels are arranged within the
+groups in an ascending manner. (regarding the numeric variables of \code{arrange.by}).}
 }
 \value{
 A ggplot.
