@@ -16,6 +16,7 @@
 \alias{validMethodsOutlierDetection}
 \alias{validInput}
 \alias{validCurves}
+\alias{validLineTypes}
 \title{Obtain valid input options}
 \usage{
 validAnalysisAspects()
@@ -43,6 +44,8 @@ validMethodsOutlierDetection()
 validInput()
 
 validCurves()
+
+validLineTypes()
 }
 \value{
 Character vector.

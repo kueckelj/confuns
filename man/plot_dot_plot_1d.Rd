@@ -84,7 +84,7 @@ for no transformation.}
 
 \item{pt.color}{Character value. Specifies the color with which all points are displayed .}
 
-\item{pt.clrsp}{Character value. Specfies the color spectrum to be used to represent
+\item{pt.clrsp}{Character value. Specifies the color spectrum to be used to represent
 continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
 
@@ -109,7 +109,7 @@ Slot content can either be a character vector of function names. Use \code{valid
 Or it can be a list of functions (and function names).}
 }
 \description{
-Plots a dot plot of one categorical variables. Numeric
+Plots a dot plot of one categorical variable. Numeric
 values can be displayed via alpha, color, size and x-axis.
 }
 \details{

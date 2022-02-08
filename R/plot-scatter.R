@@ -39,6 +39,7 @@ plot_scatterplot <- function(df,
                              smooth.method = "lm",
                              smooth.se = FALSE,
                              smooth.size = 1,
+                             smooth.type = "solid",
                              display.corr = FALSE,
                              corr.method = "pearson",
                              corr.p.min = 0.00005,
@@ -223,7 +224,8 @@ plot_scatterplot <- function(df,
         color = smooth.color,
         method = smooth.method,
         se = smooth.se,
-        size = smooth.size
+        size = smooth.size,
+        linetype = smooth.type
         )
 
   }

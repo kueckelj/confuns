@@ -283,4 +283,9 @@ validInput <- function(){
 validCurves <- function(){ return(valid_curves) }
 
 
+#' @rdname validInput
+#' @export
+validLineTypes <- function(){ return(valid_line_types) }
+
+
 

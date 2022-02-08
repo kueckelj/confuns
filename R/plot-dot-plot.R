@@ -1,7 +1,7 @@
 
 #' @title Plot 1d dot plot
 #'
-#' @description Plots a dot plot of one categorical variables. Numeric
+#' @description Plots a dot plot of one categorical variable. Numeric
 #' values can be displayed via alpha, color, size and x-axis.
 #'
 #' @param x Character value. The numeric continuous varable.

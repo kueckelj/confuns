@@ -1,5 +1,8 @@
 
 
+
+
+
 # Argument inputs ---------------------------------------------------------
 
 pretty_bar_positions <- c("Stacked" = "stack", "Dodged" = "dodge", "Filled" = "fill")
@@ -69,8 +72,13 @@ color_shapes <- 0:20
 
 # Predefined feedback strings ---------------------------------------------
 
-
 overwrite_hint <- " Set argument 'overwrite' to TRUE in order to allow overwritting."
 
+
+
+# valid input options -----------------------------------------------------
+
+
+valid_line_types <- c("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
 
 

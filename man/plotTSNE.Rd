@@ -66,7 +66,7 @@ input options.}
 with which groups are displayed. Names indicate groups, values
 indicate the colors with which specific groups are supposed to be displayed.}
 
-\item{clrsp}{Character value. Specfies the color spectrum to be used to represent
+\item{clrsp}{Character value. Specifies the color spectrum to be used to represent
 continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
 }

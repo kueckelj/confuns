@@ -85,7 +85,7 @@ the provided gene signature and the gene set.}
 
 \item{pt.color}{Character value. Specifies the color with which all points are displayed .}
 
-\item{pt.clrsp}{Character value. Specfies the color spectrum to be used to represent
+\item{pt.clrsp}{Character value. Specifies the color spectrum to be used to represent
 continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
 
