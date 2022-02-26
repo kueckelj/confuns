@@ -190,7 +190,7 @@ across_vis2 <- function(across, across_subset){}
 #' @param labels.size,labels_size Numeric value. The size with which labels are displayed.
 #' @param labels.hjust,labels.vjust,labels_hjust,labels_vjust Numeric values. Adjust labels positioning.
 #'
-#' @param line.alpha,line_alpha,line.size,line_size Numeric value. Specifies the transperancy
+#' @param line.alpha,line_alpha,line.size,line_size Numeric value. Specifies the transparency
 #' and the thickness of lines in the plot.
 #' @param line.color,line_color Character value. Specifies the color of lines in the plot.
 #' @param line.type,line_type Character value. Specifies the type of the lines. Use

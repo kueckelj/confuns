@@ -788,12 +788,13 @@ setMethod(
   signature = "Clustering",
   definition = function(object,
                         k,
-                        method_pam = "euclidean"
+                        method_pam = "euclidean",
+                        stop_if_null = TRUE
                         ){
 
     pam_obj <- getResults(object, method = "pam")
 
-    pam <- getPam(object = pam_obj, k = k, method_pam = method_pam)
+    pam <- getPam(object = pam_obj, k = k, method_pam = method_pam, stop_if_null = stop_if_null)
 
     pam$data <- getScaledMtr(object)
 
@@ -808,11 +809,17 @@ setMethod(
   signature = "Clustering",
   definition = function(object,
                         ks,
-                        method_pam = "euclidean"){
+                        method_pam = "euclidean",
+                        format = "long"){
 
     pam_obj <- getResults(object, method = "pam")
 
-    sil_widths_df <- getSilWidthsDf(object = pam_obj, ks = ks, method_pam = method_pam)
+    sil_widths_df <-
+      getSilWidthsDf(
+        object = pam_obj,
+        ks = ks,
+        method_pam = method_pam,
+        format = format)
 
     return(sil_widths_df)
 
@@ -990,8 +997,8 @@ setMethod(
       }
 
       # basic parameters
-      ybreaks   <- base::pretty(segment_df$y, n = 5)
-      ymin      <- base::min(segment_df$y)
+      ybreaks <- base::pretty(segment_df$y, n = 5)
+      ymin <- base::min(segment_df$y)
 
       if("clust" %in% base::colnames(segment_df)){
 

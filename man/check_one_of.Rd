@@ -20,7 +20,7 @@ check_one_of(
 
 \item{against}{A vector of valid inputs.}
 
-\item{ref.input}{Character value or NULL. The reference for argument \code{input} input.#'}
+\item{ref.input}{Character value or NULL. The reference for argument \code{input} input.}
 }
 \value{
 An error message or an invisible TRUE if all values of input are valid.

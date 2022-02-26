@@ -99,7 +99,7 @@ Is converted into an integer vector.}
 
 \item{labels.hjust, labels.vjust, labels_hjust, labels_vjust}{Numeric values. Adjust labels positioning.}
 
-\item{line.alpha, line_alpha, line.size, line_size}{Numeric value. Specifies the transperancy
+\item{line.alpha, line_alpha, line.size, line_size}{Numeric value. Specifies the transparency
 and the thickness of lines in the plot.}
 
 \item{line.color, line_color}{Character value. Specifies the color of lines in the plot.}

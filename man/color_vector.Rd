@@ -4,7 +4,7 @@
 \alias{color_vector}
 \title{Get vector of colors}
 \usage{
-color_vector(clrp, names = NULL, clrp.adjust = NULL)
+color_vector(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA)
 }
 \arguments{
 \item{clrp}{Character value. Denotes the color palette of interest. Run \code{all_colorpalettes()} to
@@ -16,6 +16,9 @@ obtain valid inputs.}
 colors that are used to represent the groups. Names of the input vector must refer
 to the group and the respective named element denotes the color with which to
 represent the group.}
+
+\item{n.colors}{Numeric value. Must be specified if \code{clrp} is set to \emph{'default'}
+and \code{names} is NULL.}
 }
 \value{
 Character vector.

@@ -97,22 +97,42 @@ clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#
 #' colors that are used to represent the groups. Names of the input vector must refer
 #' to the group and the respective named element denotes the color with which to
 #' represent the group.
+#' @param n.colors Numeric value. Must be specified if \code{clrp} is set to \emph{'default'}
+#' and \code{names} is NULL.
 #'
 #' @return Character vector.
 #'
 #' @export
 #'
 
-color_vector <- function(clrp, names = NULL, clrp.adjust = NULL){
+color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
 
   is_value(x = clrp, mode = "character")
 
   check_one_of(input = clrp, against = c("default", colorpanels), ref.input = "clrp")
 
-  clr_vector <-
-    stringr::str_c("clrp", clrp, sep = "_") %>%
-    base::parse(text = .) %>%
-    base::eval()
+  if(clrp == "default"){
+
+    if(base::is.character(names)){
+
+      n.colors <- base::length(names)
+
+    } else if(base::is.na(n.colors) | !base::is.numeric(n.colors)){
+
+        stop("Don't know how many colors to return. If `clrp` == 'default' specify either argument `names` or `n.colors`.")
+
+    }
+
+    clr_vector <- scales::hue_pal()(n.colors)
+
+  } else {
+
+    clr_vector <-
+      stringr::str_c("clrp", clrp, sep = "_") %>%
+      base::parse(text = .) %>%
+      base::eval()
+
+  }
 
   # name the vector if names is specified as a character
   if(base::is.character(names)){

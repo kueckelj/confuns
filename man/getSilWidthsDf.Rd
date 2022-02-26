@@ -9,9 +9,9 @@
 \usage{
 getSilWidthsDf(object, ...)
 
-\S4method{getSilWidthsDf}{Clustering}(object, ks, method_pam = "euclidean")
+\S4method{getSilWidthsDf}{Clustering}(object, ks, method_pam = "euclidean", format = "long")
 
-\S4method{getSilWidthsDf}{ClusteringPam}(object, ks, method_pam = "euclidean")
+\S4method{getSilWidthsDf}{ClusteringPam}(object, ks, method_pam = "euclidean", format = "long")
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
@@ -21,6 +21,9 @@ Is converted into an integer vector.}
 
 \item{method_pam}{Character value. Specifies the pam-method of interest.
 Use \code{validMethodsPam()} to obtain all valid input options.}
+
+\item{format}{Character value. Either \emph{'long'} or \emph{'wide'}. Shifts
+the perspective of the output data.frame.}
 }
 \value{
 Data.frame.

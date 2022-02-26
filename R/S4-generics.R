@@ -744,6 +744,8 @@ setGeneric(name = "getScaledMtr", def = function(object, ...){
 #' about the silhouette width of every observation in different
 #' clustering results with method \emph{pam}.
 #'
+#' @param format Character value. Either \emph{'long'} or \emph{'wide'}. Shifts
+#' the perspective of the output data.frame.
 #' @inherit argument_dummy params
 #'
 #' @return Data.frame.
@@ -755,6 +757,22 @@ setGeneric(name = "getSilWidthsDf", def = function(object, ...){
 
 })
 
+
+#' @title Obtain variable names
+#'
+#' @description Extracts the variable names of the respective slots in
+#' form of a character vector.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return Character vector.
+#'
+#' @export
+setGeneric(name = "getVariableNames", def = function(object, ...){
+
+  standardGeneric("getVariableNames")
+
+})
 
 
 # p -----------------------------------------------------------------------
@@ -945,6 +963,25 @@ setGeneric(name = "plotUMAP", def = function(object, ...){
 
 })
 
+
+#' @title Rename key variable
+#'
+#' @description Renames the variable that is used to identify every
+#' observation uniquely.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return The input object.
+#'
+#' @export
+#'
+setGeneric(name = "renameKeyVariable", def = function(object, ...){
+
+  standardGeneric(f = "renameKeyVariable")
+
+})
+
+
 # s -----------------------------------------------------------------------
 
 #' @title Scale data
@@ -1070,6 +1107,8 @@ set_data_hlpr <- function(object,
     data[[key.name]] <- key_var
 
     base::rownames(data) <- NULL
+
+    data <- dplyr::select(data, {{key.name}}, dplyr::everything())
 
   }
 

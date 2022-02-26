@@ -1012,7 +1012,7 @@ check_none_of <- function(input,
 #'
 #' @param input An input vector to be checked.
 #' @param against A vector of valid inputs.
-#' @param ref.input Character value or NULL. The reference for argument \code{input} input.#'
+#' @param ref.input Character value or NULL. The reference for argument \code{input} input.
 #'
 #' @return An error message or an invisible TRUE if all values of input are valid.
 #'

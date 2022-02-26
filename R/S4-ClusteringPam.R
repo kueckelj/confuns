@@ -179,7 +179,13 @@ setMethod(
   signature = "ClusteringPam",
   definition = function(object,
                         ks,
-                        method_pam = "euclidean"){
+                        method_pam = "euclidean",
+                        format = "long"){
+
+    check_one_of(
+      input = format,
+      against = c("long", "wide")
+    )
 
     ks <- check_ks(k.input = ks)
 
@@ -190,7 +196,6 @@ setMethod(
       purrr::map_df(
         .x = ks,
         .f = function(k){
-
 
           pam <-
             getPam(
@@ -223,6 +228,27 @@ setMethod(
       ) %>%
       dplyr::mutate(cluster_name = base::factor(x = cluster_name, levels = ks_string_2)) %>%
       tibble::as_tibble()
+
+    if(format == "wide"){
+
+      sil_widths_df <-
+        dplyr::mutate(
+          .data = sil_widths_df,
+          cluster_name = stringr::str_replace(string = cluster_name, pattern = " = ", replacement = "_")
+        )
+
+      sil_widths_df$cluster_name <-
+        stringr::str_c("sil_width", method_pam, sil_widths_df$cluster_name, sep = sep)
+
+      sil_widths_df <-
+        tidyr::pivot_wider(
+          data = sil_widths_df,
+          id_cols = dplyr::all_of(x = c(object@key_name)),
+          names_from = "cluster_name",
+          values_from = "sil_width"
+        )
+
+    }
 
     return(sil_widths_df)
 

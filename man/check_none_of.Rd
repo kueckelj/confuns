@@ -20,7 +20,7 @@ check_none_of(
 
 \item{against}{A vector of valid inputs.}
 
-\item{ref.input}{Character value or NULL. The reference for argument \code{input} input.#'}
+\item{ref.input}{Character value or NULL. The reference for argument \code{input} input.}
 }
 \description{
 Make sure that nothing is overwritten without specifically allowing it.
