@@ -161,6 +161,7 @@ error_handler <- function(fun){
 }
 
 
+
 #' @title Glue a human readable list report
 #'
 #' @description Combines all slots of the specified list in \code{lst}
@@ -259,6 +260,25 @@ unfactor <- function(input, ...){
 }
 
 
+#' Wrapper around unique and levels
+#'
+#' @export
+#'
+unique_safely <- function(x){
+
+  if(base::is.factor(x)){
+
+    out <- base::levels(x)
+
+  } else {
+
+    out <- base::unique(x)
+
+  }
+
+  return(out)
+
+}
 
 # v -----------------------------------------------------------------------
 

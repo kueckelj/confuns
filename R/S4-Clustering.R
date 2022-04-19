@@ -1002,7 +1002,7 @@ setMethod(
 
       if("clust" %in% base::colnames(segment_df)){
 
-        cluster_levels <- segment_df$clust %>% base::levels()
+        cluster_levels <- segment_df$clust %>% unique_safely()
 
         forced_adjustment <- "black"
         base::names(forced_adjustment) <- cluster_levels[1]

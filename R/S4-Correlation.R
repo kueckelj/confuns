@@ -289,6 +289,8 @@ setMethod(
 
         for(across in all_across){
 
+          print(across)
+
           check_one_of(
             input = across,
             against = object@variables_grouping
@@ -298,7 +300,7 @@ setMethod(
 
           df <- getDf(object, numeric = TRUE, grouping = TRUE)
 
-          groups <- base::levels(df[[across]])
+          groups <- unique_safely(df[[across]])
 
           corr_obj@results_across[[across]] <-
             purrr::map(.x = groups, .f = function(group){
@@ -337,8 +339,6 @@ setMethod(
             purrr::set_names(nm = groups)
 
         }
-
-
 
       }
 
