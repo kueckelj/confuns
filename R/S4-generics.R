@@ -803,6 +803,8 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 #' \code{color_low}) to positive correlation (\code{color_high}) is displayed.
 #' @param size_by_corr Logical value. If TRUE, size is used in addition to coloring
 #' to indicate the correlation. Ignored if \emph{shape} = \emph{'tile'}
+#' @param size_limits,color_limits Numeric vectors. Used to set the limits of the
+#' scales.
 #'
 #' @param type Character value. Denotes how the underlying correlation matrix is
 #' handled.

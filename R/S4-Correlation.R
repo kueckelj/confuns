@@ -663,9 +663,11 @@ setMethod(
                         diagonal = TRUE,
                         color_low = "darkred",
                         color_high = "steelblue",
+                        color_limits = c(-1,1),
                         shape = "tile",
                         size_by_corr = TRUE,
                         size_max = 15,
+                        size_limits = c(-1, 1),
                         display_values = TRUE,
                         values_alpha = 0.9,
                         values_color = "black",
@@ -756,8 +758,11 @@ setMethod(
     # baseline plot
     p <-
       ggplot2::ggplot(data = corr_df, mapping = ggplot2::aes(x = var1, y = var2)) +
-      ggplot2::scale_color_gradient2(midpoint = 0, low = color_low, high = color_high, na.value = "white") +
-      ggplot2::scale_size_area(max_size = size_max) +
+      ggplot2::scale_color_gradient2(
+        midpoint = 0, low = color_low, high = color_high,
+        na.value = "white", limits = color_limits
+        ) +
+      ggplot2::scale_size_area(max_size = size_max, limits = size_limits) +
       ggplot2::theme_void() +
       ggplot2::theme(
         axis.text = ggplot2::element_text(),

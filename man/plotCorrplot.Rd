@@ -19,9 +19,11 @@ plotCorrplot(object, ...)
   diagonal = TRUE,
   color_low = "darkred",
   color_high = "steelblue",
+  color_limits = c(-1, 1),
   shape = "tile",
   size_by_corr = TRUE,
   size_max = 15,
+  size_limits = c(-1, 1),
   display_values = TRUE,
   values_alpha = 0.9,
   values_color = "black",
@@ -85,6 +87,9 @@ which the variable pairs are displayed. Either \emph{'circle', 'rect'} or \emph{
 
 \item{size_by_corr}{Logical value. If TRUE, size is used in addition to coloring
 to indicate the correlation. Ignored if \emph{shape} = \emph{'tile'}}
+
+\item{size_limits, color_limits}{Numeric vectors. Used to set the limits of the
+scales.}
 
 \item{display_values}{Logical. If TRUE, correlation values are displayed as numbers.}
 
