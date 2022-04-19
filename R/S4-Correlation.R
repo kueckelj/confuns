@@ -713,7 +713,7 @@ setMethod(
         relevel = relevel[1]
       )
 
-    if(base::is.character(variables_subset)){
+    if(!base::is.null(variables_subset)){
 
       if(is_list(variables_subset)){
 
