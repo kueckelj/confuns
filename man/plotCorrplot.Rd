@@ -50,9 +50,15 @@ no grouping is done.}
 grouping variable that are of interest. Prefixing group names with \emph{'-'} excludes them.
 If NULL, all groups are considered.}
 
-\item{variables_subset}{Character vector or NULL. If character, specifies
-the subset of variable names that is included in the plot. To exclude single
-variables the variable name can be provided prefixed with a \emph{'-'}.}
+\item{variables_subset}{Character vector, list of two character vectors or NULL.
+If character, specifies the subset of variable names that is included in the plot on both axes.
+
+If list, character vector named \emph{x} is used to subset x-axis and character
+vector named \emph{y} is used to subset y-axis.
+
+To exclude single variables the variable name can be provided prefixed with a \emph{'-'}.
+
+Ignored if NULL.}
 
 \item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
 \code{variables} determines the order in which the groups of interest are displayed.}
@@ -79,6 +85,8 @@ which the variable pairs are displayed. Either \emph{'circle', 'rect'} or \emph{
 
 \item{size_by_corr}{Logical value. If TRUE, size is used in addition to coloring
 to indicate the correlation. Ignored if \emph{shape} = \emph{'tile'}}
+
+\item{display_values}{Logical. If TRUE, correlation values are displayed as numbers.}
 
 \item{values_alpha}{Numeric values. Denote transparency and size of
 the displayed values.}

@@ -94,6 +94,33 @@ adjust_corr_mtr <- function(mtr, type = "complete", diagonal = TRUE){
 
 }
 
+#' @title Convert correlation matrix to data.frame
+#'
+#' @description Converts a correlation matrix to a tidy data.frame in
+#' which observations are correlation pairs.
+#'
+#' @param mtr A correlation matrix.
+#' @inherit corr_dummy params
+#' @export
+corr_mtr_to_df <- function(mtr, type = "complete", diagonal = TRUE, distinct = FALSE){
+
+  mtr <- adjust_corr_mtr(mtr = mtr, type = type, diagonal = diagonal)
+
+  corr_df <-
+    reshape2::melt(data = mtr, varnames = c("var1", "var2"), value.name = "corr") %>%
+    tibble::as_tibble()
+
+  if(base::isTRUE(distinct)){
+
+    corr_df <- distinct_corr_df(corr_df)
+
+  }
+
+  return(corr_df)
+
+}
+
+#' @export
 distinct_corr_df <- function(corr_df){
 
   if(base::names(corr_df)[1] != "var1"){
@@ -190,6 +217,9 @@ melt_rcorr <- function(rcorr_obj, type = "complete", diagonal = TRUE, distinct =
 
 }
 
+#' @export
+rcorr_to_df <- melt_rcorr
+
 
 #' @rdname validInput
 #' @export
@@ -223,7 +253,6 @@ validTypesCorrelation <- function(){
 # methods for external generics -------------------------------------------
 
 methods::setOldClass(Classes = "corr_df")
-
 
 #' @rdname computeCorrelation
 setMethod(
@@ -660,6 +689,7 @@ setMethod(
       against = validTypesCorrelation()
     )
 
+    # allows option to relevel both axes
     if(base::length(relevel) == 1){
 
       relevel <- c(relevel, relevel)
@@ -685,19 +715,41 @@ setMethod(
 
     if(base::is.character(variables_subset)){
 
-      corr_df <-
-        check_across_subset(
-          df = corr_df,
-          across = "var1",
-          across.subset = variables_subset,
-          relevel = relevel[1],
-        ) %>%
-        check_across_subset(
-          df = .,
-          across = "var2",
-          across.subset = variables_subset,
-          relevel = relevel[1]
-        )
+      if(is_list(variables_subset)){
+
+        corr_df <-
+          check_across_subset(
+            df = corr_df,
+            across = "var1",
+            across.subset = variables_subset[["x"]],
+            relevel = relevel[1],
+          ) %>%
+          check_across_subset(
+            df = .,
+            across = "var2",
+            across.subset = variables_subset[["y"]],
+            relevel = relevel[2]
+          )
+
+      } else {
+
+        corr_df <-
+          check_across_subset(
+            df = corr_df,
+            across = "var1",
+            across.subset = variables_subset,
+            relevel = relevel[1],
+          ) %>%
+          check_across_subset(
+            df = .,
+            across = "var2",
+            across.subset = variables_subset,
+            relevel = relevel[2]
+          )
+
+      }
+
+
 
     }
 

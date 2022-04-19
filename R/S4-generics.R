@@ -811,9 +811,18 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 #' If \code{type} = \emph{'upper}, the part above the diagonal is used. the lower part is set to NA.
 #'
 #'
-#' @param variables_subset Character vector or NULL. If character, specifies
-#' the subset of variable names that is included in the plot. To exclude single
-#' variables the variable name can be provided prefixed with a \emph{'-'}.
+#' @param variables_subset Character vector, list of two character vectors or NULL.
+#' If character, specifies the subset of variable names that is included in the plot on both axes.
+#'
+#' If list, character vector named \emph{x} is used to subset x-axis and character
+#' vector named \emph{y} is used to subset y-axis.
+#'
+#' To exclude single variables the variable name can be provided prefixed with a \emph{'-'}.
+#'
+#' Ignored if NULL.
+#'
+#' @param display_values Logical. If TRUE, correlation values are displayed as numbers.
+#'
 #' @inherit corr_dummy params
 #' @inherit across_vis1 params
 #' @inherit argument_dummy params

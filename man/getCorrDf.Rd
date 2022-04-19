@@ -49,7 +49,7 @@ matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
 = \emph{'complete'}.}
 
 \item{distinct}{Logical value. If TRUE only one observation per variable pair remains
-in the output data.frame. Ignored if \code{type} = \emph{'complete'}.}
+in the output data.frame.}
 
 \item{digits}{Numeric. Given to \code{base::round()} and indicates the number
 of digits to which the correlation value is rounded. Defaults to 2.}

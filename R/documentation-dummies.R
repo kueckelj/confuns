@@ -41,7 +41,7 @@ normalize_dummy <- function(normalize){
 #' @param digits Numeric. Given to \code{base::round()} and indicates the number
 #' of digits to which the correlation value is rounded. Defaults to 2.
 #' @param distinct Logical value. If TRUE only one observation per variable pair remains
-#' in the output data.frame. Ignored if \code{type} = \emph{'complete'}.
+#' in the output data.frame.
 #' @param shape Character value. Specifies the shape of the geometric objects with
 #' which the variable pairs are displayed. Either \emph{'circle', 'rect'} or \emph{'tile'}.
 #' @param type Character value. Denotes how the underlying correlation matrix is
