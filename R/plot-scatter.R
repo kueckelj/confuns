@@ -207,8 +207,7 @@ plot_scatterplot <- function(df,
       across = across,
       scales = scales,
       nrow = nrow,
-      ncol = ncol,
-      space = space
+      ncol = ncol
     )
 
   p <- p + facet_add_on

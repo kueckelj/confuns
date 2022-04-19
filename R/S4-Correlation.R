@@ -853,7 +853,9 @@ setMethod(
       geom_add_on <-
         list(
           ggplot2::geom_tile(mapping = ggplot2::aes(x = var1, y = var2, fill = corr)),
-          ggplot2::scale_fill_gradient2(midpoint = 0, low = color_low, high = color_high, na.value = "white")
+          ggplot2::scale_fill_gradient2(
+            midpoint = 0, limits = color_limits,
+            low = color_low, high = color_high, na.value = "white")
         )
 
     }
