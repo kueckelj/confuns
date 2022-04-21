@@ -62,6 +62,18 @@ setGeneric(name = "addClusterVarsPam", def = function(object, ...){
 
 })
 
+#' @title Add grouping variables
+#'
+#' @description Adds grouping variables to the @@data of the object.
+#'
+#' @param grouping_df Data.frame that contains the grouping variables.
+#'
+#' @export
+setGeneric(name = "addGroupingVars", def = function(object, ...){
+
+  standardGeneric("addGroupingVars")
+
+})
 
 #' @title Agglomerate hierarchical trees
 #'
@@ -795,6 +807,22 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 
 })
 
+#' @title Plot boxplot
+#'
+#' @description Plots a boxplot
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotBoxplot", def = function(object, ...){
+
+  standardGeneric(f = "plotBoxplot")
+
+})
+
+
 #' @title Plot correlation plot
 #'
 #'
@@ -856,7 +884,35 @@ setGeneric(name = "plotDendrogram", def = function(object, ...){
 
 })
 
+#' @title Plot densityplot
+#'
+#' @description Plots a densityplot.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotDensityplot", def = function(object, ...){
 
+  standardGeneric(f = "plotDensityplot")
+
+})
+
+#' @title Plot histogram
+#'
+#' @description Plots a histogram
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotHistogram", def = function(object, ...){
+
+  standardGeneric(f = "plotHistogram")
+
+})
 
 #' @title Plot PCA
 #'
@@ -875,6 +931,20 @@ setGeneric(name = "plotPCA", def = function(object, ...){
 
 })
 
+#' @title Plot ridgeplot
+#'
+#' @description Plots a ridgeplot
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotRidgeplot", def = function(object, ...){
+
+  standardGeneric(f = "plotRidgeplot")
+
+})
 
 #' @title Plot a scatterplot
 #'
@@ -903,8 +973,6 @@ setGeneric(name = "plotScatterplot", def = function(object, ...){
   standardGeneric(f = "plotScatterplot")
 
 })
-
-
 
 #' @title Plot a screeplot
 #'
@@ -971,6 +1039,22 @@ setGeneric(name = "plotTSNE", def = function(object, ...){
 setGeneric(name = "plotUMAP", def = function(object, ...){
 
   standardGeneric(f = "plotUMAP")
+
+})
+
+
+#' @title Plot violinplot
+#'
+#' @description Plots a violinplot.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotViolinplot", def = function(object, ...){
+
+  standardGeneric(f = "plotViolinplot")
 
 })
 
@@ -1127,7 +1211,7 @@ set_data_hlpr <- function(object,
 
   data <- dplyr::select(data, -dplyr::all_of(meta.names))
 
-  methods::slot(object, name = slot.data) <- data
+  methods::slot(object, name = slot.data) <- tibble::as_tibble(data)
 
   methods::slot(object, name = slot.key.name) <- key.name
 

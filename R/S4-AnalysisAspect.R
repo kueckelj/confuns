@@ -38,10 +38,6 @@ AnalysisAspect <- setClass(Class = "AnalysisAspect",
 
 version_analysis_aspect <- list(major = 0, minor = 1, patch = 0)
 
-
-
-
-
 # r-objects ---------------------------------------------------------------
 
 #' @export
