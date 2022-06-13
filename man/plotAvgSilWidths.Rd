@@ -24,7 +24,7 @@ plotAvgSilWidths(object, ...)
 \S4method{plotAvgSilWidths}{Analysis}(
   object,
   ks,
-  methods_pam = "eucldidean",
+  methods_pam = "euclidean",
   color = "steelblue",
   display_cols = TRUE,
   display_points = TRUE,

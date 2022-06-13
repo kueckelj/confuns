@@ -134,7 +134,7 @@ initiateOutlierDetection <- function(data,
       meta_names = meta_names,
       lgl_to_group = lgl_to_group,
       verbose = verbose,
-      analysis_aspect = "OutlierDetection",
+      analysis_aspect = "OutlierDetection"
     )
 
   return(object)

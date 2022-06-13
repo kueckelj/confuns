@@ -47,7 +47,7 @@ plotDendrogram(object, ...)
   direction = "bt",
   branch_color = "black",
   branch_size = 1,
-  diplay_labels = FALSE,
+  display_labels = FALSE,
   labels_angle = 90,
   labels_hjust = 0,
   labels_nudge = 0.01,
