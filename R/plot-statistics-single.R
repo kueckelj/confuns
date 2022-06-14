@@ -391,6 +391,163 @@ plot_boxplot <- function(df,
 
 }
 
+#' @rdname plot_boxplot
+#' @export
+plot_vioboxplot <- function(df,
+                            variables = NULL,
+                            across = NULL,
+                            across.subset = NULL,
+                            relevel = TRUE,
+                            test.pairwise = NULL,
+                            test.groupwise = NULL,
+                            ref.group = NULL,
+                            step.increase = 0.1,
+                            box.width = 0.25,
+                            vjust = 0,
+                            scales = "free",
+                            nrow = NULL,
+                            ncol = NULL,
+                            display.facets = TRUE,
+                            display.points = FALSE,
+                            pt.alpha = 0.8,
+                            pt.color = "black",
+                            pt.num = 100,
+                            pt.shape = 19,
+                            pt.size = 1.5,
+                            clrp = "milo",
+                            clrp.adjust = NULL,
+                            fill = NA,
+                            verbose = TRUE,
+                            ...){
+
+  make_available(...)
+
+  # 1. Control --------------------------------------------------------------
+
+  are_values(c("across", "ref.group"),
+             mode = "character",
+             skip.allow = TRUE,
+             skip.value = NULL)
+
+  are_vectors(c("variables", "across.subset"),
+              mode = "character",
+              min.length  = 1,
+              skip.allow = TRUE,
+              skip.val = NULL)
+
+
+  # 2. Data processing ------------------------------------------------------
+
+  keep <-
+    purrr::keep(.x = pt.shape, .p = ~ is_any_of(.x, "character"))
+
+  df_shifted <-
+    process_and_shift_df(
+      df = df,
+      keep = keep,
+      variables = variables,
+      valid.classes = "numeric",
+      across = across,
+      across.subset = across.subset,
+      relevel = relevel,
+      verbose = verbose
+    )
+
+
+  # if across is not NULL set the information to the value of 'across'
+  # otherwise set to "variables"
+
+  aes_x <-
+    across_or(across, "variables")
+
+  aes_y <- "values"
+
+  aes_fill <-
+    across_or(across, "variables")
+
+  # 3. Create ggplot add ons -----------------------------------------------
+
+  # facet add on
+  facet_add_on <-
+    statistics_facet_wrap(
+      scales = scales,
+      nrow = nrow,
+      ncol = ncol,
+      display.facets = display.facets
+    )
+
+  # remove doubled names
+  if(base::isTRUE(display.facets) & base::is.null(across)){
+
+    x_axis_add_on <-
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_blank(),
+        axis.ticks.x = ggplot2::element_blank()
+      )
+
+  } else {
+
+    x_axis_add_on <- NULL
+
+  }
+
+
+  # jitter add on
+  jitter_add_on <-
+    statistics_geom_jitter(
+      df_shifted = df_shifted,
+      across = across,
+      aes_x = aes_x,
+      aes_y = aes_y,
+      display.points = display.points,
+      pt.alpha = pt.alpha,
+      pt.color = pt.color,
+      pt.num = pt.num,
+      pt.shape = pt.shape,
+      pt.size = pt.size
+    )
+
+  # tests add on
+  tests_add_on <-
+    statistics_tests(
+      df_shifted = df_shifted,
+      across = across,
+      aes_y = aes_y,
+      ref.group = ref.group,
+      test.pairwise = test.pairwise,
+      test.groupwise = test.groupwise,
+      step.increase = step.increase,
+      vjust = vjust
+    )
+
+  # legend add on
+  legend_add_on <-
+    base::ifelse(
+      test = base::is.null(across) & base::is.numeric(pt.shape),
+      yes = list(legend_none()),
+      no = list()
+    )
+
+
+  # 4. Assemble final plot output -------------------------------------------
+
+  ggplot2::ggplot(data = df_shifted, ggplot2::aes(x = .data[[aes_x]], .data[[aes_y]])) +
+    ggplot2::geom_boxplot(ggplot2::aes(color = .data[[aes_fill]]), fill = fill, width = box.width, ...) +
+    ggplot2::geom_violin(ggplot2::aes(color = .data[[aes_fill]]), fill = fill, ... )
+  theme_statistics() +
+    facet_add_on +
+    tests_add_on +
+    jitter_add_on +
+    scale_color_add_on(
+      aes = "color", variable = df_shifted[[aes_fill]],
+      clrp = clrp, clrp.adjust = clrp.adjust
+    ) +
+    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, 0.1))) +
+    ggplot2::labs(x = NULL, y = NULL) +
+    legend_add_on +
+    x_axis_add_on
+
+}
 
 
 
