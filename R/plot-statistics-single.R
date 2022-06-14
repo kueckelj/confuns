@@ -533,7 +533,7 @@ plot_vioboxplot <- function(df,
 
   ggplot2::ggplot(data = df_shifted, ggplot2::aes(x = .data[[aes_x]], .data[[aes_y]])) +
     ggplot2::geom_boxplot(ggplot2::aes(color = .data[[aes_fill]]), fill = fill, width = box.width, ...) +
-    ggplot2::geom_violin(ggplot2::aes(color = .data[[aes_fill]]), fill = fill, ... )
+    ggplot2::geom_violin(ggplot2::aes(color = .data[[aes_fill]]), fill = fill, ... ) +
   theme_statistics() +
     facet_add_on +
     tests_add_on +
