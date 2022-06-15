@@ -4,6 +4,7 @@
 \alias{plot_violin}
 \alias{plot_violinplot}
 \alias{plot_boxplot}
+\alias{plot_vioboxplot}
 \title{Plot distribution and results of statistical tests}
 \usage{
 plot_violin(
@@ -83,6 +84,35 @@ plot_boxplot(
   pt.size = 1.5,
   clrp = "milo",
   clrp.adjust = NULL,
+  verbose = TRUE,
+  ...
+)
+
+plot_vioboxplot(
+  df,
+  variables = NULL,
+  across = NULL,
+  across.subset = NULL,
+  relevel = TRUE,
+  test.pairwise = NULL,
+  test.groupwise = NULL,
+  ref.group = NULL,
+  step.increase = 0.1,
+  box.width = 0.25,
+  vjust = 0,
+  scales = "free",
+  nrow = NULL,
+  ncol = NULL,
+  display.facets = TRUE,
+  display.points = FALSE,
+  pt.alpha = 0.8,
+  pt.color = "black",
+  pt.num = 100,
+  pt.shape = 19,
+  pt.size = 1.5,
+  clrp = "milo",
+  clrp.adjust = NULL,
+  fill = NA,
   verbose = TRUE,
   ...
 )

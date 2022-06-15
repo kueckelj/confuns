@@ -55,11 +55,45 @@ statistics_geom_jitter <- function(df_shifted,
 
     if(base::is.character(across)){
 
+      pt.min <-
+        dplyr::group_by(.data = df_shifted, !!rlang::sym(group), !!rlang::sym(across)) %>%
+        dplyr::tally(name = "n") %>%
+        dplyr::pull(n) %>%
+        base::min()
+
+      if(pt.num > pt.min){
+
+        confuns::give_feedback(
+          msg = glue::glue("Too few observations in at least one group for `pt.num` = {pt.num}. Adjusting with common n: `pt.num` = {pt.min}."),
+          verbose = TRUE
+        )
+
+        pt.num <- pt.min
+
+        }
+
       jitter_df <-
         dplyr::group_by(.data = df_shifted, !!rlang::sym(group), !!rlang::sym(across)) %>%
         dplyr::slice_sample(n = pt.num)
 
     } else {
+
+      pt.min <-
+        dplyr::group_by(.data = df_shifted, !!rlang::sym(group)) %>%
+        dplyr::tally(name = "n") %>%
+        dplyr::pull(n) %>%
+        base::min()
+
+      if(pt.num > pt.min){
+
+        confuns::give_feedback(
+          msg = glue::glue("Too few observations for `pt.num = {pt.num}`. Adjusting: `pt.num` = {pt.min}."),
+          verbose = TRUE
+        )
+
+        pt.num <- pt.min
+
+      }
 
       jitter_df <-
         dplyr::group_by(.data = df_shifted, !!rlang::sym(group)) %>%

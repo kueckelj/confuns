@@ -300,13 +300,11 @@ plot_boxplot <- function(df,
   # if across is not NULL set the information to the value of 'across'
   # otherwise set to "variables"
 
-  aes_x <-
-    across_or(across, "variables")
+  aes_x <- across_or(across, "variables")
 
   aes_y <- "values"
 
-  aes_fill <-
-    across_or(across, "variables")
+  aes_fill <- across_or(across, "variables")
 
   # 3. Create ggplot add ons -----------------------------------------------
 
@@ -391,7 +389,7 @@ plot_boxplot <- function(df,
 
 }
 
-#' @rdname plot_boxplot
+#' @rdname plot_violin
 #' @export
 plot_vioboxplot <- function(df,
                             variables = NULL,
@@ -534,7 +532,7 @@ plot_vioboxplot <- function(df,
   ggplot2::ggplot(data = df_shifted, ggplot2::aes(x = .data[[aes_x]], .data[[aes_y]])) +
     ggplot2::geom_boxplot(ggplot2::aes(color = .data[[aes_fill]]), fill = fill, width = box.width, ...) +
     ggplot2::geom_violin(ggplot2::aes(color = .data[[aes_fill]]), fill = fill, ... ) +
-  theme_statistics() +
+    theme_statistics() +
     facet_add_on +
     tests_add_on +
     jitter_add_on +

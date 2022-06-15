@@ -109,7 +109,7 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
 
   is_value(x = clrp, mode = "character")
 
-  check_one_of(input = clrp, against = c("default", colorpanels), ref.input = "clrp")
+  check_one_of(input = clrp, against = c("default", colorpanels, viridis_options), ref.input = "clrp")
 
   if(clrp == "default"){
 
@@ -124,6 +124,10 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
     }
 
     clr_vector <- scales::hue_pal()(n.colors)
+
+  } else if(clrp %in% viridis_options){
+
+    clr_vector <- viridis::viridis(n = n.colors, option = clrp)
 
   } else {
 
