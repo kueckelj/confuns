@@ -109,7 +109,7 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
 
   is_value(x = clrp, mode = "character")
 
-  check_one_of(input = clrp, against = c("default", colorpanels, viridis_options), ref.input = "clrp")
+  check_one_of(input = clrp, against = c("default", colorpalettes, viridis_options), ref.input = "clrp")
 
   if(clrp == "default"){
 
@@ -126,6 +126,16 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
     clr_vector <- scales::hue_pal()(n.colors)
 
   } else if(clrp %in% viridis_options){
+
+    if(base::is.character(names)){
+
+      n.colors <- base::length(names)
+
+    } else if(base::is.na(n.colors) | !base::is.numeric(n.colors)){
+
+      stop(glue::glue("Don't know how many colors to return. If `clrp` == '{clrp}' specify either argument `names` or `n.colors`."))
+
+    }
 
     clr_vector <- viridis::viridis(n = n.colors, option = clrp)
 
@@ -146,7 +156,7 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
 
     if(n_names > n_colors){
 
-      base::warning(glue::glue("Chosen colorpanel '{clrp}' provides {n_colors} colors. Need {n_names} colors. Returning 'default' colorpanel."))
+      base::warning(glue::glue("Chosen colorpalette '{clrp}' provides {n_colors} colors. Need {n_names} colors. Returning 'default' colorpalette"))
 
       hues <- base::seq(15, 375, length = n_names + 1)
       clr_vector <- grDevices::hcl(h = hues, l = 65, c = 100)[1:n_names]

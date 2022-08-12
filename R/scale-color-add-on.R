@@ -160,7 +160,9 @@ scale_color_add_on <- function(aes = "color",
     }
 
     # 1. determine colors
-    if(clrp %in% colorpanels){
+    if(clrp %in% c(colorpanels) |
+       (clrp %in% c("default", viridis_options) & !base::is.null(names))
+       ){
 
       clrp_name <- clrp
 
@@ -168,7 +170,7 @@ scale_color_add_on <- function(aes = "color",
 
       n_colors <- base::length(clrp)
 
-    } else if(clrp %in% c("default", "greyscale", viridis_options)){
+    } else if(clrp %in% c("default", "greyscale", viridis_options)){ # and no names have been specified
 
       # no palette needed
 
