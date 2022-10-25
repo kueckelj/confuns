@@ -20,7 +20,7 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
 
   if(base::is.null(across)){
 
-    base::return(df)
+    return(df)
 
   } else {
 
@@ -54,7 +54,7 @@ check_across_subset <- function(df, across, across.subset, relevel = TRUE, fdb.f
 
     if(base::is.null(across.subset)){
 
-      base::return(df)
+      return(df)
 
     } else if(base::is.character(across.subset)){
 
@@ -209,6 +209,8 @@ process_and_shift_df <- function(df,
   # select and filter
   keep <- base::unique(c(across, keep))
 
+  variables <- base::unique(variables)
+
   df_checked <-
     check_df_variables(
       df = df,
@@ -266,6 +268,12 @@ process_and_shift_df <- function(df,
 
   }
 
-  base::return(df_shifted)
+  df_shifted[["variables"]] <-
+    base::factor(
+      x = df_shifted[["variables"]],
+      levels = variables
+      )
+
+  return(df_shifted)
 
 }
