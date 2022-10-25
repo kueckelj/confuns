@@ -268,10 +268,20 @@ process_and_shift_df <- function(df,
 
   }
 
+  if(base::is.character(variables)){
+
+    var_leves <- variables
+
+  } else {
+
+    var_levels <- base::unique(df_shifted[["variables"]])
+
+  }
+
   df_shifted[["variables"]] <-
     base::factor(
       x = df_shifted[["variables"]],
-      levels = variables
+      levels = var_levels
       )
 
   return(df_shifted)
