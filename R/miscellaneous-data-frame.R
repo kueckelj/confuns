@@ -270,7 +270,7 @@ process_and_shift_df <- function(df,
 
   if(base::is.character(variables)){
 
-    var_leves <- variables
+    var_levels <- variables
 
   } else {
 
