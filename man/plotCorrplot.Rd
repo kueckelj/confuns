@@ -72,17 +72,9 @@ plotCorrplot(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{method_corr}{Character value. Specifies the correlation
-method of interest. Use \code{validMethodsCorrelation()} to obtain all valid
-input options.}
-
 \item{across}{Character value or NULL. If character, specifies the name of the grouping variable
 that contains the group assignment across which results are displayed. If NULL,
 no grouping is done.}
-
-\item{across_subset}{Character vector or NULL. If character, specifies groups of the
-grouping variable that are of interest. Prefixing group names with \emph{'-'} excludes them.
-If NULL, all groups are considered.}
 
 \item{variables_subset}{Character vector, list of two character vectors or NULL.
 If character, specifies the subset of variable names that is included in the plot on both axes.
@@ -125,7 +117,7 @@ scales.}
 
 \item{display_values}{Logical. If TRUE, correlation values are displayed as numbers.}
 
-\item{values_alpha}{Numeric values. Denote transparency and size of
+\item{values_alpha, values_size}{Numeric values. Denote transparency and size of
 the displayed values.}
 
 \item{values_color}{Character value. Denotes the color in which the values
@@ -133,22 +125,6 @@ are displayed.}
 
 \item{values_digits}{Numeric value. Denotes the number of digits to which
 the displayed values are rounded.}
-
-\item{values_size}{Numeric values. Denote transparency and size of
-the displayed values.}
-
-\item{display_grid}{Logical value. If TRUE, a grid is displayed.}
-
-\item{grid_color}{Character value. Specifies the color of the grid lines.}
-
-\item{grid_size}{Numeric values. Specify transparency
-and thickness of the lines of the grid.}
-
-\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.

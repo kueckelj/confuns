@@ -11,9 +11,6 @@ unfactor(input, ...)
 
 \item{...}{Additional arguments given to s4vctrs::unfactor().}
 }
-\value{
-
-}
 \description{
 If input is a factor it will be returned as
 a character vector.

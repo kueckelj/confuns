@@ -21,9 +21,6 @@ getAvgSilWidthsDf(object, ...)
 
 \item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 Is converted into an integer vector.}
-
-\item{methods_pam}{Character value. Specifies the pam-method of interest.
-Use \code{validMethodsPam()} to obtain all valid input options.}
 }
 \value{
 Data.frame.

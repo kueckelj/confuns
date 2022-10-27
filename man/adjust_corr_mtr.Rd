@@ -26,5 +26,5 @@ matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
 Adjusted input matrix.
 }
 \description{
-
+Adjust correlation matrix
 }

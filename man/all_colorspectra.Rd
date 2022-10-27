@@ -6,9 +6,6 @@
 \usage{
 all_colorspectra()
 }
-\value{
-
-}
 \description{
 \code{all_colorspectra()} is deprecated due to naming issues. Use
 \code{all_color_spectra()} instead.

@@ -33,9 +33,6 @@ computeClusteringKmeans(object, ...)
 \item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 Is converted into an integer vector.}
 
-\item{methods_kmeans}{Character vector. Specifies the kmeans methods
-of interest. Use \code{validMethodsKmeans()} to obtain all valid input options.}
-
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 

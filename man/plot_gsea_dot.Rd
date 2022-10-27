@@ -73,21 +73,10 @@ one with the lowest significance value.}
 \item{signif.threshold}{Numeric value. The maximum significance value a gene set
 can have to be included.}
 
-\item{color.by}{Character value or NULL. If character, specifies the
-variable that is displayed by color.}
-
 \item{size.by}{Character value or NULL. If character, the variable whose values
 are displayed by size. Either \emph{'geneset'}, the number of genes the gene set
 contains, or \emph{'overlap'}, the number of genes that overlapped between
 the provided gene signature and the gene set.}
-
-\item{pt.size}{Numeric values. Specifies size of points.}
-
-\item{pt.color}{Character value. Specifies the color with which all points are displayed .}
-
-\item{pt.clrsp}{Character value. Specifies the color spectrum to be used to represent
-continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
-valid input options.}
 
 \item{remove}{Character value or NULL. If character, regular expression given
 to \code{pattern} of \code{stringr::str_remove_all()}. Used to adjust gene set names.}
@@ -95,24 +84,6 @@ to \code{pattern} of \code{stringr::str_remove_all()}. Used to adjust gene set n
 \item{replace}{Character vector of length 2 or NULL. If character vector, two regular expressions.
 First value is given to argument \code{pattern} and second is given to argument \code{replacement}
 of \code{stringr::str_replace_all()}. Used to adjust gene set names.}
-
-\item{alpha.by}{Character
-value or NULL. If character, specifies the variable that is mapped to the respective
-aesthetic of the plot.}
-
-\item{alpha.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
-\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
-for no transformation.}
-
-\item{color.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
-\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
-for no transformation.}
-
-\item{size.trans}{Character value. Name of the transformation method applied to the continuous scale. Use
-\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
-for no transformation.}
-
-\item{pt.alpha}{Numeric value. Specifies the transparency of points.}
 }
 \value{
 A ggplot.

@@ -30,12 +30,6 @@ getDendroSegmentDf(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{methods_dist}{Character vector. Specifies the distance methods
-of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
-
-\item{methods_aggl}{Character vector. Specifies the agglomerative
-methods of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
-
 \item{k}{Numeric value. Denotes the number of clusters. Must be bigger than 1. Must
 not be bigger than the number of observations of the data set.}
 

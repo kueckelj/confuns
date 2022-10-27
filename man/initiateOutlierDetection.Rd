@@ -16,13 +16,6 @@ initiateOutlierDetection(
 \arguments{
 \item{data}{A data.frame. (Rownames are dropped.)}
 
-\item{key_name}{Character value or NULL. Denotes the variable that is used
-to identify each observation uniquely.}
-
-\item{key_prefix}{Character value. The string with which
-the IDs in the newly constructed key variable are prefixed if \code{key_name} is
-NULL.}
-
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 

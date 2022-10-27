@@ -30,9 +30,6 @@ computeDistanceMatrices(object, ...)
 
 \item{...}{Additional arguments given to \code{stats::dist()}.}
 
-\item{methods_dist}{Character vector. Specifies the distance methods
-of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
-
 \item{force}{Logical value. Must be set to TRUE to allow overwriting.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding

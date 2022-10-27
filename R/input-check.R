@@ -133,15 +133,15 @@ extract_feedback <- function(fdb.fn){
 
   if(fdb.fn == "message"){
 
-    base::return("messages")
+    return("messages")
 
   } else if(fdb.fn == "warning"){
 
-    base::return("warnings")
+    return("warnings")
 
   } else if(fdb.fn == "stop"){
 
-    base::return("stop")
+    return("stop")
 
   }
 
@@ -277,7 +277,7 @@ is_value <- function(x,
     return_value <-
       base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
 
-    base::return(return_value)
+    return(return_value)
 
   }
 
@@ -387,7 +387,7 @@ is_vec <- function(x,
     return_value <-
       base::ifelse(test = base::is.null(msg), yes = TRUE, no = FALSE)
 
-    base::return(return_value)
+    return(return_value)
 
   }
 
@@ -472,11 +472,11 @@ are_values <- function(...,
 
   if(return == "boolean"){
 
-    base::return(boolean)
+    return(boolean)
 
   } else if(return == "results"){
 
-    base::return(results)
+    return(results)
 
   }
 
@@ -567,11 +567,11 @@ are_vectors <- function(...,
 
   if(return == "boolean"){
 
-    base::return(boolean)
+    return(boolean)
 
   } else if(return == "results"){
 
-    base::return(results)
+    return(results)
 
   }
 
@@ -620,7 +620,7 @@ check_assign <- function(assign = FALSE,
 
   }
 
-  base::return(TRUE)
+  return(TRUE)
 
 }
 
@@ -658,7 +658,7 @@ check_no_overlap <- function(x, y, fdb.fn = "stop", with.time = FALSE){
 
   } else {
 
-    base::return(TRUE)
+    return(TRUE)
 
   }
 
@@ -760,7 +760,7 @@ check_data_frame <- function(df,
 
   } else {
 
-    base::return(TRUE)
+    return(TRUE)
 
   }
 
@@ -818,11 +818,11 @@ check_directories <- function(directories,
 
                    if(!check_fun(dir)){
 
-                     base::return(dir)
+                     return(dir)
 
                    } else {
 
-                     base::return(NULL)
+                     return(NULL)
 
                    }}) %>%
       purrr::discard(.p = base::is.null) %>%
@@ -861,7 +861,7 @@ check_directories <- function(directories,
 
         if(base::file.exists(dir)){
 
-          base::return(TRUE)
+          return(TRUE)
 
         } else {
 
@@ -870,7 +870,7 @@ check_directories <- function(directories,
 
           if(base::isTRUE(res)){base::file.remove(dir)}
 
-          base::return(res)
+          return(res)
 
         }
 
@@ -898,11 +898,11 @@ check_directories <- function(directories,
 
   if(base::is.null(msg)){
 
-    base::return(TRUE)
+    return(TRUE)
 
   } else {
 
-    base::return(FALSE)
+    return(FALSE)
 
   }
 
@@ -1031,8 +1031,10 @@ check_one_of <- function(input,
                          fdb.fn = "stop",
                          fdb.opt = 1,
                          ref.opt.2 = "valid input options",
+                         suggest = TRUE,
                          verbose = TRUE,
-                         with.time = FALSE){
+                         with.time = FALSE,
+                         ...){
 
   base::is.vector(input)
   base::is.vector(against)
@@ -1059,33 +1061,61 @@ check_one_of <- function(input,
 
   if(base::any(!input %in% against)){
 
+    ref_against <- glue::glue_collapse(against, sep = "', '", last = "' and '")
+
     invalid <- input[!input %in% against]
+
+    if(base::isTRUE(suggest)){
+
+      end_string <-
+        str_suggest_list(
+          string = invalid,
+          pool = against,
+          ...
+        ) %>%
+        purrr::map(
+          .f = ~
+            scollapse(.x, sep = "', '", last = "' or '") %>%
+            base::as.character() %>%
+            wrap_strings(wrap.in = c("'", "'?"))
+          ) %>%
+        glue_list_report(
+          separator = "' did you mean ",
+          prefix = "Instead of '"
+        )
+
+
+    } else {
+
+      end_string <-
+        glue::glue("Valid input options are: '{ref_against}'") %>%
+        base::as.character()
+
+
+    }
 
     if(fdb.opt == 1){
 
       msg <-
         glue::glue(
-          "{ref1} '{ref_invalid}' of {ref.input} {ref2} invalid. Valid input options are: '{ref_against}'.",
+          "{ref1} '{ref_invalid}' of {ref.input} {ref2} invalid. {end_string}.",
           ref1 = adapt_reference(invalid, sg = "Value", pl = "Values"),
           ref2 = adapt_reference(invalid, sg = "is", pl = "are"),
           ref_invalid = glue::glue_collapse(invalid, sep = "', '", last = "' and '"),
-          ref_against = glue::glue_collapse(against, sep = "', '", last = "' and '")
+
         )
 
     } else if(fdb.opt == 2) {
 
       msg <- glue::glue(
         glue::glue(
-          "Did not find {ref1} '{ref_invalid}' of {ref.input} among {ref.opt.2}. Valid input options are: '{ref_against}'.",
+          "Did not find {ref1} '{ref_invalid}' of {ref.input} among {ref.opt.2}. {end_string}.",
           ref1 = adapt_reference(invalid, sg = "value", pl = "values"),
-          ref_invalid = glue::glue_collapse(invalid, sep = "', '", last = "' and '"),
-          ref_against = glue::glue_collapse(against, sep = "', '", last = "' and '")
+          ref_invalid = glue::glue_collapse(invalid, sep = "', '", last = "' and '")
         )
       )
 
     }
-
-
 
     confuns::give_feedback(
       msg = msg,
@@ -1096,7 +1126,7 @@ check_one_of <- function(input,
 
   } else {
 
-    base::return(TRUE)
+    return(TRUE)
 
   }
 
@@ -1263,7 +1293,7 @@ check_df_variables <- function(df, valid.classes, variables = NULL, keep = NULL,
 
   }
 
-  base::return(res_df)
+  return(res_df)
 
 }
 

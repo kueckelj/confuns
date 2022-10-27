@@ -30,12 +30,6 @@ agglomerateHierarchicalTrees(object, ...)
 
 \item{...}{Additional arguments given to \code{stats::hclust()}.}
 
-\item{methods_dist}{Character vector. Specifies the distance methods
-of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
-
-\item{methods_aggl}{Character vector. Specifies the agglomerative
-methods of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
-
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 

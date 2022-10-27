@@ -113,68 +113,14 @@ vectors containing the groups of interest. Prefixing group names with
 \item{relevel}{Logical value. If set to TRUE the input order of \code{across.subset} and
 \code{variables} determines the order in which the groups of interest are displayed.}
 
-\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+\item{scales, nrow, ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}
-
-\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{scales}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{pt_alpha}{Numeric value. Specifies the transparency of points.}
-
-\item{pt_color}{Character value. Specifies the color with which all points are displayed .}
-
-\item{pt_shape}{Numeric or character value. If numeric, the respective
-shape is taken for all points. If character, the respective variable is
-mapped to the shape-aesthetic.}
-
-\item{color_aes}{Either \emph{'color'} or \emph{'fill'}. Specifies the
-aesthetic that is used to visualize the variable that is specified in \code{color_by}.
-Ignored if \code{color_by} is NULL.}
-
-\item{color_by}{Character value or NULL. If character, specifies the
-variable that is displayed by color.}
-
-\item{color_trans}{Character value. Name of the transformation method applied to the continuous scale. Use
-\code{validScaleTransformations()} to obtain all valid input options. Use \emph{'identity'}
-for no transformation.}
 
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
-\item{clrp_adjust}{Named character vector. Can be used to adjust colors
-with which groups are displayed. Names indicate groups, values
-indicate the colors with which specific groups are supposed to be displayed.}
-
-\item{clrsp}{Character value. Specifies the color spectrum to be used to represent
-continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
-valid input options.}
-
-\item{order_by}{Character value or NULL. If character, specifies the
-numeric variable by which the points are arranged before plotting.}
-
-\item{shape_by}{Character
-value or NULL. If character, specifies the variable that is mapped to the respective
-aesthetic of the plot.}
-
-\item{size_by}{Character
-value or NULL. If character, specifies the variable that is mapped to the respective
-aesthetic of the plot.}
-
 \item{display_smooth}{Logical value. Indicates if a smoothed line is displayed.}
-
-\item{smooth_alpha}{Numeric value. The transparency of the smoothed line.}
-
-\item{smooth_color}{Character value. The color of the smoothed line.}
-
-\item{smooth_method}{Character value. The smoothing method. Given to argument
-\code{method} of \code{ggplot2::geom_smooth()}.}
-
-\item{smooth_se}{Logical value. Indicates if the confidence intervals are
-displayed.}
 
 \item{display_corr}{Logical value. Indicates if correlation values of the x-
 and y-variable are computed and displayed as text in the plot.}
@@ -191,11 +137,6 @@ value are separated.}
 
 \item{corr_text_size, pt_size, smooth_size}{Numeric value. The size with which
 results are displayed.}
-
-\item{transform_with}{List or NULL. If list, can be used to transform continuous variables before plotting.
-Names of the slots of the provided list refer to the variables. The content of the slot refers to the transforming functions.
-Slot content can either be a character vector of function names. Use \code{validVarTransformations()} to obtain all valid character value inputs.
-Or it can be a list of functions (and function names).}
 }
 \value{
 A ggplot.

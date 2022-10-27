@@ -8,7 +8,7 @@ Description: A collection of wrapper- and convenience functions for data science
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 Imports: 
     colorspace,
     dplyr,
@@ -17,7 +17,8 @@ Imports:
     magrittr,
     purrr,
     reshape2,
-    rlang
+    rlang, 
+    stringdist
 Collate: 
     'S4-generics.R'
     'S4-AnalysisAspect.R'
@@ -37,12 +38,14 @@ Collate:
     'color-palettes-and-spectra.R'
     'convenience-functions.R'
     'correlation-wrapper.R'
+    'data.R'
     'data.frame-handling.R'
     'data.frame-transformation.R'
     'deprecated.R'
     'dimensional-reduction.R'
     'documentation-dummies.R'
     'feedback-list.R'
+    'gene_infos.R'
     'get_names.R'
     'ggplot2-themes-and-small-add-ons.R'
     'gsea-hypeR.R'
@@ -76,6 +79,7 @@ Collate:
     'setup-project.R'
     'shiny-checkpoint.R'
     'source-and-load.R'
+    'string-handling.R'
     'string-manipulation.R'
     'subset-matrix.R'
     'subsetting-aid.R'
@@ -83,3 +87,5 @@ Collate:
     'valid-misc.R'
     'variable-classes.R'
     'wrap-strings.R'
+Depends: 
+    R (>= 2.10)

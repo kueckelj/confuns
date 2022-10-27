@@ -35,18 +35,9 @@ plotSilWidths(object, ...)
 \item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 Is converted into an integer vector.}
 
-\item{method_pam}{Character value. Specifies the pam-method of interest.
-Use \code{validMethodsPam()} to obtain all valid input options.}
-
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
-
-\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.

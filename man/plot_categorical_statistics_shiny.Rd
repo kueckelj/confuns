@@ -14,9 +14,6 @@ plot_categorical_statistics_shiny(
   ...
 )
 }
-\value{
-
-}
 \description{
 Title
 }

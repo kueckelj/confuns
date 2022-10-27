@@ -22,9 +22,6 @@ getSilWidthsDf(object, ...)
 \item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 Is converted into an integer vector.}
 
-\item{method_pam}{Character value. Specifies the pam-method of interest.
-Use \code{validMethodsPam()} to obtain all valid input options.}
-
 \item{format}{Character value. Either \emph{'long'} or \emph{'wide'}. Shifts
 the perspective of the output data.frame.}
 }

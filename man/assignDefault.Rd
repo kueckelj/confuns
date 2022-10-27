@@ -13,9 +13,6 @@ a named list.}
 \item{default_slot}{Character value. The name of the slot that contains
 the default list.}
 }
-\value{
-
-}
 \description{
 Extracts the default list from the respective slot
 and assigns the content of the list's slot to the environment of

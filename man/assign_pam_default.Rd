@@ -9,9 +9,6 @@ assign_pam_default(pam.obj)
 \arguments{
 \item{pam.obj}{}
 }
-\value{
-
-}
 \description{
 Title
 }

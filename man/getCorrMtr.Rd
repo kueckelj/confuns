@@ -20,10 +20,6 @@ getCorrMtr(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{method_corr}{Character value. Specifies the correlation
-method of interest. Use \code{validMethodsCorrelation()} to obtain all valid
-input options.}
-
 \item{across}{Character value. Specifies the discrete variable in the data.frame
 across which the variables of interest are to be analyzed or displayed.}
 

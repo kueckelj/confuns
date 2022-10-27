@@ -19,9 +19,6 @@ getPam(object, ...)
 \item{k}{Numeric value. Denotes the number of clusters. Must be bigger than 1. Must
 not be bigger than the number of observations of the data set.}
 
-\item{method_pam}{Character value. Specifies the pam-method of interest.
-Use \code{validMethodsPam()} to obtain all valid input options.}
-
 \item{stop_if_null}{Logical value. If TRUE and the function does not find the object to
 extract an informative error is raised. Else the empty value - usually NULL - is returned.}
 }

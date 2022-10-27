@@ -29,12 +29,6 @@ getHclust(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{method_dist}{Character value. Specifies the distance method
-of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
-
-\item{method_aggl}{Character value. Specifies the agglomerative method
-of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
-
 \item{stop_if_null}{Logical value. If TRUE and the function does not find the object to
 extract an informative error is raised. Else the empty value - usually NULL - is returned.}
 }

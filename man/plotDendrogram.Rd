@@ -65,12 +65,6 @@ plotDendrogram(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{methods_dist}{Character vector. Specifies the distance methods
-of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
-
-\item{methods_aggl}{Character vector. Specifies the agglomerative
-methods of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
-
 \item{k}{Numeric value. Denotes the number of clusters. Must be bigger than 1. Must
 not be bigger than the number of observations of the data set.}
 
@@ -86,36 +80,15 @@ with which the plot-facetting is created. If the number of input combinations fo
 
 \item{display_labels}{Lgoical value. Indicates if labels are displayed.}
 
-\item{labels_angle}{Numeric value. The angle with which labels are displayed.}
-
-\item{labels_hjust}{Numeric values. Adjust labels positioning.}
-
-\item{labels_size}{Numeric value. The size with which labels are displayed.}
-
-\item{labels_vjust}{Numeric values. Adjust labels positioning.}
-
-\item{display_legend}{Logical values. Indicate if legend or
-title is displayed.}
-
-\item{display_title}{Logical values. Indicate if legend or
+\item{display_legend, display_title}{Logical values. Indicate if legend or
 title is displayed.}
 
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
-\item{clrp_adjust}{Named character vector. Can be used to adjust colors
-with which groups are displayed. Names indicate groups, values
-indicate the colors with which specific groups are supposed to be displayed.}
-
 \item{simple}{Logical value. If TRUE, the dendrogram is plotted with \code{base::plot()}.
 This is way quicker but does not allow for ggplot2 specific adjustments.}
-
-\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
 }
 \value{
 A ggplot or a base plot.

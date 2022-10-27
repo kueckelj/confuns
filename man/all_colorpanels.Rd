@@ -6,9 +6,6 @@
 \usage{
 all_colorpanels()
 }
-\value{
-
-}
 \description{
 \code{all_colorpanels()} is deprecated due to naming issues. Use
 \code{all_color_palettes()} instead.

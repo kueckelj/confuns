@@ -34,19 +34,10 @@ computeCorrelation(object, ...)
 that contain the group assignment across which analysis should
 be conducted. If NULL, no grouping is done.}
 
-\item{methods_corr}{Character vector. Specifies the correlation
-methods of interest. Use \code{validMethodsCorrelation()} to obtain all valid
-input options.}
-
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.
 
 (Warning messages will always be printed.)}
-
-\item{across_subset}{Character vector or NULL. If NULL, all groups
-are considered. If character, specifies the groups of the
-grouping variable that are of interest. Prefixing group names with
-\emph{'-'} excludes them.}
 }
 \value{
 The input object.

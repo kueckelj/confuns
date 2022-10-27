@@ -156,13 +156,7 @@ height for every additional comparison to minimize overlap.}
 the test denoted in \code{test.groupwise}. Negative input highers, positive
 input lowers the position.}
 
-\item{scales}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+\item{scales, nrow, ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}
 
 \item{display.facets}{Logical value. Only relevant if \code{across} is set
@@ -171,26 +165,14 @@ to NULL. Denotes if a subplot for each variable is supposed to be created.}
 \item{display.points}{Logical value. If set to TRUE points are used additionally
 to display the results.}
 
-\item{pt.alpha}{Numeric value. Specifies the transparency of points.}
-
-\item{pt.color}{Character value. Specifies the color with which all points are displayed .}
-
-\item{pt.num}{Numeric value. Species the number of points (sample size)
-to prevent overplotting.}
-
-\item{pt.shape}{Numeric or character value. If numeric, the respective
-shape is taken for all points. If character, the respective variable is
-mapped to the shape-aesthetic.}
-
-\item{pt.size}{Numeric values. Specifies size of points.}
-
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
-\item{clrp.adjust}{Named character vector. Can be used to adjust colors
-with which groups are displayed. Names indicate groups, values
-indicate the colors with which specific groups are supposed to be displayed.}
+\item{clrp.adjust}{Named character vector or NULL. If character, it adjusts the
+colors that are used to represent the groups. Names of the input vector must refer
+to the group and the respective named element denotes the color with which to
+represent the group.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.

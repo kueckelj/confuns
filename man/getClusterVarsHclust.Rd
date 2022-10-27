@@ -38,12 +38,6 @@ getClusterVarsHclust(object, ...)
 Is converted into an integer vector.}
 
 \item{hs}{Numeric vector. Denotes the heights at which the dendrogram is cut.}
-
-\item{methods_dist}{Character vector. Specifies the distance methods
-of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
-
-\item{methods_aggl}{Character vector. Specifies the agglomerative
-methods of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
 }
 \value{
 A data.frame.

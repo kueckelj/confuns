@@ -47,44 +47,9 @@ plotUMAP(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{alpha_by}{Character
-value or NULL. If character, specifies the variable that is mapped to the respective
-aesthetic of the plot.}
-
-\item{color_by}{Character value or NULL. If character, specifies the
-variable that is displayed by color.}
-
-\item{shape_by}{Character
-value or NULL. If character, specifies the variable that is mapped to the respective
-aesthetic of the plot.}
-
-\item{size_by}{Character
-value or NULL. If character, specifies the variable that is mapped to the respective
-aesthetic of the plot.}
-
-\item{pt_alpha}{Numeric value. Specifies the transparency of points.}
-
-\item{pt_color}{Character value. Specifies the color with which all points are displayed .}
-
-\item{pt_shape}{Numeric or character value. If numeric, the respective
-shape is taken for all points. If character, the respective variable is
-mapped to the shape-aesthetic.}
-
-\item{color_aes}{Either \emph{'color'} or \emph{'fill'}. Specifies the
-aesthetic that is used to visualize the variable that is specified in \code{color_by}.
-Ignored if \code{color_by} is NULL.}
-
 \item{clrp}{Character value. Specifies the color palette to be used to represent
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
-
-\item{clrp_adjust}{Named character vector. Can be used to adjust colors
-with which groups are displayed. Names indicate groups, values
-indicate the colors with which specific groups are supposed to be displayed.}
-
-\item{clrsp}{Character value. Specifies the color spectrum to be used to represent
-continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
-valid input options.}
 }
 \value{
 A ggplot.

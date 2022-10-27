@@ -30,12 +30,6 @@ getDendro(object, ...)
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
 
-\item{method_dist}{Character value. Specifies the distance method
-of interest. Use \code{validMethodsDist()} to obtain all valid input options.}
-
-\item{method_aggl}{Character value. Specifies the agglomerative method
-of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}
-
 \item{k}{Numeric value. Denotes the number of clusters. Must be bigger than 1. Must
 not be bigger than the number of observations of the data set.}
 

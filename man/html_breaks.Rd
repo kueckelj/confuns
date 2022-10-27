@@ -9,9 +9,6 @@ html_breaks(n)
 \arguments{
 \item{n}{}
 }
-\value{
-
-}
 \description{
 Title
 }

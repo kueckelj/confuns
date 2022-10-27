@@ -85,27 +85,8 @@ across which the variables of interest are to be analyzed or displayed.}
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
-\item{clrp_adjust}{Named character vector. Can be used to adjust colors
-with which groups are displayed. Names indicate groups, values
-indicate the colors with which specific groups are supposed to be displayed.}
-
-\item{scales}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
+\item{scales, nrow, ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
 are displayed.}
-
-\item{nrow}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{ncol}{Given to \code{ggplot2::facet_wrap()}. Affects the way the subplots
-are displayed.}
-
-\item{pt_alpha}{Numeric value. Specifies the transparency of points.}
-
-\item{pt_num}{Numeric value. Species the number of points (sample size)
-to prevent overplotting.}
-
-\item{pt_shape}{Numeric or character value. If numeric, the respective
-shape is taken for all points. If character, the respective variable is
-mapped to the shape-aesthetic.}
 
 \item{verbose}{Logical. If set to TRUE informative messages regarding
 the computational progress will be printed.

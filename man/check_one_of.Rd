@@ -11,8 +11,10 @@ check_one_of(
   fdb.fn = "stop",
   fdb.opt = 1,
   ref.opt.2 = "valid input options",
+  suggest = TRUE,
   verbose = TRUE,
-  with.time = FALSE
+  with.time = FALSE,
+  ...
 )
 }
 \arguments{

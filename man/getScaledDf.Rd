@@ -15,12 +15,6 @@ getScaledDf(object, ...)
 }
 \arguments{
 \item{object}{Any object for whose class a method has been defined.}
-
-\item{grouping}{Logical value. Indicate if the respective variable
-types should be part of the output data.frame.}
-
-\item{logical}{Logical value. Indicate if the respective variable
-types should be part of the output data.frame.}
 }
 \value{
 A data.frame.
