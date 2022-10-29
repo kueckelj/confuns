@@ -8,6 +8,9 @@ print_gene_info(genes, check = TRUE)
 }
 \arguments{
 \item{genes}{Character vector of gene names.}
+
+\item{check}{Logical value. If TRUE, input is checked for availability. If
+FALSE, unknown elements are silently dropped.}
 }
 \value{
 Invisible TRUE. Texts are immediately printed using \code{base::writeLines()}.

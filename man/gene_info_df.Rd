@@ -5,7 +5,7 @@
 \alias{gene_info_df}
 \title{Collection of gene information}
 \format{
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 11279 rows and 7 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 25976 rows and 7 columns.
 }
 \source{
 \url{https://www.ncbi.nlm.nih.gov/gene/?term=}
