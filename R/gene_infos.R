@@ -10,16 +10,27 @@ pattern_end_1 <- "\\[provided by .*, .{1,10}\\d\\d\\d\\d\\]"
 pattern_end_2 <- "and.{1,10}other tissues"
 pattern_end_3 <- stringr::str_c(pattern_end_1, pattern_end_2, sep = "|")
 
-pattern_hgnc_symbol <- "[A-Z|0-9]*"
+pattern_hgnc_symbol <- "[A-Z|0-9|\\-]*"
 
-# extract html webpage and return as character vector
-get_html_text <- function(id){
 
-  rvest::read_html(x = stringr::str_c("https://www.ncbi.nlm.nih.gov/gene/",id)) %>%
-    rvest::html_element(css = "div") %>%
-    rvest::html_text() %>%
-    base::as.character() %>%
-    stringr::str_remove_all(pattern = "\\n")
+assemble_gene_search_dir <- function(gene){
+
+  if(base::is.character(gene)){
+
+    out <-
+      stringr::str_c(
+        "https://www.ncbi.nlm.nih.gov/gene?term=(",
+        gene,
+        "%5BGene%20Name%5D)%20AND%20Homo%20sapiens%5BOrganism%5D"
+      )
+
+  } else if(base::is.numeric(gene)) {
+
+    out <- stringr::str_c("https://www.ncbi.nlm.nih.gov/gene/",gene)
+
+  }
+
+  return(out)
 
 }
 
@@ -28,6 +39,18 @@ crop_gene_info <- function(text){
 
   confuns::str_extract_after(string = text, pattern = "Symbol") %>%
     confuns::str_extract_before(pattern = pattern_end_3)
+
+}
+
+# extract html webpage and return as character vector
+get_html_text <- function(gene){
+
+  assemble_gene_search_dir(gene) %>%
+    rvest::read_html() %>%
+    rvest::html_element(css = "div") %>%
+    rvest::html_text() %>%
+    base::as.character() %>%
+    stringr::str_remove_all(pattern = "\\n")
 
 }
 
@@ -62,10 +85,17 @@ extract_full_gene_name <- function(text){
 
 }
 
+extract_gene_id <- function(text){
+
+  str_extract_after(string = text, pattern = "Gene ID:", match = " *\\d*") %>%
+    base::as.numeric()
+
+}
+
 extract_gene_symbol <- function(text){
 
   confuns::str_extract_after(string = text, pattern = "Official {1,10}Symbol|Gene symbol|Symbol") %>%
-    stringr::str_extract(string = ., pattern = pattern_hgnc_symbol)
+    stringr::str_extract(string = ., pattern = )
 
 }
 
@@ -144,44 +174,62 @@ extract_synonyms <- function(text){
 
 # wrapper that creates data.frame
 
-assemble_gene_info <- function(id, pb){
+assemble_gene_info <- function(gene, pb){
 
   pb$tick()
 
-  text <- get_html_text(id)
+  text <- get_html_text(gene)
+
+  organism <- extract_organism(text)
 
   cropped_text <- crop_gene_info(text)
 
-  base::data.frame(
-    id = id,
-    symbol = extract_gene_symbol(text),
-    full_name = extract_full_gene_name(text),
-    synonyms = extract_synonyms(cropped_text),
-    summary = extract_summary(cropped_text),
-    type = extract_gene_type(text),
-    organism = extract_organism(text)
-  ) %>%
+  if(base::is.character(gene)){
+
+    symbol <- gene
+    id <- extract_gene_id(text)
+
+  } else if(base::is.numeric(gene)){
+
+    symbol <- extract_gene_symbol(text)
+    id <- gene
+
+  }
+
+  out <-
+    base::data.frame(
+      id = id,
+      symbol = symbol,
+      full_name = extract_full_gene_name(text),
+      synonyms = extract_synonyms(cropped_text),
+      summary = extract_summary(cropped_text),
+      type = extract_gene_type(text),
+      organism = organism
+    ) %>%
     tibble::as_tibble()
+
+
+  return(out)
 
 }
 
-make_gene_info_list <- function(ids){
+make_gene_info_list <- function(genes){
 
-  glist <- base::vector(mode = "list", length = base::length(ids))
+  glist <- base::vector(mode = "list", length = base::length(genes))
 
-  pb <- create_progress_bar(total = base::length(ids))
+  pb <- create_progress_bar(total = base::length(genes))
 
-  for(i in seq_along(ids)){
+  for(i in seq_along(genes)){
 
-    id <- ids[i]
+    gene <- genes[i]
 
     gene_df <- base::tryCatch({
 
-      assemble_gene_info(id = id, pb = pb)
+      assemble_gene_info(gene = gene, pb = pb)
 
     }, error = function(error){
 
-      message(glue::glue("Failed for gene id {id}."))
+      message(glue::glue("Failed for gene {gene}."))
 
       NA
 
@@ -267,7 +315,7 @@ get_gene_synonyms <- function(gene){
 
 # assembles
 make_gene_card <- function(gene){
-
+print(gene)
   sgdf <- dplyr::filter(gene_info_df, symbol == {{gene}})
 
   if(base::nrow(sgdf) == 1){
@@ -305,6 +353,8 @@ make_gene_card <- function(gene){
 #' @description Prints human readable summary texts of genes in the console.
 #'
 #' @param genes Character vector of gene names.
+#' @param check Logical value. If TRUE, input is checked for availability. If
+#' FALSE, unknown elements are silently dropped.
 #'
 #' @return Invisible TRUE. Texts are immediately printed using \code{base::writeLines()}.
 #' @export
