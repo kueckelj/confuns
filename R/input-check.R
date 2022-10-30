@@ -1023,8 +1023,6 @@ check_none_of <- function(input,
 #'
 #' @export
 #'
-
-
 check_one_of <- function(input,
                          against,
                          ref.input = NULL,
@@ -1042,8 +1040,19 @@ check_one_of <- function(input,
   if(base::is.null(ref.input)){
 
     ref.input <-
-      glue::glue("input for argument '{base::substitute(input)}'") %>%
-      base::as.character()
+      base::tryCatch({
+
+        ref.input <-
+          glue::glue("input for argument '{base::substitute(input)}'") %>%
+          base::as.character()
+
+      }, error = function(error){
+
+        "input"
+
+      })
+
+    if(base::length(ref.input) == 2){ ref.input <- "input" }
 
   } else {
 
@@ -1065,32 +1074,46 @@ check_one_of <- function(input,
 
     invalid <- input[!input %in% against]
 
+    valid_input_options <-
+      glue::glue("Valid input options are: '{ref_against}'") %>%
+      base::as.character()
+
     if(base::isTRUE(suggest)){
 
-      end_string <-
+      suggestions <-
         str_suggest_list(
           string = invalid,
           pool = against,
           ...
-        ) %>%
+        )
+
+      n_suggestions <-
+        purrr::map(suggestions, .f = base::length) %>%
+        base::unname()
+
+      end_string <-
+        purrr::discard(.x = suggestions, .p = ~ base::length(.x) == 0) %>%
         purrr::map(
           .f = ~
             scollapse(.x, sep = "', '", last = "' or '") %>%
             base::as.character() %>%
             wrap_strings(wrap.in = c("'", "'?"))
-          ) %>%
+        ) %>%
         glue_list_report(
           separator = "' did you mean ",
           prefix = "Instead of '"
-        )
+        ) %>%
+        base::as.character()
 
+      if(base::any(n_suggestions == 0)){
+
+        end_string <- stringr::str_c(valid_input_options, "\n", end_string)
+
+      }
 
     } else {
 
-      end_string <-
-        glue::glue("Valid input options are: '{ref_against}'") %>%
-        base::as.character()
-
+      end_string <- valid_input_options
 
     }
 
