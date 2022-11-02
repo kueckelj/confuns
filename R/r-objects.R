@@ -9,7 +9,10 @@ pretty_bar_positions <- c("Stacked" = "stack", "Dodged" = "dodge", "Filled" = "f
 
 # Colors ------------------------------------------------------------------
 
-viridis_options <- c("cividis", "inferno", "magma", "plasma", "viridis")
+viridis_options <- c("cividis", "inferno", "mako", "magma", "plasma", "turbo", "viridis")
+
+RColorBrewer_options <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1", "Set2", "Set3")
+
 
 pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
                                  "Nature Publishing Group" = "npg",
@@ -37,8 +40,14 @@ pretty_colorpalettes_list <-
     Journals = pretty_journals_clrp_vector,
     Milo = "milo",
     ggplot2 = pretty_ggplot2_clrp_vector,
-    `Viridis Options` = viridis_options
+    `Viridis Options` = viridis_options,
+    `RColor_brewer Options` = RColorBrewer_options
   )
+
+color_palettes_vec <-
+  base::unname(pretty_colorpalettes_list) %>%
+  purrr::flatten_chr() %>%
+  base::unname()
 
 # Descriptive statistics --------------------------------------------------
 
@@ -81,4 +90,14 @@ overwrite_hint <- " Set argument 'overwrite' to TRUE in order to allow overwritt
 
 valid_line_types <- c("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
 
+
+
+
+
+
+
+
+# R -----------------------------------------------------------------------
+
+RColorBrewer_options <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1", "Set2", "Set3")
 

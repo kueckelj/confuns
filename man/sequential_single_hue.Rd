@@ -9,7 +9,7 @@
 \format{
 An object of class \code{character} of length 11.
 
-An object of class \code{character} of length 60.
+An object of class \code{character} of length 61.
 
 An object of class \code{character} of length 18.
 }

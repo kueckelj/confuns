@@ -1,5 +1,17 @@
+
+#' @title Create lookahead/-behind regex
+#'
+#' @description Creates a lookahead/-behind regex. See details for more.
+#'
+#' @param pattern Character value. The pattern before/behind which the subsequent
+#' function looks.
+#' @param match Character value. The regex that must match the string before/behind
+#' the input of \code{pattern}.
+#' @param negate Logical value. If TRUE, function matches the part of input that
+#' does \bold{not} match input for argument \code{match}.
+#'
 #' @export
-rgx_lookahead <- function(pattern, negate = FALSE, match = ".*"){
+rgx_lookahead <- function(pattern, match = ".*",  negate = FALSE){
 
   if(base::isFALSE(negate)){
 

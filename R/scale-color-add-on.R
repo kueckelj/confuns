@@ -57,7 +57,7 @@
 #'
 
 scale_color_add_on <- function(aes = "color",
-                               variable = "numeric",
+                               variable = NULL,
                                clrsp = NULL,
                                clrp = NULL,
                                clrp.adjust = NULL,
@@ -65,7 +65,17 @@ scale_color_add_on <- function(aes = "color",
                                ...){
 
   is_value(aes, "character", "aes")
-  base::stopifnot(aes %in% c("fill", "color"))
+  base::stopifnot(aes %in% c("fill", "color", "colour"))
+
+  if(base::is.null(variable) & base::is.null(clrp) & !base::is.null(clrsp)){
+
+    variable <- "numeric"
+
+  } else if(base::is.null(variable) & !base::is.null(clrp) & base::is.null(clrsp)){
+
+    variable <- "grouping"
+
+  }
 
   if(!base::is.null(clrp)){confuns::is_value(clrp, "character", "clrp")}
   if(!base::is.null(clrsp)){confuns::is_value(clrsp, "character", "clrsp")}
@@ -105,7 +115,7 @@ scale_color_add_on <- function(aes = "color",
 
         }
 
-      } else {
+      } else { # aes == color|colour
 
         if(clrsp %in% viridis_options){
 
@@ -138,8 +148,7 @@ scale_color_add_on <- function(aes = "color",
     }
 
   # ----- discrete variable
-  } else if(!base::is.numeric(variable) |
-            base::all(variable == "discrete")){
+  } else if(!base::is.numeric(variable) | base::all(variable == "discrete")){
 
     n_groups <- dplyr::n_distinct(variable)
     n_colors <- -Inf
@@ -159,77 +168,22 @@ scale_color_add_on <- function(aes = "color",
 
     }
 
-    # 1. determine colors
-    if(clrp %in% c(colorpanels) |
-       (clrp %in% c("default", viridis_options) & !base::is.null(names))
-       ){
+    check_one_of(
+      input = clrp,
+      against = all_color_palettes_vec(),
+      suggest = TRUE
+    )
 
-      clrp_name <- clrp
-
-      clrp <- color_vector(clrp = clrp, names = names, clrp.adjust = clrp.adjust)
-
-      n_colors <- base::length(clrp)
-
-    } else if(clrp %in% c("default", "greyscale", viridis_options)){ # and no names have been specified
-
-      # no palette needed
-
-    } else {
-
-      base::stop("Invalid input for argument 'clrp'.")
-
-    }
+    color_vec <- color_vector(clrp = clrp, names = names, clrp.adjust = clrp.adjust)
 
     # 2. check whether fill or color as aesthetic
     if(aes == "fill"){
 
-      if(n_colors >= n_groups){
+      add_on <- ggplot2::scale_fill_manual(values = color_vec, ...)
 
-        add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
+    } else {
 
-      } else if(base::all(clrp == "default")){
-
-        add_on <- ggplot2::scale_fill_discrete(...)
-
-      } else if(base::all(clrp == "greyscale")){
-
-        add_on <- ggplot2::scale_fill_grey(...)
-
-      } else if(base::all(clrp %in% viridis_options)){
-
-        add_on <- ggplot2::scale_fill_viridis_d(option = clrp, ...)
-
-      } else {
-
-        base::message(glue::glue("Color palette '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
-        add_on <- ggplot2::scale_fill_manual(values = clrp, ...)
-
-      }
-
-    } else if(aes == "color"){
-
-      if(n_colors >= n_groups){
-
-        add_on <- ggplot2::scale_color_manual(values = clrp, ...)
-
-      } else if(base::all(clrp == "default")){
-
-        add_on <- ggplot2::scale_color_discrete(...)
-
-      } else if(base::all(clrp == "greyscale")){
-
-        add_on <- ggplot2::scale_color_grey(...)
-
-      } else if(base::all(clrp %in% viridis_options)){
-
-        add_on <- ggplot2::scale_color_viridis_d(option = clrp, ...)
-
-      } else {
-
-        base::message(glue::glue("Color palette '{clrp_name}' contains only {n_colors} values. Need {n_groups}. Using default color clrp."))
-        add_on <- ggplot2::scale_color_manual(values = clrp, ...)
-
-      }
+      add_on <- ggplot2::scale_color_manual(values = color_vec, ...)
 
     }
 
@@ -240,6 +194,6 @@ scale_color_add_on <- function(aes = "color",
 
   }
 
-  base::return(list(add_on))
+  return(list(add_on))
 
 }

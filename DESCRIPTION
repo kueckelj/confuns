@@ -42,6 +42,7 @@ Collate:
     'data.frame-handling.R'
     'data.frame-transformation.R'
     'deprecated.R'
+    'dev.R'
     'dimensional-reduction.R'
     'documentation-dummies.R'
     'feedback-list.R'

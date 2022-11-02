@@ -921,6 +921,60 @@ plot_barplot <- function(df,
 
 
 
+#' @title Plot mosaic plot
+#'
+#' @description Plots a mosaic plot.
+#'
+#' @param x Character value. The variable mapped to the x-axis.
+#' @param fill.by Character value. The variable by which the mosaics
+#' are filled.
+#'
+#' @param ... Additional arguments given to \code{ggmosaic::geom_mosaic()}
+#'
+#' @inherit plot_barplot params
+#'
+#' @export
+#'
+plot_mosaic <- function(df,
+                        x,
+                        fill.by,
+                        clrp = "default",
+                        clrp.adjust = NULL,
+                        ...){
+
+  are_values(c("x", "fill.by"), mode = "character")
+
+  check_data_frame(
+    df = df,
+    var.class = purrr::set_names(x = c("factor", "factor"), nm = c(x, fill.by))
+  )
+
+  df <-
+    dplyr::rename(
+      .data = df,
+      x_var = !!rlang::sym(x),
+      fill_var = !!rlang::sym(fill.by)
+    )
+
+  ggplot2::ggplot(data = df) +
+    ggmosaic::geom_mosaic(
+      mapping = ggplot2::aes(x = ggmosaic::product(x_var), fill = fill_var),
+      data = df,
+      ...
+    ) +
+    scale_color_add_on(
+      aes = "fill",
+      variable = df[["fill_var"]],
+      clrp = clrp,
+      clrp.adjust = clrp.adjust
+    )
+
+}
+
+
+
+
+
 # Helper functions --------------------------------------------------------
 
 across_or <- function(across, otherwise = "variables", variables = NULL, ...){

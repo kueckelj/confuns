@@ -2,12 +2,18 @@
 % Please edit documentation in R/color-palettes-and-spectra.R
 \name{all_color_palettes}
 \alias{all_color_palettes}
+\alias{all_color_palettes_vec}
 \alias{all_color_spectra}
+\alias{all_color_spectra_vec}
 \title{Color palette names}
 \usage{
 all_color_palettes()
 
+all_color_palettes_vec()
+
 all_color_spectra()
+
+all_color_spectra_vec()
 }
 \value{
 A named list.
