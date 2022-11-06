@@ -48,6 +48,10 @@ plot_scatterplot <- function(df,
                              corr.text.sep = "\n",
                              corr.text.size = 1,
                              transform.with = NULL,
+                             na.rm = FALSE,
+                             use.scattermore = FALSE,
+                             sctm.interpolate = FALSE,
+                             sctm.pixels = c(512, 512),
                              clr.aes = NA,
                              clr.by = NA,
                              pt.clrp = NA,
@@ -88,13 +92,6 @@ plot_scatterplot <- function(df,
 
   df <- check_across_subset2(df = df, across = across, across.subset = across.subset, relevel = relevel)
 
-  p <-
-    ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = .data[[x]], y = .data[[y]])) +
-    ggplot2::theme_classic() +
-    ggplot2::theme(
-      strip.background = ggplot2::element_blank()
-    )
-
   if(base::is.character(color.by)){
 
     check_one_of(
@@ -131,8 +128,25 @@ plot_scatterplot <- function(df,
 
   }
 
+  p <-
+    ggplot2::ggplot(data = df, mapping = ggplot2::aes(x = .data[[x]], y = .data[[y]])) +
+    ggplot2::theme_classic() +
+    ggplot2::theme(
+      strip.background = ggplot2::element_blank()
+    )
+
 
   # add points --------------------------------------------------------------
+
+  if(base::isTRUE(use.scattermore)){
+
+    shape.by <- NULL
+    size.by <- NULL
+
+    if(base::is.character(alpha.by)){ pt.alpha <- NULL}
+    if(base::is.character(color.by)){ pt.color <- NULL}
+
+  }
 
   if(color.aes == "color" & base::is.character(color.by)){
 
@@ -180,16 +194,43 @@ plot_scatterplot <- function(df,
       sep = "."
     )
 
+
+  if(base::isTRUE(use.scattermore)){
+
+    scattermore_add_on <-
+      make_scattermore_add_on(
+        mapping = p_mapping,
+        alpha.by = alpha.by,
+        color.by = color.by,
+        pt.alpha = pt.alpha,
+        pt.color = pt.color,
+        pt.size = pt.size,
+        sctm.interpolate = sctm.interpolate,
+        sctm.pixels = sctm.pixels,
+        na.rm = na.rm
+      )
+
+    p <- p + scattermore_add_on
+
+  } else {
+
+    p <-
+      p +
+      ggplot2::layer(
+        geom = "point",
+        stat = "identity",
+        position = "identity",
+        mapping = p_mapping,
+        params = params,
+        data = df
+      )
+
+  }
+
+
+
   p <-
     p +
-    ggplot2::layer(
-      geom = "point",
-      stat = "identity",
-      position = "identity",
-      mapping = p_mapping,
-      params = params,
-      data = df
-      ) +
     scale_color_add_on(
       aes = color.aes,
       variable = var,

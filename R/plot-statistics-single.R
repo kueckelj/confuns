@@ -967,7 +967,8 @@ plot_mosaic <- function(df,
       variable = df[["fill_var"]],
       clrp = clrp,
       clrp.adjust = clrp.adjust
-    )
+    ) +
+    ggplot2::labs(fill = fill.by, x = x, y = NULL)
 
 }
 

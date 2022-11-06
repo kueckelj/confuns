@@ -38,3 +38,75 @@ make_facet_add_on <- function(across, nrow = NULL, ncol = NULL, ...){
   return(out)
 
 }
+
+
+
+#' @export
+make_scattermore_add_on <- function(mapping,
+                                    alpha.by,
+                                    color.by,
+                                    pt.alpha,
+                                    pt.color,
+                                    pt.size,
+                                    sctm.interpolate = FALSE,
+                                    sctm.pixels = c(512, 512),
+                                    na.rm = FALSE,
+                                    ...){
+
+  if(base::is.character(color.by) & base::is.character(alpha.by)){
+
+    point_add_on <-
+      scattermore::geom_scattermore(
+        na.rm = na.rm,
+        mapping = mapping,
+        pointsize = pt.size,
+        interpolate = sctm.interpolate,
+        pixels = sctm.pixels,
+        ...
+      )
+
+  } else if(base::is.character(color.by)){
+
+    point_add_on <-
+      scattermore::geom_scattermore(
+        na.rm = na.rm,
+        mapping = mapping,
+        alpha = pt.alpha,
+        pointsize = pt.size,
+        interpolate = sctm.interpolate,
+        pixels = sctm.pixels,
+        ...
+      )
+
+  } else if(base::is.character(alpha.by)){
+
+    point_add_on <-
+      scattermore::geom_scattermore(
+        na.rm = na.rm,
+        mapping = mapping,
+        pointsize = pt.size,
+        color = pt.color,
+        interpolate = sctm.interpolate,
+        pixels = sctm.pixels,
+        ...
+      )
+
+  } else {
+
+    point_add_on <-
+      scattermore::geom_scattermore(
+        na.rm = na.rm,
+        mapping = mapping,
+        color = pt.color,
+        alpha = pt.alpha,
+        pointsize = pt.size,
+        interpolate = sctm.interpolate,
+        pixels = sctm.pixels,
+        ...
+      )
+
+  }
+
+  return(point_add_on )
+
+}
