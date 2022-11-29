@@ -4,19 +4,51 @@
 \alias{search_gene_names}
 \title{Search for genes}
 \usage{
-search_gene_names(catchphrases, test = "any", return_var = "symbol", ...)
+search_gene_names(
+  catchphrases,
+  test,
+  standalone = TRUE,
+  case_sensitive = FALSE,
+  return_var = "symbol",
+  genes_subset = NULL,
+  genes_rm = NULL,
+  ...
+)
 }
 \arguments{
 \item{catchphrases}{Character vector of catchphrases to look for.}
 
 \item{test}{Character value. Determines how the input of \code{catchphrases}
-is used to skim the genes. If \emph{'any'} genes are kept if at least
-one of the catchphrases appears in the summary. If \emph{'all'}, genes are kept if all
-of the catchphrases appear in the summary. If \emph{'none'}, genes are kept
-if none of the catchphrases appear in the summary.}
+is used to skim the genes.
+
+\itemize{
+\item{\code{test = 'any'}:}{ Genes are kept if at least one of the catchphrases
+appears in the summary.}
+\item{\code{test = 'all'}:}{ Genes are kept if all of the catchphrases appear
+in the summary.}
+\item{\code{test = 'none'}:}{ Genes are kept if none of the catchphrases appear
+in the summary}
+}}
+
+\item{standalone}{Logical value. If \code{TRUE}, catchphrases must appear as
+standalone words. If \code{FALSE}, they can be part of other words.}
+
+\item{case_sensitive}{Logical value. If \code{TRUE}, the function pays attention
+to capital- and non-capital letters. E.g. if \code{catchphrases = 'astrocyte'}
+but the text of a gene only features \emph{Astrocyte} the gene is not included
+in the output as the text features astrocyte in upper case. Setting \code{case_sensitive}
+to \code{FALSE}, the default, makes the function ignore upper and lower cases.}
 
 \item{return_var}{The variable of the \code{gene_info_df} that is returned
 as a vector. Defaults to \emph{symbol}.}
+
+\item{genes_subset}{Character vector or \code{NULL}. If character, subsets
+gene info data.frame accordingly such that the test is only applied to
+the provided genes.}
+
+\item{genes_rm}{Character vector or \code{NULL}. If character, removes specified
+genes from gene info data.frame such that the catchphrase test is only
+applied to genes that are \strong{not} specified.}
 
 \item{...}{Logical tests given to \code{dplyr::filter()} that can be used to
 prefilter the data.frame before going through the summary texts.}
@@ -26,5 +58,5 @@ Character vector of gene names.
 }
 \description{
 Goes through the summary text of genes and returns
-gene names that fit the requirements.
+gene names that match the requirements.
 }

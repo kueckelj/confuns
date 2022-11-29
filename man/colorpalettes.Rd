@@ -20,14 +20,14 @@ Available discrete color palettes.
 }
 \details{
 \itemize{
- \item{\emph{"milo"}: MILO Research Group  (n = 20)}
- \item{\emph{"jco"}: Journal of Oncology (n = 10)}
- \item{\emph{"npg"}: Nature Publishing Group (n = 10)}
- \item{\emph{"aaas"}: American Association for the Advancement (n = 10)}
- \item{\emph{"nejm"}: New England Journal of Medicine (n = 10)}
- \item{\emph{"lo"}: Lancet Oncology {n = 10}}
- \item{\emph{"jama"}: The Journal of the American Medical Association (n = 10)}
- \item{\emph{"uc"}: University Chicago (n = 10)}
+\item{\emph{"milo"}: MILO Research Group  (n = 20)}
+\item{\emph{"jco"}: Journal of Oncology (n = 10)}
+\item{\emph{"npg"}: Nature Publishing Group (n = 10)}
+\item{\emph{"aaas"}: American Association for the Advancement (n = 10)}
+\item{\emph{"nejm"}: New England Journal of Medicine (n = 10)}
+\item{\emph{"lo"}: Lancet Oncology {n = 10}}
+\item{\emph{"jama"}: The Journal of the American Medical Association (n = 10)}
+\item{\emph{"uc"}: University Chicago (n = 10)}
 }
 }
 \keyword{datasets}

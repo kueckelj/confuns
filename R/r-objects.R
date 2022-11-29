@@ -11,7 +11,7 @@ pretty_bar_positions <- c("Stacked" = "stack", "Dodged" = "dodge", "Filled" = "f
 
 viridis_options <- c("cividis", "inferno", "mako", "magma", "plasma", "turbo", "viridis")
 
-RColorBrewer_options <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1", "Set2", "Set3")
+RColorBrewer_options <- c("Accent", "Dark2", "Greys", "Paired", "Pastel1", "Pastel2", "Set1", "Set2", "Set3")
 
 
 pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
@@ -23,8 +23,7 @@ pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
                                  "University of Chicago" = "uc"
 )
 
-pretty_ggplot2_clrp_vector <- c("Greyscale" = "greyscale",
-                                "Default" = "default")
+pretty_ggplot2_clrp_vector <- c("Default" = "default")
 
 # use pretty_colorpalettes_list instead!
 pretty_colorpanels_list <-
@@ -99,5 +98,6 @@ valid_line_types <- c("blank", "solid", "dashed", "dotted", "dotdash", "longdash
 
 # R -----------------------------------------------------------------------
 
-RColorBrewer_options <- c("Accent", "Dark2", "Paired", "Pastel1", "Pastel2", "Set1", "Set2", "Set3")
+
+#RColorBrewer_options
 

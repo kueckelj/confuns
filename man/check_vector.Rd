@@ -47,9 +47,9 @@ valid values and returns the values of input that were found among the valid one
 \details{
 If none of the input values are found an error is raised with the message:
 
-  glue::glue("Did not find any element of \code{ref.input} in \code{ref.against}.")
+glue::glue("Did not find any element of \code{ref.input} in \code{ref.against}.")
 
-  If only some of the input values are found the function denoted in \code{fdb.fn} is called with the message:
+If only some of the input values are found the function denoted in \code{fdb.fn} is called with the message:
 
-  glue::glue("Of \code{ref.input} did not find 'missing' in \code{ref.against}.")
+glue::glue("Of \code{ref.input} did not find 'missing' in \code{ref.against}.")
 }

@@ -13,10 +13,10 @@ corr_mtr_to_df(mtr, type = "complete", diagonal = TRUE, distinct = FALSE)
 handled. Three options:
 
 \itemize{
- \item{\emph{'complete'}:}{ The matrix stays as is.},
- \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
- \item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
- }}
+\item{\emph{'complete'}:}{ The matrix stays as is.},
+\item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
+\item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
+}}
 
 \item{diagonal}{Logical value.  Indicates if the diagonal values of the
 matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}

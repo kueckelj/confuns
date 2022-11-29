@@ -1,3 +1,21 @@
+
+
+#' @title Regex for standalone detection of words
+#' @export
+wrap_standalone <- function(string, do = TRUE){
+
+  if(base::isTRUE(do)){
+
+    x <- "[^A-Za-z0-9]" # letters or numbers
+
+    string <- stringr::str_c(x, string, x)
+
+  }
+
+  return(string)
+
+}
+
 #' @title Wrap all elements of a character vector
 #'
 #' @param input An object that contains character strings.

@@ -16,7 +16,7 @@ make_pretty_dummy <- function(){}
 #' @param capital.letters Logical. If set to FALSE capitalization is skipped.
 #' @param split.by Character value. Specfies the regex by which the
 #' words of the specified string are split.
-#' @param collapse.with Character value. Specifies the string with
+#' @param collapse.with Character value or `NULL`. If character, specifies the string with
 #' which all capitalized words of the input string are reunited to the
 #' output string. (Default is an empty space.)
 #'
@@ -39,6 +39,8 @@ make_capital_letters <- function(string,
     purrr::map(splited_words, .f = ~ stringr::str_extract(.x, pattern = "^.")) %>%
     purrr::flatten_chr() %>%
     base::toupper()
+
+
 
   string <-
     purrr::pmap(

@@ -30,13 +30,13 @@ the computational progress will be printed.
 The return value depends on the method chosen:
 
 \itemize{
- \item{\code{method} = \emph{'IQR'}:}{
- A named list in which each slot is a vector of IDs which were identified
- as outliers within a numeric variable denoted by the name of the list's slot.
- }
- \item{\code{method} = \emph{'Mahalanobis'}:}{
-  A data.frame  with column names \emph{<key.name>}, \emph{mahal} and \emph{pval}.
- }
+\item{\code{method} = \emph{'IQR'}:}{
+A named list in which each slot is a vector of IDs which were identified
+as outliers within a numeric variable denoted by the name of the list's slot.
+}
+\item{\code{method} = \emph{'Mahalanobis'}:}{
+A data.frame  with column names \emph{<key.name>}, \emph{mahal} and \emph{pval}.
+}
 }
 
 If \code{across} is a character value the returned value is a list

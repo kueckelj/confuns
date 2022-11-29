@@ -17,7 +17,7 @@ make_capital_letters(
 \item{split.by}{Character value. Specfies the regex by which the
 words of the specified string are split.}
 
-\item{collapse.with}{Character value. Specifies the string with
+\item{collapse.with}{Character value or \code{NULL}. If character, specifies the string with
 which all capitalized words of the input string are reunited to the
 output string. (Default is an empty space.)}
 

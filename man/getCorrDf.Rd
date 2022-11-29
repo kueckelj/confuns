@@ -63,10 +63,10 @@ significant. Must no be higher than 0.05.}
 handled. Three options:
 
 \itemize{
- \item{\emph{'complete'}:}{ The matrix stays as is.},
- \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
- \item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
- }}
+\item{\emph{'complete'}:}{ The matrix stays as is.},
+\item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
+\item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
+}}
 
 \item{diagonal}{Logical value.  Indicates if the diagonal values of the
 matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
@@ -90,18 +90,18 @@ are combined in variable \emph{var_pair} of the output data.frame.}
 A data.frame of class \code{corr_df} with the following columns:
 
 \itemize{
- \item{\emph{across}:}{ Factor or NULL. If factor, the group names of the grouping variable
- denoted in \code{across}.},
- \item{\emph{var1}:}{ Factor. First variable of the correlated variable pair.}
- \item{\emph{var2}:}{ Factor. Second variable  of the correlated variable pair.},
- \item{\emph{var_pair}:}{Factor. Combination of \emph{var1} and \emph{var2}},
- \item{\emph{corr}:}{ Numeric. The correlation vaule.},
- \item{\emph{pval}:}{ Numeric. The corresponding p-value.},
- \item{emph{pval_threshold}:}{ Numeric. The denoted p-value threshold.},
- \item{\emph{signif}:}{ Logical. Indicates if the p-value of the correlated pair is below the
- denoted threshold.}
- \item{\emph{method_corr}:}{ Character. The correlation method.}
- }
+\item{\emph{across}:}{ Factor or NULL. If factor, the group names of the grouping variable
+denoted in \code{across}.},
+\item{\emph{var1}:}{ Factor. First variable of the correlated variable pair.}
+\item{\emph{var2}:}{ Factor. Second variable  of the correlated variable pair.},
+\item{\emph{var_pair}:}{Factor. Combination of \emph{var1} and \emph{var2}},
+\item{\emph{corr}:}{ Numeric. The correlation vaule.},
+\item{\emph{pval}:}{ Numeric. The corresponding p-value.},
+\item{emph{pval_threshold}:}{ Numeric. The denoted p-value threshold.},
+\item{\emph{signif}:}{ Logical. Indicates if the p-value of the correlated pair is below the
+denoted threshold.}
+\item{\emph{method_corr}:}{ Character. The correlation method.}
+}
 }
 \description{
 Extracts correlation results in form of a data.frame

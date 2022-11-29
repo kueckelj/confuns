@@ -148,7 +148,7 @@ scale_color_add_on <- function(aes = "color",
     }
 
   # ----- discrete variable
-  } else if(!base::is.numeric(variable) | base::all(variable == "discrete")){
+  } else if(!base::is.numeric(variable) | base::all(variable == "grouping")){
 
     n_groups <- dplyr::n_distinct(variable)
     n_colors <- -Inf

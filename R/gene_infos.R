@@ -398,14 +398,36 @@ print_gene_info <- function(genes, check = TRUE){
 #' @title Search for genes
 #'
 #' @description Goes through the summary text of genes and returns
-#' gene names that fit the requirements.
+#' gene names that match the requirements.
 #'
 #' @param catchphrases Character vector of catchphrases to look for.
 #' @param test Character value. Determines how the input of \code{catchphrases}
-#' is used to skim the genes. If \emph{'any'} genes are kept if at least
-#' one of the catchphrases appears in the summary. If \emph{'all'}, genes are kept if all
-#' of the catchphrases appear in the summary. If \emph{'none'}, genes are kept
-#' if none of the catchphrases appear in the summary.
+#' is used to skim the genes.
+#'
+#'  \itemize{
+#'   \item{`test = 'any'`:}{ Genes are kept if at least one of the catchphrases
+#'    appears in the summary.}
+#'   \item{`test = 'all'`:}{ Genes are kept if all of the catchphrases appear
+#'    in the summary.}
+#'   \item{`test = 'none'`:}{ Genes are kept if none of the catchphrases appear
+#'    in the summary}
+#'   }
+#'
+#' @param case_sensitive Logical value. If `TRUE`, the function pays attention
+#' to capital- and non-capital letters. E.g. if `catchphrases = 'astrocyte'`
+#' but the text of a gene only features *Astrocyte* the gene is not included
+#' in the output as the text features astrocyte in upper case. Setting `case_sensitive`
+#' to `FALSE`, the default, makes the function ignore upper and lower cases.
+#'
+#' @param standalone Logical value. If `TRUE`, catchphrases must appear as
+#' standalone words. If `FALSE`, they can be part of other words.
+#'
+#' @param genes_subset Character vector or `NULL`. If character, subsets
+#' gene info data.frame accordingly such that the test is only applied to
+#' the provided genes.
+#' @param genes_rm Character vector or `NULL`. If character, removes specified
+#' genes from gene info data.frame such that the catchphrase test is only
+#' applied to genes that are **not** specified.
 #' @param return_var The variable of the \code{gene_info_df} that is returned
 #' as a vector. Defaults to \emph{symbol}.
 #' @param ... Logical tests given to \code{dplyr::filter()} that can be used to
@@ -414,9 +436,56 @@ print_gene_info <- function(genes, check = TRUE){
 #' @return Character vector of gene names.
 #' @export
 #'
-search_gene_names <- function(catchphrases, test = "any", return_var = "symbol", ...){
+search_gene_names <- function(catchphrases,
+                              test,
+                              standalone = TRUE,
+                              case_sensitive = FALSE,
+                              return_var = "symbol",
+                              genes_subset = NULL,
+                              genes_rm = NULL,
+                              ...){
 
+  # prepare gene info data.frame
   gidf <- dplyr::filter(gene_info_df, ...)
+
+  if(base::is.character(genes_subset)){
+
+    gidf <- dplyr::filter(gidf, symbol %in% {{genes_subset}})
+
+  }
+
+  if(base::is.character(genes_rm)){
+
+    gidf <- dplyr::filter(gidf, !symbol %in% {{genes_subset}})
+
+  }
+
+
+  # process catchphrase input
+  if(base::isFALSE(case_sensitive)){
+
+    cp_low <- base::tolower(x = catchphrases)
+    cp_up <- base::toupper(x = catchphrases)
+    cp_cap <-
+      purrr::map_chr(
+        .x = catchphrases,
+        .f = ~ make_capital_letters(.x, collapse.with = " ")
+      )
+
+    catchphrases <-
+      purrr::map(
+        .x = list(a = cp_low, b = cp_up, c = cp_cap),
+        .f = ~ wrap_standalone(.x, do = standalone)
+      ) %>%
+      purrr::pmap(.l = ., .f = stringr::str_c, sep = "|") %>%
+      purrr::flatten_chr()
+
+  } else {
+
+    catchphrases <- wrap_standalone(catchphrases, do = standalone)
+
+  }
+
 
   if(test == "any"){
 
@@ -428,7 +497,10 @@ search_gene_names <- function(catchphrases, test = "any", return_var = "symbol",
 
     df <- gidf
 
-    for(phrase in chatchphrases){
+    # iterate over all catchphrases and apply each as a test
+    for(i in base::seq_along(catchphrases)){
+
+      pattern <- stringr::str_c(catchphrases[i], collapse = "|")
 
       df <- dplyr::filter(df, stringr::str_detect(summary, pattern = {{pattern}}))
 

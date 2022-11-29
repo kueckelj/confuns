@@ -214,7 +214,6 @@ clrp_jama <- c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", 
 #' @export
 clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF")
 
-
 n_colors <-
   list(
     milo = length(clrp_milo),
@@ -227,6 +226,7 @@ n_colors <-
     uc = length(clrp_uc),
     Accent = 8,
     Dark2 = 8,
+    Greys = 9,
     Paired = 12,
     Pastel1 = 9,
     Pastel2 = 8,
@@ -271,7 +271,7 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
 
   } else if(base::is.na(n.colors) | !base::is.numeric(n.colors)){
 
-    if(clrp %in% c("default", "greyscale", viridis_options)){
+    if(clrp %in% c("default", viridis_options)){
 
       stop("If `clrp` among 'default' or viridis options, please specify either `names` or `n.colors`.")
 

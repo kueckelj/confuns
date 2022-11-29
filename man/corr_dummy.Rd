@@ -21,10 +21,10 @@ in the output data.frame.}
 handled. Three options:
 
 \itemize{
- \item{\emph{'complete'}:}{ The matrix stays as is.},
- \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
- \item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
- }}
+\item{\emph{'complete'}:}{ The matrix stays as is.},
+\item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
+\item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
+}}
 
 \item{shape}{Character value. Specifies the shape of the geometric objects with
 which the variable pairs are displayed. Either \emph{'circle', 'rect'} or \emph{'tile'}.}

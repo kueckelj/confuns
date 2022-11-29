@@ -30,6 +30,6 @@ A more aesthetically pleasing version of the input.
 Takes input and applies the following functions to it
 
 \enumerate{
- \item{\code{make_capital_letters()}}
+\item{\code{make_capital_letters()}}
 }
 }

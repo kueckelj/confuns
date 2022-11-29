@@ -13,10 +13,10 @@ melt_rcorr(rcorr_obj, type = "complete", diagonal = TRUE, distinct = FALSE)
 handled. Three options:
 
 \itemize{
- \item{\emph{'complete'}:}{ The matrix stays as is.},
- \item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
- \item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
- }}
+\item{\emph{'complete'}:}{ The matrix stays as is.},
+\item{\emph{'lower'}:}{ The part below the diagonal is used. The upper part is set to NA.},
+\item{\emph{'upper'}:}{The part above the diagonal is used. the lower part is set to NA.}
+}}
 
 \item{diagonal}{Logical value.  Indicates if the diagonal values of the
 matrices are kept ( = TRUE) or set to NA (= FALSE). Ignored if \code{type}
@@ -29,11 +29,11 @@ in the output data.frame.}
 A data.frame with the following columns:
 
 \itemize{
- \item{\emph{var1}:}{ Factor. First variable of the correlated variable pair.}
- \item{\emph{var2}:}{ Factor. Second variable of the correlated variable pair.},
- \item{\emph{corr}:}{ Numeric. The correlation vaule.},
- \item{\emph{pval}:}{ Numeric. The corresponding p-value.},
- }
+\item{\emph{var1}:}{ Factor. First variable of the correlated variable pair.}
+\item{\emph{var2}:}{ Factor. Second variable of the correlated variable pair.},
+\item{\emph{corr}:}{ Numeric. The correlation vaule.},
+\item{\emph{pval}:}{ Numeric. The corresponding p-value.},
+}
 }
 \description{
 Melts object of class \code{rcorr} to a data.frame.

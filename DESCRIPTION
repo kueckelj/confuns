@@ -8,6 +8,7 @@ Description: A collection of wrapper- and convenience functions for data science
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Imports: 
     colorspace,
@@ -55,6 +56,7 @@ Collate:
     'join-lists.R'
     'join-safely.R'
     'kmeans-wrapper.R'
+    'lin-algebra.R'
     'logical-tests.R'
     'make-ggplot2-add-ons.R'
     'math-related-functions.R'
