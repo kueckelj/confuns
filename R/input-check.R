@@ -954,7 +954,7 @@ check_none_of <- function(input,
 
   if(base::is.null(ref.input)){
 
-    ref.input <- stringr::str_c("input for argument '", base::substitute(input), "'")
+    ref.input <- "Argument input"
 
   }
 
