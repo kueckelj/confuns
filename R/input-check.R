@@ -1067,6 +1067,13 @@ check_one_of <- function(input,
     }
 
   }
+  
+  if(base::length(ref.input) > 1){
+    
+    ref.input <- "input"
+    
+    }
+    
 
   if(base::any(!input %in% against)){
 
