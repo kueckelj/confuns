@@ -1107,7 +1107,7 @@ check_one_of <- function(input,
 
       if(base::any(n_suggestions == 0)){
 
-        end_string <- stringr::str_c(valid_input_options, "\n", end_string)
+        end_string <- valid_input_options
 
       }
 
