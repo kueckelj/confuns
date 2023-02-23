@@ -462,20 +462,20 @@ print_gene_info <- function(genes, check = TRUE){
 #'
 #'  # different tests
 #'
-#'  search_gene_names(
+#'  filter_genes(
 #'   catchphrases = c("astrocytes", "surface"),
 #'   test = "any",
 #'   genes_subset = example_genes
 #'   )
 #'
-#'  search_gene_names(
+#'  filter_genes(
 #'   catchphrases = c("astrocytes", "surface"),
 #'   test = "all",
 #'   genes_subset = example_genes
 #'   )
 #'
 #'
-#'  search_gene_names(
+#'  filter_genes(
 #'   catchphrases = c("astrocytes", "surface"),
 #'   test = "none",
 #'   genes_subset = example_genes
@@ -483,13 +483,13 @@ print_gene_info <- function(genes, check = TRUE){
 #'
 #'  # standalone TRUE or FALSE
 #'
-#'  search_gene_names(
+#'  filter_genes(
 #'   catchphrases = c("glyco"),
 #'   standalone = FALSE,
 #'   genes_subset = example_genes
 #'   )
 #'
-#'  search_gene_names(
+#'  filter_genes(
 #'   catchphrases = c("glyco"),
 #'   standalone = TRUE,
 #'   genes_subset = example_genes
@@ -497,14 +497,14 @@ print_gene_info <- function(genes, check = TRUE){
 #'
 #'
 #'
-search_gene_names <- function(catchphrases,
-                              test = "any",
-                              standalone = TRUE,
-                              case_sensitive = FALSE,
-                              return_var = "symbol",
-                              genes_subset = NULL,
-                              genes_rm = NULL,
-                              ...){
+filter_genes <- function(catchphrases,
+                         test = "any",
+                         standalone = TRUE,
+                         case_sensitive = FALSE,
+                         return_var = "symbol",
+                         genes_subset = NULL,
+                         genes_rm = NULL,
+                         ...){
 
   # prepare gene info data.frame
   gidf <- dplyr::filter(gene_info_df, ...)
