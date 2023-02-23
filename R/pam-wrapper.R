@@ -164,7 +164,7 @@ initiate_pam_object <- function(pam.data,
 
   give_feedback(msg = "Done.", verbose = verbose)
 
-  base::return(pam.obj)
+  return(pam.obj)
 
 }
 
@@ -235,7 +235,7 @@ set_pam_default <- function(pam.obj,
   pam.obj@default <- default_list
 
 
-  base::return(pam.obj)
+  return(pam.obj)
 
 }
 
@@ -320,7 +320,7 @@ perform_pam_clustering <- function(pam.obj,
 
   }
 
-  base::return(pam.obj)
+  return(pam.obj)
 
 }
 
@@ -363,7 +363,7 @@ get_medoids_df <- function(pam.obj,
             ) %>%
           dplyr::select(cluster_name, cluster, dplyr::everything())
 
-        base::return(df)
+        return(df)
 
       }
 
@@ -375,7 +375,7 @@ get_medoids_df <- function(pam.obj,
 
   }
 
-  base::return(medoids_df)
+  return(medoids_df)
 
 }
 
@@ -400,7 +400,7 @@ get_pam_data <- function(pam.obj, return.tibble = FALSE, as.dist = NULL){
 
   }
 
-  base::return(pam_data)
+  return(pam_data)
 
 }
 
@@ -481,7 +481,7 @@ get_pam_df <- function(pam.obj,
 
   }
 
-  base::return(cluster_df)
+  return(cluster_df)
 
 }
 
@@ -500,7 +500,7 @@ get_pam_obj <- function(pam.obj, k = NULL, metric.pam = NULL, fdb.fn = "stop"){
 
   res <- check_pam_availability(input = res, metric.pam = metric.pam, k = k, fdb.fn = fdb.fn)
 
-  base::return(res)
+  return(res)
 
 }
 
@@ -538,7 +538,7 @@ get_pam_sil_df <- function(pam.obj, k = NULL, metric.pam = NULL, m.length = 1){
 
         }
 
-        base::return(sil_df2)
+        return(sil_df2)
 
       }
 
@@ -581,6 +581,10 @@ plot_avg_silhouette_widths <- function(pam.obj,
   p <-
     ggplot2::ggplot(data = plot_df, mapping = ggplot2::aes(x = k, y = avg_widhts)) +
     ggplot2::labs(x = "K", y = "Avg. Silhouette Width") +
+    ggplot2::scale_x_continuous(
+      breaks = base::unique(plot_df[["k"]]),
+      labels = base::unique(plot_df[["k"]])
+    ) +
     theme_statistics()
 
   # add layer
@@ -603,7 +607,7 @@ plot_avg_silhouette_widths <- function(pam.obj,
   }
 
   # return plot
-  base::return(p)
+  return(p)
 
 }
 

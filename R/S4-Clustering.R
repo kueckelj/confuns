@@ -238,7 +238,7 @@ setMethod(
     ks <-
       base::as.integer(ks) %>%
       base::unique() %>%
-      purrr::keep(.p = ~ .x > 1)
+      base::sort()
 
     kmeans_obj <- object@methods[["kmeans"]]
 
@@ -299,7 +299,15 @@ setMethod(
     ks <-
       base::as.integer(ks) %>%
       base::unique() %>%
-      purrr::keep(.p = ~ .x > 1)
+      base::sort()
+
+    if(1 %in% ks){
+
+      warning(
+        "Clustering with k = 1 can be computed but including it in downstream plots might cause errors."
+        )
+
+    }
 
     pam_obj <- object@methods[["pam"]]
 
@@ -770,15 +778,46 @@ setMethod(
   signature = "Clustering",
   definition = function(object,
                         k,
-                        method_kmeans = "Hartigan-Wong"){
+                        method_kmeans = "Hartigan-Wong",
+                        stop_if_null = TRUE){
 
     kmeans_obj <- getResults(object = object, method = "kmeans")
 
-    kmeans <- getKmeans(object = kmeans_obj, k = k, method_kmeans = method_kmeans)
+    kmeans <-
+      getKmeans(
+        object = kmeans_obj,
+        k = k,
+        method_kmeans = method_kmeans,
+        stop_if_null = stop_if_null
+        )
 
     return(kmeans)
 
   }
+)
+
+#' @rdname getMedoidsDf
+#' @export
+setMethod(
+  f = "getMedoidsDf",
+  signature = "Clustering",
+  definition = function(object,
+                        ks,
+                        methods_pam = "euclidean",
+                        prefix = "",
+                        format = "wide"){
+
+    getMedoidsDf(
+      object = object@methods[["pam"]],
+      ks = ks,
+      methods_pam = methods_pam,
+      prefix = prefix,
+      format = format
+    )
+
+
+  }
+
 )
 
 #' @rdname getPam
@@ -846,9 +885,18 @@ setMethod(
     avg_sil_width_df <-
       getAvgSilWidthsDf(object, ks = ks, methods_pam = methods_pam)
 
+    nth <-
+      (base::max(avg_sil_width_df[["k"]])/10) %>%
+      base::floor()
+
+    xlabs <-
+      base::unique(avg_sil_width_df[["k"]]) %>%
+      reduce_vec(x = ., nth = nth)
+
     p <-
       ggplot2::ggplot(data = avg_sil_width_df, mapping = ggplot2::aes(x = k, y = avg_widths)) +
       ggplot2::facet_wrap(facets = . ~ method_pam, nrow = nrow, ncol = ncol) +
+      ggplot2::scale_x_continuous(breaks = xlabs, labels = xlabs) +
       ggplot2::labs(x = "Centers (k)", y = "Avg. Silhouette Width") +
       theme_statistics()
 
@@ -1200,20 +1248,18 @@ setMethod(
       ggplot2::geom_hline(yintercept = 0) +
       ggplot2::facet_wrap(facets = ~ cluster_name, ncol = ncol, nrow = nrow) +
       scale_color_add_on(aes = "fill",  variable = "discrete", clrp = clrp) +
-      scale_color_add_on(aes = "color", variable = "discrete", clrp = clrp, guide = FALSE) +
+      scale_color_add_on(aes = "color", variable = "discrete", clrp = clrp, guide = "none") +
       ggplot2::theme_classic() +
       ggplot2::theme(
         axis.line.x = ggplot2::element_blank(),
         axis.text.x = ggplot2::element_blank(),
         axis.ticks.x = ggplot2::element_blank(),
-        axis.title.x = ggplot2::element_blank(),
         panel.grid.major.y = ggplot2::element_line(color = "lightgrey"),
         legend.title = ggplot2::element_text(size = 12.5),
         plot.title = ggplot2::element_text(face = "bold", size = 16.5),
         plot.subtitle = ggplot2::element_text(size = 10)
       ) +
-      ggplot2::labs(x = NULL, y = NULL, color = NULL, fill = "Cluster")
-
+      ggplot2::labs(x = "Clustered Observations", y = "Silhouettte Width", color = NULL, fill = "Cluster")
 
   }
 )

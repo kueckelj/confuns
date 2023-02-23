@@ -85,7 +85,7 @@ make_pretty_name <- function(string,
     string <-
       make_capital_letters(
         string = string,
-        capital.letters = capital.letters, ...
+        ...
         )
 
     # -----

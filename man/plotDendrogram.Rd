@@ -59,7 +59,8 @@ plotDendrogram(object, ...)
   clrp_adjust = NULL,
   simple = FALSE,
   nrow = NULL,
-  ncol = NULL
+  ncol = NULL,
+  ...
 )
 }
 \arguments{

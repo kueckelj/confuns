@@ -27,7 +27,7 @@ getEmbeddingDf(object, ...)
   grouping = FALSE,
   logical = FALSE,
   complete = FALSE,
-  sfhit = FALSE
+  shift = FALSE
 )
 }
 \arguments{

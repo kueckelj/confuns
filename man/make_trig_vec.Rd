@@ -4,7 +4,7 @@
 \alias{make_trig_vec}
 \title{Create trigonometric vectors}
 \usage{
-make_trig_vec(start, angle, dist, prolong = NULL, d = Inf)
+make_trig_vec(start, angle, dist, prolong = NULL, prolong.opt = "m", d = Inf)
 }
 \arguments{
 \item{start}{Numeric vector of length two. First value sets x- and
@@ -18,6 +18,11 @@ second value sets y-coordinate of the start.}
 the projected vector is prolonged. For that, an additional set
 of \emph{xend} and \emph{yend} variables is added to the output data.frame for
 each prolonging.}
+
+\item{prolong.opt}{Character value. Either \emph{'a'} or \emph{'m'}. If \emph{'a'}, the \code{prolong}
+value is added to the distance. If \emph{'m'}, the distance is multiplied with
+the \code{prolong} value. To reduce the length of the vector instead of prolonging it,
+set \verb{prolong.opt = *'m'*} and \code{prolong < 1} or \verb{prolong.opt = *'a'*} and \code{prolong < 0}.)}
 
 \item{d}{Number of digits to which the output values are rounded.}
 }
@@ -111,7 +116,7 @@ ggplot(mapping = aes(x = x, y = y)) +
     mapping = aes(
       x = xend_p1,
       y = yend_p1,
-      label = str_c(angle, "°; ", dist)
+      label = str_c(angle, "; ", dist)
      )
    )
 

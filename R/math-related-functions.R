@@ -338,7 +338,7 @@ immediate_ascending <- function(input){
 immediate_descending <- function(input){
 
   immediate_ascending(input = input) %>%
-    base::rev
+    base::rev()
 
 }
 

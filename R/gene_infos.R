@@ -315,7 +315,7 @@ get_gene_synonyms <- function(gene){
 
 # assembles
 make_gene_card <- function(gene){
-print(gene)
+
   sgdf <- dplyr::filter(gene_info_df, symbol == {{gene}})
 
   if(base::nrow(sgdf) == 1){
@@ -358,6 +358,18 @@ print(gene)
 #'
 #' @return Invisible TRUE. Texts are immediately printed using \code{base::writeLines()}.
 #' @export
+#'
+#' @details See documentation for `?gene_info_df` to read about how the source
+#' data.frame has been generated.
+#'
+#' @examples
+#'
+#'  # genes are checked for validity by default
+#'  print_gene_info(genes = c("GFAP", "MAG", "OLIG1", "XYZ"))
+#'
+#'  # set check = FALSE to drop unkonwn genes silently
+#'  print_gene_info(genes = c("GFAP", "MAG", "OLIG1", "XYZ"), check = FALSE)
+#'
 #'
 print_gene_info <- function(genes, check = TRUE){
 
@@ -434,10 +446,59 @@ print_gene_info <- function(genes, check = TRUE){
 #' prefilter the data.frame before going through the summary texts.
 #'
 #' @return Character vector of gene names.
+#'
+#' @details See documentation for `?gene_info_df` to read about how the source
+#' data.frame has been generated.
+#'
 #' @export
 #'
+#' @examples
+#'
+#'  # create a small subset of genes for demonstration purposes
+#'
+#'  example_genes <- c("GFAP" , "MAG", "OLIG1", "EGFR")
+#'
+#'  print_gene_info(genes = example_genes)
+#'
+#'  # different tests
+#'
+#'  search_gene_names(
+#'   catchphrases = c("astrocytes", "surface"),
+#'   test = "any",
+#'   genes_subset = example_genes
+#'   )
+#'
+#'  search_gene_names(
+#'   catchphrases = c("astrocytes", "surface"),
+#'   test = "all",
+#'   genes_subset = example_genes
+#'   )
+#'
+#'
+#'  search_gene_names(
+#'   catchphrases = c("astrocytes", "surface"),
+#'   test = "none",
+#'   genes_subset = example_genes
+#'   )
+#'
+#'  # standalone TRUE or FALSE
+#'
+#'  search_gene_names(
+#'   catchphrases = c("glyco"),
+#'   standalone = FALSE,
+#'   genes_subset = example_genes
+#'   )
+#'
+#'  search_gene_names(
+#'   catchphrases = c("glyco"),
+#'   standalone = TRUE,
+#'   genes_subset = example_genes
+#'   )
+#'
+#'
+#'
 search_gene_names <- function(catchphrases,
-                              test,
+                              test = "any",
                               standalone = TRUE,
                               case_sensitive = FALSE,
                               return_var = "symbol",
@@ -466,6 +527,7 @@ search_gene_names <- function(catchphrases,
 
     cp_low <- base::tolower(x = catchphrases)
     cp_up <- base::toupper(x = catchphrases)
+
     cp_cap <-
       purrr::map_chr(
         .x = catchphrases,

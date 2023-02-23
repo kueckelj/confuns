@@ -6,7 +6,7 @@
 \usage{
 search_gene_names(
   catchphrases,
-  test,
+  test = "any",
   standalone = TRUE,
   case_sensitive = FALSE,
   return_var = "symbol",
@@ -59,4 +59,54 @@ Character vector of gene names.
 \description{
 Goes through the summary text of genes and returns
 gene names that match the requirements.
+}
+\details{
+See documentation for \code{?gene_info_df} to read about how the source
+data.frame has been generated.
+}
+\examples{
+
+ # create a small subset of genes for demonstration purposes
+
+ example_genes <- c("GFAP" , "MAG", "OLIG1", "EGFR")
+
+ print_gene_info(genes = example_genes)
+
+ # different tests
+
+ search_gene_names(
+  catchphrases = c("astrocytes", "surface"),
+  test = "any",
+  genes_subset = example_genes
+  )
+
+ search_gene_names(
+  catchphrases = c("astrocytes", "surface"),
+  test = "all",
+  genes_subset = example_genes
+  )
+
+
+ search_gene_names(
+  catchphrases = c("astrocytes", "surface"),
+  test = "none",
+  genes_subset = example_genes
+  )
+
+ # standalone TRUE or FALSE
+
+ search_gene_names(
+  catchphrases = c("glyco"),
+  standalone = FALSE,
+  genes_subset = example_genes
+  )
+
+ search_gene_names(
+  catchphrases = c("glyco"),
+  standalone = TRUE,
+  genes_subset = example_genes
+  )
+
+
+
 }

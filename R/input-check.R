@@ -913,11 +913,9 @@ check_directories <- function(directories,
 
 check_h_k <- function(h = NULL, k = NULL, only.one = FALSE, skip.allow = TRUE){
 
-  are_vectors(c("k", "h"), mode = "numeric", skip.allow = skip.allow, skip.val = NULL)
-
   if(base::all(base::is.null(k), base::is.null(h)) & base::isFALSE(skip.allow)){
 
-    msg <- "Please specify either argument 'k' or argument 'h'."
+    msg <- "Please specify either argument 'k/ks' or argument 'h/hs'."
 
     give_feedback(msg = msg, fdb.fn = "stop")
 
@@ -934,6 +932,8 @@ check_h_k <- function(h = NULL, k = NULL, only.one = FALSE, skip.allow = TRUE){
     }
 
   }
+
+ are_vectors(c("k", "h"), mode = "numeric", skip.allow = TRUE, skip.val = NULL)
 
 }
 
@@ -1334,7 +1334,7 @@ check_ks <- function(k.input, of.length = NULL){
   out <-
     base::as.integer(k.input) %>%
     base::unique() %>%
-    purrr::keep(.p = ~ .x > 1)
+    base::sort()
 
   return(out)
 

@@ -7,7 +7,7 @@
 \usage{
 addGroupingVars(object, ...)
 
-\S4method{addGroupingVars}{Analysis}(object, grouping_df)
+\S4method{addGroupingVars}{Analysis}(object, grouping_df, overwrite = FALSE)
 }
 \arguments{
 \item{grouping_df}{Data.frame that contains the grouping variables.}

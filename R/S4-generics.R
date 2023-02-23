@@ -639,6 +639,26 @@ setGeneric(name = "getKmeans", def = function(object, ...){
 })
 
 
+#' @export
+setGeneric(name = "getKmeansTWSS", def = function(object, ks, ...){
+
+  standardGeneric(f = "getKmeansTWSS")
+
+})
+
+#' @title Obtain medoids from PAM clustering
+#' @description Extracts a data.frame containing medoids from PAM clustering
+#' results
+#'
+#' @inherit argument_dummy params
+#'
+#' @export
+setGeneric(name = "getMedoidsDf", def = function(object, ...){
+
+  standardGeneric(f = "getMedoidsDf")
+
+})
+
 #' @title Obtain data matrix
 #'
 #' @description Extracts the numeric data of the object in form
@@ -1220,3 +1240,14 @@ set_data_hlpr <- function(object,
   return(object)
 
 }
+
+
+#' @export
+setGeneric(name = "suggestElbowPoint", def = function(object, ...){
+
+  standardGeneric(f = "suggestElbowPoint")
+
+})
+
+
+

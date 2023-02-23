@@ -36,6 +36,7 @@ adapt_reference <- function(input, sg, pl = NULL, zero = ""){
 }
 
 # helper within plot_dotplot_2d
+#' @export
 arrange_axis <- function(df, grouping.var, arrange.var, arrange.by, reverse.within, reverse.all){
 
   groups <- base::levels(df[[grouping.var]])
@@ -45,7 +46,8 @@ arrange_axis <- function(df, grouping.var, arrange.var, arrange.by, reverse.with
   for(g in groups){
 
     labels_df <-
-      dplyr::filter(df, !!rlang::sym(grouping.var) == {{g}})
+      dplyr::filter(df, !!rlang::sym(grouping.var) == {{g}}) %>%
+      dplyr::mutate(gene = base::droplevels(gene))
 
     if(base::is.character(arrange.by)){
 
@@ -62,11 +64,18 @@ arrange_axis <- function(df, grouping.var, arrange.var, arrange.by, reverse.with
 
       }
 
+      labels <-
+        dplyr::pull(labels_df, {{arrange.var}}) %>%
+        base::as.character()
+
+    } else {
+
+      labels <-
+        dplyr::pull(labels_df, {{arrange.var}}) %>%
+        base::levels()
+
     }
 
-    labels <-
-      dplyr::pull(labels_df, {{arrange.var}}) %>%
-      base::as.character()
 
     # prevent duplicates
     labels <- labels[!labels %in% order_labels]
@@ -111,25 +120,6 @@ assign_obj <- function(assign, object, name){
 }
 
 
-#' @export
-info_deprecated <- function(x, alternative, test.val = NA){
-
-  ref <- base::substitute(expr = x)
-
-  if(!base::identical(x, test.val)){
-
-    msg <-
-      glue::glue(
-        "Argument '{ref}' is deprecated. Please use argument '{alternative}' instead."
-      )
-
-    give_feedback(msg = msg, fdb.fn = "warning", with.time = FALSE)
-
-  }
-
-  invisible(TRUE)
-
-}
 
 
 #' @title Return function
@@ -215,6 +205,28 @@ glue_list_report <- function(lst, prefix = "", separator = " = ", combine_via = 
 
 }
 
+
+#' @export
+info_deprecated <- function(x, alternative, test.val = NA){
+
+  ref <- base::substitute(expr = x)
+
+  if(!base::identical(x, test.val)){
+
+    msg <-
+      glue::glue(
+        "Argument '{ref}' is deprecated. Please use argument '{alternative}' instead."
+      )
+
+    give_feedback(msg = msg, fdb.fn = "warning", with.time = FALSE)
+
+  }
+
+  invisible(TRUE)
+
+}
+
+
 #' @title Pull var safely
 #' @export
 pull_var <- function(df, var){
@@ -233,6 +245,28 @@ pull_var <- function(df, var){
 
 }
 
+#' @export
+reduce_vec <- function(x, nth, start.with = 1){
+
+  if(nth == 1){
+
+    out <- x
+
+  } else {
+
+    xshifted <- x[(start.with + 1):base::length(x)]
+
+    xseq <- base::seq_along(xshifted)
+
+    prel_out <- xshifted[xseq %% nth == 0]
+
+    out <- c(x[start.with], prel_out)
+
+  }
+
+  return(out)
+
+}
 
 #' @title Wrapper around unfactor()
 #'

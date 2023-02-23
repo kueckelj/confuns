@@ -18,3 +18,17 @@ Invisible TRUE. Texts are immediately printed using \code{base::writeLines()}.
 \description{
 Prints human readable summary texts of genes in the console.
 }
+\details{
+See documentation for \code{?gene_info_df} to read about how the source
+data.frame has been generated.
+}
+\examples{
+
+ # genes are checked for validity by default
+ print_gene_info(genes = c("GFAP", "MAG", "OLIG1", "XYZ"))
+
+ # set check = FALSE to drop unkonwn genes silently
+ print_gene_info(genes = c("GFAP", "MAG", "OLIG1", "XYZ"), check = FALSE)
+
+
+}

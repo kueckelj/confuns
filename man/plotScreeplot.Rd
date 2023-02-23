@@ -21,7 +21,7 @@ plotScreeplot(object, ...)
 
 \S4method{plotScreeplot}{Analysis}(
   object,
-  method_kmeans = "Hartigan-Wong",
+  methods_kmeans = "Hartigan-Wong",
   ks = NULL,
   color = "steelblue",
   display_cols = TRUE,

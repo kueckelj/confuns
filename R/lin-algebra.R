@@ -94,6 +94,11 @@ degr2rad <- function(degr, d = Inf){
 #' of *xend* and *yend* variables is added to the output data.frame for
 #' each prolonging.
 #'
+#' @param prolong.opt Character value. Either *'a'* or *'m'*. If *'a'*, the `prolong`
+#' value is added to the distance. If *'m'*, the distance is multiplied with
+#' the `prolong` value. To reduce the length of the vector instead of prolonging it,
+#' set `prolong.opt = *'m'*` and `prolong < 1` or `prolong.opt = *'a'*` and `prolong < 0`.)
+#'
 #' @inherit lin_alg_dummy params
 #'
 #' @return Data.frame with four variables *x*, *y*, *xend* and *yend*. Each
@@ -182,20 +187,30 @@ degr2rad <- function(degr, d = Inf){
 #'     mapping = aes(
 #'       x = xend_p1,
 #'       y = yend_p1,
-#'       label = str_c(angle, "°; ", dist)
+#'       label = str_c(angle, "; ", dist)
 #'      )
 #'    )
 #'
 
-make_trig_vec <- function(start, angle, dist, prolong = NULL, d = Inf){
+make_trig_vec <- function(start,
+                          angle,
+                          dist,
+                          prolong = NULL,
+                          prolong.opt = "m",
+                          d = Inf){
 
   # check input
   is_vec(x = start, mode = "numeric", of.length = 2)
 
-  x <- start[1]
-  y <- start[2]
+  xstart <- start[1]
+  ystart <- start[2]
+
+  x <- 0
+  y <- 0
 
   is_vec(x = prolong, mode = "numeric", skip.allow = TRUE, skip.val = NULL)
+
+  check_one_of(input = prolong.opt, against = c("a", "m"), suggest = FALSE)
 
   are_vectors(c("angle", "dist"), mode = "numeric")
 
@@ -262,14 +277,26 @@ make_trig_vec <- function(start, angle, dist, prolong = NULL, d = Inf){
 
             p <- prolong[i]
 
-            # length of adjacent side
-            ak[["yend"]] <- base::cos(ar) * (hyp*p)
+            if(prolong.opt == "m"){
 
-            # length of opposite side
-            gk[["xend"]] <- base::sin(ar) * (hyp*p)
+              # length of adjacent side
+              ak[["yend"]] <- base::cos(ar) * (hyp * p)
 
-            out[[stringr::str_c("yend_p",i)]] <- ak[["yend"]]
+              # length of opposite side
+              gk[["xend"]] <- base::sin(ar) * (hyp * p)
+
+            } else if(prolong.opt == "a") {
+
+              # length of adjacent side
+              ak[["yend"]] <- base::cos(ar) * (hyp + p)
+
+              # length of opposite side
+              gk[["xend"]] <- base::sin(ar) * (hyp + p)
+
+            }
+
             out[[stringr::str_c("xend_p",i)]] <- gk[["xend"]]
+            out[[stringr::str_c("yend_p",i)]] <- ak[["yend"]]
 
           }
 
@@ -278,11 +305,22 @@ make_trig_vec <- function(start, angle, dist, prolong = NULL, d = Inf){
         return(out)
 
       }
+    ) %>%
+    dplyr::mutate(
+      dplyr::across(
+        .cols = dplyr::starts_with(match = "x"),
+        .fns = ~ .x + {{xstart}}
+      ),
+      dplyr::across(
+        .cols = dplyr::starts_with(match = "y"),
+        .fns = ~ .x + {{ystart}}
+      )
     )
 
   return(trig_vectors_out)
 
 }
+
 
 
 

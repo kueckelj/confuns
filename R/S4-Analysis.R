@@ -225,12 +225,117 @@ setGeneric(name = "setInstruction", def = function(object, ...){
 # methods -----------------------------------------------------------------
 
 
+#' @rdname addClusterVarsHclust
+#' @export
+setMethod(
+  f = "addClusterVarsHclust",
+  signature = "Analysis",
+  definition = function(object,
+                        ks = NULL,
+                        hs = NULL,
+                        methods_dist = "euclidean",
+                        methods_aggl = "Ward.D",
+                        prefix = "",
+                        naming_k = "{method_dist}_{method_aggl}{k}",
+                        naming_h = "{method_dist}_{method_aggl}{h}",
+                        overwrite = FALSE){
+
+    check_h_k(h = hs, k = ks, only.one = FALSE, skip.allow = FALSE)
+
+    grouping_df <-
+      getClusterVarsHclust(
+        object = object,
+        ks = ks,
+        hs = hs,
+        methods_dist = methods_dist,
+        methods_aggl = methods_aggl,
+        naming_k = naming_k,
+        naming_h = naming_h
+      )
+
+    object <-
+      addGroupingVars(
+        object = object,
+        grouping_df = grouping_df,
+        overwrite = overwrite
+      )
+
+    return(object)
+
+  }
+)
+
+#' @rdname addClusterVarsKmeans
+#' @export
+setMethod(
+  f = "addClusterVarsKmeans",
+  signature = "Analysis",
+  definition = function(object,
+                        ks,
+                        methods_kmeans = "Hartigan-Wong",
+                        prefix = "",
+                        naming = "{method_kmeans}_k{k}",
+                        overwrite = FALSE){
+
+    grouping_df <-
+      getClusterVarsKmeans(
+        object = object,
+        ks = ks,
+        methods_kmeans = methods_kmeans,
+        naming = naming
+      )
+
+    object <-
+      addGroupingVars(
+        object = object,
+        grouping_df = grouping_df,
+        overwrite = overwrite
+      )
+
+    return(object)
+
+  }
+)
+
+#' @rdname addClusterVarsPam
+#' @export
+setMethod(
+  f = "addClusterVarsPam",
+  signature = "Analysis",
+  definition = function(object,
+                        ks,
+                        methods_pam = "euclidean",
+                        prefix = "",
+                        naming = "{method_pam}_k{k}",
+                        overwrite = FALSE){
+
+    grouping_df <-
+      getClusterVarsPam(
+        object = object,
+        ks = ks,
+        methods_pam = methods_pam,
+        naming = naming
+      )
+
+    object <-
+      addGroupingVars(
+        object = object,
+        grouping_df = grouping_df,
+        overwrite = overwrite
+      )
+
+    return(object)
+
+  }
+)
+
+
 #' @rdname addGroupingVars
 #' @export
 setMethod(
   f = "addGroupingVars",
   signature = "Analysis",
-  definition = function(object, grouping_df){
+  definition = function(object, grouping_df, overwrite = FALSE){
 
     names_grouping_df <-
       dplyr::select(grouping_df, -dplyr::all_of(object@key_name)) %>%
@@ -242,8 +347,9 @@ setMethod(
 
       if(!base::isTRUE(overwrite)){
 
-        olvp_ref <- scollapse(ovlp)
-        ref <- adapt_reference(ovlp, "is", "are")
+        ovlp_ref <- scollapse(ovlp)
+        ref1 <- adapt_reference(ovlp, "variable")
+        ref2 <- adapt_reference(ovlp, "is", "are")
 
         give_feedback(
           msg = glue::glue("The {ref1} '{ovlp_ref}' {ref2} already present. Set `overwrite` to TRUE in order to overwrite."),
@@ -594,6 +700,7 @@ setMethod(
         ks = ks,
         hs = hs,
         methods_dist = methods_dist,
+        methods_aggl = methods_aggl,
         prefix = prefix,
         naming_k = naming_k,
         naming_h = naming_h
@@ -846,7 +953,7 @@ setMethod(
                         grouping = FALSE,
                         logical = FALSE,
                         complete = FALSE,
-                        sfhit = FALSE){
+                        shift = FALSE){
 
     getAnalysisAspect(object, aspect = "dimred") %>%
       getEmbeddingDf(
@@ -855,6 +962,7 @@ setMethod(
         numeric_scaled = numeric_scaled,
         grouping = grouping,
         logical = logical,
+        complete = complete,
         shift = shift
       )
 
@@ -913,6 +1021,59 @@ setMethod(
   }
 )
 
+
+#' @rdname getKmeansTWSS
+#' @export
+setMethod(
+  f = "getKmeansTWSS",
+  signature = "Analysis",
+  definition = function(object,
+                        ks,
+                        prefix = "",
+                        ...){
+
+
+    ks <- check_ks(k.input = ks)
+
+    purrr::map_dbl(
+      .x = ks,
+      .f = function(k){
+
+        getKmeans(object = object, k = k)[["tot.withinss"]]
+
+      }
+    ) %>%
+      purrr::set_names(nm = stringr::str_c(prefix, ks))
+
+  }
+)
+
+
+#' @rdname getMedoidsDf
+#' @export
+setMethod(
+  f = "getMedoidsDf",
+  signature = "Analysis",
+  definition = function(object,
+                        ks,
+                        methods_pam = "euclidean",
+                        prefix = "",
+                        format = "wide"){
+
+    getAnalysisAspect(object, aspect = "clustering") %>%
+      getClusteringPam(object = .) %>%
+      getMedoidsDf(
+        object = .,
+        ks = ks,
+        methods_pam = methods_pam,
+        prefix = prefix,
+        format = format
+      )
+
+  }
+
+)
+
 #' @rdname getMtr
 #' @export
 setMethod(
@@ -964,6 +1125,26 @@ setMethod(
         across = across,
         verbose = verbose
         )
+
+  }
+)
+
+#' @rdname getPam
+#' @export
+setMethod(
+  f = "getPam",
+  signature = "Analysis",
+  definition = function(object,
+                        k,
+                        method_pam = "euclidean",
+                        stop_if_null = TRUE){
+
+    getAnalysisAspect(object, aspect = "clustering") %>%
+      getPam(
+        k = k,
+        method_pam = method_pam,
+        stop_if_null = stop_if_null
+      )
 
   }
 )
@@ -1280,7 +1461,8 @@ setMethod(
                         clrp_adjust = NULL,
                         simple = FALSE,
                         nrow = NULL,
-                        ncol = NULL){
+                        ncol = NULL,
+                        ...){
 
     getAnalysisAspect(object, aspect = "clustering") %>%
       plotDendrogram(
@@ -1305,7 +1487,8 @@ setMethod(
         clrp_adjust = clrp_adjust,
         simple = simple,
         nrow = nrow,
-        ncol = ncol
+        ncol = ncol,
+        ...
       )
 
   }
@@ -1579,7 +1762,7 @@ setMethod(
   f = "plotScreeplot",
   signature = "Analysis",
   definition = function(object,
-                        method_kmeans = "Hartigan-Wong",
+                        methods_kmeans = "Hartigan-Wong",
                         ks = NULL,
                         color = "steelblue",
                         display_cols = TRUE,
@@ -1881,8 +2064,35 @@ setMethod(
   }
 )
 
+#' @rdname suggestElbowPoint
+#' @export
+setMethod(
+  f = "suggestElbowPoint",
+  signature = "Analysis",
+  definition = function(object, ks, ...){
 
+    ks <- check_ks(k.input = ks)
 
+    twss <-
+      getKmeansTWSS(object, ks = ks) %>%
+      base::unname()
+
+    distances <- c()
+
+    for(i in 2:(base::length(twss)-1)){
+
+      distances[i] <- base::abs(twss[i] - (twss[i-1] + twss[i+1])/2)
+
+    }
+
+    ep <- base::which.max(distances) + 1
+
+    out_ep <- ks[ep]
+
+    return(out_ep)
+
+  }
+)
 
 
 
