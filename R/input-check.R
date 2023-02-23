@@ -954,7 +954,7 @@ check_none_of <- function(input,
 
   if(base::is.null(ref.input)){
 
-    ref.input <- stringr::str_c("input for argument '", base::substitute(input), "'")
+    ref.input <- "Argument input"
 
   }
 
@@ -1067,6 +1067,13 @@ check_one_of <- function(input,
     }
 
   }
+  
+  if(base::length(ref.input) > 1){
+    
+    ref.input <- "input"
+    
+    }
+    
 
   if(base::any(!input %in% against)){
 
@@ -1107,7 +1114,7 @@ check_one_of <- function(input,
 
       if(base::any(n_suggestions == 0)){
 
-        end_string <- stringr::str_c(valid_input_options, "\n", end_string)
+        end_string <- valid_input_options
 
       }
 
