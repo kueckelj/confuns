@@ -15,18 +15,35 @@ plotScreeplot(object, ...)
   ks = NULL,
   color = "steelblue",
   display_cols = TRUE,
+  col_alpha = 0.9,
+  col_color = "black",
+  col_fill = "steelblue",
   display_line = TRUE,
-  display_points = TRUE
+  line_alpha = 0.9,
+  line_color = "black",
+  line_size = 1.5,
+  display_points = TRUE,
+  pt_alpha = 0.9,
+  pt_color = "black",
+  pt_size = 4.5
 )
 
 \S4method{plotScreeplot}{Analysis}(
   object,
   methods_kmeans = "Hartigan-Wong",
   ks = NULL,
-  color = "steelblue",
   display_cols = TRUE,
+  col_alpha = 0.9,
+  col_color = "black",
+  col_fill = "steelblue",
+  display_line = TRUE,
+  line_alpha = 0.9,
+  line_color = "black",
+  line_size = 1.5,
   display_points = TRUE,
-  display_line = TRUE
+  pt_alpha = 0.9,
+  pt_color = "black",
+  pt_size = 4.5
 )
 }
 \arguments{

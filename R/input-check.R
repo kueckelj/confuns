@@ -1032,6 +1032,7 @@ check_one_of <- function(input,
                          suggest = TRUE,
                          verbose = TRUE,
                          with.time = FALSE,
+                         in.shiny = FALSE,
                          ...){
 
   base::is.vector(input)
@@ -1067,13 +1068,13 @@ check_one_of <- function(input,
     }
 
   }
-  
+
   if(base::length(ref.input) > 1){
-    
+
     ref.input <- "input"
-    
+
     }
-    
+
 
   if(base::any(!input %in% against)){
 
@@ -1151,7 +1152,8 @@ check_one_of <- function(input,
       msg = msg,
       fdb.fn = fdb.fn,
       with.time = with.time,
-      verbose = verbose
+      verbose = verbose,
+      in.shiny = in.shiny
     )
 
   } else {

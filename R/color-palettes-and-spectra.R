@@ -178,7 +178,7 @@ diverging <-
 #' }
 #'
 #' @export
-colorpalettes <- c("milo", "jco", "npg", "aaas", "nejm", "lo", "jama", "uc")
+colorpalettes <- c("milo", "jco", "npg", "aaas", "nejm", "lo", "jama", "uc", "sifre")
 
 
 #' @title MILO Research Group - color palette
@@ -214,6 +214,10 @@ clrp_jama <- c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", 
 #' @export
 clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF")
 
+#' @title Simon Frerichs - color palette
+#' @export
+clrp_sifre <- c("#F44336","#FF8AC4","#9C27B0","#673AB7","#3F51B5","#03A9f4","#89CFF0","#009688", "#228B22BF", "#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800")
+
 n_colors <-
   list(
     milo = length(clrp_milo),
@@ -224,6 +228,7 @@ n_colors <-
     lo = length(clrp_lo),
     jama = length(clrp_jama),
     uc = length(clrp_uc),
+    sfire = length(clrp_sifre),
     Accent = 8,
     Dark2 = 8,
     Greys = 9,

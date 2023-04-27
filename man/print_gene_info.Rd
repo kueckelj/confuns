@@ -4,16 +4,26 @@
 \alias{print_gene_info}
 \title{Print gene information}
 \usage{
-print_gene_info(genes, check = TRUE)
+print_gene_info(genes, use_synonyms = FALSE, ignore_case = TRUE, check = TRUE)
 }
 \arguments{
 \item{genes}{Character vector of gene names.}
 
-\item{check}{Logical value. If TRUE, input is checked for availability. If
+\item{ignore_case}{Logical value. If \code{TRUE}, ignores case when matching gene
+names. (Gene symbols are stored with capitalized letters. Providing \emph{'Gfap'}
+as input for \code{genes} will fail if \code{ignore_case} is \code{FALSE} as the symbol
+under which the gene is stored is written as \emph{'GFAP'}).}
+
+\item{check}{Logical value. If \code{TRUE}, input is checked for availability. If
 FALSE, unknown elements are silently dropped.}
+
+\item{synonyms}{Logical value. If \code{TRUE}, genes that were not matched via
+their official gene symbol are looked for via their known synonyms.
+(Albeit being known primarily under \emph{GFAP} the gene has a
+synonym, namely \emph{ALXDRD}.)}
 }
 \value{
-Invisible TRUE. Texts are immediately printed using \code{base::writeLines()}.
+Invisible \code{TRUE}. Texts are immediately printed using \code{base::writeLines()}.
 }
 \description{
 Prints human readable summary texts of genes in the console.

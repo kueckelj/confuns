@@ -46,8 +46,9 @@ arrange_axis <- function(df, grouping.var, arrange.var, arrange.by, reverse.with
   for(g in groups){
 
     labels_df <-
-      dplyr::filter(df, !!rlang::sym(grouping.var) == {{g}}) %>%
-      dplyr::mutate(gene = base::droplevels(gene))
+      dplyr::filter(df, !!rlang::sym(grouping.var) == {{g}})
+
+    labels_df[[grouping.var]] <- base::droplevels(x = labels_df[[grouping.var]])
 
     if(base::is.character(arrange.by)){
 

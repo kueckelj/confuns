@@ -4,14 +4,18 @@
 \alias{synonyms_to_hgnc}
 \title{Map gene synonyms to HGNC symbols}
 \usage{
-synonyms_to_hgnc(input, verbose = TRUE, ...)
+synonyms_to_hgnc(input, verbose = FALSE, warn = TRUE, ...)
 }
 \arguments{
 \item{input}{Character vector of possible gene synonyms.}
 
-\item{verbose}{Logical. If TRUE, informative message are printed in
+\item{verbose}{Logical. If \code{TRUE}, informative message are printed in
 the console about which elements of \code{input} could be matched
 to which genes and which could not be mapped.}
+
+\item{warn}{Logical. If \code{TRUE}, a warning is printed if elements
+of argument \code{input} are neither identified as a gene symbol nor
+as matching synonym.}
 }
 \value{
 Character vector.
@@ -27,7 +31,11 @@ dropped.
 }
 \examples{
 
-synonyms_to_hgnc(input = c("GFAP", "M33", "XXX"), verbose = T)
+# give feedback and warn
+synonyms_to_hgnc(input = c("GFAP", "M33", "XXX"), verbose = T, warn = T)
+
+# give only feedback and drop silently
+synonyms_to_hgnc(input = c("GFAP", "M33", "XXX"), verbose = T, warn = F)
 
 
 }

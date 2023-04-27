@@ -875,10 +875,18 @@ setMethod(
   definition = function(object,
                         ks,
                         methods_pam = "euclidean",
-                        color = "steelblue",
                         display_cols = TRUE,
-                        display_points = TRUE,
+                        col_alpha = 0.9,
+                        col_color = "black",
+                        col_fill = "steelblue",
                         display_line = TRUE,
+                        line_alpha = 0.9,
+                        line_color = "black",
+                        line_size = 1.5,
+                        display_points = TRUE,
+                        pt_alpha = 0.9,
+                        pt_color = "black",
+                        pt_size = 4.5,
                         ncol = NULL,
                         nrow = NULL){
 
@@ -901,21 +909,41 @@ setMethod(
       theme_statistics()
 
     # add layer
+    # add layer
     if(base::isTRUE(display_cols)){
 
-      p <- p + ggplot2::geom_col(color = "black", fill = color)
+      p <-
+        p +
+        ggplot2::geom_col(
+          fill = col_fill,
+          color = col_color,
+          alpha = col_alpha
+        )
 
     }
 
     if(base::isTRUE(display_points)){
 
-      p <- p + ggplot2::geom_point(color = "black")
+      p <-
+        p +
+        ggplot2::geom_point(
+          alpha = pt_alpha,
+          color = pt_color,
+          size = pt_size
+        )
 
     }
 
     if(base::isTRUE(display_line)){
 
-      p <- p + ggplot2::geom_line(color = "black", mapping = ggplot2::aes(group = 1))
+      p <-
+        p +
+        ggplot2::geom_line(
+          alpha = line_alpha,
+          color = line_color,
+          size = line_size,
+          mapping = ggplot2::aes(group = 1)
+        )
 
     }
 
@@ -1146,8 +1174,17 @@ setMethod(
                         ks = NULL,
                         color = "steelblue",
                         display_cols = TRUE,
+                        col_alpha = 0.9,
+                        col_color = "black",
+                        col_fill = "steelblue",
                         display_line = TRUE,
-                        display_points = TRUE){
+                        line_alpha = 0.9,
+                        line_color = "black",
+                        line_size = 1.5,
+                        display_points = TRUE,
+                        pt_alpha = 0.9,
+                        pt_color = "black",
+                        pt_size = 4.5){
 
     check_one_of(
       input = methods_kmeans,
@@ -1184,9 +1221,7 @@ setMethod(
                             })
 
         }
-      ) %>%
-      dplyr::group_by(method) %>%
-      dplyr::mutate(k = base::as.factor(k))
+      )
 
     if(base::is.numeric(ks)){
 
@@ -1194,9 +1229,18 @@ setMethod(
 
     }
 
+    nth <-
+      (base::max(res_df[["k"]])/10) %>%
+      base::floor()
+
+    xlabs <-
+      base::unique(res_df[["k"]]) %>%
+      reduce_vec(x = ., nth = nth)
+
     # create basic plot
     p <-
       ggplot2::ggplot(data = res_df, mapping = ggplot2::aes(x = k, y = tot_withinss)) +
+      ggplot2::scale_x_continuous(breaks = xlabs, labels = xlabs) +
       ggplot2::facet_wrap(facets = ~ method) +
       ggplot2::labs(y = NULL, x = "Centers (k)") +
       theme_statistics()
@@ -1205,19 +1249,38 @@ setMethod(
     # add layer
     if(base::isTRUE(display_cols)){
 
-      p <- p + ggplot2::geom_col(color = "black", fill = color)
+      p <-
+        p +
+        ggplot2::geom_col(
+          fill = col_fill,
+          color = col_color,
+          alpha = col_alpha
+          )
 
     }
 
     if(base::isTRUE(display_points)){
 
-      p <- p + ggplot2::geom_point(color = "black")
+      p <-
+        p +
+        ggplot2::geom_point(
+          alpha = pt_alpha,
+          color = pt_color,
+          size = pt_size
+          )
 
     }
 
     if(base::isTRUE(display_line)){
 
-      p <- p + ggplot2::geom_line(color = "black", mapping = ggplot2::aes(group = 1))
+      p <-
+        p +
+        ggplot2::geom_line(
+          alpha = line_alpha,
+          color = line_color,
+          size = line_size,
+          mapping = ggplot2::aes(group = 1)
+          )
 
     }
 

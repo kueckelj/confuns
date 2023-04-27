@@ -312,6 +312,28 @@ get_gene_synonyms <- function(gene){
 
 }
 
+#' @export
+is_gene_symbol <- function(input){
+
+  input %in% gene_info_df[["symbol"]]
+
+}
+
+#' @export
+is_gene_synonym <- function(input){
+
+  synonyms <-
+    dplyr::filter(gene_info_df, !base::is.na(synonyms)) %>%
+    dplyr::pull(synonyms) %>%
+    stringr::str_c(collapse = "; ") %>%
+    stringi::stri_split(str = ., regex = "; ")
+
+  synonym_vec <- synonyms[[1]]
+
+  input %in% synonym_vec
+
+}
+
 
 # assembles
 make_gene_card <- function(gene){
@@ -353,10 +375,18 @@ make_gene_card <- function(gene){
 #' @description Prints human readable summary texts of genes in the console.
 #'
 #' @param genes Character vector of gene names.
-#' @param check Logical value. If TRUE, input is checked for availability. If
+#' @param ignore_case Logical value. If `TRUE`, ignores case when matching gene
+#' names. (Gene symbols are stored with capitalized letters. Providing *'Gfap'*
+#' as input for `genes` will fail if `ignore_case` is `FALSE` as the symbol
+#' under which the gene is stored is written as *'GFAP'*).
+#' @param synonyms Logical value. If `TRUE`, genes that were not matched via
+#' their official gene symbol are looked for via their known synonyms.
+#' (Albeit being known primarily under *GFAP* the gene has a
+#' synonym, namely *ALXDRD*.)
+#' @param check Logical value. If `TRUE`, input is checked for availability. If
 #' FALSE, unknown elements are silently dropped.
 #'
-#' @return Invisible TRUE. Texts are immediately printed using \code{base::writeLines()}.
+#' @return Invisible `TRUE`. Texts are immediately printed using \code{base::writeLines()}.
 #' @export
 #'
 #' @details See documentation for `?gene_info_df` to read about how the source
@@ -371,20 +401,37 @@ make_gene_card <- function(gene){
 #'  print_gene_info(genes = c("GFAP", "MAG", "OLIG1", "XYZ"), check = FALSE)
 #'
 #'
-print_gene_info <- function(genes, check = TRUE){
+print_gene_info <- function(genes,
+                            use_synonyms = TRUE,
+                            ignore_case = TRUE,
+                            check = TRUE,
+                            warn = TRUE){
 
   genes <- base::unique(genes)
+  all_symbols <- base::unique(gene_info_df[["symbol"]])
 
-  if(base::isTRUE(check)){
+  if(base::isTRUE(ignore_case)){
 
-    confuns::check_one_of(
-      input = genes,
-      against = base::unique(gene_info_df[["symbol"]])
-    )
+    genes <- base::toupper(genes)
 
-  } else {
+  }
 
-    genes <- genes[genes %in% base::unique(gene_info_df[["symbol"]])]
+  if(base::isTRUE(use_synonyms)){
+
+    found <- genes[genes %in% all_symbols]
+    not_found <- genes[!genes %in% all_symbols]
+
+    found_by_syn <- synonyms_to_hgnc(input = not_found, verbose = FALSE, warn = warn)
+
+    genes <- base::unique(c(found, found_by_syn))
+
+    check <- FALSE
+
+  }
+
+  if(base::isTRUE(check) && base::length(not_found) >= 1){
+
+    confuns::check_one_of(input = genes, against = all_symbols)
 
   }
 
@@ -592,9 +639,12 @@ filter_genes <- function(catchphrases,
 #' @description Maps gene synonyms to their official HGNC symbol.
 #'
 #' @param input Character vector of possible gene synonyms.
-#' @param verbose Logical. If TRUE, informative message are printed in
+#' @param verbose Logical. If `TRUE`, informative message are printed in
 #' the console about which elements of \code{input} could be matched
 #' to which genes and which could not be mapped.
+#' @param warn Logical. If `TRUE`, a warning is printed if elements
+#' of argument `input` are neither identified as a gene symbol nor
+#' as matching synonym.
 #'
 #' @details Elements of \code{input} that are, in fact, synonyms are
 #' replaced by their official HGNC symbol. Elements that are already
@@ -606,22 +656,28 @@ filter_genes <- function(catchphrases,
 #'
 #' @examples
 #'
-#' synonyms_to_hgnc(input = c("GFAP", "M33", "XXX"), verbose = T)
+#' # give feedback and warn
+#' synonyms_to_hgnc(input = c("GFAP", "M33", "XXX"), verbose = T, warn = T)
+#'
+#' # give only feedback and drop silently
+#' synonyms_to_hgnc(input = c("GFAP", "M33", "XXX"), verbose = T, warn = F)
 #'
 #'
-synonyms_to_hgnc <- function(input, verbose = TRUE, ...){
+synonyms_to_hgnc <- function(input, verbose = FALSE, warn = TRUE, ...){
 
   confuns::is_vec(x = input, mode = "character")
 
-  genes <- input[input %in% gene_info_df[["symbol"]]]
+  genes <- input[is_gene_symbol(input)]
 
-  gene_pattern <- stringr::str_c(genes, collapse = "|")
+  synonyms_inp <- input[is_gene_synonym(input)]
 
-  possible_synonyms <- input[!input %in% genes]
+  neither <-  input[!input %in% c(genes, synonyms_inp)]
 
-  if(base::length(possible_synonyms) >= 1){
+  if(base::length(synonyms_inp) >= 1){
 
-    syn_pattern <- stringr::str_c(string = possible_synonyms, collapse = "|")
+    syn_pattern <-
+      stringr::str_c("( |)", synonyms_inp, "(;| )") %>%
+      stringr::str_c(collapse = "|")
 
     genes_by_syn <-
       dplyr::filter(
@@ -637,11 +693,9 @@ synonyms_to_hgnc <- function(input, verbose = TRUE, ...){
 
         gene_synonyms <- get_gene_synonyms(gene)
 
-        mapped_syn <- base::unique(possible_synonyms[possible_synonyms %in% gene_synonyms])
+        mapped_syn <- base::unique(synonyms_inp[synonyms_inp %in% gene_synonyms])
 
-        possible_synonyms[possible_synonyms %in% mapped_syn] <- gene
-
-        input[input == mapped_syn] <- gene
+        synonyms_inp[synonyms_inp %in% mapped_syn] <- gene
 
         if(base::length(mapped_syn) == 1){
 
@@ -662,21 +716,20 @@ synonyms_to_hgnc <- function(input, verbose = TRUE, ...){
 
   }
 
-  # remove not matched synonyms
-  out <- input[input %in% gene_info_df[["symbol"]]]
+  # merge genes and synonyms_inp (exchanged during for loop)
+  out <- c(genes, synonyms_inp)
 
-  dropped <- input[!input %in% gene_info_df[["symbol"]]]
+  if(base::length(neither) >= 1){
 
-  if(base::length(dropped) >= 1){
+    neither <- confuns::scollapse(neither)
 
-    dropped <- confuns::scollapse(dropped)
+    msg <- glue::glue("Neither gene nor synonym: '{neither}'.")
 
-    confuns::give_feedback(
-      msg = glue::glue("Did not find gene match for '{dropped}'"),
-      verbose = verbose,
-      with.time = FALSE,
-      ...
-    )
+     if(base::isTRUE(warn)){
+
+       rlang::warn(msg)
+
+     }
 
   }
 

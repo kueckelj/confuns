@@ -14,6 +14,7 @@ check_one_of(
   suggest = TRUE,
   verbose = TRUE,
   with.time = FALSE,
+  in.shiny = FALSE,
   ...
 )
 }

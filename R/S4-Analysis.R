@@ -1283,10 +1283,18 @@ setMethod(
   definition = function(object,
                         ks,
                         methods_pam = "euclidean",
-                        color = "steelblue",
                         display_cols = TRUE,
-                        display_points = TRUE,
+                        col_alpha = 0.9,
+                        col_color = "black",
+                        col_fill = "steelblue",
                         display_line = TRUE,
+                        line_alpha = 0.9,
+                        line_color = "black",
+                        line_size = 1.5,
+                        display_points = TRUE,
+                        pt_alpha = 0.9,
+                        pt_color = "black",
+                        pt_size = 4.5,
                         ncol = NULL,
                         nrow = NULL){
 
@@ -1294,12 +1302,18 @@ setMethod(
       plotAvgSilWidths(
         ks = ks,
         methods_pam = methods_pam,
-        color = color,
         display_cols = display_cols,
-        display_points = display_points,
+        col_alpha = col_alpha,
+        col_color = col_color,
+        col_fill = col_fill,
         display_line = display_line,
-        ncol = ncol,
-        nrow = nrow
+        line_alpha = line_alpha,
+        line_color = line_color,
+        line_size = line_size,
+        display_points = display_points,
+        pt_alpha = pt_alpha,
+        pt_color = pt_color,
+        pt_size = pt_size
       )
   }
 )
@@ -1764,19 +1778,35 @@ setMethod(
   definition = function(object,
                         methods_kmeans = "Hartigan-Wong",
                         ks = NULL,
-                        color = "steelblue",
                         display_cols = TRUE,
+                        col_alpha = 0.9,
+                        col_color = "black",
+                        col_fill = "steelblue",
+                        display_line = TRUE,
+                        line_alpha = 0.9,
+                        line_color = "black",
+                        line_size = 1.5,
                         display_points = TRUE,
-                        display_line = TRUE){
+                        pt_alpha = 0.9,
+                        pt_color = "black",
+                        pt_size = 4.5){
 
     getAnalysisAspect(object, aspect = "clustering") %>%
       plotScreeplot(
         methods_kmeans = methods_kmeans,
         ks = ks,
-        color = color,
         display_cols = display_cols,
+        col_alpha = col_alpha,
+        col_color = col_color,
+        col_fill = col_fill,
         display_line = display_line,
-        display_points = display_points
+        line_alpha = line_alpha,
+        line_color = line_color,
+        line_size = line_size,
+        display_points = display_points,
+        pt_alpha = pt_alpha,
+        pt_color = pt_color,
+        pt_size = pt_size
       )
 
   }
