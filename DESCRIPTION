@@ -1,7 +1,7 @@
 Package: confuns
 Type: Package
 Title: Convenience Functions
-Version: 1.0.1
+Version: 1.0.2
 Author: as.person("Jan Kueckelhaus <jan.kueckelhaus@uniklinik-freiburg.de> [aut, cre]")
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: A collection of wrapper- and convenience functions for data science.
@@ -82,6 +82,7 @@ Collate:
     'scaling-and-normalization.R'
     'setup-project.R'
     'shiny-checkpoint.R'
+    'show-colors.R'
     'source-and-load.R'
     'string-handling.R'
     'string-manipulation.R'
