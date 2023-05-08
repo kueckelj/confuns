@@ -379,12 +379,14 @@ make_gene_card <- function(gene){
 #' names. (Gene symbols are stored with capitalized letters. Providing *'Gfap'*
 #' as input for `genes` will fail if `ignore_case` is `FALSE` as the symbol
 #' under which the gene is stored is written as *'GFAP'*).
-#' @param synonyms Logical value. If `TRUE`, genes that were not matched via
+#' @param use_synonyms Logical value. If `TRUE`, genes that were not matched via
 #' their official gene symbol are looked for via their known synonyms.
-#' (Albeit being known primarily under *GFAP* the gene has a
-#' synonym, namely *ALXDRD*.)
 #' @param check Logical value. If `TRUE`, input is checked for availability. If
 #' FALSE, unknown elements are silently dropped.
+#' @param ... Additional arguments given to [filter_genes()]. Is only applied if ...
+#' is not empty.
+#'
+#' @inherit synonyms_to_hgnc params
 #'
 #' @return Invisible `TRUE`. Texts are immediately printed using \code{base::writeLines()}.
 #' @export
@@ -397,15 +399,20 @@ make_gene_card <- function(gene){
 #'  # genes are checked for validity by default
 #'  print_gene_info(genes = c("GFAP", "MAG", "OLIG1", "XYZ"))
 #'
-#'  # set check = FALSE to drop unkonwn genes silently
+#'  # set check = FALSE to drop unknown genes silently
 #'  print_gene_info(genes = c("GFAP", "MAG", "OLIG1", "XYZ"), check = FALSE)
+#'
+#'  # use arguments of filter_genes()
+#'  print_gene_info(c("KCNH2", "NRROS"))
+#'  print_gene_info(c("KCNH2", "NRROS"), catchphrase = "development")
 #'
 #'
 print_gene_info <- function(genes,
                             use_synonyms = TRUE,
                             ignore_case = TRUE,
                             check = TRUE,
-                            warn = TRUE){
+                            warn = TRUE,
+                            ...){
 
   genes <- base::unique(genes)
   all_symbols <- base::unique(gene_info_df[["symbol"]])
@@ -432,6 +439,12 @@ print_gene_info <- function(genes,
   if(base::isTRUE(check) && base::length(not_found) >= 1){
 
     confuns::check_one_of(input = genes, against = all_symbols)
+
+  }
+
+  if(!purrr::is_empty(x = list(...))){
+
+    genes <- filter_genes(..., genes_subset = genes)
 
   }
 

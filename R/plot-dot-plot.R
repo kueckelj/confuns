@@ -107,7 +107,6 @@ plot_dot_plot_1d <- function(df,
       color.trans = color.trans,
       ...) +
     ggplot2::theme_bw() +
-    ggplot2::labs(x = NULL, y = NULL) +
     facet_add_on +
     reorder_add_on
 
@@ -206,9 +205,8 @@ plot_dot_plot_2d <- function(df,
       clrp = pt.clrp,
       clrsp = pt.clrsp,
       variable = df[[color.by]],
-      color.trans = color.trans#, ...
+      color.trans = color.trans
     ) +
-    ggplot2::theme_bw() +
-    ggplot2::labs(y = NULL)
+    ggplot2::theme_bw()
 
 }
