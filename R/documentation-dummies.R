@@ -41,7 +41,7 @@ normalize_dummy <- function(normalize){
 #' @param digits Numeric. Given to \code{base::round()} and indicates the number
 #' of digits to which the correlation value is rounded. Defaults to 2.
 #' @param distinct Logical value. If TRUE only one observation per variable pair remains
-#' in the output data.frame. Ignored if \code{type} = \emph{'complete'}.
+#' in the output data.frame.
 #' @param shape Character value. Specifies the shape of the geometric objects with
 #' which the variable pairs are displayed. Either \emph{'circle', 'rect'} or \emph{'tile'}.
 #' @param type Character value. Denotes how the underlying correlation matrix is
@@ -145,7 +145,7 @@ across_vis2 <- function(across, across_subset){}
 #' groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 #' input options.
 #'
-#' @param clrsp,pt.clrsp,pt_clrsp Character value. Specfies the color spectrum to be used to represent
+#' @param clrsp,pt.clrsp,pt_clrsp Character value. Specifies the color spectrum to be used to represent
 #' continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 #' valid input options.
 #'
@@ -164,12 +164,12 @@ across_vis2 <- function(across, across_subset){}
 #' @param display.facets Logical value. If set to TRUE the plot is split via
 #' \code{ggplot2::facet_wrap()} such that each variable gets it's own subplot.
 #' @param display.grid,display_grid Logical value. If TRUE, a grid is displayed.
-#' @param facet_with Character value. Either \emph{'grid'} or \emph{'wrap'}.
+#' @param facet.with,facet_with Character value. Either \emph{'grid'} or \emph{'wrap'}.
 #' Specifies the function with which the plot-facetting is created. If \code{across}
 #' is of length 2 and \code{facet_with} = \emph{'wrap'} \code{ggplot2::facet_wrap()}
 #' is used. Else \code{ggplot2::facet_grid()} is used.
 #' @param force Logical value. Must be set to TRUE to allow overwriting.
-#' @param grid.alpha,grid.alpha,grid.size,grid_size Numeric values. Specify transparency
+#' @param grid.alpha,grid_alpha,grid.size,grid_size Numeric values. Specify transparency
 #' and thickness of the lines of the grid.
 #' @param grid.color,grid_color Character value. Specifies the color of the grid lines.
 #'
@@ -186,9 +186,16 @@ across_vis2 <- function(across, across_subset){}
 #' not be bigger than the number of observations of the data set.
 #' @param ks Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 #' Is converted into an integer vector.
-#' @param labels_angle Numeric value. The angle with which labels are displayed.
-#' @param labels_size Numeric value. The size with which labels are displayed.
-#' @param labels_hjust,labels_vjust Numeric values. Adjust labels positioning.
+#' @param labels.angle,labels_angle Numeric value. The angle with which labels are displayed.
+#' @param labels.size,labels_size Numeric value. The size with which labels are displayed.
+#' @param labels.hjust,labels.vjust,labels_hjust,labels_vjust Numeric values. Adjust labels positioning.
+#'
+#' @param line.alpha,line_alpha,line.size,line_size Numeric value. Specifies the transparency
+#' and the thickness of lines in the plot.
+#' @param line.color,line_color Character value. Specifies the color of lines in the plot.
+#' @param line.type,line_type Character value. Specifies the type of the lines. Use
+#' \code{validLineTypes()} to obtain all valid input options.
+#'
 #' @param method.aggl,method_aggl Character value. Specifies the agglomerative method
 #' of interest. Use \code{validMethodsAggl()} to obtain all valid input options.
 #'

@@ -30,9 +30,6 @@ the computational progress will be printed.
 
 (Warning messages will always be printed.)}
 }
-\value{
-
-}
 \description{
 Helper that gives feedback with a function of choice.
 }

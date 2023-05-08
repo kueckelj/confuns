@@ -62,6 +62,18 @@ setGeneric(name = "addClusterVarsPam", def = function(object, ...){
 
 })
 
+#' @title Add grouping variables
+#'
+#' @description Adds grouping variables to the @@data of the object.
+#'
+#' @param grouping_df Data.frame that contains the grouping variables.
+#'
+#' @export
+setGeneric(name = "addGroupingVars", def = function(object, ...){
+
+  standardGeneric("addGroupingVars")
+
+})
 
 #' @title Agglomerate hierarchical trees
 #'
@@ -627,6 +639,26 @@ setGeneric(name = "getKmeans", def = function(object, ...){
 })
 
 
+#' @export
+setGeneric(name = "getKmeansTWSS", def = function(object, ks, ...){
+
+  standardGeneric(f = "getKmeansTWSS")
+
+})
+
+#' @title Obtain medoids from PAM clustering
+#' @description Extracts a data.frame containing medoids from PAM clustering
+#' results
+#'
+#' @inherit argument_dummy params
+#'
+#' @export
+setGeneric(name = "getMedoidsDf", def = function(object, ...){
+
+  standardGeneric(f = "getMedoidsDf")
+
+})
+
 #' @title Obtain data matrix
 #'
 #' @description Extracts the numeric data of the object in form
@@ -744,6 +776,8 @@ setGeneric(name = "getScaledMtr", def = function(object, ...){
 #' about the silhouette width of every observation in different
 #' clustering results with method \emph{pam}.
 #'
+#' @param format Character value. Either \emph{'long'} or \emph{'wide'}. Shifts
+#' the perspective of the output data.frame.
 #' @inherit argument_dummy params
 #'
 #' @return Data.frame.
@@ -755,6 +789,22 @@ setGeneric(name = "getSilWidthsDf", def = function(object, ...){
 
 })
 
+
+#' @title Obtain variable names
+#'
+#' @description Extracts the variable names of the respective slots in
+#' form of a character vector.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return Character vector.
+#'
+#' @export
+setGeneric(name = "getVariableNames", def = function(object, ...){
+
+  standardGeneric("getVariableNames")
+
+})
 
 
 # p -----------------------------------------------------------------------
@@ -777,6 +827,22 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 
 })
 
+#' @title Plot boxplot
+#'
+#' @description Plots a boxplot
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotBoxplot", def = function(object, ...){
+
+  standardGeneric(f = "plotBoxplot")
+
+})
+
+
 #' @title Plot correlation plot
 #'
 #'
@@ -785,6 +851,8 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 #' \code{color_low}) to positive correlation (\code{color_high}) is displayed.
 #' @param size_by_corr Logical value. If TRUE, size is used in addition to coloring
 #' to indicate the correlation. Ignored if \emph{shape} = \emph{'tile'}
+#' @param size_limits,color_limits Numeric vectors. Used to set the limits of the
+#' scales.
 #'
 #' @param type Character value. Denotes how the underlying correlation matrix is
 #' handled.
@@ -793,9 +861,18 @@ setGeneric(name = "plotAvgSilWidths", def = function(object, ...){
 #' If \code{type} = \emph{'upper}, the part above the diagonal is used. the lower part is set to NA.
 #'
 #'
-#' @param variables_subset Character vector or NULL. If character, specifies
-#' the subset of variable names that is included in the plot. To exclude single
-#' variables the variable name can be provided prefixed with a \emph{'-'}.
+#' @param variables_subset Character vector, list of two character vectors or NULL.
+#' If character, specifies the subset of variable names that is included in the plot on both axes.
+#'
+#' If list, character vector named \emph{x} is used to subset x-axis and character
+#' vector named \emph{y} is used to subset y-axis.
+#'
+#' To exclude single variables the variable name can be provided prefixed with a \emph{'-'}.
+#'
+#' Ignored if NULL.
+#'
+#' @param display_values Logical. If TRUE, correlation values are displayed as numbers.
+#'
 #' @inherit corr_dummy params
 #' @inherit across_vis1 params
 #' @inherit argument_dummy params
@@ -827,7 +904,35 @@ setGeneric(name = "plotDendrogram", def = function(object, ...){
 
 })
 
+#' @title Plot densityplot
+#'
+#' @description Plots a densityplot.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotDensityplot", def = function(object, ...){
 
+  standardGeneric(f = "plotDensityplot")
+
+})
+
+#' @title Plot histogram
+#'
+#' @description Plots a histogram
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotHistogram", def = function(object, ...){
+
+  standardGeneric(f = "plotHistogram")
+
+})
 
 #' @title Plot PCA
 #'
@@ -846,6 +951,20 @@ setGeneric(name = "plotPCA", def = function(object, ...){
 
 })
 
+#' @title Plot ridgeplot
+#'
+#' @description Plots a ridgeplot
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotRidgeplot", def = function(object, ...){
+
+  standardGeneric(f = "plotRidgeplot")
+
+})
 
 #' @title Plot a scatterplot
 #'
@@ -874,8 +993,6 @@ setGeneric(name = "plotScatterplot", def = function(object, ...){
   standardGeneric(f = "plotScatterplot")
 
 })
-
-
 
 #' @title Plot a screeplot
 #'
@@ -944,6 +1061,41 @@ setGeneric(name = "plotUMAP", def = function(object, ...){
   standardGeneric(f = "plotUMAP")
 
 })
+
+
+#' @title Plot violinplot
+#'
+#' @description Plots a violinplot.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return A ggplot.
+#' @export
+#'
+setGeneric(name = "plotViolinplot", def = function(object, ...){
+
+  standardGeneric(f = "plotViolinplot")
+
+})
+
+
+#' @title Rename key variable
+#'
+#' @description Renames the variable that is used to identify every
+#' observation uniquely.
+#'
+#' @inherit argument_dummy params
+#'
+#' @return The input object.
+#'
+#' @export
+#'
+setGeneric(name = "renameKeyVariable", def = function(object, ...){
+
+  standardGeneric(f = "renameKeyVariable")
+
+})
+
 
 # s -----------------------------------------------------------------------
 
@@ -1071,13 +1223,15 @@ set_data_hlpr <- function(object,
 
     base::rownames(data) <- NULL
 
+    data <- dplyr::select(data, {{key.name}}, dplyr::everything())
+
   }
 
   meta <- dplyr::select(data, {{key.name}}, dplyr::all_of(meta.names))
 
   data <- dplyr::select(data, -dplyr::all_of(meta.names))
 
-  methods::slot(object, name = slot.data) <- data
+  methods::slot(object, name = slot.data) <- tibble::as_tibble(data)
 
   methods::slot(object, name = slot.key.name) <- key.name
 
@@ -1086,3 +1240,14 @@ set_data_hlpr <- function(object,
   return(object)
 
 }
+
+
+#' @export
+setGeneric(name = "suggestElbowPoint", def = function(object, ...){
+
+  standardGeneric(f = "suggestElbowPoint")
+
+})
+
+
+

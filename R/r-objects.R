@@ -1,12 +1,18 @@
 
 
+
+
+
 # Argument inputs ---------------------------------------------------------
 
 pretty_bar_positions <- c("Stacked" = "stack", "Dodged" = "dodge", "Filled" = "fill")
 
 # Colors ------------------------------------------------------------------
 
-viridis_options <- c("cividis", "inferno", "magma", "plasma", "viridis")
+viridis_options <- c("cividis", "inferno", "mako", "magma", "plasma", "turbo", "viridis")
+
+RColorBrewer_options <- c("Accent", "Dark2", "Greys", "Paired", "Pastel1", "Pastel2", "Set1", "Set2", "Set3")
+
 
 pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
                                  "Nature Publishing Group" = "npg",
@@ -17,8 +23,7 @@ pretty_journals_clrp_vector <- c("Journal of Oncology" = "jco",
                                  "University of Chicago" = "uc"
 )
 
-pretty_ggplot2_clrp_vector <- c("Greyscale" = "greyscale",
-                                "Default" = "default")
+pretty_ggplot2_clrp_vector <- c("Default" = "default")
 
 # use pretty_colorpalettes_list instead!
 pretty_colorpanels_list <-
@@ -32,10 +37,16 @@ pretty_colorpanels_list <-
 pretty_colorpalettes_list <-
   list(
     Journals = pretty_journals_clrp_vector,
-    Milo = "milo",
+    Milo = c("milo", "sifre"),
     ggplot2 = pretty_ggplot2_clrp_vector,
-    `Viridis Options` = viridis_options
+    `Viridis Options` = viridis_options,
+    `RColor_brewer Options` = RColorBrewer_options
   )
+
+color_palettes_vec <-
+  base::unname(pretty_colorpalettes_list) %>%
+  purrr::flatten_chr() %>%
+  base::unname()
 
 # Descriptive statistics --------------------------------------------------
 
@@ -69,8 +80,24 @@ color_shapes <- 0:20
 
 # Predefined feedback strings ---------------------------------------------
 
-
 overwrite_hint <- " Set argument 'overwrite' to TRUE in order to allow overwritting."
 
 
+
+# valid input options -----------------------------------------------------
+
+
+valid_line_types <- c("blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash")
+
+
+
+
+
+
+
+
+# R -----------------------------------------------------------------------
+
+
+#RColorBrewer_options
 

@@ -1,5 +1,134 @@
 
-# Color panels and spectra  -----------------------------------------------
+
+#' @title Create sub cluster colors
+#'
+#' @description Creates a vector of colors based on sub grouping.
+#'
+#' @param input Character vector of group names.
+#' @inherit scale_color_add_on params
+#' @param clr.bottom Character value. The color up to which the sub panel
+#' for each sub grouping is created.
+#' @param alphabetically If \code{TRUE}, sub groups are sorted alphabetically before
+#' being mapped to colors.
+#' @param into Character vector of length two. A combination of \emph{'main', 'sub'}.
+#' If \code{into = c(\emph{'main', 'sub'})} string parts before \code{sep} are
+#' considered the main grouping and strings parts after \code{sep} are considered
+#' the sub part. Works the other way around for \code{into = c(\emph{'sub', 'main'})}.
+#' @param sep Character value. Is used to cut the sub grouping
+#' information from the variabel in \code{main}.
+#' @param offset Integer value. If 1, the default, the last sub group is mapped
+#' to the color that comes directly before \code{clr.bottom}.
+#'
+#'
+#' @return Named character vector. Names are the groups. Values are the colors.
+#' @export
+#'
+#' @examples
+#'
+#' library(tidyverse)
+#' library(confuns)
+#'
+#' df <-
+#'  mutate(
+#'   .data = iris,
+#'   numbers = sample(1:3, size = nrow(iris), replace = T),
+#'   spec_sub = str_c(Species, numbers, sep = ".") %>% as.factor()
+#'  )
+#'
+#' adjust_out <- adjust_sub_colors(input = df$spec_sub, clrp = "npg", sep = ".")
+#'
+#' print(adjust_out)
+#'
+#' ggplot(data = df, mapping = aes(x = Sepal.Width, y = Sepal.Length)) +
+#'  geom_point(mapping = aes(color = spec_sub), size = 4) +
+#'  scale_color_add_on(
+#'   clrp = "npg",
+#'   variable = df$spec_sub,
+#'   clrp.adjust = adjust_out
+#'   )
+#'
+adjust_sub_colors <- function(input,
+                              clrp,
+                              clrp.adjust = NULL,
+                              clr.bottom = "white",
+                              offset = 1,
+                              into = c("main", "sub"),
+                              sep = "_",
+                              alphabetically = TRUE){
+
+  offset <- base::as.integer(offset)
+  is_value(offset, mode = "integer") # trans successful?
+
+  if(base::is.character(input)){
+
+    groups <- base::unique(input)
+
+  } else if(base::is.factor(input)){
+
+    groups <- base::levels(input)
+
+  }
+
+  df <-
+    base::data.frame(groups = groups) %>%
+    tidyr::separate(
+      col = groups,
+      into = c("main", "sub"),
+      sep = sep
+      ) %>%
+    dplyr::mutate(
+      dplyr::across(
+        .fns = base::as.factor
+      )
+    )
+
+  main_color_vec <-
+    color_vector(
+      clrp = clrp,
+      names = base::levels(df[["main"]]),
+      clrp.adjust = clrp.adjust
+    )
+
+  sub_list <- base::vector(mode = "list", length = base::length(main_color_vec))
+
+  for(i in base::seq_along(main_color_vec)){
+
+    clr <- base::unname(main_color_vec)[i]
+    main_group <- base::names(main_color_vec)[i]
+
+    sub_groups <-
+      dplyr::filter(df, main == {{main_group}}) %>%
+      dplyr::pull(var = sub) %>%
+      base::droplevels() %>%
+      base::levels()
+
+    n_sub_groups <- base::length(sub_groups)
+
+    clr_palette <-
+      grDevices::colorRampPalette(colors = c(clr, clr.bottom))(n_sub_groups+offset)
+
+    if(base::isTRUE(alphabetically)){
+
+      sub_groups <- base::sort(sub_groups)
+
+    }
+
+    sub_groups <- stringr::str_c(main_group, sub_groups, sep = sep)
+
+    sub_list[[i]] <-
+      purrr::set_names(
+        x = clr_palette[1:n_sub_groups],
+        nm = sub_groups
+      )
+
+  }
+
+  color_vec_out <- purrr::flatten_chr(sub_list)
+
+  return(color_vec_out)
+
+}
+
 
 #' @title Color spectra names
 #'
@@ -20,7 +149,7 @@ sequential_multi_hue <-
   "PinkYl", "Burg", "BurgYl", "RedOr", "OrYel", "Purp", "PurpOr", "Sunset", "Magenta", "SunsetDark",
   "ag_Sunset", "BrwnYl", "YlOrRd", "YlOrBr", "OrRd", "Oranges", "YlGn", "YlGnBu", "Reds", "RdPu", "PuRd",
   "Purples", "PuBuGn", "PuBu", "Greens", "BuGn", "GnBu", "BuPu", "Blues", "Lajolla", "Turku", "inferno",
-  "cividis", "viridis", "magma", "plasma")
+  "cividis", "viridis", "magma", "plasma", "turbo")
 
 #' @rdname sequential_single_hue
 #' @export
@@ -49,7 +178,7 @@ diverging <-
 #' }
 #'
 #' @export
-colorpalettes <- c("milo", "jco", "npg", "aaas", "nejm", "lo", "jama", "uc")
+colorpalettes <- c("milo", "jco", "npg", "aaas", "nejm", "lo", "jama", "uc", "sifre")
 
 
 #' @title MILO Research Group - color palette
@@ -85,6 +214,31 @@ clrp_jama <- c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", 
 #' @export
 clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF")
 
+#' @title Simon Frerichs - color palette
+#' @export
+clrp_sifre <- c("#F44336","#FF8AC4","#9C27B0","#673AB7","#3F51B5","#03A9f4","#89CFF0","#009688", "#228B22BF", "#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800")
+
+n_colors <-
+  list(
+    milo = length(clrp_milo),
+    jco = length(clrp_jco),
+    npg = length(clrp_npg),
+    aaas = length(clrp_aaas),
+    nejm = length(clrp_nejm),
+    lo = length(clrp_lo),
+    jama = length(clrp_jama),
+    uc = length(clrp_uc),
+    sfire = length(clrp_sifre),
+    Accent = 8,
+    Dark2 = 8,
+    Greys = 9,
+    Paired = 12,
+    Pastel1 = 9,
+    Pastel2 = 8,
+    Set1 = 9,
+    Set2 = 8,
+    Set3 = 12
+  )
 
 #' @title Get vector of colors
 #'
@@ -97,22 +251,64 @@ clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#
 #' colors that are used to represent the groups. Names of the input vector must refer
 #' to the group and the respective named element denotes the color with which to
 #' represent the group.
+#' @param n.colors Numeric value. Must be specified if \code{clrp} is set to \emph{'default'}
+#' and \code{names} is NULL.
 #'
 #' @return Character vector.
 #'
 #' @export
 #'
 
-color_vector <- function(clrp, names = NULL, clrp.adjust = NULL){
+color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
 
   is_value(x = clrp, mode = "character")
 
-  check_one_of(input = clrp, against = c("default", colorpanels), ref.input = "clrp")
+  check_one_of(
+    input = clrp,
+    against = all_color_palettes_vec(),
+    suggest = TRUE
+    )
 
-  clr_vector <-
-    stringr::str_c("clrp", clrp, sep = "_") %>%
-    base::parse(text = .) %>%
-    base::eval()
+  # check how many colors are needed
+  if(base::is.character(names)){
+
+    n.colors <- base::length(names)
+
+  } else if(base::is.na(n.colors) | !base::is.numeric(n.colors)){
+
+    if(clrp %in% c("default", viridis_options)){
+
+      stop("If `clrp` among 'default' or viridis options, please specify either `names` or `n.colors`.")
+
+    } else {
+
+      n.colors <- n_colors[[clrp]]
+
+    }
+
+  }
+
+  # pick the color palette
+  if(clrp == "default"){
+
+    clr_vector <- scales::hue_pal()(n.colors)
+
+  } else if(clrp %in% viridis_options){
+
+    clr_vector <- viridis::viridis(n = n.colors, option = clrp)
+
+  } else if(clrp %in% RColorBrewer_options){
+
+    clr_vector <- RColorBrewer::brewer.pal(n = n.colors, name = clrp)
+
+  } else {
+
+    clr_vector <-
+      stringr::str_c("clrp", clrp, sep = "_") %>%
+      base::parse(text = .) %>%
+      base::eval()
+
+  }
 
   # name the vector if names is specified as a character
   if(base::is.character(names)){
@@ -122,7 +318,7 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL){
 
     if(n_names > n_colors){
 
-      base::warning(glue::glue("Chosen colorpanel '{clrp}' provides {n_colors} colors. Need {n_names} colors. Returning 'default' colorpanel."))
+      warning(glue::glue("Chosen colorpalette '{clrp}' provides {n_colors} colors. Need {n_names} colors. Returning 'default' colorpalette."))
 
       hues <- base::seq(15, 375, length = n_names + 1)
       clr_vector <- grDevices::hcl(h = hues, l = 65, c = 100)[1:n_names]
@@ -146,7 +342,7 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL){
 
   }
 
-  base::return(clr_vector)
+  return(clr_vector)
 
 }
 
@@ -162,6 +358,17 @@ all_color_palettes <- function(){
 
 }
 
+#' @rdname all_color_palettes
+#' @export
+all_color_palettes_vec <- function(){
+
+  base::unname(pretty_colorpalettes_list) %>%
+    purrr::flatten_chr() %>%
+    base::unname() %>%
+    base::sort()
+
+}
+
 
 #' @rdname all_color_palettes
 #' @export
@@ -174,3 +381,14 @@ all_color_spectra <- function(){
   ) %>% purrr::map(.f = function(i){base::sort(i)})
 
 }
+
+#' @rdname all_color_palettes
+#' @export
+all_color_spectra_vec <- function(){
+
+  base::unname(all_color_spectra()) %>%
+    purrr::flatten_chr() %>%
+    base::sort()
+
+}
+

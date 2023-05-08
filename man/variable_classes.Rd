@@ -12,9 +12,9 @@ variable_classes(data)
 \value{
 A named character vector.
 \itemize{
- \item{ \strong{Vector-elements:} The name of every variable of \code{data}}.
- \item{ \strong{Vector-names:} The class of every variable of \code{data}}.
- }
+\item{ \strong{Vector-elements:} The name of every variable of \code{data}}.
+\item{ \strong{Vector-names:} The class of every variable of \code{data}}.
+}
 }
 \description{
 Get information about the inputs

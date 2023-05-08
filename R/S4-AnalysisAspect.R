@@ -38,10 +38,6 @@ AnalysisAspect <- setClass(Class = "AnalysisAspect",
 
 version_analysis_aspect <- list(major = 0, minor = 1, patch = 0)
 
-
-
-
-
 # r-objects ---------------------------------------------------------------
 
 #' @export
@@ -102,12 +98,12 @@ initiateAnalysisAspect <- function(data,
     dplyr::select(-dplyr::all_of(meta_names))
 
   variables_grouping <-
-    dplyr::select(df, -{{key_name}}) %>%
+    dplyr::select(df, -dplyr::any_of(key_name)) %>%
     dplyr::select_if(.predicate = ~ base::is.character(.x) | base::is.factor(.x)) %>%
     base::colnames()
 
   variables_logical <-
-    dplyr::select(df, -{{key_name}}) %>%
+    dplyr::select(df, -dplyr::any_of(key_name)) %>%
     dplyr::select_if(.predicate = ~ base::is.logical(.x)) %>%
     base::colnames()
 
@@ -357,6 +353,91 @@ setMethod(
       base::as.matrix()
 
     return(out)
+
+  }
+)
+
+#' @rdname getVariableNames
+#' @export
+setMethod(
+  f = "getVariableNames",
+  signature = "AnalysisAspect",
+  definition = function(object, types = c("key", "numeric", "grouping", "logical", "meta"), unname = FALSE){
+
+    grouping_vars <-
+      object@variables_grouping %>%
+      purrr::set_names(nm = base::rep("grouping", base::length(.)))
+
+    numeric_vars <-
+      object@variables_numeric %>%
+      purrr::set_names(nm = base::rep("numeric", base::length(.)))
+
+    logical_vars <-
+      object@variables_logical %>%
+      purrr::set_names(nm = base::rep("logical", base::length(.)))
+
+    key <- object@key_name %>% purrr::set_names(nm = "key")
+
+    meta_vars <-
+      object@meta %>%
+      dplyr::select(-key) %>%
+      base::colnames() %>%
+      purrr::set_names(nm = base::rep("meta", base::length(.)))
+
+    out <- c(grouping_vars, numeric_vars, logical_vars, key, meta_vars)
+
+    if(base::is.character(types)){
+
+      out <- out[base::names(out) %in% types]
+
+    }
+
+    if(base::isTRUE(unname)){
+
+      out <- base::unname(out)
+
+    }
+
+    return(out)
+  }
+)
+
+
+#' @rdname renameKeyVariable
+#' @export
+setMethod(
+  f = "renameKeyVariable",
+  signature = "AnalysisAspect",
+  definition = function(object, new_key_name){
+
+    is_value(x = new_key_name, mode = "character")
+
+    check_none_of(
+      input = new_key_name,
+      against = getVariableNames(object, unname = TRUE),
+      ref.against = "variable names"
+    )
+
+    old_key_name <- object@key_name
+
+    object@key_name <- new_key_name
+
+    object@data <- dplyr::rename(object@data, {{new_key_name}} := {{old_key_name}})
+
+    object@data_scaled <- dplyr::rename(object@data_scaled, {{new_key_name}} := {{old_key_name}})
+
+    object@methods <-
+      purrr::map(.x = object@methods, .f = function(slot){
+
+        slot@key_name <- new_key_name
+
+        return(slot)
+
+      })
+
+    give_feedback(msg = glue::glue("Key name changed to '{new_key_name}'"))
+
+    return(object)
 
   }
 )

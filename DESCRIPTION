@@ -8,26 +8,31 @@ Description: A collection of wrapper- and convenience functions for data science
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
 Imports: 
     colorspace,
     dplyr,
     ggplot2, 
+    ggmosaic,
     ggridges,
     magrittr,
     purrr,
     reshape2,
-    rlang
+    rlang, 
+    stringdist
 Collate: 
     'S4-generics.R'
     'S4-AnalysisAspect.R'
+    'S4-Outlier.R'
+    'S4-DimRed.R'
     'S4-Clustering.R'
+    'S4-Correlation.R'
+    'S4-Classification.R'
+    'S4-Analysis.R'
     'S4-ClusteringHclust.R'
     'S4-ClusteringKmeans.R'
     'S4-ClusteringPam.R'
-    'S4-Correlation.R'
-    'S4-DimRed.R'
-    'S4-Outlier.R'
     'S4-default.R'
     'call-flexibly.R'
     'cluster-wrapper.R'
@@ -35,12 +40,15 @@ Collate:
     'color-palettes-and-spectra.R'
     'convenience-functions.R'
     'correlation-wrapper.R'
+    'data.R'
     'data.frame-handling.R'
     'data.frame-transformation.R'
     'deprecated.R'
+    'dev.R'
     'dimensional-reduction.R'
     'documentation-dummies.R'
     'feedback-list.R'
+    'gene_infos.R'
     'get_names.R'
     'ggplot2-themes-and-small-add-ons.R'
     'gsea-hypeR.R'
@@ -49,6 +57,7 @@ Collate:
     'join-lists.R'
     'join-safely.R'
     'kmeans-wrapper.R'
+    'lin-algebra.R'
     'logical-tests.R'
     'make-ggplot2-add-ons.R'
     'math-related-functions.R'
@@ -74,6 +83,7 @@ Collate:
     'setup-project.R'
     'shiny-checkpoint.R'
     'source-and-load.R'
+    'string-handling.R'
     'string-manipulation.R'
     'subset-matrix.R'
     'subsetting-aid.R'
@@ -81,3 +91,5 @@ Collate:
     'valid-misc.R'
     'variable-classes.R'
     'wrap-strings.R'
+Depends: 
+    R (>= 2.10)

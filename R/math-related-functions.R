@@ -49,8 +49,10 @@ normalize_zscore <- function(x, na.rm = TRUE){
 #'
 #' @param input Numeric vector.
 #' @param fn Character value. The function to call specified as a string.
-#' Currently one of: \emph{'one_peak', 'two_peaks', 'gradient', 'sinus', 'log', 'early_peak', 'late_peak'}.
-#' @param rev Logical. If set to TRUE the fitted curve is returned upside-down.
+#' Must be in output of \code{validCurves()}.
+#' @param rev If set to 1 or \emph{'x'} the fitted curve is returned reverted along the x-axis. If set to
+#' 2 or \emph{'y'} the fitted curve is returned reverted along the y-axis. (Depending on the curve 1 or
+#' 2 might not differ in the output. Compare \code{fn} = \emph{'sinus'} and \code{fn} = \emph{'one_peak'}).
 #' @inherit normalize_dummy params
 #'
 #' @return Numeric vector.
@@ -82,15 +84,24 @@ normalize_zscore <- function(x, na.rm = TRUE){
 fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
   is_value(x = fn, mode = "character", ref = "fn")
-  base::stopifnot(fn %in% c("one_peak", "two_peaks", "gradient", "log", "sinus", "linear", "early_peak", "late_peak"))
+  base::stopifnot(fn %in% valid_curves)
 
   out <-
     base::call(name = fn, input = input) %>%
     base::eval()
 
-  if(base::isTRUE(rev)){
+  if(rev == 1 | rev == "x"){
 
-    out <- (out * -1)
+    out <- base::rev(out)
+
+  } else if(rev == 2 | rev == "y"){
+
+    mini <- base::min(input)
+    maxi <- base::max(input)
+
+    out <- out*-1
+
+    out <- scales::rescale(x = out, to = c(mini, maxi))
 
   }
 
@@ -100,11 +111,13 @@ fit_curve <- function(input, fn, rev = FALSE, normalize = TRUE){
 
   }
 
-  base::return(out)
+  return(out)
 
 }
 
-
+#' @export
+valid_curves <- c("early_peak", "gradient", "late_peak", "linear", "log", "log", "one_peak", "sinus", "two_peaks",
+                  "abrupt_ascending", "abrupt_descending", "immediate_ascending", "immediate_descending", "sharp_peak")
 
 #' @title Fit a curve
 #'
@@ -124,6 +137,38 @@ one_peak <- function(input){
     base::sin() %>% scales::rescale(to = c(min(input), max(input)))
 
 }
+
+#' @rdname one_peak
+#' @export
+sharp_peak <- function(input){
+
+  min_input <- base::min(input)
+  max_input <- base::max(input)
+
+  len <- base::length(input)
+
+  len_by_part <- base::floor(len / 3)
+
+  seq1 <- 1:len_by_part
+  seq3 <- (len-len_by_part):len
+
+  # create sequence of length that fits in between seq1 and seq2
+  # to ensure appropriate output length if input cant be divided by 3
+  seq2 <-
+    (base::max(seq1)+1):(base::min(seq3)-1) %>%
+    scales::rescale(to = c(min_input, max_input))
+
+  curve1 <- base::rep(x = min_input, base::length(seq1))
+  curve3 <- base::rep(x = min_input, base::length(seq3))
+
+  curve2 <- one_peak(seq2)
+
+  out <- c(curve1, curve2, curve3)
+
+  return(out)
+
+}
+
 
 #' @rdname one_peak
 #' @export
@@ -154,7 +199,7 @@ sinus <- function(input){
   base::stopifnot(base::is.numeric(input))
 
   base::seq(0, 2 * pi, length.out = base::length(input)) %>%
-  base::sin()  %>% scales::rescale(to = c(min(input), max(input)))
+    base::sin()  %>% scales::rescale(to = c(min(input), max(input)))
 
 }
 
@@ -165,7 +210,7 @@ gradient <- function(input){
   base::stopifnot(base::is.numeric(input))
 
   base::seq(0, 1 * pi, length.out = base::length(input)) %>%
-    base::cos()  %>% scales::rescale(to = c(min(input), max(input)))
+    base::cos() %>% scales::rescale(to = c(min(input), max(input)))
 }
 
 #' @rdname one_peak
@@ -191,7 +236,7 @@ early_peak <- function(input){
 
   res <- c(prel_res, base::rep(base::min(prel_res), half_length))
 
-  base::return(res)
+  return(res)
 
 }
 
@@ -207,8 +252,93 @@ late_peak <- function(input){
 
   res <- c(base::rep(base::min(prel_res), half_length), prel_res)
 
-  base::return(res)
+  return(res)
 
 }
 
+#' @rdname one_peak
+#' @export
+abrupt_ascending <- function(input){
+
+  min_input <- base::min(input)
+  max_input <- base::max(input)
+
+  len <- base::length(input)
+
+  len_by_part <- base::floor(len / 3)
+
+  seq1 <- 1:len_by_part
+  seq3 <- (len-len_by_part):len
+
+  seq2 <- (base::max(seq1)+1):(base::min(seq3)-1)
+
+  curve1 <- base::rep(x = min_input, base::length(seq1))
+  curve3 <- base::rep(x = max_input, base::length(seq3))
+
+  curve2 <-
+    base::seq(min_input, max_input, len = base::length(seq2)) %>%
+    gradient() %>%
+    base::rev()
+
+  out <- c(curve1, curve2, curve3)
+
+  return(out)
+
+}
+
+#' @rdname one_peak
+#' @export
+abrupt_descending <- function(input){
+
+  out <-
+    abrupt_ascending(input = input) %>%
+    base::rev()
+
+  return(out)
+
+}
+
+#' @rdname one_peak
+#' @export
+immediate_ascending <- function(input){
+
+  min_input <- base::min(input)
+  max_input <- base::max(input)
+
+  len <- base::length(input)
+
+  len_by_part <- base::floor(len / 5)
+
+  seq1 <- 1:len_by_part
+  seq2 <- (len_by_part+1):(len_by_part*2)
+
+  seq4 <- (len_by_part*3+1):(len_by_part*4)
+  seq5 <- (len_by_part*4+1):(len_by_part*5)
+
+  seq3 <- (base::max(seq2)+1):(base::min(seq4)-1)
+
+  curve1 <- base::rep(x = min_input, base::length(seq1))
+  curve2 <- base::rep(x = min_input, base::length(seq2))
+  curve4 <- base::rep(x = max_input, base::length(seq4))
+  curve5 <- base::rep(x = max_input, base::length(seq5))
+
+  curve3 <-
+    base::seq(min_input, max_input, len = base::length(seq3)) %>%
+    gradient() %>%
+    base::rev()
+
+  out <- c(curve1, curve2, curve3, curve4, curve5)
+
+  return(out)
+
+}
+
+#' @rdname one_peak
+#' @export
+immediate_descending <- function(input){
+
+  immediate_ascending(input = input) %>%
+    base::rev()
+
+}
 

@@ -2,6 +2,7 @@
 % Please edit documentation in R/math-related-functions.R
 \name{one_peak}
 \alias{one_peak}
+\alias{sharp_peak}
 \alias{two_peaks}
 \alias{linear}
 \alias{sinus}
@@ -9,9 +10,15 @@
 \alias{log}
 \alias{early_peak}
 \alias{late_peak}
+\alias{abrupt_ascending}
+\alias{abrupt_descending}
+\alias{immediate_ascending}
+\alias{immediate_descending}
 \title{Fit a curve}
 \usage{
 one_peak(input)
+
+sharp_peak(input)
 
 two_peaks(input)
 
@@ -26,6 +33,14 @@ log(input)
 early_peak(input)
 
 late_peak(input)
+
+abrupt_ascending(input)
+
+abrupt_descending(input)
+
+immediate_ascending(input)
+
+immediate_descending(input)
 }
 \arguments{
 \item{input}{Numeric vector.}

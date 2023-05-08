@@ -59,9 +59,6 @@ the computational progress will be printed.
 
 (Warning messages will always be printed.)}
 }
-\value{
-
-}
 \description{
 Process a data.frame
 

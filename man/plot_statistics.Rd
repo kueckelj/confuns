@@ -15,7 +15,8 @@ be one of \emph{'violin', 'boxplot', 'density', 'histogram', 'ridgeplot'}.}
 \item{...}{Arguments given to the called function.}
 }
 \value{
-
+Returns a ggplot-object that can be additionally customized according
+to the rules of the ggplot2-framework.
 }
 \description{
 Plot distribution and results of statistical tests

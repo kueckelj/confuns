@@ -4,7 +4,7 @@
 \alias{make_facet_add_on}
 \title{Make facet add on}
 \usage{
-make_facet_add_on(across, ...)
+make_facet_add_on(across, nrow = NULL, ncol = NULL, ...)
 }
 \description{
 Make facet add on

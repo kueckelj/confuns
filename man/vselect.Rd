@@ -3,20 +3,19 @@
 \name{vselect}
 \alias{vselect}
 \alias{lselect}
-\alias{vector_select}
 \title{Select vector with tidyselect functions}
 \usage{
-vselect(input, ...)
+vselect(input, ..., out.fail = base::character(0))
 
-lselect(lst, ...)
-
-vector_select(input, ...)
+lselect(lst, ..., out.fail = base::list())
 }
 \arguments{
 \item{input}{A character vector or a factor.}
 
 \item{...}{Additional selection helpers from the \code{tidyselect} package that match
-variable names according to a given pattern.}
+names according to a given pattern.}
+
+\item{out.fail}{Output if no content remains after tidyselection has been tried.}
 
 \item{lst}{A named list. (Unnamed elements are discarded.)}
 }
@@ -26,6 +25,25 @@ A subsetted version of the input.
 \description{
 A wrapper around the tidyselect functions that allows to use them
 not only on data.frames but on vectors as well.
+}
+\note{
+\code{vselect()} selects by element. \code{lselect()} selects by element name.
+}
+\examples{
+
+ library(datasets)
+ library(confuns)
+
+ vec <- c("apple", "banana", "pineapple", "tomato")
+
+ vselect(vec, contains("apple") | ends_with("o"))
+
+ lst <- list(a = mtcars, ab = iris, ac = cars)
+
+ lselect(lst, starts_with("a") & !ends_with("c"))
+
+
+
 }
 \seealso{
 \code{starts_with()}, \code{ends_with()}, \code{contains()}, \code{matches()}

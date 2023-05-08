@@ -39,7 +39,7 @@ variable that is displayed by color.}
 groups of discrete variables. Run \code{validColorPalettes()} to obtain valid
 input options.}
 
-\item{clrsp, pt.clrsp, pt_clrsp}{Character value. Specfies the color spectrum to be used to represent
+\item{clrsp, pt.clrsp, pt_clrsp}{Character value. Specifies the color spectrum to be used to represent
 continuous values of numeric variables. Run \code{validColorSpectra()} to obtain
 valid input options.}
 
@@ -64,14 +64,14 @@ to display the results.}
 
 \item{display.grid, display_grid}{Logical value. If TRUE, a grid is displayed.}
 
-\item{facet_with}{Character value. Either \emph{'grid'} or \emph{'wrap'}.
+\item{facet.with, facet_with}{Character value. Either \emph{'grid'} or \emph{'wrap'}.
 Specifies the function with which the plot-facetting is created. If \code{across}
 is of length 2 and \code{facet_with} = \emph{'wrap'} \code{ggplot2::facet_wrap()}
 is used. Else \code{ggplot2::facet_grid()} is used.}
 
 \item{force}{Logical value. Must be set to TRUE to allow overwriting.}
 
-\item{grid.alpha, grid.alpha, grid.size, grid_size}{Numeric values. Specify transparency
+\item{grid.alpha, grid_alpha, grid.size, grid_size}{Numeric values. Specify transparency
 and thickness of the lines of the grid.}
 
 \item{grid.color, grid_color}{Character value. Specifies the color of the grid lines.}
@@ -93,11 +93,19 @@ not be bigger than the number of observations of the data set.}
 \item{ks}{Numeric vector. Denotes all options for k-clusters. Values <1 are discarded.
 Is converted into an integer vector.}
 
-\item{labels_angle}{Numeric value. The angle with which labels are displayed.}
+\item{labels.angle, labels_angle}{Numeric value. The angle with which labels are displayed.}
 
-\item{labels_size}{Numeric value. The size with which labels are displayed.}
+\item{labels.size, labels_size}{Numeric value. The size with which labels are displayed.}
 
-\item{labels_hjust, labels_vjust}{Numeric values. Adjust labels positioning.}
+\item{labels.hjust, labels.vjust, labels_hjust, labels_vjust}{Numeric values. Adjust labels positioning.}
+
+\item{line.alpha, line_alpha, line.size, line_size}{Numeric value. Specifies the transparency
+and the thickness of lines in the plot.}
+
+\item{line.color, line_color}{Character value. Specifies the color of lines in the plot.}
+
+\item{line.type, line_type}{Character value. Specifies the type of the lines. Use
+\code{validLineTypes()} to obtain all valid input options.}
 
 \item{method.aggl, method_aggl}{Character value. Specifies the agglomerative method
 of interest. Use \code{validMethodsAggl()} to obtain all valid input options.}

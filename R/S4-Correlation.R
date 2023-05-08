@@ -94,6 +94,33 @@ adjust_corr_mtr <- function(mtr, type = "complete", diagonal = TRUE){
 
 }
 
+#' @title Convert correlation matrix to data.frame
+#'
+#' @description Converts a correlation matrix to a tidy data.frame in
+#' which observations are correlation pairs.
+#'
+#' @param mtr A correlation matrix.
+#' @inherit corr_dummy params
+#' @export
+corr_mtr_to_df <- function(mtr, type = "complete", diagonal = TRUE, distinct = FALSE){
+
+  mtr <- adjust_corr_mtr(mtr = mtr, type = type, diagonal = diagonal)
+
+  corr_df <-
+    reshape2::melt(data = mtr, varnames = c("var1", "var2"), value.name = "corr") %>%
+    tibble::as_tibble()
+
+  if(base::isTRUE(distinct)){
+
+    corr_df <- distinct_corr_df(corr_df)
+
+  }
+
+  return(corr_df)
+
+}
+
+#' @export
 distinct_corr_df <- function(corr_df){
 
   if(base::names(corr_df)[1] != "var1"){
@@ -190,6 +217,9 @@ melt_rcorr <- function(rcorr_obj, type = "complete", diagonal = TRUE, distinct =
 
 }
 
+#' @export
+rcorr_to_df <- melt_rcorr
+
 
 #' @rdname validInput
 #' @export
@@ -223,7 +253,6 @@ validTypesCorrelation <- function(){
 # methods for external generics -------------------------------------------
 
 methods::setOldClass(Classes = "corr_df")
-
 
 #' @rdname computeCorrelation
 setMethod(
@@ -289,6 +318,8 @@ setMethod(
 
         for(across in all_across){
 
+          print(across)
+
           check_one_of(
             input = across,
             against = object@variables_grouping
@@ -298,7 +329,7 @@ setMethod(
 
           df <- getDf(object, numeric = TRUE, grouping = TRUE)
 
-          groups <- base::levels(df[[across]])
+          groups <- unique_safely(df[[across]])
 
           corr_obj@results_across[[across]] <-
             purrr::map(.x = groups, .f = function(group){
@@ -337,8 +368,6 @@ setMethod(
             purrr::set_names(nm = groups)
 
         }
-
-
 
       }
 
@@ -634,9 +663,11 @@ setMethod(
                         diagonal = TRUE,
                         color_low = "darkred",
                         color_high = "steelblue",
+                        color_limits = c(-1,1),
                         shape = "tile",
                         size_by_corr = TRUE,
                         size_max = 15,
+                        size_limits = c(-1, 1),
                         display_values = TRUE,
                         values_alpha = 0.9,
                         values_color = "black",
@@ -660,6 +691,7 @@ setMethod(
       against = validTypesCorrelation()
     )
 
+    # allows option to relevel both axes
     if(base::length(relevel) == 1){
 
       relevel <- c(relevel, relevel)
@@ -683,29 +715,54 @@ setMethod(
         relevel = relevel[1]
       )
 
-    if(base::is.character(variables_subset)){
+    if(!base::is.null(variables_subset)){
 
-      corr_df <-
-        check_across_subset(
-          df = corr_df,
-          across = "var1",
-          across.subset = variables_subset,
-          relevel = relevel[1],
-        ) %>%
-        check_across_subset(
-          df = .,
-          across = "var2",
-          across.subset = variables_subset,
-          relevel = relevel[1]
-        )
+      if(is_list(variables_subset)){
+
+        corr_df <-
+          check_across_subset(
+            df = corr_df,
+            across = "var1",
+            across.subset = variables_subset[["x"]],
+            relevel = relevel[1],
+          ) %>%
+          check_across_subset(
+            df = .,
+            across = "var2",
+            across.subset = variables_subset[["y"]],
+            relevel = relevel[2]
+          )
+
+      } else {
+
+        corr_df <-
+          check_across_subset(
+            df = corr_df,
+            across = "var1",
+            across.subset = variables_subset,
+            relevel = relevel[1],
+          ) %>%
+          check_across_subset(
+            df = .,
+            across = "var2",
+            across.subset = variables_subset,
+            relevel = relevel[2]
+          )
+
+      }
+
+
 
     }
 
     # baseline plot
     p <-
       ggplot2::ggplot(data = corr_df, mapping = ggplot2::aes(x = var1, y = var2)) +
-      ggplot2::scale_color_gradient2(midpoint = 0, low = color_low, high = color_high, na.value = "white") +
-      ggplot2::scale_size_area(max_size = size_max) +
+      ggplot2::scale_color_gradient2(
+        midpoint = 0, low = color_low, high = color_high,
+        na.value = "white", limits = color_limits
+        ) +
+      ggplot2::scale_size_area(max_size = size_max, limits = size_limits) +
       ggplot2::theme_void() +
       ggplot2::theme(
         axis.text = ggplot2::element_text(),
@@ -796,7 +853,9 @@ setMethod(
       geom_add_on <-
         list(
           ggplot2::geom_tile(mapping = ggplot2::aes(x = var1, y = var2, fill = corr)),
-          ggplot2::scale_fill_gradient2(midpoint = 0, low = color_low, high = color_high, na.value = "white")
+          ggplot2::scale_fill_gradient2(
+            midpoint = 0, limits = color_limits,
+            low = color_low, high = color_high, na.value = "white")
         )
 
     }

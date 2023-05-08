@@ -57,12 +57,12 @@ After the filtering step every remaining file directory will be given to a speci
 have to be provided in a named list as input of the \code{read.funs}-argument. Default functions are:
 
 \itemize{
- \item utils::read.csv for files of type \emph{.csv}
- \item readxl::read.xls for files of type \emph{.xls}
- \item readxl::read.xls for files of type \emph{.xlsx}
- \item base::readRDS for files of type \emph{.rds}
- \item base::load for files of type \emph{.RData} - can not be overwritten
- }
+\item utils::read.csv for files of type \emph{.csv}
+\item readxl::read.xls for files of type \emph{.xls}
+\item readxl::read.xls for files of type \emph{.xlsx}
+\item base::readRDS for files of type \emph{.rds}
+\item base::load for files of type \emph{.RData} - can not be overwritten
+}
 
 Remaining file directories ending with abbreviations that are not specified within the default functions or within \code{read.funs}
 will be discarded and not read in. In order to add new functions for new file types or overwrite default functions specify those in

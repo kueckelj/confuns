@@ -238,7 +238,7 @@ setMethod(
     ks <-
       base::as.integer(ks) %>%
       base::unique() %>%
-      purrr::keep(.p = ~ .x > 1)
+      base::sort()
 
     kmeans_obj <- object@methods[["kmeans"]]
 
@@ -299,7 +299,15 @@ setMethod(
     ks <-
       base::as.integer(ks) %>%
       base::unique() %>%
-      purrr::keep(.p = ~ .x > 1)
+      base::sort()
+
+    if(1 %in% ks){
+
+      warning(
+        "Clustering with k = 1 can be computed but including it in downstream plots might cause errors."
+        )
+
+    }
 
     pam_obj <- object@methods[["pam"]]
 
@@ -770,15 +778,46 @@ setMethod(
   signature = "Clustering",
   definition = function(object,
                         k,
-                        method_kmeans = "Hartigan-Wong"){
+                        method_kmeans = "Hartigan-Wong",
+                        stop_if_null = TRUE){
 
     kmeans_obj <- getResults(object = object, method = "kmeans")
 
-    kmeans <- getKmeans(object = kmeans_obj, k = k, method_kmeans = method_kmeans)
+    kmeans <-
+      getKmeans(
+        object = kmeans_obj,
+        k = k,
+        method_kmeans = method_kmeans,
+        stop_if_null = stop_if_null
+        )
 
     return(kmeans)
 
   }
+)
+
+#' @rdname getMedoidsDf
+#' @export
+setMethod(
+  f = "getMedoidsDf",
+  signature = "Clustering",
+  definition = function(object,
+                        ks,
+                        methods_pam = "euclidean",
+                        prefix = "",
+                        format = "wide"){
+
+    getMedoidsDf(
+      object = object@methods[["pam"]],
+      ks = ks,
+      methods_pam = methods_pam,
+      prefix = prefix,
+      format = format
+    )
+
+
+  }
+
 )
 
 #' @rdname getPam
@@ -788,12 +827,13 @@ setMethod(
   signature = "Clustering",
   definition = function(object,
                         k,
-                        method_pam = "euclidean"
+                        method_pam = "euclidean",
+                        stop_if_null = TRUE
                         ){
 
     pam_obj <- getResults(object, method = "pam")
 
-    pam <- getPam(object = pam_obj, k = k, method_pam = method_pam)
+    pam <- getPam(object = pam_obj, k = k, method_pam = method_pam, stop_if_null = stop_if_null)
 
     pam$data <- getScaledMtr(object)
 
@@ -808,11 +848,17 @@ setMethod(
   signature = "Clustering",
   definition = function(object,
                         ks,
-                        method_pam = "euclidean"){
+                        method_pam = "euclidean",
+                        format = "long"){
 
     pam_obj <- getResults(object, method = "pam")
 
-    sil_widths_df <- getSilWidthsDf(object = pam_obj, ks = ks, method_pam = method_pam)
+    sil_widths_df <-
+      getSilWidthsDf(
+        object = pam_obj,
+        ks = ks,
+        method_pam = method_pam,
+        format = format)
 
     return(sil_widths_df)
 
@@ -829,38 +875,75 @@ setMethod(
   definition = function(object,
                         ks,
                         methods_pam = "euclidean",
-                        color = "steelblue",
                         display_cols = TRUE,
-                        display_points = TRUE,
+                        col_alpha = 0.9,
+                        col_color = "black",
+                        col_fill = "steelblue",
                         display_line = TRUE,
+                        line_alpha = 0.9,
+                        line_color = "black",
+                        line_size = 1.5,
+                        display_points = TRUE,
+                        pt_alpha = 0.9,
+                        pt_color = "black",
+                        pt_size = 4.5,
                         ncol = NULL,
                         nrow = NULL){
 
     avg_sil_width_df <-
       getAvgSilWidthsDf(object, ks = ks, methods_pam = methods_pam)
 
+    nth <-
+      (base::max(avg_sil_width_df[["k"]])/10) %>%
+      base::floor()
+
+    xlabs <-
+      base::unique(avg_sil_width_df[["k"]]) %>%
+      reduce_vec(x = ., nth = nth)
+
     p <-
       ggplot2::ggplot(data = avg_sil_width_df, mapping = ggplot2::aes(x = k, y = avg_widths)) +
       ggplot2::facet_wrap(facets = . ~ method_pam, nrow = nrow, ncol = ncol) +
+      ggplot2::scale_x_continuous(breaks = xlabs, labels = xlabs) +
       ggplot2::labs(x = "Centers (k)", y = "Avg. Silhouette Width") +
       theme_statistics()
 
     # add layer
+    # add layer
     if(base::isTRUE(display_cols)){
 
-      p <- p + ggplot2::geom_col(color = "black", fill = color)
+      p <-
+        p +
+        ggplot2::geom_col(
+          fill = col_fill,
+          color = col_color,
+          alpha = col_alpha
+        )
 
     }
 
     if(base::isTRUE(display_points)){
 
-      p <- p + ggplot2::geom_point(color = "black")
+      p <-
+        p +
+        ggplot2::geom_point(
+          alpha = pt_alpha,
+          color = pt_color,
+          size = pt_size
+        )
 
     }
 
     if(base::isTRUE(display_line)){
 
-      p <- p + ggplot2::geom_line(color = "black", mapping = ggplot2::aes(group = 1))
+      p <-
+        p +
+        ggplot2::geom_line(
+          alpha = line_alpha,
+          color = line_color,
+          size = line_size,
+          mapping = ggplot2::aes(group = 1)
+        )
 
     }
 
@@ -990,12 +1073,12 @@ setMethod(
       }
 
       # basic parameters
-      ybreaks   <- base::pretty(segment_df$y, n = 5)
-      ymin      <- base::min(segment_df$y)
+      ybreaks <- base::pretty(segment_df$y, n = 5)
+      ymin <- base::min(segment_df$y)
 
       if("clust" %in% base::colnames(segment_df)){
 
-        cluster_levels <- segment_df$clust %>% base::levels()
+        cluster_levels <- segment_df$clust %>% unique_safely()
 
         forced_adjustment <- "black"
         base::names(forced_adjustment) <- cluster_levels[1]
@@ -1091,8 +1174,17 @@ setMethod(
                         ks = NULL,
                         color = "steelblue",
                         display_cols = TRUE,
+                        col_alpha = 0.9,
+                        col_color = "black",
+                        col_fill = "steelblue",
                         display_line = TRUE,
-                        display_points = TRUE){
+                        line_alpha = 0.9,
+                        line_color = "black",
+                        line_size = 1.5,
+                        display_points = TRUE,
+                        pt_alpha = 0.9,
+                        pt_color = "black",
+                        pt_size = 4.5){
 
     check_one_of(
       input = methods_kmeans,
@@ -1129,9 +1221,7 @@ setMethod(
                             })
 
         }
-      ) %>%
-      dplyr::group_by(method) %>%
-      dplyr::mutate(k = base::as.factor(k))
+      )
 
     if(base::is.numeric(ks)){
 
@@ -1139,9 +1229,18 @@ setMethod(
 
     }
 
+    nth <-
+      (base::max(res_df[["k"]])/10) %>%
+      base::floor()
+
+    xlabs <-
+      base::unique(res_df[["k"]]) %>%
+      reduce_vec(x = ., nth = nth)
+
     # create basic plot
     p <-
       ggplot2::ggplot(data = res_df, mapping = ggplot2::aes(x = k, y = tot_withinss)) +
+      ggplot2::scale_x_continuous(breaks = xlabs, labels = xlabs) +
       ggplot2::facet_wrap(facets = ~ method) +
       ggplot2::labs(y = NULL, x = "Centers (k)") +
       theme_statistics()
@@ -1150,19 +1249,38 @@ setMethod(
     # add layer
     if(base::isTRUE(display_cols)){
 
-      p <- p + ggplot2::geom_col(color = "black", fill = color)
+      p <-
+        p +
+        ggplot2::geom_col(
+          fill = col_fill,
+          color = col_color,
+          alpha = col_alpha
+          )
 
     }
 
     if(base::isTRUE(display_points)){
 
-      p <- p + ggplot2::geom_point(color = "black")
+      p <-
+        p +
+        ggplot2::geom_point(
+          alpha = pt_alpha,
+          color = pt_color,
+          size = pt_size
+          )
 
     }
 
     if(base::isTRUE(display_line)){
 
-      p <- p + ggplot2::geom_line(color = "black", mapping = ggplot2::aes(group = 1))
+      p <-
+        p +
+        ggplot2::geom_line(
+          alpha = line_alpha,
+          color = line_color,
+          size = line_size,
+          mapping = ggplot2::aes(group = 1)
+          )
 
     }
 
@@ -1193,20 +1311,18 @@ setMethod(
       ggplot2::geom_hline(yintercept = 0) +
       ggplot2::facet_wrap(facets = ~ cluster_name, ncol = ncol, nrow = nrow) +
       scale_color_add_on(aes = "fill",  variable = "discrete", clrp = clrp) +
-      scale_color_add_on(aes = "color", variable = "discrete", clrp = clrp, guide = FALSE) +
+      scale_color_add_on(aes = "color", variable = "discrete", clrp = clrp, guide = "none") +
       ggplot2::theme_classic() +
       ggplot2::theme(
         axis.line.x = ggplot2::element_blank(),
         axis.text.x = ggplot2::element_blank(),
         axis.ticks.x = ggplot2::element_blank(),
-        axis.title.x = ggplot2::element_blank(),
         panel.grid.major.y = ggplot2::element_line(color = "lightgrey"),
         legend.title = ggplot2::element_text(size = 12.5),
         plot.title = ggplot2::element_text(face = "bold", size = 16.5),
         plot.subtitle = ggplot2::element_text(size = 10)
       ) +
-      ggplot2::labs(x = NULL, y = NULL, color = NULL, fill = "Cluster")
-
+      ggplot2::labs(x = "Clustered Observations", y = "Silhouettte Width", color = NULL, fill = "Cluster")
 
   }
 )

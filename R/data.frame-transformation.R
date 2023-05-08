@@ -13,7 +13,7 @@ transformation_fns <-
 #' @export
 transform_df <- function(df, transform.with, sep = "_"){
 
-  if(is_list(transform.with) & !purrr::is_empty(transform.with)){
+  if(purrr::is_list(transform.with) & !purrr::is_empty(transform.with)){
 
     names_tw <- base::names(transform.with)
 
@@ -45,6 +45,17 @@ transform_df <- function(df, transform.with, sep = "_"){
             )
 
         }
+
+      } else if(base::is.function(transform_info)){
+
+        df <-
+          dplyr::mutate(
+            .data = df,
+            dplyr::across(
+              .cols = {{var_to_transform}},
+              .fns = transform_info
+            )
+          )
 
       } else if(is_list(transform_info)){
 

@@ -20,5 +20,5 @@ A merged list.
 \description{
 Overwrites elements of \code{list.1} with those from \code{list.2}
 that share the same name. Then merges all residual \strong{named} elements of
- \code{list.2} into \code{list.1}. Unnamed elements of \code{list.2} will be dropped.
+\code{list.2} into \code{list.1}. Unnamed elements of \code{list.2} will be dropped.
 }

@@ -35,6 +35,70 @@ adapt_reference <- function(input, sg, pl = NULL, zero = ""){
 
 }
 
+# helper within plot_dotplot_2d
+#' @export
+arrange_axis <- function(df, grouping.var, arrange.var, arrange.by, reverse.within, reverse.all){
+
+  groups <- base::levels(df[[grouping.var]])
+
+  order_labels <- base::character()
+
+  for(g in groups){
+
+    labels_df <-
+      dplyr::filter(df, !!rlang::sym(grouping.var) == {{g}})
+
+    labels_df[[grouping.var]] <- base::droplevels(x = labels_df[[grouping.var]])
+
+    if(base::is.character(arrange.by)){
+
+      if(base::isTRUE(reverse.within)){
+
+        labels_df <-
+          dplyr::arrange(labels_df, dplyr::desc(!!rlang::sym(arrange.by)))
+
+
+      } else {
+
+        labels_df <-
+          dplyr::arrange(labels_df, !!rlang::sym(arrange.by))
+
+      }
+
+      labels <-
+        dplyr::pull(labels_df, {{arrange.var}}) %>%
+        base::as.character()
+
+    } else {
+
+      labels <-
+        dplyr::pull(labels_df, {{arrange.var}}) %>%
+        base::levels()
+
+    }
+
+
+    # prevent duplicates
+    labels <- labels[!labels %in% order_labels]
+
+    order_labels <- c(order_labels, labels)
+
+  }
+
+  order_labels <- base::unique(order_labels)
+
+  if(base::isTRUE(reverse.all)){
+
+    order_labels <- base::rev(order_labels)
+
+  }
+
+  df[[arrange.var]] <- base::factor(x = df[[arrange.var]], levels = order_labels)
+
+  return(df)
+
+}
+
 #' @title Assign objects into the global environment
 #'
 #' @param assign Logical.
@@ -57,25 +121,6 @@ assign_obj <- function(assign, object, name){
 }
 
 
-#' @export
-info_deprecated <- function(x, alternative, test.val = NA){
-
-  ref <- base::substitute(expr = x)
-
-  if(!base::identical(x, test.val)){
-
-    msg <-
-      glue::glue(
-        "Argument '{ref}' is deprecated. Please use argument '{alternative}' instead."
-      )
-
-    give_feedback(msg = msg, fdb.fn = "warning", with.time = FALSE)
-
-  }
-
-  invisible(TRUE)
-
-}
 
 
 #' @title Return function
@@ -105,6 +150,7 @@ error_handler <- function(fun){
   }
 
 }
+
 
 
 #' @title Glue a human readable list report
@@ -160,6 +206,28 @@ glue_list_report <- function(lst, prefix = "", separator = " = ", combine_via = 
 
 }
 
+
+#' @export
+info_deprecated <- function(x, alternative, test.val = NA){
+
+  ref <- base::substitute(expr = x)
+
+  if(!base::identical(x, test.val)){
+
+    msg <-
+      glue::glue(
+        "Argument '{ref}' is deprecated. Please use argument '{alternative}' instead."
+      )
+
+    give_feedback(msg = msg, fdb.fn = "warning", with.time = FALSE)
+
+  }
+
+  invisible(TRUE)
+
+}
+
+
 #' @title Pull var safely
 #' @export
 pull_var <- function(df, var){
@@ -178,6 +246,28 @@ pull_var <- function(df, var){
 
 }
 
+#' @export
+reduce_vec <- function(x, nth, start.with = 1){
+
+  if(nth == 1){
+
+    out <- x
+
+  } else {
+
+    xshifted <- x[(start.with + 1):base::length(x)]
+
+    xseq <- base::seq_along(xshifted)
+
+    prel_out <- xshifted[xseq %% nth == 0]
+
+    out <- c(x[start.with], prel_out)
+
+  }
+
+  return(out)
+
+}
 
 #' @title Wrapper around unfactor()
 #'
@@ -205,6 +295,25 @@ unfactor <- function(input, ...){
 }
 
 
+#' Wrapper around unique and levels
+#'
+#' @export
+#'
+unique_safely <- function(x){
+
+  if(base::is.factor(x)){
+
+    out <- base::levels(x)
+
+  } else {
+
+    out <- base::unique(x)
+
+  }
+
+  return(out)
+
+}
 
 # v -----------------------------------------------------------------------
 
@@ -222,5 +331,16 @@ validInput <- function(){
   NULL
 
 }
+
+#' @rdname validInput
+#' @export
+#'
+validCurves <- function(){ return(valid_curves) }
+
+
+#' @rdname validInput
+#' @export
+validLineTypes <- function(){ return(valid_line_types) }
+
 
 
