@@ -1,7 +1,7 @@
 Package: confuns
 Type: Package
 Title: Convenience Functions
-Version: 1.0.0
+Version: 1.1.0
 Author: as.person("Jan Kueckelhaus <jan.kueckelhaus@uniklinik-freiburg.de> [aut, cre]")
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: A collection of wrapper- and convenience functions for data science.

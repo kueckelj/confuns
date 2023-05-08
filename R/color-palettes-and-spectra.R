@@ -336,7 +336,7 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
 
       clr_vector <- clr_vector[!base::names(clr_vector) %in% clrp_adjust_names]
 
-      clr_vector <- c(clr_vector, clrp_adjust)
+      clr_vector <- c(clr_vector, clrp_adjust)[names] # maintain order
 
     }
 
