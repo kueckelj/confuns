@@ -224,3 +224,4 @@ to the rules of the ggplot2-framework.
 \description{
 Argument dummy
 }
+\keyword{internal}

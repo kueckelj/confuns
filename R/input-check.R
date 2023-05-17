@@ -954,7 +954,7 @@ check_none_of <- function(input,
 
   if(base::is.null(ref.input)){
 
-    ref.input <- "Argument input"
+    ref.input <- "argument input"
 
   }
 
@@ -977,16 +977,6 @@ check_none_of <- function(input,
       if(!base::is.null(overwrite)){
 
         ref_overwrite <- overwrite_hint
-
-      } else {
-
-        ref_overwrite <- ""
-
-      }
-
-      if(!base::is.null(force)){
-
-        ref_overwrite <- " Set argument 'force' to TRUE in order to force computation."
 
       } else {
 

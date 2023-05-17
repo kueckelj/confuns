@@ -80,7 +80,7 @@ color_shapes <- 0:20
 
 # Predefined feedback strings ---------------------------------------------
 
-overwrite_hint <- " Set argument 'overwrite' to TRUE in order to allow overwritting."
+overwrite_hint <- " Set 'overwrite' to TRUE in order to allow overwritting."
 
 
 

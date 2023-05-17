@@ -1,0 +1,14 @@
+template:
+  params:
+    bootswatch: flatly
+
+home:
+ links:
+ - text: Visit us
+   href: https://themilolab.com/
+
+navbar:
+   structure:
+      left: [home, reference]
+
+reference:

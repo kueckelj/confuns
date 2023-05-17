@@ -293,6 +293,8 @@ across_vis2 <- function(across, across_subset){}
 #' @inherit normalize params
 #' @inherit verbose params
 #'
+#' @keywords internal
+#'
 #' @export
 
 argument_dummy <- function(df, normalize, verbose){}
