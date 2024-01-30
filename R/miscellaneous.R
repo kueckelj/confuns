@@ -37,7 +37,12 @@ adapt_reference <- function(input, sg, pl = NULL, zero = ""){
 
 # helper within plot_dotplot_2d
 #' @export
-arrange_axis <- function(df, grouping.var, arrange.var, arrange.by, reverse.within, reverse.all){
+arrange_axis <- function(df,
+                         grouping.var,
+                         arrange.var,
+                         arrange.by,
+                         reverse.within,
+                         reverse.all){
 
   groups <- base::levels(df[[grouping.var]])
 

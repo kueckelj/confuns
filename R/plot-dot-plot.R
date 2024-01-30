@@ -176,7 +176,7 @@ plot_dot_plot_2d <- function(df,
       sep = "."
     )
 
-  if(base::is.character(arrange.by) | base::isTRUE(reverse.all)){
+  if((base::is.character(arrange.by) | base::isTRUE(reverse.all)) & base::isTRUE(arrange.y)){
 
     df <-
       arrange_axis(

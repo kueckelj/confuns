@@ -75,27 +75,21 @@ give_feedback <- function(fdb.fn = "message", msg = NULL, in.shiny = FALSE, with
 
   }
 
-  if(base::isTRUE(in.shiny) && !base::is.null(msg)){
+  if((base::isTRUE(in.shiny) | shiny::isRunning()) && !base::is.null(msg)){
 
     if(fdb.fn == "stop"){
 
-      type <- "error"
+      shiny_fdb(in.shiny = TRUE, ui = msg, type = "error", ...)
+
+      shiny::req(FALSE)
 
     } else if(fdb.fn == "warning") {
 
-      type <- "warning"
+      shiny_fdb(in.shiny = TRUE, ui = msg, type = "warning", ...)
 
-    } else if(fdb.fn == "message"){
+    } else if(fdb.fn == "message" & base::isTRUE(verbose)){
 
-      type <- fdb.fn
-
-    }
-
-    shiny_fdb(in.shiny = TRUE, ui = msg, type = type, ...)
-
-    if(fdb.fn == "stop"){
-
-      shiny::req(FALSE)
+      shiny_fdb(in.shiny = TRUE, ui = msg, type = "message", ...)
 
     }
 
@@ -149,6 +143,59 @@ extract_feedback <- function(fdb.fn){
 
 
 # is - functions ----------------------------------------------------------
+
+#' Check if elements in a character vector represent valid colors.
+#'
+#' This function checks if each element in a character vector represents a valid
+#' color. It performs two checks:
+#' - It tests whether each element in the vector matches the pattern of a valid
+#'   hexadecimal color code (e.g., "#RRGGBB").
+#' - It tests whether each element in the vector is one of the recognized color
+#'   names in R.
+#'
+#' @param vector A character vector containing color names or hexadecimal color
+#'               codes.
+#'
+#' @return A logical vector of the same length as 'vector', where each element
+#'         is 'TRUE' if the corresponding element in 'vector' represents a valid
+#'         color, and 'FALSE' otherwise.
+#'
+#' @examples
+#' is_color(c("#FF0000", "blue", "invalid", "green"))
+#'
+#' @export
+
+is_color <- function(vector) {
+
+  purrr::map_lgl(
+    .x = vector,
+    .f = function(color){
+
+      tryCatch({
+
+        # Attempt to convert the color to RGB
+        col2rgb(color)
+
+        # If successful, return TRUE
+        TRUE
+
+      }, warning = function(w) {
+
+        # If a warning is thrown, return FALSE
+        FALSE
+
+      }, error = function(e){
+
+        # IF an error is thrown, return FALSE
+        FALSE
+
+      })
+
+    }
+  )
+}
+
+
 
 #' @title List input check
 #'
@@ -1027,6 +1074,12 @@ check_one_of <- function(input,
 
   base::is.vector(input)
   base::is.vector(against)
+
+  if(purrr::is_empty(against)){
+
+    stop("`against` is empty.")
+
+  }
 
   if(base::is.null(ref.input)){
 

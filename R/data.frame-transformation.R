@@ -13,6 +13,7 @@ transformation_fns <-
 #' @export
 transform_df <- function(df, transform.with, sep = "_"){
 
+  # apply
   if(purrr::is_list(transform.with) & !purrr::is_empty(transform.with)){
 
     names_tw <- base::names(transform.with)

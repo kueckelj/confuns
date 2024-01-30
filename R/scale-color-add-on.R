@@ -141,9 +141,27 @@ scale_color_add_on <- function(aes = "color",
 
       }
 
+    } else if(base::all(is_color(clrsp))) {
+
+      if(base::length(clrsp) == 1){
+
+        add_on <- ggplot2::scale_color_gradient(low = ggplot2::alpha("white", 0), high = clrsp, ...)
+
+      } else if(base::length(clrsp) == 2){
+
+        add_on <- ggplot2::scale_color_gradient(low = clrsp[1], high = clrsp[2], ...)
+
+      } else {
+
+        warning("If `clrsp` contains color names it must be of length 1 or 2.")
+
+      }
+
     } else {
 
-      stop("Invalid input for argument 'clrsp'.")
+      warning("Invalid input for `clrsp`.")
+
+      add_on <- list()
 
     }
 
