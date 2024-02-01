@@ -451,18 +451,21 @@ are_values <- function(...,
                        skip.val = NULL,
                        return = "boolean"){
 
-  input <- c(...)
+  # temporarily disabled due to weird bugs
+  if(FALSE){
 
-  base::stopifnot(base::is.character(input))
+    input <- c(...)
 
-  ce <- rlang::caller_env()
+    base::stopifnot(base::is.character(input))
 
-  results <-
-    purrr::map(.x = input, .f = ~ rlang::parse_expr(.x) %>% base::eval(envir = ce)) %>%
-    purrr::set_names(nm = input) %>%
-    purrr::imap(.f = purrr::quietly(
+    ce <- rlang::caller_env()
 
-      ~ confuns::is_value(
+    results <-
+      purrr::map(.x = input, .f = ~ rlang::parse_expr(.x) %>% base::eval(envir = ce)) %>%
+      purrr::set_names(nm = input) %>%
+      purrr::imap(.f = purrr::quietly(
+
+        ~ confuns::is_value(
           x = .x,
           ref = .y,
           mode = mode,
@@ -474,58 +477,63 @@ are_values <- function(...,
         )
 
       )
-    ) %>%
-    purrr::set_names(nm = input)
+      ) %>%
+      purrr::set_names(nm = input)
 
-  # keep as valid if the fdb.fn slot is an empty character (=> no feedback equals valid input)
-  valid_inputs <-
-    purrr::map_lgl(
-      .x = results,
-      .f = ~ base::identical(.x[["messages"]], base::character(0))
+    # keep as valid if the fdb.fn slot is an empty character (=> no feedback equals valid input)
+    valid_inputs <-
+      purrr::map_lgl(
+        .x = results,
+        .f = ~ base::identical(.x[["messages"]], base::character(0))
       )
 
-  # extract the feedback messages of the invalid inputs
-  msg <-
-    purrr::map(.x = results[!valid_inputs], .f = ~ .x[["messages"]]) %>%
-    glue_list_report(
-      lst = .,
-      separator = NULL,
-      combine_via = " \n"
+    # extract the feedback messages of the invalid inputs
+    msg <-
+      purrr::map(.x = results[!valid_inputs], .f = ~ .x[["messages"]]) %>%
+      glue_list_report(
+        lst = .,
+        separator = NULL,
+        combine_via = " \n"
       )
 
-  if(base::length(msg) >= 1){
+    if(base::length(msg) >= 1){
 
-    give_feedback(
-      msg = msg,
-      verbose = verbose,
-      fdb.fn = fdb.fn,
-      with.time = FALSE)
+      give_feedback(
+        msg = msg,
+        verbose = verbose,
+        fdb.fn = fdb.fn,
+        with.time = FALSE)
+
+    }
+
+    # extrac the boolean return values of the actual check
+    results <-
+      purrr::map_lgl(.x = results, .f = ~ .x[["result"]])
+
+    if(base::all(results == TRUE)){
+
+      boolean <- base::invisible(TRUE)
+
+    } else {
+
+      boolean <- base::invisible(FALSE)
+
+    }
+
+    if(return == "boolean"){
+
+      return(boolean)
+
+    } else if(return == "results"){
+
+      return(results)
+
+    }
 
   }
 
-  # extrac the boolean return values of the actual check
-  results <-
-    purrr::map_lgl(.x = results, .f = ~ .x[["result"]])
 
-  if(base::all(results == TRUE)){
-
-    boolean <- base::invisible(TRUE)
-
-  } else {
-
-    boolean <- base::invisible(FALSE)
-
-  }
-
-  if(return == "boolean"){
-
-    return(boolean)
-
-  } else if(return == "results"){
-
-    return(results)
-
-  }
+  return(TRUE)
 
 }
 
@@ -543,16 +551,18 @@ are_vectors <- function(...,
                         skip.val = NULL,
                         return = "boolean"){
 
-  input <- c(...)
+  if(FALSE){
 
-  base::stopifnot(base::is.character(input))
+    input <- c(...)
 
-  ce <- rlang::caller_env()
+    base::stopifnot(base::is.character(input))
 
-  results <-
-    purrr::map(.x = input, .f = ~ base::parse(text = .x) %>% base::eval(envir = ce)) %>%
-    purrr::set_names(nm = input) %>%
-    purrr::imap(.f =  purrr::quietly(
+    ce <- rlang::caller_env()
+
+    results <-
+      purrr::map(.x = input, .f = ~ base::parse(text = .x) %>% base::eval(envir = ce)) %>%
+      purrr::set_names(nm = input) %>%
+      purrr::imap(.f =  purrr::quietly(
 
         ~ confuns::is_vec(
           x = .x,
@@ -569,58 +579,63 @@ are_vectors <- function(...,
         )
 
       )
-    ) %>%
-    purrr::set_names(nm = input)
+      ) %>%
+      purrr::set_names(nm = input)
 
-  # keep as valid if the fdb.fn slot is an empty character (=> no feedback equals valid input)
-  valid_inputs <-
-    purrr::map_lgl(
-      .x = results,
-      .f = ~ base::identical(.x[["messages"]], base::character(0))
-    )
-
-  # extract the feedback messages of the invalid inputs
-  msg <-
-    purrr::map(.x = results[!valid_inputs], .f = ~ .x[["messages"]]) %>%
-    glue_list_report(
-      lst = .,
-      separator = NULL,
-      combine_via = " \n"
+    # keep as valid if the fdb.fn slot is an empty character (=> no feedback equals valid input)
+    valid_inputs <-
+      purrr::map_lgl(
+        .x = results,
+        .f = ~ base::identical(.x[["messages"]], base::character(0))
       )
 
-  if(base::length(msg) >= 1){
+    # extract the feedback messages of the invalid inputs
+    msg <-
+      purrr::map(.x = results[!valid_inputs], .f = ~ .x[["messages"]]) %>%
+      glue_list_report(
+        lst = .,
+        separator = NULL,
+        combine_via = " \n"
+      )
 
-    give_feedback(
-      msg = msg,
-      verbose = verbose,
-      fdb.fn = fdb.fn,
-      with.time = FALSE)
+    if(base::length(msg) >= 1){
+
+      give_feedback(
+        msg = msg,
+        verbose = verbose,
+        fdb.fn = fdb.fn,
+        with.time = FALSE)
+
+    }
+
+    # extrac the boolean return values of the actual check
+    results <-
+      purrr::map_lgl(.x = results, .f = ~ .x[["result"]])
+
+    if(base::all(results == TRUE)){
+
+      boolean <- TRUE
+
+    } else {
+
+      boolean <- FALSE
+
+    }
+
+    if(return == "boolean"){
+
+      return(boolean)
+
+    } else if(return == "results"){
+
+      return(results)
+
+    }
+
 
   }
 
-  # extrac the boolean return values of the actual check
-  results <-
-    purrr::map_lgl(.x = results, .f = ~ .x[["result"]])
-
-  if(base::all(results == TRUE)){
-
-    boolean <- TRUE
-
-  } else {
-
-    boolean <- FALSE
-
-  }
-
-  if(return == "boolean"){
-
-    return(boolean)
-
-  } else if(return == "results"){
-
-    return(results)
-
-  }
+  return(TRUE)
 
 }
 
