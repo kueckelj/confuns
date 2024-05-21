@@ -214,9 +214,13 @@ clrp_jama <- c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", 
 #' @export
 clrp_uc <- c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF")
 
-#' @title Simon Frerichs - color palette
+#' @title Simon Frerich - color palette
 #' @export
 clrp_sifre <- c("#F44336","#FF8AC4","#9C27B0","#673AB7","#3F51B5","#03A9f4","#89CFF0","#009688", "#228B22BF", "#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800")
+
+#' @title Elena Grabis - color palette
+#' @export
+clrp_egr <- c("#FF1744", "#E57373", "#BA68C8", "#9575CD", "#7986CB", "#64B5F6", "#4FC3F7", "#EF5350", "#EC407A", "#AB47BC", "#5C6BC0")
 
 n_colors <-
   list(
@@ -229,6 +233,7 @@ n_colors <-
     jama = length(clrp_jama),
     uc = length(clrp_uc),
     sfire = length(clrp_sifre),
+    egr = length(clrp_egr),
     Accent = 8,
     Dark2 = 8,
     Greys = 9,
