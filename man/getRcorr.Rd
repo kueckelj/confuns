@@ -49,15 +49,6 @@ as simple lists.}
 \item{stop_if_null}{Logical value. If TRUE and the function does not find the object to
 extract an informative error is raised. Else the empty value - usually NULL - is returned.}
 }
-\value{
-\code{rcorr} returns a list with elements \code{r}, the
-matrix of correlations, \code{n} the
-matrix of number of observations used in analyzing each pair of variables,
-and \code{P}, the asymptotic P-values.
-Pairs with fewer than 2 non-missing values have the r values set to NA.
-The diagonals of \code{n} are the number of non-NAs for the single variable
-corresponding to that row and column.
-}
 \description{
 Extracts correlation results in form of class \code{rcorr}.
 }

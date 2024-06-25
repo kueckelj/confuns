@@ -17,7 +17,7 @@ each observation uniquely.}
 
 \item{\code{method}}{character. The name of the method. Is additionally encoded
 in the name of the S4-class that inherits class \code{ClusteringMethod} using
-the syntax \emph{Clustering<method>}.}
+the syntax \emph{Clustering\if{html}{\out{<method>}}}.}
 
 \item{\code{results}}{list. A list of results. Varies from cluster method to
 cluster method.}

@@ -22,8 +22,8 @@ compute_clustering_kmeans(
 }
 \value{
 A list named according to all specified kmeans methods.
-Each of these method-slots contains a list named according to the syntax \emph{k_<k>}
-where \emph{<k>} is the respective integer of \code{centers}. The content
+Each of these method-slots contains a list named according to the syntax \emph{k_\if{html}{\out{<k>}}}
+where \emph{\if{html}{\out{<k>}}} is the respective integer of \code{centers}. The content
 is the output of \code{stats::kmeans()}.
 }
 \description{
