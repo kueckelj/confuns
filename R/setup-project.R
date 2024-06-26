@@ -38,14 +38,16 @@
 #'
 #' @examples
 #' # Set up a project named "MyProject" with a Python virtual environment
-#' set_up_project("MyProject", python = TRUE, python_version = "3.8", python_pkgs = c("scipy", "seaborn"))
+#' proj_setup("MyProject", python = TRUE, python_version = "3.8", python_pkgs = c("scipy", "seaborn"))
 #'
 #' # Set up a project without a Python environment
-#' set_up_project("MyProject", python = FALSE)
+#' proj_setup("MyProject", python = FALSE)
+#'
+#' @importFrom magrittr %>%
 #'
 #' @export
 #'
-set_up_project <- function(project_name, python = TRUE, python_version = NULL, python_pkgs = NULL){
+proj_setup <- function(project_name, python = TRUE, python_version = NULL, python_pkgs = NULL){
 
   wd <- getwd()
 
@@ -86,5 +88,136 @@ set_up_project <- function(project_name, python = TRUE, python_version = NULL, p
   message("Project set up.")
 }
 
+#' Install Python Packages into a Virtual Environment
+#'
+#' This function installs the specified Python packages into the given virtual environment.
+#' It attempts to install each package and catches any errors during the installation process.
+#'
+#' @param pkgs A vector of package names to install.
+#' @param venv The name of the virtual environment where packages will be installed.
+#'             Default is 'venv_main'.
+#' @param ... Additional arguments passed to `virtualenv_install`.
+#'
+#' @return NULL This function attempts to install packages and handles errors silently,
+#'         returning no value.
+#'
+#' @examples
+#' proj_py_install_pkgs(c("numpy", "pandas"), "venv_main")
+#'
+#' @export
+#' @importFrom reticulate virtualenv_install
+#' @importFrom base file.path
+proj_py_install_pkgs <- function(pkgs, venv = "venv_main", ...){
+  for(pkg in pkgs){
+    tryCatch({
+      reticulate::virtualenv_install(
+        envname = file.path(getwd(), "py_venv", venv),
+        packages = pkg,
+        ...
+      )
+    })
+  }
+}
+
+
+
+
+
+#' Check if a Python Package is Installed
+#'
+#' Checks if a specified package, and optionally a specific version, is installed in the active
+#' Python environment. The function retrieves a list of installed packages and searches for the specified package.
+#'
+#' @param pkg The name of the package to check.
+#' @param version Optional specific version to check for. If provided, checks for the package
+#'                and the specific version.
+#'
+#' @return Logical indicating whether the specified package (and version) is installed.
+#'
+#' @examples
+#' proj_py_pkg_installed("numpy")
+#' proj_py_pkg_installed("pandas", "1.1.5")
+#'
+#' @export
+#' @importFrom dplyr filter
+proj_py_pkg_installed <- function(pkg, version = NULL){
+
+  pp <- proj_py_pkgs()
+
+  if(is.character(version)){
+
+    pp <- dplyr::filter(pp, version %in% {{version}})
+
+  }
+
+  pkg %in% pp$pkg
+
+}
+
+
+#' List Installed Python Packages
+#'
+#' Retrieves a list of installed Python packages in the active virtual environment using `pip list`.
+#' The output is returned as a tibble with columns for package names and versions.
+#'
+#' @return A tibble with two columns: 'pkg' for package names and 'version' for package versions.
+#'
+#' @examples
+#' proj_py_pkgs()
+#'
+#' @export
+#' @importFrom reticulate py_run_string
+#' @importFrom tibble tibble
+#' @importFrom dplyr transmute
+#' @importFrom stringr str_replace_all str_extract
+proj_py_pkgs <- function(){
+  python_code <- "import subprocess
+result = subprocess.run(['pip', 'list'], capture_output=True, text=True).stdout
+result"
+
+  prel_out <-
+    py_run_string(python_code)$result %>%
+    stringr::str_replace_all("\\n", "|") %>%
+    strsplit(split = "\\|")
+
+  prel_out <- prel_out[[1]][-c(1:4)]
+
+  out <-
+    tibble::tibble(x = prel_out) %>%
+    dplyr::transmute(
+      pkg = stringr::str_extract(x, pattern = "^[A-Za-z0-9]*"),
+      version = stringr::str_extract(x, pattern = "(\\d|\\.)*$")
+    )
+
+  return(out)
+}
+
+
+#' Use a Specific Python Virtual Environment
+#'
+#' This function sets the specified Python virtual environment as active for the current R session.
+#' It checks if the virtual environment exists at the specified path; if not, it throws an error.
+#'
+#' @param venv The name of the virtual environment to activate. Default is 'venv_main'.
+#'
+#' @return NULL This function is used for its side effect of activating a Python virtual
+#'         environment and does not return any value.
+#'
+#' @examples
+#' proj_py_use_venv("venv_main")
+#'
+#' @export
+#' @importFrom reticulate use_virtualenv
+#' @importFrom glue glue
+#' @importFrom base dir.exists
+proj_py_use_venv <- function(venv = "venv_main"){
+  venv_path <- file.path(getwd(), "py_venv", venv)
+
+  if(!dir.exists(venv_path)){
+    stop(glue::glue("Virtual environment {venv} not found."))
+  }
+
+  reticulate::use_virtualenv(venv_path, required = TRUE)
+}
 
 
