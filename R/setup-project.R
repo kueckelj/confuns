@@ -105,8 +105,6 @@ proj_setup <- function(project_name, python = TRUE, python_version = NULL, pytho
 #' proj_py_install_pkgs(c("numpy", "pandas"), "venv_main")
 #'
 #' @export
-#' @importFrom reticulate virtualenv_install
-#' @importFrom base file.path
 proj_py_install_pkgs <- function(pkgs, venv = "venv_main", ...){
   for(pkg in pkgs){
     tryCatch({
@@ -139,7 +137,6 @@ proj_py_install_pkgs <- function(pkgs, venv = "venv_main", ...){
 #' proj_py_pkg_installed("pandas", "1.1.5")
 #'
 #' @export
-#' @importFrom dplyr filter
 proj_py_pkg_installed <- function(pkg, version = NULL){
 
   pp <- proj_py_pkgs()
@@ -166,10 +163,6 @@ proj_py_pkg_installed <- function(pkg, version = NULL){
 #' proj_py_pkgs()
 #'
 #' @export
-#' @importFrom reticulate py_run_string
-#' @importFrom tibble tibble
-#' @importFrom dplyr transmute
-#' @importFrom stringr str_replace_all str_extract
 proj_py_pkgs <- function(){
   python_code <- "import subprocess
 result = subprocess.run(['pip', 'list'], capture_output=True, text=True).stdout
@@ -207,9 +200,6 @@ result"
 #' proj_py_use_venv("venv_main")
 #'
 #' @export
-#' @importFrom reticulate use_virtualenv
-#' @importFrom glue glue
-#' @importFrom base dir.exists
 proj_py_use_venv <- function(venv = "venv_main"){
   venv_path <- file.path(getwd(), "py_venv", venv)
 
