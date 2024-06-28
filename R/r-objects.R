@@ -38,6 +38,7 @@ pretty_colorpalettes_list <-
   list(
     Journals = pretty_journals_clrp_vector,
     Milo = c("milo", "sifre", "egr"),
+    Matplotlib = c("tab10", "tab20", "tab20b", "tab20c"),
     ggplot2 = pretty_ggplot2_clrp_vector,
     `Viridis Options` = viridis_options,
     `RColor_brewer Options` = RColorBrewer_options

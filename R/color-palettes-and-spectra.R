@@ -222,18 +222,44 @@ clrp_sifre <- c("#F44336","#FF8AC4","#9C27B0","#673AB7","#3F51B5","#03A9f4","#89
 #' @export
 clrp_egr <- c("#FF1744", "#E57373", "#BA68C8", "#9575CD", "#7986CB", "#64B5F6", "#4FC3F7", "#EF5350", "#EC407A", "#AB47BC", "#5C6BC0")
 
+#' @title Manually defined palettes
+#' @export
+color_palettes_md <- list(
+
+  milo = c("#C4432A", "#3A389C", "#478C3D", "#FFD700", "steelblue", "#FFA500", "#800000FF", "#64DB74",  "#8B2252", "#56D9ED", "#C934BD",
+                 "#C9B972", "#4F1211", "#CD4F39", "#00868B", "#8B7355", "#CAFF70", "#2C6CA3", "#525252", "brown"),
+
+  jco = c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF", "#7AA6DCFF", "#003C67FF", "#8F7700FF", "#3B3B3BFF", "#A73030FF", "#4A6990FF"),
+
+  npg = c("#E64B35FF", "#4DBBD5FF", "#00A087FF", "#3C5488FF", "#F39B7FFF", "#8491B4FF", "#91D1C2FF", "#DC0000FF", "#7E6148FF", "#B09C85FF"),
+
+  aaas = c("#3B4992FF", "#EE0000FF", "#008B45FF", "#631879FF", "#008280FF", "#BB0021FF", "#5F559BFF", "#A20056FF", "#808180FF", "#1B1919FF"),
+
+  nejm = c("#BC3C29FF", "#0072B5FF", "#E18727FF", "#20854EFF", "#7876B1FF", "#6F99ADFF", "#FFDC91FF", "#EE4C97FF","#b15928","#ffff33"),
+
+  lo = c("#00468BFF", "#ED0000FF", "#42B540FF", "#0099B4FF", "#925E9FFF", "#FDAF91FF", "#AD002AFF", "#ADB6B6FF", "#1B1919FF", "#800000FF"),
+
+  jama = c("#374E55FF", "#DF8F44FF", "#00A1D5FF", "#B24745FF", "#79AF97FF", "#6A6599FF", "#80796BFF", "#008B45FF", "#fdbf6f", "#377eb8"),
+
+  uc = c("#800000FF", "#767676FF", "#FFA319FF", "#8A9045FF", "#155F83FF", "#C16622FF", "#8F3931FF", "#58593FFF", "#350E20FF", "#1F77B4FF"),
+
+  sifre = c("#F44336","#FF8AC4","#9C27B0","#673AB7","#3F51B5","#03A9f4","#89CFF0","#009688", "#228B22BF", "#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800"),
+
+  egr = c("#FF1744", "#E57373", "#BA68C8", "#9575CD", "#7986CB", "#64B5F6", "#4FC3F7", "#EF5350", "#EC407A", "#AB47BC", "#5C6BC0"),
+
+  tab10 = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"),
+
+  tab20 = c("#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c", "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5", "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f", "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5"),
+
+  tab20b = c("#393b79", "#5254a3", "#6b6ecf", "#9c9ede", "#637939", "#8ca252", "#b5cf6b", "#cedb9c", "#8c6d31", "#bd9e39", "#e7ba52", "#e7cb94", "#843c39", "#ad494a", "#d6616b", "#e7969c", "#7b4173", "#a55194", "#ce6dbd", "#de9ed6"),
+
+  tab20c = c("#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9")
+  )
+
+
 n_colors <-
-  list(
-    milo = length(clrp_milo),
-    jco = length(clrp_jco),
-    npg = length(clrp_npg),
-    aaas = length(clrp_aaas),
-    nejm = length(clrp_nejm),
-    lo = length(clrp_lo),
-    jama = length(clrp_jama),
-    uc = length(clrp_uc),
-    sfire = length(clrp_sifre),
-    egr = length(clrp_egr),
+  as.list(c(
+    purrr::map_int(color_palettes_md, .f = length),
     Accent = 8,
     Dark2 = 8,
     Greys = 9,
@@ -243,7 +269,7 @@ n_colors <-
     Set1 = 9,
     Set2 = 8,
     Set3 = 12
-  )
+  ))
 
 #' @title Get vector of colors
 #'
@@ -308,10 +334,7 @@ color_vector <- function(clrp, names = NULL, clrp.adjust = NULL, n.colors = NA){
 
   } else {
 
-    clr_vector <-
-      stringr::str_c("clrp", clrp, sep = "_") %>%
-      base::parse(text = .) %>%
-      base::eval()
+    clr_vector <- color_palettes_md[[clrp]]
 
   }
 

@@ -22,6 +22,7 @@
 #' \itemize{
 #'   \item{`data`: Main directory for all data-related storage.
 #'     \itemize{
+#'       \item{`meta`: For storing meta data.}
 #'       \item{`raw`: For storing raw, unmodified data.}
 #'       \item{`proc`: For storing processed data, which is derived from raw data.}
 #'       \item{`out`: For storing output data, such as results or final datasets.}
@@ -59,7 +60,7 @@ proj_setup <- function(project_name, python = TRUE, python_version = NULL, pytho
 
   # create folders
   dir.create(path = "data")
-  for(d in c("raw", "proc", "out")){
+  for(d in c("meta", "raw", "proc", "out")){
     dir.create(path = file.path("data", d))
   }
 

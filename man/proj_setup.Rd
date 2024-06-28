@@ -39,6 +39,7 @@ The directories created are as follows:
 \itemize{
 \item{\code{data}: Main directory for all data-related storage.
 \itemize{
+\item{\code{meta}: For storing meta data.}
 \item{\code{raw}: For storing raw, unmodified data.}
 \item{\code{proc}: For storing processed data, which is derived from raw data.}
 \item{\code{out}: For storing output data, such as results or final datasets.}
